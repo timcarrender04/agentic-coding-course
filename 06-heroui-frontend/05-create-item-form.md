@@ -4,6 +4,13 @@
 
 ⏱ ~20 minutes of typing
 
+```instructor
+Say: "We're closing the create-and-display loop. HeroUI form posts to FastAPI, the new item appears in the list — no page refresh."
+Mention: "On submit, they need to refresh the list state — fetch again or append the new item. If the list doesn't update, they forgot the state update after the POST."
+Pause: After their first successful POST that appears in the list inline. That moment is the payoff for the whole module — let them see it.
+Say: "You're done when typing into the form and clicking submit creates a new item via POST AND the list updates without reloading the page."
+```
+
 ---
 
 **1.** In `~/docker-course/fastapi-frontend/app/page.tsx`, you currently have a list view. We're adding a form above it that creates new items.

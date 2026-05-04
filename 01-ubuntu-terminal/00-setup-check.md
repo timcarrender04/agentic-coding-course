@@ -4,6 +4,13 @@ By the end, you will have confirmed that your Ubuntu environment is ready for th
 
 **Estimated time:** ~5 minutes of typing
 
+```instructor
+Say: "Quick check that your Ubuntu environment from Module 00 is ready. We're not learning anything new — we're confirming nothing's broken before we start."
+Mention: "If `lsb_release` reports 'command not found', it's a fresh cloud VM. Run `sudo apt install -y lsb-release` and retry — don't troubleshoot beyond that."
+Pause: After the ping test — if a WSL student fails, it's usually DNS. Show `sudo nano /etc/resolv.conf` → add `nameserver 8.8.8.8` if it comes up.
+Say: "You're done when every command in this file runs without errors. If any fail, fix them now — the rest of the module builds on this."
+```
+
 ---
 
 **1.** Check your Ubuntu version — this confirms you're on a supported release.

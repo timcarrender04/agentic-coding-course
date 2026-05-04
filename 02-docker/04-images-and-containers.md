@@ -6,6 +6,13 @@
 
 > **Image** = the recipe (read-only blueprint). **Container** = the meal cooked from it (a running or stopped instance). One image, many containers.
 
+```instructor
+Say: "Today's conceptual heart: image vs container. Image is the recipe. Container is the meal. One image, many containers."
+Mention: "`docker ps` shows running. `docker ps -a` shows all, including stopped. They'll run `ps`, see nothing, think the container vanished. Show both side-by-side."
+Pause: At the cleanup section. `docker rm` removes a container; `docker rmi` removes an image. They will mix them up — read both names together before they type.
+Say: "You're done when they can show you a stopped container in `ps -a`, remove it with `rm`, then remove its image with `rmi`."
+```
+
 ---
 
 **1.** Start from home.

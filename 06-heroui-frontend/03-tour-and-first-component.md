@@ -4,6 +4,13 @@
 
 ⏱ ~15 minutes of typing
 
+```instructor
+Say: "Tour of the Next.js starter, then the smallest possible change — replace the homepage with one HeroUI Button. Hot-reload should refresh the browser the moment you save."
+Mention: "Next.js 13+ defaults pages to SERVER components. Anything with `useState`/`useEffect`/onClick needs `'use client'` at line 1. They will hit this — drill the error message."
+Pause: After they save the Button and watch the browser refresh. That hot-reload moment is the same dopamine as FastAPI lesson 03 — let them feel it.
+Say: "You're done when the homepage shows a HeroUI Button, clicking it does whatever they wired up, and editing the label hot-reloads instantly."
+```
+
 ---
 
 **1.** Make sure the dev server is still running. If not:

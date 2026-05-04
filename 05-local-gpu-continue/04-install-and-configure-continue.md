@@ -4,6 +4,13 @@
 
 ⏱ ~25 minutes of clicking + typing
 
+```instructor
+Say: "Continue.dev is the open-source Cursor-AI alternative — same chat/edit/agent feel, but pointed at YOUR Ollama. No paid backend, no data leaving the box."
+Mention: "Mismatched roles is the #1 config bug. Chat/edit/apply on the 7B; autocomplete on the 1.5B base. If a student has the chat model on autocomplete, every keystroke pauses for seconds."
+Pause: After they save `~/.continue/config.yaml` and Continue reloads. If the panel shows a config error, the YAML indentation is wrong — usually a tab vs spaces mix. Show how to spot it before letting them chat.
+Say: "You're done when the Continue panel chats with the 7B and the response streams within ~10 seconds of pressing Enter."
+```
+
 ---
 
 ## Step 1: install the extension

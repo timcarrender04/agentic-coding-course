@@ -2,6 +2,14 @@
 
 **Time:** ~10 min
 
+```instructor
+Say: "We're installing the Docker extension now so it's ready for Module 02. Docker itself is not installed yet."
+Mention: "The sidebar will say 'Failed to connect' or be empty. THAT IS CORRECT. Say it loud — half the room will think they broke something."
+Pause: After the whale icon appears in the activity bar — let them click it, see the empty sections, and ask 'why is this empty' before you reassure them.
+Show: Your own machine's populated Docker sidebar (or your prepped screenshot) so they know what success looks like after Module 02.
+Say: "You're done when the whale icon is in your activity bar and you can explain in one sentence why the sidebar is empty."
+```
+
 ## What is Docker, in one paragraph?
 
 **Docker** is a tool for packaging an application together with everything it needs to run (its operating system files, libraries, configs) into a single bundle called a **container**. You can ship that container to any computer that has Docker installed and it will run the same way. Containers are like very lightweight virtual machines.

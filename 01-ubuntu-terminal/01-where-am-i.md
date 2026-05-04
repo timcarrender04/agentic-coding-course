@@ -4,6 +4,13 @@ By the end, you will navigate the filesystem without hesitation.
 
 Estimated time: ~15 minutes of typing
 
+```instructor
+Say: "Today you stop hesitating about where you are in the filesystem. You'll type `pwd`, `cd`, and `ls` more than any other commands in this course."
+Mention: "`cd` with NO arguments goes home. `cd -` goes to your PREVIOUS directory and prints where it took you. Both confuse new students — drill them."
+Pause: At step 13 (the first `cd -`). Show it three times — to `/etc`, back, to `/etc` — before letting them continue. It's the trickiest idea in this lesson.
+Say: "You're done when the checkpoint commands print exactly the expected paths and you can `cd` home from anywhere without thinking."
+```
+
 ---
 
 **1.** Print your current directory — this is the command you'll type most often.

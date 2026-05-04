@@ -4,6 +4,14 @@
 
 ⏱ ~15 minutes of typing
 
+```instructor
+Say: "Permissions decide who can read, write, or run a file. Go slow today — this is the hardest concept in the module."
+Mention: "If you ever type `chmod 777`, warn them LOUDLY: never on a real server. It means 'anyone can do anything to this file.' Drill it as a smell, not a fix."
+Pause: After they run `chown` for the first time and forget `sudo`. They will. Let them see the error before fixing it — the lesson sticks better that way.
+Show: Draw the rwxrwxrwx grid on the board if you can — three triplets, owner / group / everyone. They will reference it for the next 30 minutes.
+Say: "You're done when they can read a `-rwxr-x---` listing out loud and tell you who can do what."
+```
+
 ---
 
 **1.** Go to your practice directory.

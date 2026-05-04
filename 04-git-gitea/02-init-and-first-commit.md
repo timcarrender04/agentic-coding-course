@@ -4,6 +4,13 @@
 
 ⏱ ~15 minutes of typing
 
+```instructor
+Say: "First commit. We turn the FastAPI project into a Git repo and capture its current state on the `main` branch."
+Mention: "`git commit` alone does NOT commit changes — they have to `git add` first. Drill it. The most common pattern is `git add . && git commit -m '...'`."
+Pause: After `git init`. Point at `.git/` with `ls -la` — that's the repo. Delete that folder and the repo is gone. Don't mystify it.
+Say: "You're done when `git log` shows one commit on `main` with their name as author."
+```
+
 ---
 
 **1.** Move into the FastAPI project.

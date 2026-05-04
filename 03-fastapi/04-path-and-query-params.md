@@ -6,6 +6,13 @@
 
 > Type hints in FastAPI aren't decoration — they're validation. The framework reads them at startup and will reject any request whose params don't match.
 
+```instructor
+Say: "Type hints in FastAPI aren't decoration. Annotate a param as `int` and FastAPI rejects any request that sends a non-int with a 422 — for free."
+Mention: "Show the 422 deliberately. Have them curl `/items/banana` (where the path is `int`) and read the validation error body. That's what FastAPI hands them whenever validation fails."
+Pause: After the first 422. Walk through the error body together — FastAPI tells them which field failed and why. They'll lean on this all module.
+Say: "You're done when their typed path param accepts ints, rejects strings with 422, and the optional query param works with and without it."
+```
+
 ---
 
 **1.** Make sure your venv is active and uvicorn is still running with `--reload`.

@@ -4,6 +4,13 @@
 
 ⏱ ~10 minutes of typing
 
+```instructor
+Say: "We're installing the prerequisite packages Docker needs in Module 02 — `ca-certificates`, `gnupg`, and friends. Nothing fancy yet."
+Mention: "If apt says a package is already installed, that's fine. They should still TYPE the command — building muscle memory matters more than saving the keystroke."
+Pause: After this lesson — natural break point, about 45 minutes in. Take 5–10 minutes before pushing into permissions.
+Say: "You're done when every package in the lesson reports 'already installed' or 'newly installed' with no errors."
+```
+
 ---
 
 **1.** Start from home.

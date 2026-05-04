@@ -2,6 +2,13 @@
 
 **Time:** ~10 min
 
+```instructor
+Say: "Remember Module 00 lesson 04? The empty Docker sidebar? Now we go look at it populated. This is the payoff."
+Mention: "If their sidebar is still empty, the Cursor window is connected to the wrong environment. Bottom-left should say 'WSL: Ubuntu' or 'SSH: <hostname>'. Reconnect if needed."
+Pause: After the sidebar fills in. Right-click a container — show 'Stop' and 'Remove' from the menu. Demonstrate UI/CLI parity, then move on.
+Say: "You're done when they can see their nginx container in CONTAINERS and the nginx image in IMAGES, and start/stop a container from the sidebar."
+```
+
 Remember Module 00 lesson 04? You installed the Docker extension in Cursor and the sidebar said "Failed to connect" because Docker wasn't installed yet. Now Docker is installed. Let's go look.
 
 ## Step 1: open the Docker sidebar

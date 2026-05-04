@@ -6,6 +6,13 @@
 
 > Default status codes are 200 for everything. That's wrong. POST should be 201 (Created), DELETE should be 204 (No Content), missing resources should be 404 (Not Found).
 
+```instructor
+Say: "Default status code for everything is 200. That's wrong. POST should be 201, DELETE should be 204, missing resources should be 404."
+Mention: "405 'Method Not Allowed' usually means right path, wrong verb. 404 means wrong path. Read the response body — FastAPI tells them which it is."
+Pause: After they raise the first `HTTPException(404)`. Show how the response body shape is `{ \"detail\": \"...\" }` — that's the standard FastAPI error envelope.
+Say: "You're done when POST returns 201, GET on a missing id returns 404, DELETE returns 204 with empty body, and Swagger UI shows the new codes."
+```
+
 ---
 
 **1.** Compose should still be up from lesson 10. Confirm.

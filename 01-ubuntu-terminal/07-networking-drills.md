@@ -4,6 +4,13 @@
 
 ⏱ ~10 minutes of typing
 
+```instructor
+Say: "We're confirming the network can reach Docker Hub before Module 02. If it can't, we fix it now — not mid-pull next week."
+Mention: "If `dig` reports 'command not found', install it: `sudo apt install -y dnsutils`. Don't waste time on it — install and continue."
+Pause: At the `ss -tuln` output. The columns are dense. Walk through one line together — local address, port, state — before letting them continue.
+Say: "You're done when `curl -I https://hub.docker.com` returns a 200 or 301 status line."
+```
+
 ---
 
 **1.** Start from home.

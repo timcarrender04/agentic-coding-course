@@ -4,6 +4,13 @@
 
 ⏱ ~10 minutes of typing
 
+```instructor
+Say: "We're installing FastAPI and Uvicorn into the venv, then pinning them in `requirements.txt` so the project is reproducible."
+Mention: "Before they `pip install`, confirm `(.venv)` is in their prompt and `which pip` points inside `.venv/bin/`. If pip is the system pip, the install pollutes their machine."
+Pause: After `pip install`, before `pip freeze > requirements.txt`. Explain that freeze captures exact versions — anyone cloning the repo gets the same package set.
+Say: "You're done when `requirements.txt` lists `fastapi`, `uvicorn`, and their pinned versions, and `pip list | grep fastapi` finds it."
+```
+
 ---
 
 **1.** Make sure you're in the project directory and the venv is active. Look for `(.venv)` in your prompt.

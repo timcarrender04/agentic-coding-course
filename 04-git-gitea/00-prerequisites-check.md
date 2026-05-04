@@ -4,6 +4,13 @@
 
 ⏱ ~5 minutes
 
+```instructor
+Say: "Quick check that Git's installed and your Module 03 FastAPI project still exists. We're about to put it under version control."
+Mention: "If a student doesn't have `~/docker-course/fastapi-app/` from Module 03, point them at the matching `solutions/` file to rebuild — don't spend class time recreating files from scratch."
+Pause: After everyone confirms `git --version` returns something. If anyone's missing it, `sudo apt install -y git` and continue.
+Say: "You're done when `git --version` works AND `ls ~/docker-course/fastapi-app/main.py` finds the file from Module 03."
+```
+
 ---
 
 **1.** Open Cursor and connect to your Ubuntu environment. Open the integrated terminal.

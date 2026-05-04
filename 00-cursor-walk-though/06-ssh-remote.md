@@ -2,6 +2,13 @@
 
 **Time:** ~20 min
 
+```instructor
+Say: "SSH gives you a terminal on a remote computer. The Cursor extension goes further — your editor opens remote files too, like the remote is your laptop."
+Mention: "When the prompt asks 'Are you sure you want to continue connecting (yes/no/[fingerprint])?' they MUST type `yes`. Pressing Enter alone does nothing — there's no default."
+Pause: After everyone connects — remind them every terminal they open from now on is on the remote. Otherwise they'll wonder later why their local files vanished.
+Say: "You're done when the bottom-left shows SSH: hostname on green AND `hostname` / `whoami` in the terminal print the remote's values, not your laptop's."
+```
+
 ## What is SSH?
 
 **SSH** stands for **Secure Shell**. It is the standard way to connect to and control a remote computer over the network. You sit at your laptop, run an SSH command, type a password (or use a key), and you get a terminal on the remote computer — as if you were sitting in front of it.

@@ -6,6 +6,13 @@
 
 > We are installing **Docker Engine** (the Linux daemon) — not Docker Desktop. Docker Desktop is a separate Windows/Mac product. On Linux (including WSL), Docker Engine is what you want.
 
+```instructor
+Say: "We're installing Docker Engine from the official apt repo — not Docker Desktop. Docker Desktop is a separate product. We want the Linux daemon."
+Mention: "After `sudo usermod -aG docker $USER`, they MUST log out and back in OR run `newgrp docker`. Otherwise every Docker command fails with 'permission denied while trying to connect to the Docker daemon socket'."
+Pause: After the GPG key step. If `gpg` is missing the dearmor silently fails — confirm `which gpg` returns a path before letting them continue.
+Say: "You're done when `docker run hello-world` prints the welcome text WITHOUT sudo. If they used sudo, the group step didn't take effect — they need `newgrp docker` or a fresh login."
+```
+
 ---
 
 **1.** Start from home.

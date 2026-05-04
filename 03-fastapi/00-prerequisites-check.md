@@ -4,6 +4,13 @@
 
 ⏱ ~10 minutes
 
+```instructor
+Say: "Quick checks that everything from Modules 01 and 02 still works. Anything broken now will only get worse once we layer FastAPI on top."
+Mention: "Confirm `docker run hello-world` runs WITHOUT sudo. If they need sudo, the docker group didn't take effect — `newgrp docker` or fresh login. Same trap as Module 02 lesson 01."
+Pause: After the network/Docker checks. If anyone is failing, sort it now. Don't carry a broken environment into FastAPI.
+Say: "You're done when every command in this file passes. If it doesn't, fix it before we install Python packages."
+```
+
 ---
 
 **1.** Open Cursor connected to your Ubuntu environment (WSL or SSH from Module 00). Open the integrated terminal.

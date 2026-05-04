@@ -1,0 +1,59 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: var(--font-sans), "Lexend", system-ui, sans-serif;
+  --font-mono: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+
+  /* Cockpit shell — deep indigo (DESIGN.md) */
+  --color-cockpit: #312e81;
+  --color-cockpit-rail: #1e1b4b;
+  --color-cockpit-divider: #475569;
+
+  /* Primary — emerald (progression / success) */
+  --color-primary: #006c49;
+  --color-primary-strong: #10b981;
+  --color-primary-soft: #6ffbbe;
+  --color-on-primary: #ffffff;
+
+  /* Secondary — indigo (structure) */
+  --color-secondary: #5654a8;
+  --color-secondary-soft: #c3c0ff;
+  --color-on-secondary: #ffffff;
+
+  /* Surfaces — projector-safe */
+  --color-board: #f7f9fb;
+  --color-panel: #ffffff;
+  --color-panel-tint: #f2f4f6;
+  --color-panel-edge: #e0e3e5;
+  --color-ink: #191c1e;
+  --color-ink-soft: #3c4a42;
+  --color-ink-faint: #6c7a71;
+
+  /* Status */
+  --color-warn: #ba1a1a;
+  --color-warn-bg: #ffdad6;
+  --color-warn-ink: #93000a;
+
+  /* 4px baseline rhythm */
+  --spacing-unit: 4px;
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-sans);
+    letter-spacing: -0.02em;
+  }
+  .font-code {
+    font-family: var(--font-mono);
+  }
+  .text-label-caps {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+}

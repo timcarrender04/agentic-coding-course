@@ -4,6 +4,13 @@
 
 ⏱ ~5 minutes
 
+```instructor
+Say: "Quick checks before we install Docker — Linux confirmed, your Module 01 working directory exists, your network can reach Docker Hub."
+Mention: "If `cat ~/docker-course/notes/notes.txt` is empty, they did NOT finish Module 01 even if they say they did. Send them back to lesson 11 before continuing."
+Pause: After they confirm the notes file has entries from at least 5 lessons. That's the real proof of readiness, not a self-report.
+Say: "You're done when every command in this file runs without errors. If anything fails, fix it now — install will magnify any gap."
+```
+
 ---
 
 **1.** Open Cursor and connect to your Ubuntu environment (WSL or SSH from Module 00).

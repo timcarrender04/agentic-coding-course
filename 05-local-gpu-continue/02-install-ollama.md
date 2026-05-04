@@ -6,6 +6,13 @@
 
 > **Ollama** serves local LLMs over HTTP. We run it with **Docker Compose** (same Docker you used in Module 02) so every student gets the same setup — no host `install.sh`, no systemd vs WSL differences. Continue.dev still talks to `http://localhost:11434`.
 
+```instructor
+Say: "Ollama serves local LLMs over HTTP. We run it in Docker Compose so every student gets the same setup — no host installs, no WSL/systemd differences."
+Mention: "If `docker compose up` fails with 'could not select device driver', they're missing the NVIDIA Container Toolkit. Host `nvidia-smi` working does NOT prove Docker can see the GPU. Two separate things."
+Pause: After `docker compose up -d`, before they test. Run `docker compose logs ollama --tail 50` together — confirm it sees the GPU and is listening on 11434.
+Say: "You're done when `curl -s http://localhost:11434` prints 'Ollama is running'. That single line is the proof."
+```
+
 ---
 
 **1.** Make sure your venv from Module 03 is **not** active (clearer terminal output).

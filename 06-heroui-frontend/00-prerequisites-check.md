@@ -4,6 +4,13 @@
 
 ⏱ ~5 minutes
 
+```instructor
+Say: "Quick check that Modules 03-05 still work — FastAPI Compose stack up, Continue.dev chatting with Ollama. The frontend can't run without those."
+Mention: "If they already have a system Node from `apt`, that conflicts with nvm. Use `which node` — if it points to `/usr/bin/`, uninstall the apt one before lesson 01."
+Pause: After every check passes. If FastAPI's `:8000` doesn't return JSON, fix the backend before installing Node — otherwise they have nothing to fetch later.
+Say: "You're done when curl on 8000 returns FastAPI JSON, Ollama responds on 11434, and `which node` is empty (no system Node)."
+```
+
 ---
 
 **1.** Open Cursor connected to your dev environment. Open the integrated terminal.

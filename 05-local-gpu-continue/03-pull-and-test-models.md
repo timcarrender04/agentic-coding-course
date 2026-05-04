@@ -6,6 +6,13 @@
 
 > **Two models, two roles.** Big models (7B+) are smart but slow — perfect for chat where you wait a few seconds for an answer. Small base models (1.5B) are fast but limited — perfect for tab autocomplete where you need a suggestion in milliseconds.
 
+```instructor
+Say: "Two models, two roles. The 7B coding model for chat/edit (smart but slow). The 1.5B base model for autocomplete (fast but limited). We pull both today."
+Mention: "Pulls are 4-5 GB each. If a model OOMs with 'cudaMalloc failed', they don't have enough VRAM for the 7B — fall back to 3b or 1.5b chat. Lesson lists alternatives by VRAM tier."
+Pause: While the 7B pulls (~5 minutes on a fast network). Use the wait — explain why two models, why coding-tuned, why parameters and quantization matter. Real Q&A, not a lecture.
+Say: "You're done when `docker compose exec -T ollama ollama list` shows BOTH models AND a one-shot prompt to each returns a coherent response."
+```
+
 All **Ollama CLI** commands run **inside the container** from lesson 02. Open a terminal and use `~/docker-course/ollama` as the working directory:
 
 ```bash

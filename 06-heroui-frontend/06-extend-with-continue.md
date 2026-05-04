@@ -6,6 +6,13 @@
 
 > Module 05 drilled the agentic loop on the FastAPI backend. Today: same loop on the frontend, plus a small backend tweak. Two repos in play, same model, same workflow.
 
+```instructor
+Say: "Module 05 drilled the agentic loop on the FastAPI backend. Today: same loop on the frontend, plus a small backend tweak. Two repos in play, same model, same workflow."
+Mention: "Some students will type everything by hand and skip Continue. Push them to use it — chat for 'how do I write this', inline edit for 'change this thing', agent for 'add the feature'. The integration is the point."
+Pause: At each agent tool call. Read the proposed change out loud — don't let them auto-approve. Same drill as Module 05 lesson 08.
+Say: "You're done when each item Card has a Delete button with a confirmation step, both the frontend handler and the FastAPI DELETE route work, and they used Continue meaningfully along the way."
+```
+
 ---
 
 **1.** Make sure both stacks are up.

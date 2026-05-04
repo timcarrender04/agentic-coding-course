@@ -4,6 +4,14 @@
 
 > Mac users: every `Ctrl+...` shortcut in this module is `Cmd+...` on your machine. The lesson uses `Ctrl` everywhere — translate as you go.
 
+```instructor
+Say: "We're learning the names of every part of the Cursor window. Once you know the names, googling fixes anything."
+Mention: "Activity bar is the icon strip on the very left edge. Side bar is the wider panel that opens when you click an icon. Don't let those blur — I'll use those names all module."
+Pause: After they open the command palette — drill `Ctrl+Shift+P` (Cmd on Mac) together. If they remember one shortcut from this module, it's this one.
+Show: Point at the bottom-left status bar yourself — that's where the WSL/SSH indicator will appear in lessons 05 and 06.
+Say: "You're done when you can name activity bar, side bar, editor, panel, status bar out loud, and your font size is 16."
+```
+
 ## What you'll learn
 
 The names of every part of the Cursor window. Once you know the names, you can google your way out of any problem.

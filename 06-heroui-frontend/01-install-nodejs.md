@@ -6,6 +6,13 @@
 
 > **nvm** (Node Version Manager) lets you install and switch between Node.js versions without sudo. It's the standard way to manage Node on a developer machine.
 
+```instructor
+Say: "nvm lets you install and switch Node versions without sudo. It's how every working dev machine handles Node — never `apt install nodejs`."
+Mention: "After nvm installs, `node --version` may say 'command not found' in the SAME terminal. The shell hasn't sourced `.bashrc` yet — close and reopen, or `source ~/.bashrc`."
+Pause: After `nvm install --lts` finishes. Have them open a fresh terminal and confirm `node`, `npm`, `npx` all work there. That's the test.
+Say: "You're done when `node --version` prints v20.x.x or newer in a brand-new terminal AND `which node` points inside `~/.nvm/`, not `/usr/bin/`."
+```
+
 ---
 
 **1.** Make sure you're in your home directory.

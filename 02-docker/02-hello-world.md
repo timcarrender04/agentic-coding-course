@@ -4,6 +4,13 @@
 
 ⏱ ~10 minutes of typing
 
+```instructor
+Say: "First container. The whole point of today: you'll run a program you didn't install and didn't write, and it'll just work."
+Mention: "'Unable to find image hello-world:latest locally' is NOT an error. Read it out loud to the room — Docker is telling them it's about to pull the image from Docker Hub."
+Pause: After the welcome text prints. Walk through what just happened — pulled the image, started a container, ran the binary, exited. Don't let it feel like magic.
+Say: "You're done when `docker run hello-world` prints 'Hello from Docker!' AND `docker ps -a` shows the exited container."
+```
+
 ---
 
 **1.** Start from home.

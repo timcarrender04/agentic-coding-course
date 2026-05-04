@@ -6,6 +6,13 @@
 
 > **Agent mode** lets the model do more than chat or edit one selection. It can list files, read files, write files, and run shell commands — chaining tool calls to complete a higher-level task. **Every tool call is gated on your approval.** You watch what it wants to do, you approve or reject, you keep control.
 
+```instructor
+Say: "Agent mode lets the model list files, read files, write files, run shell commands. Every tool call is GATED on your approval. You watch, you approve, you keep control."
+Mention: "Small models in agent mode can sad-loop — same tool call over and over. If you see that pattern, REJECT the call and refine the prompt. Don't let it run free."
+Pause: Before they approve the first shell command. Read the proposed command out loud together. If it's wrong — and sometimes it will be — reject it and rephrase the task.
+Say: "You're done when they've used agent mode to ship a small feature across 2+ files AND they've rejected at least one tool call as wrong."
+```
+
 ---
 
 ## Concept

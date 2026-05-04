@@ -6,6 +6,13 @@
 
 > Inline edit (`Ctrl+I`) is the second-most-used Continue feature. You select code, describe a change, the model proposes a diff, and you accept or reject it line by line.
 
+```instructor
+Say: "Inline edit is `Ctrl+I`. Select code, describe a change, the model proposes a diff. You accept or reject line by line — never blind."
+Mention: "On a 7B model, hallucinations are real. It will sometimes invent function names. Drill 'read every diff before accepting' — Continue gates each change anyway, but they need to actually look."
+Pause: After their first inline-edit diff appears. Walk through accept-individual-line vs accept-all. Show how to reject and iterate the prompt.
+Say: "You're done when they've used `Ctrl+I` to make a meaningful change to a route AND rejected at least one suggested diff because it was wrong."
+```
+
 ---
 
 **1.** Open `routers/items.py` in Cursor.

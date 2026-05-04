@@ -2,6 +2,14 @@
 
 **Time:** ~15 min
 
+```instructor
+Say: "Before we touch any code, three words: editor, terminal, IDE. By the end of this lesson Cursor is installed and open on your laptop."
+Mention: "Cursor will ask you to sign in. Skip it — for the whole course. We're using local AI in Module 05, not Cursor's paid backend."
+Pause: After the download starts (it's ~200 MB) — talk through editor vs terminal vs IDE while it downloads.
+Show: Your own Cursor window already open, so they know what success looks like before they install.
+Say: "You're done when Cursor is open and you did NOT sign in. Hand up if it won't install — don't move on without it."
+```
+
 ## Concepts
 
 Before we install anything, three words you'll hear all day:

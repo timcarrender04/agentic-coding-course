@@ -6,6 +6,13 @@
 
 > A **branch** is a movable pointer to a commit. Switching branches updates your working tree to look like that commit. Branches are cheap, free, and the unit of "work in progress."
 
+```instructor
+Say: "Branch is a movable pointer to a commit. Cheap, free, and the unit of work-in-progress. Today: create a feature branch, commit, merge, delete."
+Mention: "If a student says 'my edits disappeared,' they're on the wrong branch. `git branch` lists branches with `*` on the current one — and Cursor's bottom-left shows it too."
+Pause: After the merge. Draw the commit graph on the board if you can — two-line graph with the merge commit. That mental model unblocks everything for the rest of the module.
+Say: "You're done when they've created `feature/...`, made a commit on it, merged it back to `main` cleanly, and deleted the feature branch."
+```
+
 ---
 
 **1.** Confirm clean state.

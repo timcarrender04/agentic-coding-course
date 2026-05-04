@@ -4,6 +4,13 @@
 
 ⏱ ~5 minutes
 
+```instructor
+Say: "Quick check that everything from Modules 00-04 still works. We're about to add a local LLM stack on top — anything broken now will compound."
+Mention: "Most importantly: Compose works without sudo, your FastAPI repo still hot-reloads, and you can SSH-push to Gitea. Any of those failing means we fix it before pulling models."
+Pause: After all checks pass. Anyone failing — pair them with a working neighbor and have them follow along while you investigate.
+Say: "You're done when every command in this file passes. We do not start lesson 01 until everyone is at this checkpoint."
+```
+
 ---
 
 **1.** Open Cursor connected to your dev environment (WSL or SSH from Module 00). Open the integrated terminal.

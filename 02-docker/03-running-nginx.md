@@ -6,6 +6,14 @@
 
 > **nginx** (pronounced "engine-x") is a popular web server. Today we'll run it in a container without installing it on our machine — that's the whole point of Docker.
 
+```instructor
+Say: "Real web server in a container. We'll run nginx and load it from a browser — no install, no config files, just one command."
+Mention: "The `-d` (detached) flag is easy to forget. Without it the terminal hangs and they think Docker is broken. It's not — nginx is in the foreground. Have them Ctrl+C and re-run with `-d`."
+Pause: After `docker run`. Draw the port mapping on the whiteboard — `-p 8080:80` means host 8080 → container 80. Students confuse which side is which every time.
+Show: For SSH students, point at Cursor's Ports tab — the forwarded port shows up automatically. WSL students hit `localhost:8080` from their Windows browser directly.
+Say: "You're done when the nginx welcome page loads in a browser AND `docker ps` shows a running nginx container."
+```
+
 ---
 
 **1.** Start from home.

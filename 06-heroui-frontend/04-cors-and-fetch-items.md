@@ -6,6 +6,13 @@
 
 > Browsers block JavaScript on `http://localhost:3000` from calling `http://localhost:8000` by default — that's **CORS** (Cross-Origin Resource Sharing). FastAPI has middleware to allow it. Today you wire it up.
 
+```instructor
+Say: "Browsers block fetch from :3000 to :8000 by default — that's CORS. Today we hit the wall, then add the FastAPI middleware that breaks through it."
+Mention: "When CORS fails, the browser console says 'blocked by CORS policy' but the network tab shows OPTIONS preflight failing. Look at BOTH tabs — the console message is more readable."
+Pause: After they hit the first CORS error deliberately. Sit with it. Read the message. Then add the middleware. The lesson is feeling the wall, not skipping past it.
+Say: "You're done when the homepage fetches the items list from FastAPI and renders each item as a HeroUI Card."
+```
+
 ---
 
 ## Step 1: feel the CORS wall first

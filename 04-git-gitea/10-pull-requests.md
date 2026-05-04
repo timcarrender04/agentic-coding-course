@@ -6,6 +6,13 @@
 
 > A **pull request** (PR) is a proposal to merge one branch into another. The web UI shows the diff, lets people comment, and gates the merge. Every team uses this workflow.
 
+```instructor
+Say: "PRs are how every team merges code. Branch, push, open a PR on Gitea, get a review, merge. Today they walk the full loop."
+Mention: "Decide pairs vs solo BEFORE step 1 — INSTRUCTOR-NOTES covers both modes. If pair, brief who reviews whom; if solo, the second clone is the 'reviewer'."
+Pause: At the review step. The reviewer should leave at least one comment before approving — otherwise it feels like clicking through a form. Make the review real.
+Say: "You're done when their feature branch is merged into main on Gitea via the PR UI AND `git pull` on their local main brings the merge down."
+```
+
 ---
 
 ## Mode A: pair work (real PRs)

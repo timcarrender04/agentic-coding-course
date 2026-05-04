@@ -6,6 +6,13 @@
 
 > Compose is YAML that orchestrates multiple containers. You declare services, volumes, networks; one `docker compose up` and Compose does the wiring.
 
+```instructor
+Say: "Compose orchestrates multiple containers from one YAML file. Today: FastAPI service plus Postgres, talking over a Compose network."
+Mention: "From inside FastAPI, the Postgres host is `db` (the service name) — NOT `localhost`. Wrong host is the #1 connection-string mistake. Drill it before they write the connection string."
+Pause: After `docker compose up`. Wait until both services are healthy before they curl. Compose starts services in order but does NOT wait for them to be ready — they'll see connection errors otherwise.
+Say: "You're done when both containers run, FastAPI hot-reloads on code edits, and `docker compose logs db` shows Postgres ready to accept connections."
+```
+
 ---
 
 **1.** Make sure you're in the project directory and any leftover container from lesson 08 is removed.

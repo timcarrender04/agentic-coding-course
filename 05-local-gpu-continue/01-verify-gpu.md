@@ -6,6 +6,13 @@
 
 > Local LLMs need a GPU. Today we just confirm the GPU is visible to the OS and that you have a CUDA-capable driver. We don't install CUDA toolkits — Ollama bundles what it needs.
 
+```instructor
+Say: "Local LLMs need a GPU. Today we confirm the GPU is visible to the OS and the driver is current. We are NOT installing CUDA toolkits — Ollama bundles what it needs."
+Mention: "WSL students: a missing or empty `nvidia-smi` usually means the WINDOWS-side NVIDIA driver is old. `wsl --update` from PowerShell plus a current driver fixes 90% of cases."
+Pause: After they run `nvidia-smi`. Walk through the output together — driver version, CUDA version, free VRAM. They'll need to recognize VRAM in lesson 03 when picking a model.
+Say: "You're done when `nvidia-smi` lists their GPU AND prints free VRAM. If a student has no GPU, pair them with someone who does."
+```
+
 ---
 
 ## Three paths

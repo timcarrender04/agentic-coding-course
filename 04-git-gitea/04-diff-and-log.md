@@ -4,6 +4,13 @@
 
 ⏱ ~15 minutes of typing
 
+```instructor
+Say: "Diff shows you what changed; log shows you what's been committed. Together they're how you read history."
+Mention: "`git diff` (no args) shows UNSTAGED changes. `git diff --staged` shows STAGED ones. They'll edit a file, run `git add`, then run `git diff` and see nothing — that's why."
+Pause: Before they run `git log`, announce 'press q to quit' — same trap as `less` and `top` from Module 01.
+Say: "You're done when they can show me a diff before staging, a diff after staging, and a one-line log with `git log --oneline`."
+```
+
 ---
 
 **1.** Confirm you're in the project and the tree is clean.

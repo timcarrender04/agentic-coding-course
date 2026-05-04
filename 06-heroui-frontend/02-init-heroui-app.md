@@ -6,6 +6,13 @@
 
 > **HeroUI** (formerly NextUI) is a React component library: prebuilt buttons, inputs, cards, modals — all themed and accessible. Pairs cleanly with Next.js + Tailwind. Their CLI scaffolds a starter that has everything wired up.
 
+```instructor
+Say: "We're scaffolding a Next.js + HeroUI starter at `~/docker-course/fastapi-frontend/`. The CLI does the wiring; we just answer the prompts."
+Mention: "If `heroui-cli` prompts for a package manager (pnpm/yarn/npm), pick npm. Lessons assume npm. The prompt can be buried in scrollback — they'll miss it if they're not watching."
+Pause: While `npm install` runs (1-3 minutes for ~150 MB). Use the wait — explain what HeroUI is, why Next.js, what the file tree will look like.
+Say: "You're done when `npm run dev` prints 'Ready' and `http://localhost:3000` shows the HeroUI starter page."
+```
+
 ---
 
 **1.** Move into the course directory.
@@ -24,6 +31,11 @@ pwd
 **3.** Run the HeroUI CLI to scaffold a new app. This downloads the CLI on the fly via npx (no global install needed).
 ```bash
 npx heroui-cli@latest init
+```
+
+```instructor
+Say: "We're using `npx` so we always get a fresh CLI—no global install."
+Pause while students run it; mention the download is normal for this lesson.
 ```
 
 **4.** The CLI prompts you. Answer:

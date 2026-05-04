@@ -6,6 +6,13 @@
 
 > This is the "it's alive" lesson. Type slowly. Run the server after each meaningful change. The dopamine hit of seeing your code respond to a real HTTP request is the entire point.
 
+```instructor
+Say: "This is the 'it's alive' lesson. We write the smallest FastAPI server, run it with hot-reload, and hit it from curl AND a browser."
+Mention: "Hot-reload is the dopamine. From now on they should never edit a route without immediately curling it or refreshing /docs. If they're not in that loop, something's off."
+Pause: After the first 200 OK from curl. Let them celebrate — it's the moment FastAPI clicks. Then point them at /docs immediately.
+Say: "You're done when curl returns the JSON, /docs renders the route, and editing the message text reloads without restarting the server."
+```
+
 ---
 
 **1.** Make sure you're in the project directory and venv is active.

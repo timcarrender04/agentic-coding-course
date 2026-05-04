@@ -4,6 +4,13 @@
 
 ⏱ ~10 minutes of typing (plus wait time for downloads)
 
+```instructor
+Say: "`sudo` lets you do things only the root user can. We'll use it to update the system — the same thing Windows Update does, but you type it."
+Mention: "If they hit a 'dpkg lock' error, another apt process is running. Wait for it to finish; don't kill it unless it's truly stuck."
+Pause: While `sudo apt upgrade -y` runs (it can take a few minutes). Use the wait for a 5-minute break or open Q&A.
+Say: "You're done when `sudo apt upgrade -y` finishes cleanly and the system reports nothing left to upgrade."
+```
+
 ---
 
 **1.** Start from home.

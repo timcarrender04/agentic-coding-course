@@ -4,6 +4,13 @@
 
 > **This lesson is for Windows students only.** Mac and Linux students: you already have a real Unix terminal — skip ahead to lesson 06, or pair up with a Windows neighbor and help them.
 
+```instructor
+Say: "Windows students only. Mac and Linux already have a real Unix terminal — pair with a Windows neighbor or jump to lesson 06."
+Mention: "When Ubuntu asks for a Linux password, it does NOT echo what they type — no asterisks, no dots. Warn them before they type or they'll think the keyboard is broken."
+Pause: After the bottom-left changes to green 'WSL: Ubuntu' — make every student point at their indicator before moving on. That's the only proof they're really inside WSL.
+Say: "You're done when the bottom-left shows WSL: Ubuntu on green AND `uname -a` in the terminal mentions Linux."
+```
+
 ## What is WSL?
 
 **WSL** stands for **Windows Subsystem for Linux**. It is a real Linux operating system that runs *inside* Windows, side by side with your normal Windows environment. You don't dual-boot, you don't run a VM in the old slow way — you just open WSL and you're in a Linux shell.

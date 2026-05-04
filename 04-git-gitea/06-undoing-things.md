@@ -6,6 +6,13 @@
 
 > Almost every "I broke Git" panic is one of four problems. Each has a one-liner fix. Today: drill all four.
 
+```instructor
+Say: "Four panics, four fixes. Discard unsaved changes, unstage a file, fix the last message, reset a commit. Once they have all four, Git stops being scary."
+Mention: "`git reset --hard` is the only command in this module that can DESTROY uncommitted work. Capital-letter warning before they type it. Have them run `git status` first — every time."
+Pause: After each undo type — let them see the working tree change in `git status`. Otherwise they don't trust the command worked.
+Say: "You're done when they can demonstrate all four undoes from memory without referring back to the lesson."
+```
+
 ---
 
 **1.** Confirm clean state.

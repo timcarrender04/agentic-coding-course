@@ -6,6 +6,13 @@
 
 > **Pydantic** is the data-validation library FastAPI sits on top of. You define a class with typed fields; FastAPI uses it to parse, validate, and document request bodies.
 
+```instructor
+Say: "Pydantic is the validation library FastAPI sits on. Define a class with typed fields; FastAPI parses, validates, and documents bodies for free."
+Mention: "On curl POSTs, they MUST include `-H 'Content-Type: application/json'`. Without it they'll get 422 even when the JSON looks right. Top-5 stuck point of the module."
+Pause: After their first POST returns 200 with the echoed body. Then have them open Swagger UI and POST the same body from the browser — both verifications, every time.
+Say: "You're done when POST /items with a valid body returns 200, an invalid body returns 422, and Swagger UI renders the schema correctly."
+```
+
 ---
 
 **1.** Make sure your venv is active and uvicorn is running with `--reload`.

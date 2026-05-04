@@ -6,6 +6,13 @@
 
 > Plain "explain this" chat is fine, but the magic is **context**. Continue's `@` providers pull files, diffs, terminal output, and whole codebases into the prompt before the model sees it.
 
+```instructor
+Say: "Plain chat is fine, but the magic is CONTEXT. Today we drill four `@` providers — `@file`, `@codebase`, `@diff`, `@terminal` — to bring real code into the prompt."
+Mention: "`@codebase` blows the 32k context window on big repos. Use it for 'find me where X happens' questions, not 'rewrite all of X.' Drill the right shape of question."
+Pause: After their first `@file` query lands. Compare the answer with and without the file attached — same question, two different answers. That's the whole lesson.
+Say: "You're done when they've used all four providers in real questions about their FastAPI repo and gotten coherent answers."
+```
+
 ---
 
 **1.** In Cursor, open the FastAPI project.

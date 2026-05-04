@@ -4,6 +4,13 @@ By the end, you will have created the ~/docker-course/ working directory you'll 
 
 Estimated time: ~15 minutes of typing
 
+```instructor
+Say: "We're building the course working directory you'll live in for the rest of the module — `~/docker-course/`. Every later lesson assumes it exists."
+Mention: "`rm -r` is the first command in this course that destroys things with no undo. Before running it, look at the path you typed. Look again."
+Pause: Right before the first `rm -r`. Demo deleting a throwaway directory yourself, slowly, then let them run theirs.
+Say: "You're done when `ls ~/docker-course/` lists the subfolders the lesson expects. Don't move on without that directory."
+```
+
 ---
 
 **1.** Start from home.

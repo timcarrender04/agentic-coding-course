@@ -6,6 +6,13 @@
 
 > One file per resource. As your app grows, you don't want every route in `main.py` — you want each resource (items, users, orders, …) in its own file. `APIRouter` is FastAPI's mechanism for that.
 
+```instructor
+Say: "We're refactoring routes out of `main.py` into per-resource files using `APIRouter`. This is how every real FastAPI codebase is organized."
+Mention: "After the refactor, every existing curl from lessons 03–05 must still work. If a route 404s, the prefix on the router is wrong or the include line in `main.py` is missing."
+Pause: After mounting both routers — re-run all the curls from earlier lessons. That's how they confirm the refactor didn't break anything.
+Say: "You're done when items live in `routers/items.py`, users in `routers/users.py`, both are mounted in `main.py`, and every old curl still works."
+```
+
 ---
 
 **1.** Make sure your venv is active and uvicorn is running with `--reload`.

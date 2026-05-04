@@ -6,6 +6,13 @@
 
 > SQLAlchemy is the most popular Python ORM. We'll use the SQLAlchemy 2.0 style: an `engine`, a `SessionLocal`, a `Base` class for ORM models, and FastAPI dependencies for getting a session per request.
 
+```instructor
+Say: "We're swapping the in-memory `fake_items_db` for real Postgres rows via SQLAlchemy. Engine, session, model, dependency — four pieces. Slow build."
+Mention: "If a route returns `relation 'items' does not exist`, `Base.metadata.create_all(bind=engine)` wasn't called on startup. Common miss — drill the startup hook."
+Pause: After they POST the first item and see it appear via `docker compose exec db psql -U postgres -d items -c 'select * from items;'`. That moment is the payoff — let them see it.
+Say: "You're done when POST /items writes a row visible in psql, GET /items reads from Postgres, and a Compose restart preserves the data."
+```
+
 ---
 
 **1.** Make sure Compose is up and the venv is active in your local terminal (we'll edit files locally; Compose's bind mount picks them up).

@@ -6,6 +6,13 @@
 
 > A **virtual environment** (venv) is an isolated copy of Python and its packages, scoped to one project. Installing FastAPI into a venv keeps it from polluting your system Python.
 
+```instructor
+Say: "We're setting up the Python venv this whole module lives inside. Every later lesson assumes `(.venv)` is in your prompt before you type."
+Mention: "Forgetting to activate the venv is the #1 mistake of this module. The symptom is `ModuleNotFoundError: No module named 'fastapi'` — that means `(.venv)` is missing from the prompt."
+Pause: After the first `source .venv/bin/activate`. Make every student point at their `(.venv)` prefix before continuing. Drill it once now and you save 10 questions later.
+Say: "You're done when `which python` prints a path inside `.venv/bin/` and `(.venv)` is in your prompt."
+```
+
 ---
 
 ## When to use a venv (especially without Docker)

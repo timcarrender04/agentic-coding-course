@@ -4,6 +4,13 @@
 
 ⏱ ~15 minutes of typing
 
+```instructor
+Say: "You'll create files, read them, and edit them — all from the terminal. No GUI text editor today."
+Mention: "Before they run `less`, announce loudly: 'press q to quit.' Same for `top` later. Otherwise half the room thinks the terminal is frozen."
+Pause: At `tail -f`. It looks frozen because it's waiting for new data. Have them open a second terminal and `echo` into the file so they see it update live.
+Say: "You're done when they can save with Ctrl+O and exit with Ctrl+X in nano without using arrow keys to escape."
+```
+
 ---
 
 **1.** Go to your course directory.

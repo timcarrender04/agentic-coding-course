@@ -4,6 +4,13 @@
 
 ⏱ ~15 minutes of typing
 
+```instructor
+Say: "Pipes are the trick that makes the terminal powerful — feed the output of one command straight into the input of the next. New mental model. Slow down."
+Mention: "If `/var/log/syslog` is permission-denied, prepend `sudo` or switch the example to `/etc/passwd` (world-readable). Don't get stuck."
+Pause: Before the drills, demo `echo "hello world" | grep hello` together. Watching one pipe work makes the rest click.
+Say: "You're done when they can chain three commands with two pipes and grep a real log file for a string they choose."
+```
+
 ---
 
 **1.** Start from home.

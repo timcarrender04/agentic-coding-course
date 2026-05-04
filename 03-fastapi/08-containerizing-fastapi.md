@@ -6,6 +6,13 @@
 
 > The Module 02 muscle memory pays off here. You're going to write a Dockerfile from scratch, build it, and run it. Same `docker run` patterns you drilled before.
 
+```instructor
+Say: "Module 02 muscle memory time. We write a Dockerfile for the FastAPI app, build it, run it, hit it with curl from outside the container."
+Mention: "In the `CMD`, uvicorn MUST bind `--host 0.0.0.0` — not the default 127.0.0.1. Otherwise the port-mapping works but `curl localhost:8000` resets the connection. Top stuck point #2 of the module."
+Pause: After they `docker run`. Curl from the host AND check `docker logs` together. If either is silent, the host bind is wrong.
+Say: "You're done when their image runs, port 8000 is mapped, and curl from the host returns the same JSON as before."
+```
+
 ---
 
 **1.** Make sure you're in the project directory. **Stop the running uvicorn** with Ctrl+C in its terminal — we're about to use port 8000 from a container instead.

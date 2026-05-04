@@ -6,6 +6,13 @@
 
 > Autocomplete is the most-used Continue feature. As you type, the small base model predicts what comes next as **ghost text**. Tab to accept, keep typing to refine, Esc to dismiss.
 
+```instructor
+Say: "Tab autocomplete is the most-used Continue feature. The small base model predicts what comes next as ghost text. Tab accepts, keep typing refines, Esc dismisses."
+Mention: "If no ghost text appears: check the Continue panel for errors, confirm the autocomplete model is in `ollama list`, and confirm `roles:` in config has it on `autocomplete`. Those are the four common causes."
+Pause: After they accept their first ghost-text completion. Sit with it. The first time autocomplete writes a real line for them is the moment Continue clicks.
+Say: "You're done when ghost text appears within ~500ms of a pause in typing AND they've shipped a real route in `routers/items.py` using mostly autocomplete."
+```
+
 ---
 
 **1.** Make sure your FastAPI repo is open in Cursor and the venv is **not** active in your terminal (autocomplete works regardless — keeping the prompt clean).

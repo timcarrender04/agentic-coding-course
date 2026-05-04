@@ -6,6 +6,13 @@
 
 > A **dependency** in FastAPI is a function whose return value is "injected" into your route. Common uses: auth, DB sessions, shared validation. The pattern is `param = Depends(my_function)`.
 
+```instructor
+Say: "`Depends()` is FastAPI's dependency injection. A function returns a value; FastAPI runs it before the route and passes the result in. Used for auth, DB sessions, shared validation."
+Mention: "401 vs 422 confuses students. 401 is 'not authenticated' (header missing or wrong); 422 is 'malformed input'. Read the route's behavior and match the right code."
+Pause: After they raise the first `HTTPException(401)` from the dependency. Show how the route never even runs — the dep short-circuited it.
+Say: "You're done when hitting the protected route without `X-Token` returns 401 and with the right value returns 200."
+```
+
 ---
 
 **1.** Make sure venv is active and uvicorn is running.

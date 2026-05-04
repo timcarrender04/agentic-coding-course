@@ -6,6 +6,13 @@
 
 > Git stamps every commit with a name and email. If you don't set them up front, your first commit fails with a confusing error. Set them once, globally, and never think about it again.
 
+```instructor
+Say: "Git stamps every commit with a name and email. We set both globally now, once, and never think about it again."
+Mention: "If they skip this, the first commit fails with 'please tell me who you are.' Set name and email — even if it's a personal email, that's fine for class."
+Pause: After `git config --global user.name`. Have them run `git config --global --list` and read their values out loud — that confirms they actually saved.
+Say: "You're done when `git config --global --list` shows `user.name`, `user.email`, and `init.defaultBranch=main`."
+```
+
 ---
 
 **1.** Set your name (this shows up on every commit).

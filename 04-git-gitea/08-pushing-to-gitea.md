@@ -4,6 +4,13 @@
 
 ⏱ ~15 minutes of typing + clicking
 
+```instructor
+Say: "We push the local FastAPI repo to Gitea, then commit on each side and sync. After today they own the local-remote round trip."
+Mention: "First push of a new branch needs `git push -u origin <branch>`. Without `-u`, Git complains 'no upstream branch.' Drill the `-u` once."
+Pause: After the first successful `git push`. Have them refresh the Gitea web UI and see the commits land. Browser side and CLI side must match — that's the loop.
+Say: "You're done when their repo is on Gitea AND a commit made locally appears in the web UI after `git push`."
+```
+
 ---
 
 ## Step 1: create the empty repo on Gitea

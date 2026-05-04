@@ -6,6 +6,13 @@
 
 > Cloning is how teammates get a copy of the repo. Pulling is how they keep it in sync. When two people change the same lines, you get a **merge conflict** — and you learn to read the markers in the file and pick a side.
 
+```instructor
+Say: "Cloning is how teammates get a copy. Pulling keeps it in sync. Today we deliberately CAUSE a merge conflict and resolve it together — the first one is always traumatic."
+Mention: "The conflicted file has `<<<<<<<`, `=======`, `>>>>>>>` markers. Open the file, pick a side (or hand-merge), DELETE all the markers, `git add`, `git commit`. If they leave a single marker, the next commit fails."
+Pause: After Git declares the conflict. Sit with it. Read the message together — Git tells them which file. Resist jumping straight to the fix.
+Say: "You're done when both clones are in sync, the conflicted file has clean content (no markers), and `git log` shows the merge commit."
+```
+
 ---
 
 ## Part 1: clone

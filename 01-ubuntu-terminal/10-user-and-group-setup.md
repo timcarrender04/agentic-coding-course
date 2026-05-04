@@ -4,6 +4,13 @@
 
 ⏱ ~10 minutes of typing
 
+```instructor
+Say: "Users and groups decide who's allowed to do what. We're previewing the command that will let you run Docker without sudo in Module 02."
+Mention: "The `usermod -aG docker $USER` command will FAIL today because the docker group doesn't exist yet. That's intentional — they'll run it for real next module."
+Pause: Right after that failure. Pause and explain why: 'You haven't installed Docker yet. The group is created when Docker is installed. We're rehearsing.'
+Say: "You're done when they can list their own groups with `groups` and explain what `newgrp` does — refresh group membership without logging out."
+```
+
 ---
 
 **1.** Start from home.

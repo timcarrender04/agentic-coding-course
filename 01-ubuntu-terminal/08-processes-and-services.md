@@ -4,6 +4,13 @@
 
 ⏱ ~15 minutes of typing
 
+```instructor
+Say: "You'll inspect running processes and check service status — the same tools you'll use to debug Docker containers in two weeks."
+Mention: "Before they run `top`, announce 'press q to quit'. Same trap as `less`. They'll think the terminal locked up."
+Pause: At `systemctl status ssh`. If SSH isn't running on their box, switch the example to `cron` and keep going — don't rabbit-hole installing SSH.
+Say: "You're done when `ps`, `top`, and `systemctl status` each return readable output and they can name three running processes."
+```
+
 ---
 
 **1.** Start from home.

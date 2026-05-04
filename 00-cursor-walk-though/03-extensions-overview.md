@@ -2,6 +2,13 @@
 
 **Time:** ~15 min
 
+```instructor
+Say: "Extensions specialize Cursor for the work you're doing. We install only what I tell you to install today — we'll add more later."
+Mention: "Check the publisher before clicking Install. There are multiple 'Python' extensions; we want the one by Microsoft, id `ms-python`."
+Pause: After everyone clicks Install on Python — look for someone who installed three extras out of excitement and walk them back.
+Say: "You're done when 'Python' by Microsoft shows under the INSTALLED section. If you grabbed a different Python, uninstall and redo."
+```
+
 ## What is an extension?
 
 An **extension** is a plugin that adds features to Cursor. Cursor by itself is a general-purpose IDE. Extensions specialize it: an extension might add Python support, or a Docker sidebar, or a way to connect to a remote computer. You install only the ones you need.

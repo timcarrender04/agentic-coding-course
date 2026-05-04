@@ -2,6 +2,13 @@
 
 **Time:** ~10 min
 
+```instructor
+Say: "Today is just 'where is the terminal and what does it look like.' We are not learning shell commands yet — that's all of Module 01."
+Mention: "If `Ctrl+\`` does nothing, the backtick is missing or moved on their keyboard. Tell them to use View → Terminal instead — don't burn time hunting the key."
+Pause: After they open the terminal — physically point at the terminal pane vs the editor pane. Some will type the command into the editor.
+Say: "You're done when `echo hello` prints `hello` back at you in the terminal panel — not in a file."
+```
+
 ## What is a terminal, again?
 
 A **terminal** is a program where you type a command, press Enter, and the computer runs that command and prints text back at you. That is the entire interface — text in, text out.

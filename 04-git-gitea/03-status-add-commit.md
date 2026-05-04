@@ -6,6 +6,13 @@
 
 > The cycle: edit → `git status` → `git add` → `git commit -m "..."`. Repeat. That's 90% of Git in daily use.
 
+```instructor
+Say: "The everyday cycle: edit, `git status`, `git add`, `git commit -m '...'`. Repeat. That's 90% of Git in daily use."
+Mention: "Make `git status` a tic. When anything looks weird, `git status` first — 95% of the time it tells them exactly what's going on."
+Pause: After their first `git add` of a single file. Run `git status` again — the file moved from 'Changes not staged' to 'Changes to be committed'. Two regions in the output, two states.
+Say: "You're done when they can make 3 small commits in a row, each preceded by `git status`, with no help from you."
+```
+
 ---
 
 **1.** You're in `~/docker-course/fastapi-app`. Working tree is clean from lesson 02.

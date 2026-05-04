@@ -6,6 +6,13 @@
 
 > **Gitea** is a self-hosted Git service. Your instructor runs an instance for the class. The web UI looks like a stripped-down GitHub — repos, issues, pull requests, the works.
 
+```instructor
+Say: "Gitea is a self-hosted Git service — looks like a stripped-down GitHub. I'm running an instance for the class; here's the URL."
+Mention: "If `ssh -T git@<gitea-host>` fails with 'Permission denied (publickey)', the public key didn't get added to Gitea or the wrong key is being offered. The success message is 'Hi <username>! You've successfully authenticated...'"
+Pause: After they upload the public key. Have every student run `ssh -T git@...` and read the success line back to you. If anyone's failing, fix it now — every later lesson assumes push works.
+Say: "You're done when `ssh -T git@<gitea-host>` greets them by username and they can browse to their account on the web UI."
+```
+
 ---
 
 ## Step 1: log in to Gitea
