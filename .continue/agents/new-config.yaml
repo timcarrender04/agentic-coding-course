@@ -1,0 +1,34 @@
+# Continue agent config — remote Ollama (Tailscale-friendly IP)
+# Use in IDE: Continue sidebar → agent/config picker → point at this file, or merge into ~/.continue/config.yaml
+# Docs: https://docs.continue.dev/customize/model-providers/top-level/ollama
+
+name: Remote Ollama Coder
+version: 1.0.0
+schema: v1
+
+models:
+  - name: Qwen 2.5 Coder 7B (100.68.103.54)
+    provider: ollama
+    model: qwen2.5-coder:7b
+    apiBase: http://100.68.103.54:11434
+    roles:
+      - chat
+      - edit
+      - apply
+
+  - name: Qwen 2.5 Coder 1.5B Base (autocomplete)
+    provider: ollama
+    model: qwen2.5-coder:1.5b-base
+    apiBase: http://100.68.103.54:11434
+    roles:
+      - autocomplete
+
+context:
+  - provider: code
+  - provider: diff
+  - provider: terminal
+  - provider: problems
+  - provider: folder
+  - provider: codebase
+  - provider: file
+  - provider: docs
