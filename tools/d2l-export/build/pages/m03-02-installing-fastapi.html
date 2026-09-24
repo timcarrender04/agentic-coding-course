@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FastAPI from Scratch — Installing FastAPI</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Install FastAPI and Uvicorn into the active venv and freeze the exact package versions into a <code>requirements.txt</code> with <code>pip freeze</code>.</div>
+<h1>Lesson 02: Installing FastAPI</h1>
+<p><strong>By the end, you will have FastAPI and Uvicorn installed in your venv, and a <code>requirements.txt</code> file pinning your dependencies.</strong></p>
+<p>⏱ ~10 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Make sure you're in the project directory and the venv is active. Look for <code>(.venv)</code> in your prompt.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+source .venv/bin/activate</code></pre>
+<p><strong>2.</strong> Confirm pip points to the venv.</p>
+<pre><code class="language-bash">which pip</code></pre>
+<pre class="output"><code class="output">/home/your-user/docker-course/fastapi-app/.venv/bin/pip</code></pre>
+<p><strong>3.</strong> Upgrade pip itself first.</p>
+<pre><code class="language-bash">pip install --upgrade pip</code></pre>
+<p><strong>4.</strong> Install FastAPI and Uvicorn (the ASGI server FastAPI runs on). The <code>[standard]</code> adds extras like the watchfiles reloader.</p>
+<pre><code class="language-bash">pip install fastapi &quot;uvicorn[standard]&quot;</code></pre>
+<p>(You'll see several packages download.)</p>
+<p><strong>5.</strong> Confirm FastAPI is installed.</p>
+<pre><code class="language-bash">pip show fastapi | head -n 3</code></pre>
+<pre class="output"><code class="output">Name: fastapi
+Version: 0.110.0
+Summary: FastAPI framework, high performance, easy to learn, fast to code, ready for production</code></pre>
+<p>(Version will vary.)</p>
+<p><strong>6.</strong> Confirm Uvicorn is installed.</p>
+<pre><code class="language-bash">pip show uvicorn | head -n 3</code></pre>
+<pre class="output"><code class="output">Name: uvicorn
+Version: 0.29.0
+...</code></pre>
+<p><strong>7.</strong> See the full list of installed packages.</p>
+<pre><code class="language-bash">pip list</code></pre>
+<p>You'll see fastapi, uvicorn, and a dozen transitive dependencies (pydantic, starlette, etc.).</p>
+<p><strong>8.</strong> Save those exact versions to a <code>requirements.txt</code>. This is how you make a project reproducible.</p>
+<pre><code class="language-bash">pip freeze &gt; requirements.txt</code></pre>
+<p><strong>9.</strong> Read the file you just created.</p>
+<pre><code class="language-bash">cat requirements.txt</code></pre>
+<p>You should see lines like <code>fastapi==0.110.0</code>, <code>pydantic==2.6.4</code>, <code>uvicorn==0.29.0</code>, etc. Each package pinned to an exact version.</p>
+<p><strong>10.</strong> Count how many packages got installed.</p>
+<pre><code class="language-bash">wc -l requirements.txt</code></pre>
+<pre class="output"><code class="output">20 requirements.txt</code></pre>
+<p>(Number will vary, usually 15-25.)</p>
+<p><strong>11.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;FastAPI installed: $(pip show fastapi | grep Version)&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li>If pip says <code>Defaulting to user installation because normal site-packages is not writeable</code>, your venv is <strong>not</strong> active. Stop, run <code>source .venv/bin/activate</code>, and try again.</li><li>Do not commit <code>.venv/</code> to git — that's why you wrote <code>.venv/</code> to <code>.gitignore</code> in lesson 01. Only <code>requirements.txt</code> should be committed.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">pip show fastapi | head -n 1</code></pre>
+<p>You should see <code>Name: fastapi</code>.</p>
+<pre><code class="language-bash">ls requirements.txt</code></pre>
+<p>You should see the path printed (no error).</p>
+<pre><code class="language-bash">grep fastapi requirements.txt</code></pre>
+<p>You should see a line like <code>fastapi==0.110.0</code>.</p>
+<pre><code class="language-bash">python -c &quot;import fastapi; print(fastapi.__version__)&quot;</code></pre>
+<p>You should see a version number.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m03-03-hello-world.html">03-hello-world.md</a> — Write your first FastAPI app</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Live lab — Terminal Escape Night</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+
+<h1>Live lab — Terminal Escape Night</h1>
+<p class="meta">Wednesday live lab · 6:00–8:00 PM · replaces the Week 3 clinic · reviews labs 01:02–06</p>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span>
+Re-run navigation, <code>mkdir</code>/<code>cp</code>/<code>mv</code>/<code>rm -r</code>, <code>less</code>/<code>tail -f</code>/nano, and permissions (<code>ls -l</code>/<code>chmod</code>/<code>chown</code>) under a story — without new commands.</div>
+
+<p><strong>The story:</strong> a bad update has locked every door in the ChiefOS server building at 23:47 — and you're inside. Mouse dead. GUI dead. Terminal only. Fight through <strong>four escape rooms</strong>, each guarding one code word. Collect all four, write the escape plan, and get out. <strong>Every room is solvable with commands you already used in labs 01:02–06.</strong> The answer to every puzzle is written down inside the game. Read the room. It always tells you.</p>
+
+<h2>Do this before 6:00 PM — required</h2>
+<ol>
+<li>Download <a href="../files/escape-night/setup.sh"><code>setup.sh</code></a> from this topic (also attached to the D2L item).</li>
+<li>In your WSL/Ubuntu terminal, run <code>bash setup.sh</code> — as yourself, <strong>never</strong> <code>sudo bash setup.sh</code>.</li>
+<li>It asks for your password <strong>once</strong>, near the end. The prompt types invisibly — keep typing, press Enter.</li>
+<li>Verify: <code>ls ~/escape-night</code> shows <strong>four room folders</strong> plus a README.</li>
+<li><strong>Don't go in yet.</strong> Exploring early is cheating yourself out of the race.</li>
+</ol>
+<pre><code class="language-bash">bash setup.sh
+ls ~/escape-night</code></pre>
+<p>Mac note: if you hit <code>chown: root: illegal group name</code>, run <code>sed -i '' 's/chown root:root/chown root/' setup.sh</code> then <code>bash setup.sh --reset</code>.</p>
+
+<h2>How the race works</h2>
+<table>
+<thead><tr><th>Piece</th><th>What it means</th></tr></thead>
+<tbody>
+<tr><td><strong>Teams</strong></td><td>Team SUDO, Team NANO, Team CHMOD. Everyone types on their <strong>own machine</strong>. A team clears a room only when <strong>every member</strong> has that room's code word.</td></tr>
+<tr><td><strong>Roles (rotate every room)</strong></td><td><strong>Driver</strong> shares screen and types while narrating. <strong>Reader</strong> reads the room's files aloud. <strong>Scribe</strong> tracks code words and posts clears in main chat.</td></tr>
+<tr><td><strong>Rule #1</strong></td><td>Nobody rides along. Finished early? Coach with <strong>words only</strong> — never touch a teammate's keyboard.</td></tr>
+<tr><td><strong>Hints</strong></td><td>One hint token for the night (Zoom “Ask for Help”). Unlimited free hint: <strong>read the room's files again</strong>.</td></tr>
+</tbody>
+</table>
+
+<h2>Tonight's clock</h2>
+<table>
+<thead><tr><th>Clock</th><th>Block</th><th>What happens</th></tr></thead>
+<tbody>
+<tr><td>6:00</td><td>Check-in</td><td>Post a ✓ in chat when <code>ls ~/escape-night</code> shows four rooms. Setup rescue for anyone stuck.</td></tr>
+<tr><td>6:20</td><td>Launch</td><td>The story, team assignments, rules, breakouts.</td></tr>
+<tr><td>6:30</td><td>The escape</td><td>50:00 on the clock.</td></tr>
+<tr><td>7:20</td><td>Debrief</td><td>Each team teaches one room. Exit ticket: read <code>ls -l ~/escape-night/escape</code> out loud.</td></tr>
+<tr><td>7:40</td><td>Close</td><td>Confirm labs 01:02–06 submitted. Week 4 phase-gate preview.</td></tr>
+</tbody>
+</table>
+
+<h2>Train before tonight — seven escape skills</h2>
+<p>If you can do these, you can escape. Rusty on any? Re-run that lab this afternoon.</p>
+<table>
+<thead><tr><th>#</th><th>Can you…</th><th>Practice</th><th>From lab</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Move around and look inside things without a mouse</td><td><code>pwd</code> · <code>ls</code> · <code>cd</code> · <code>cd ..</code> · <code>cat</code></td><td>01:01–02</td></tr>
+<tr><td>2</td><td>Build, copy, rename, and carefully destroy</td><td><code>mkdir</code> · <code>cp</code> · <code>mv</code> · <code>rm -r</code></td><td>01:02</td></tr>
+<tr><td>3</td><td>Page through a long file — and get back out</td><td><code>less file</code> (space = next, q = quit)</td><td>01:03</td></tr>
+<tr><td>4</td><td>Watch a file update live in a second terminal</td><td><code>tail -f file</code> (Ctrl+C to stop)</td><td>01:03</td></tr>
+<tr><td>5</td><td>Edit, save, and exit in nano — no panic</td><td><code>nano file</code> · Ctrl+O, Enter · Ctrl+X</td><td>01:03</td></tr>
+<tr><td>6</td><td>Use sudo when the system says you can't</td><td><code>sudo whoami</code> · <code>sudo chown</code></td><td>01:04, 01:06</td></tr>
+<tr><td>7</td><td>Read an <code>ls -l</code> permission string and change it</td><td><code>ls -l</code> · <code>chmod</code> · <code>chmod +x</code></td><td>01:06</td></tr>
+</tbody>
+</table>
+<p>Skill 7 is the boss fight — and the exact skill next week's Module 01 phase-gate tests.</p>
+
+<h2>Rules of the building</h2>
+<ul>
+<li>Don't enter <code>~/escape-night</code> before the race starts.</li>
+<li>Coach with words only. No web searches — everything is in the rooms.</li>
+<li>Notes, this page, and your lab files are legal.</li>
+<li>Everything happens inside <code>~/escape-night/</code>. The game contains exactly one <code>rm -r</code> — read the path twice, then read it again.</li>
+<li>Wrecked a room? <code>bash setup.sh --reset</code> rebuilds it in seconds.</li>
+</ul>
+
+<div class="callout lab"><span class="label">🧪 Submit.</span>
+Screenshot the victory banner in your terminal and post it in Zoom chat — that's tonight's participation artifact. Still owe labs 01:02–06? Tonight <em>is</em> the review. Finish and submit those in D2L by Sunday.</div>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubuntu Terminal Foundations — Processes and Services</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Inspect running processes and service status using <code>ps aux</code>, <code>top</code>, <code>htop</code>, <code>systemctl</code>, <code>journalctl</code>, <code>uptime</code>, <code>free -h</code>, and <code>df -h</code>.</div>
+<h1>Lesson 08: Processes and Services</h1>
+<p><strong>By the end, you will be able to inspect running processes and check service status — skills you'll need for managing Docker containers.</strong></p>
+<p>⏱ ~15 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> Confirm.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-username</code></pre>
+<p><strong>3.</strong> List all running processes.</p>
+<pre><code class="language-bash">ps aux</code></pre>
+<p>(You'll see a long list. Each line is a running process.)</p>
+<p><strong>4.</strong> That's too much output — filter for just your user's processes.</p>
+<pre><code class="language-bash">ps aux | grep $USER</code></pre>
+<p>(You'll see only processes owned by your user.)</p>
+<p><strong>5.</strong> Search for a specific process — let's check if SSH is running.</p>
+<pre><code class="language-bash">ps aux | grep sshd</code></pre>
+<pre class="output"><code class="output">root      1234  0.0  0.1  12345  6789 ?  Ss   12:00   0:00 sshd: /usr/sbin/sshd
+your-user 5678  0.0  0.0   6789  1234 pts/0  S+ 12:01   0:00 grep --color=auto sshd</code></pre>
+<p>(The second line is your grep command itself — that's normal. The first line is the actual sshd process.)</p>
+<p><strong>6.</strong> Filter out the grep line using a common trick.</p>
+<pre><code class="language-bash">ps aux | grep [s]shd</code></pre>
+<p>(The bracket trick prevents grep from matching itself.)</p>
+<p><strong>7.</strong> Open the interactive process viewer.</p>
+<pre><code class="language-bash">top</code></pre>
+<p>(You'll see a live-updating list of processes. <strong>Press q to quit.</strong> Don't type anything else — just press q.)</p>
+<p><strong>8.</strong> Use htop for a better experience (we installed it in Lesson 05).</p>
+<pre><code class="language-bash">htop</code></pre>
+<p>(Colorful process viewer. <strong>Press q to quit.</strong>)</p>
+<p><strong>9.</strong> Check the status of the SSH service using systemctl.</p>
+<pre><code class="language-bash">systemctl status ssh</code></pre>
+<pre class="output"><code class="output">● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: enabled)
+     Active: active (running) since ...</code></pre>
+<p>(Press q if the output is paged. Look for &quot;active (running)&quot;.)</p>
+<p><strong>10.</strong> Quick check — is SSH active? One-word answer.</p>
+<pre><code class="language-bash">systemctl is-active ssh</code></pre>
+<pre class="output"><code class="output">active</code></pre>
+<p><strong>11.</strong> Check if SSH is enabled to start at boot.</p>
+<pre><code class="language-bash">systemctl is-enabled ssh</code></pre>
+<pre class="output"><code class="output">enabled</code></pre>
+<p><strong>12.</strong> Check the cron service — another service that should be running.</p>
+<pre><code class="language-bash">systemctl status cron</code></pre>
+<pre class="output"><code class="output">● cron.service - Regular background program processing daemon
+     Loaded: loaded (/lib/systemd/system/cron.service; enabled; ...)
+     Active: active (running) since ...</code></pre>
+<p><strong>13.</strong> Quick check cron.</p>
+<pre><code class="language-bash">systemctl is-active cron</code></pre>
+<pre class="output"><code class="output">active</code></pre>
+<p><strong>14.</strong> List all active services.</p>
+<pre><code class="language-bash">systemctl list-units --type=service --state=active</code></pre>
+<p>(You'll see all services that are currently running.)</p>
+<p><strong>15.</strong> View recent system logs with journalctl.</p>
+<pre><code class="language-bash">sudo journalctl -xe | tail -n 20</code></pre>
+<p>(Shows the last 20 lines of the system journal. Output will vary.)</p>
+<p><strong>16.</strong> View logs for a specific service.</p>
+<pre><code class="language-bash">sudo journalctl -u ssh | tail -n 10</code></pre>
+<p>(Shows the last 10 SSH log entries.)</p>
+<p><strong>17.</strong> View logs for cron.</p>
+<pre><code class="language-bash">sudo journalctl -u cron | tail -n 10</code></pre>
+<p><strong>18.</strong> Check how long the system has been running.</p>
+<pre><code class="language-bash">uptime</code></pre>
+<pre class="output"><code class="output"> 12:00:00 up 2 days, 3:45,  1 user,  load average: 0.00, 0.01, 0.05</code></pre>
+<p><strong>19.</strong> See how much memory is in use.</p>
+<pre><code class="language-bash">free -h</code></pre>
+<pre class="output"><code class="output">              total        used        free      shared  buff/cache   available
+Mem:          3.8Gi       512Mi       2.1Gi       1.0Mi       1.2Gi       3.1Gi
+Swap:         2.0Gi          0B       2.0Gi</code></pre>
+<p><strong>20.</strong> Check disk space — Docker images can be large, so you'll want to know this.</p>
+<pre><code class="language-bash">df -h</code></pre>
+<pre class="output"><code class="output">Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        50G   5G   42G  11% /
+...</code></pre>
+<p>(Make sure you have at least 10GB free for Docker images.)</p>
+<p><strong>21.</strong> Log your system status.</p>
+<pre><code class="language-bash">echo &quot;System check: $(uptime)&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">systemctl is-active ssh</code></pre>
+<p>You should see <code>active</code>.</p>
+<pre><code class="language-bash">systemctl is-active cron</code></pre>
+<p>You should see <code>active</code>.</p>
+<pre><code class="language-bash">ps aux | grep [s]shd</code></pre>
+<p>You should see at least one sshd process.</p>
+<pre><code class="language-bash">free -h | head -n 2</code></pre>
+<p>You should see total and used memory.</p>
+<pre><code class="language-bash">df -h /</code></pre>
+<p>You should see at least 10GB available.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Inspect running processes with <code>ps</code>, <code>top</code>, and <code>htop</code>, and check service health with <code>systemctl</code>.</p>
+<p><strong>Task:</strong> Work through the drills, then run the Checkpoint commands in one terminal. Note the branch: on WSL and some VMs <code>ssh.service</code> doesn't exist — that's fine. Cron is the sanctioned substitute (see the instructor notes), so run both <code>is-active</code> checks and either one passing is a pass.</p>
+<p><strong>Submit:</strong> One screenshot (or pasted transcript) showing: <code>systemctl is-active ssh</code>, <code>systemctl is-active cron</code>, <code>free -h | head -n 2</code>, and <code>df -h /</code>.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] <code>systemctl is-active ssh</code> OR <code>systemctl is-active cron</code> prints <code>active</code> (either one passes — ssh may be inactive or missing on WSL/VMs).</li><li>[ ] <code>free -h | head -n 2</code> shows the memory table.</li><li>[ ] <code>df -h /</code> shows at least 10GB available.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m01-09-pipes-and-grep.html">09-pipes-and-grep.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m01-09-pipes-and-grep.html">09-pipes-and-grep.md</a> — Chain commands together</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

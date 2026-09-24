@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Live lab — Docker signup roster</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+
+<h1>Live lab — Docker signup roster</h1>
+<p class="meta">Wednesday live lab · 6:00–8:00 PM · three-person teams · does <strong>not</strong> replace the Module 02 / nginx phase-gate (02:06)</p>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span>
+Run a two-service Compose stack (API + Postgres) so both containers are healthy, the host browser shows the roster, and <code>psql</code> matches the UI — without ever starting Python on the host.</div>
+
+<p>Everything runs in Docker: the API (<code>web</code>) and Postgres (<code>db</code>). Do not run <code>app.py</code> or uvicorn on the host. This is the stretch Compose lab from cohort 1 — leftover nginx from the Module 02 gate will steal port 8080, so clean that up first.</p>
+
+<h2>Get the lab</h2>
+<p>Either clone the public student repo, or unzip the attached packet.</p>
+<pre><code class="language-bash">git clone https://github.com/timcarrender04/docker-roster-lab.git
+cd docker-roster-lab</code></pre>
+<p>Packet (same files, no git): <a href="../files/docker-roster-lab.zip">docker-roster-lab.zip</a>. Unzip, then File → Open Folder on that directory.</p>
+
+<h2>Before you type</h2>
+<ul>
+<li>VS Code connected to the same Linux as Docker (bottom-left: <code>WSL: Ubuntu</code> or <code>SSH: …</code>). The whale sidebar must not say Failed to connect.</li>
+<li>You can run Docker without sudo (<code>docker run hello-world</code> already worked).</li>
+<li>Three-person teams. Name a leader. Everyone clones and runs Compose on their own machine — no watching-only.</li>
+<li>Suggested split: (1) Docker — compose, logs, sidebar · (2) Research — docs/Hub + <code>RESEARCH.txt</code> · (3) Validate — curl, browser, <code>compose exec psql</code>.</li>
+<li>Grok or another LLM <em>outside</em> the IDE is allowed. Still cite a real doc/Hub URL in <code>RESEARCH.txt</code>.</li>
+</ul>
+
+<h2>Clock</h2>
+<table>
+<thead><tr><th>Clock</th><th>What happens</th></tr></thead>
+<tbody>
+<tr><td>6:00</td><td>Sign-in, form rooms of 3, name a leader, assign roles.</td></tr>
+<tr><td>6:10</td><td>Clone, Open Folder, sidebar, free 8080, read compose.</td></tr>
+<tr><td>6:25</td><td>Fill <code>RESEARCH.txt</code> (docs/Hub; Grok in a browser is OK).</td></tr>
+<tr><td>6:45</td><td><code>docker compose up -d --build</code>. Wait for db healthy.</td></tr>
+<tr><td>7:15</td><td>Browser, curl API, <code>compose exec psql</code>, sidebar screenshot.</td></tr>
+<tr><td>7:45</td><td>Leaders: 3/3 up? One stuck spot.</td></tr>
+<tr><td>7:55</td><td>D2L: screenshot + <code>RESEARCH.txt</code> (three names).</td></tr>
+</tbody>
+</table>
+
+<h2>Free port 8080, then bring it up</h2>
+<pre><code class="language-bash">docker ps
+docker ps -aq | xargs -r docker rm -f
+
+# wrong: python3 app.py    /    uvicorn app:app ...
+# right:
+docker compose up -d --build
+docker compose ps</code></pre>
+<p>Open <code>docker-compose.yml</code> and <code>Dockerfile</code>. Two services: <code>web</code> builds this folder and serves the form + API on 8080; <code>db</code> is official <code>postgres:16</code>. <code>app.py</code> is copied <em>into</em> the web image. It is not a host command.</p>
+
+<h2>Prove both containers</h2>
+<p>Browser: <a href="http://localhost:8080">http://localhost:8080</a> — add a name + email. The table should show the row.</p>
+<pre><code class="language-bash">curl -s http://localhost:8080 | grep -i signup
+curl -s -X POST http://localhost:8080/api/signups \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Ada","email":"ada@example.com"}'
+docker compose exec db psql -U roster -d roster -c "SELECT name, email FROM signups;"
+docker compose logs web --tail=20</code></pre>
+<p>Whale sidebar should show <code>web</code> and <code>db</code> running.</p>
+
+<h2>What “done” looks like</h2>
+<ul>
+<li><code>docker compose ps</code> shows web Up and db healthy (or Up).</li>
+<li>GET/POST <code>/api/signups</code> hit the web container, not a local Python process.</li>
+<li>From web, Postgres hostname is the service name <code>db</code> (not localhost).</li>
+<li>Named volume <code>pgdata</code> keeps rows after <code>docker compose down</code> then <code>up</code> (<code>down -v</code> wipes data).</li>
+<li>You did not run python/uvicorn on the host.</li>
+<li>Three names on the team; each person has <code>compose ps</code> green.</li>
+</ul>
+<p>Fill every question in <code>RESEARCH.txt</code> from <em>your</em> compose file and the linked docs before you treat the lab as done. Official references:</p>
+<ul>
+<li>Compose file: <a href="https://docs.docker.com/compose/compose-file/">docs.docker.com/compose/compose-file</a></li>
+<li>Compose CLI: <a href="https://docs.docker.com/compose/">docs.docker.com/compose</a></li>
+<li>Postgres image: <a href="https://hub.docker.com/_/postgres">hub.docker.com/_/postgres</a></li>
+<li>Dockerfile: <a href="https://docs.docker.com/reference/dockerfile/">docs.docker.com/reference/dockerfile</a></li>
+<li>Compose networking: <a href="https://docs.docker.com/compose/how-tos/networking/">docs.docker.com/compose/how-tos/networking</a></li>
+</ul>
+
+<div class="callout lab"><span class="label">🧪 Submit.</span>
+One screenshot: VS Code Docker sidebar showing both services running, terminal <code>docker compose ps</code>, and the browser roster with at least one row. Also submit <code>RESEARCH.txt</code> (your answers, not a blank copy) with all three names.</div>
+
+</body>
+</html>

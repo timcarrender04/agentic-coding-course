@@ -39,17 +39,6 @@ export function ProjectorView({
       <div className="max-w-[1400px] mx-auto">
         <LessonView lesson={lesson} scale="projector" state={state} />
       </div>
-
-      {!state.broadcastOn && (
-        <div className="fixed inset-0 bg-[var(--color-cockpit)]/95 flex items-center justify-center text-white text-4xl font-display">
-          <div className="text-center">
-            <span className="material-symbols-outlined text-7xl block mb-4">
-              videocam_off
-            </span>
-            BROADCAST PAUSED
-          </div>
-        </div>
-      )}
     </div>
   );
 }

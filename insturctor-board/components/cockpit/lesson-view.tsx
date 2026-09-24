@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Lesson } from "@/types/curriculum";
 import type { SessionState } from "@/types/session";
 
+import { Icon } from "./icon";
 import { LessonStepCard } from "./lesson-step-card";
 
 export function LessonView({
@@ -12,12 +13,17 @@ export function LessonView({
   state,
   scale = "default",
   showCompletionToggles = false,
+  /** When true (instructor cockpit), code copy is always available regardless of session copyEnabled. */
+  ignoreSessionCopySetting = false,
 }: {
   lesson: Lesson;
   state: SessionState;
   scale?: "default" | "projector";
   showCompletionToggles?: boolean;
+  ignoreSessionCopySetting?: boolean;
 }) {
+  const allowCopy =
+    ignoreSessionCopySetting || (state.copyEnabled ?? true);
   const stepIndex = clamp(state.stepIndex, 0, lesson.steps.length - 1);
   const scrollKey = `${state.moduleId}:${state.lessonId}:${stepIndex}`;
   const titleSize =
@@ -28,10 +34,9 @@ export function LessonView({
   return (
     <article className="flex flex-col gap-6 max-w-[1100px]">
       <header>
-        <p className="text-label-caps text-[var(--color-primary)] mb-2">
-          {state.broadcastOn
-            ? `Module ${lesson.moduleId} · Lesson ${lesson.id}`
-            : "BROADCAST PAUSED"}
+        <p className="flex items-center gap-1.5 text-label-caps text-[var(--color-primary)] mb-2">
+          <Icon className="text-base" name="radio_button_checked" />
+          Module {lesson.moduleId} · Lesson {lesson.id}
         </p>
         <h1
           className={`${titleSize} font-display font-bold text-[var(--color-ink)]`}
@@ -50,6 +55,7 @@ export function LessonView({
           {lesson.steps.map((step, i) => (
             <LessonStepRow
               key={step.index}
+              allowCopy={allowCopy}
               scrollKey={scrollKey}
               step={step}
               active={i === stepIndex}
@@ -60,9 +66,12 @@ export function LessonView({
           ))}
         </ul>
         {lesson.steps.length === 0 && (
-          <p className="text-[var(--color-ink-soft)] italic">
-            No structured steps in this lesson — content is in the lesson
-            file&rsquo;s prose. (See raw markdown.)
+          <p className="flex items-start gap-2 text-[var(--color-ink-soft)] italic">
+            <Icon className="text-base mt-0.5 shrink-0" name="info" />
+            <span>
+              No structured steps in this lesson — content is in the lesson
+              file&rsquo;s prose. (See raw markdown.)
+            </span>
           </p>
         )}
       </div>
@@ -77,6 +86,7 @@ function LessonStepRow({
   showToggle,
   scrollKey,
   storageKey,
+  allowCopy,
 }: {
   step: import("@/types/curriculum").Step;
   active: boolean;
@@ -84,6 +94,7 @@ function LessonStepRow({
   showToggle: boolean;
   scrollKey: string;
   storageKey: string;
+  allowCopy: boolean;
 }) {
   const [done, setDone] = useState(false);
   const scrollAnchorRef = useRef<HTMLDivElement>(null);
@@ -134,7 +145,12 @@ function LessonStepRow({
         </button>
       )}
       <ul className="flex-1">
-        <LessonStepCard active={active} scale={scale} step={step} />
+        <LessonStepCard
+          active={active}
+          allowCopy={allowCopy}
+          scale={scale}
+          step={step}
+        />
       </ul>
     </div>
   );

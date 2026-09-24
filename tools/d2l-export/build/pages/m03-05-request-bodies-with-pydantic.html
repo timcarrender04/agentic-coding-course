@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FastAPI from Scratch — Request Bodies with Pydantic</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Validate JSON request bodies on a <code>POST /items</code> route with a Pydantic <code>BaseModel</code> and test valid and invalid payloads from both curl and Swagger UI.</div>
+<h1>Lesson 05: Request Bodies with Pydantic</h1>
+<p><strong>By the end, you will have a <code>POST /items</code> route that accepts a JSON body, validated against a Pydantic model, and you will have hit it from both curl and Swagger UI.</strong></p>
+<p>⏱ ~30 minutes of typing</p>
+<blockquote><p><strong>Pydantic</strong> is the data-validation library FastAPI sits on top of. You define a class with typed fields; FastAPI uses it to parse, validate, and document request bodies.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Make sure your venv is active and uvicorn is running with <code>--reload</code>.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app &amp;&amp; source .venv/bin/activate</code></pre>
+<p><strong>2.</strong> Open <code>main.py</code>.</p>
+<p><strong>3.</strong> Add the Pydantic import. Below <code>from fastapi import FastAPI</code>, add:</p>
+<pre><code class="language-python">from pydantic import BaseModel</code></pre>
+<p><strong>4.</strong> Save. Watch uvicorn reload — no errors expected.</p>
+<p><strong>5.</strong> Below the imports, define an <code>Item</code> model. Type it carefully:</p>
+<pre><code class="language-python">
+
+class Item(BaseModel):
+    name: str
+    price: float
+    is_offer: bool | None = None</code></pre>
+<p><strong>6.</strong> Save. Confirm the model is part of the file.</p>
+<pre><code class="language-bash">grep -A 4 &quot;class Item&quot; main.py</code></pre>
+<p>You should see the four lines you just typed.</p>
+<p><strong>7.</strong> Add a <code>POST /items</code> route below your existing routes.</p>
+<pre><code class="language-python">
+
+@app.post(&quot;/items&quot;)
+def create_item(item: Item):
+    return item</code></pre>
+<p><strong>8.</strong> Save. Watch uvicorn reload.</p>
+<p><strong>9.</strong> Curl the new route with a valid JSON body. <strong>Note the three flags:</strong> <code>-X POST</code>, <code>-H &quot;Content-Type: application/json&quot;</code>, <code>-d '{...}'</code>.</p>
+<pre><code class="language-bash">curl -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;Widget&quot;, &quot;price&quot;: 9.99}'</code></pre>
+<pre class="output"><code class="output">{&quot;name&quot;:&quot;Widget&quot;,&quot;price&quot;:9.99,&quot;is_offer&quot;:null}</code></pre>
+<p><strong>10.</strong> Curl with an offer flag.</p>
+<pre><code class="language-bash">curl -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;Widget&quot;, &quot;price&quot;: 9.99, &quot;is_offer&quot;: true}'</code></pre>
+<pre class="output"><code class="output">{&quot;name&quot;:&quot;Widget&quot;,&quot;price&quot;:9.99,&quot;is_offer&quot;:true}</code></pre>
+<p><strong>11.</strong> Curl with an invalid body — missing <code>price</code>.</p>
+<pre><code class="language-bash">curl -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;Widget&quot;}'</code></pre>
+<pre class="output"><code class="output">{&quot;detail&quot;:[{&quot;type&quot;:&quot;missing&quot;,&quot;loc&quot;:[&quot;body&quot;,&quot;price&quot;],&quot;msg&quot;:&quot;Field required&quot;,...}]}</code></pre>
+<p><strong>Pydantic rejected it with a 422.</strong> Notice the response tells you exactly which field is missing.</p>
+<p><strong>12.</strong> Confirm the status.</p>
+<pre><code class="language-bash">curl -s -o /dev/null -w &quot;%{http_code}\n&quot; -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;Widget&quot;}'</code></pre>
+<pre class="output"><code class="output">422</code></pre>
+<p><strong>13.</strong> Curl with a wrong type — <code>price</code> as a string.</p>
+<pre><code class="language-bash">curl -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;Widget&quot;, &quot;price&quot;: &quot;free&quot;}'</code></pre>
+<pre class="output"><code class="output">{&quot;detail&quot;:[{&quot;type&quot;:&quot;float_parsing&quot;,&quot;loc&quot;:[&quot;body&quot;,&quot;price&quot;],&quot;msg&quot;:&quot;Input should be a valid number,...&quot;,&quot;input&quot;:&quot;free&quot;}]}</code></pre>
+<p><strong>14.</strong> Forget the <code>Content-Type</code> header on purpose.</p>
+<pre><code class="language-bash">curl -X POST http://localhost:8000/items \
+  -d '{&quot;name&quot;: &quot;Widget&quot;, &quot;price&quot;: 9.99}'</code></pre>
+<pre class="output"><code class="output">{&quot;detail&quot;:[{&quot;type&quot;:&quot;json_invalid&quot;,...}]}</code></pre>
+<p>(FastAPI couldn't parse the body. <strong>Always set <code>Content-Type: application/json</code> on POST.</strong>)</p>
+<p><strong>15.</strong> Now hit it from Swagger UI. Open <code>http://localhost:8000/docs</code> and refresh the page.</p>
+<p><strong>16.</strong> You should see <code>POST /items</code> listed. Click it → <strong>&quot;Try it out&quot;</strong>.</p>
+<p><strong>17.</strong> The request body box has a sample JSON pre-filled. Change it to:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;From Swagger&quot;,
+  &quot;price&quot;: 1.23,
+  &quot;is_offer&quot;: false
+}</code></pre>
+<p><strong>18.</strong> Click <strong>Execute</strong>. The response should echo your input.</p>
+<p><strong>19.</strong> In the same Swagger box, delete <code>&quot;price&quot;: 1.23,</code> and click Execute. Swagger shows the 422 inline with the same error structure curl saw.</p>
+<p><strong>20.</strong> Now let's actually store items. Above the routes, add a tiny in-memory list:</p>
+<pre><code class="language-python">
+
+fake_items_db: list[Item] = []</code></pre>
+<p><strong>21.</strong> Update the POST handler to save the item:</p>
+<pre><code class="language-python">@app.post(&quot;/items&quot;)
+def create_item(item: Item):
+    fake_items_db.append(item)
+    return item</code></pre>
+<p><strong>22.</strong> Add a route to list all items:</p>
+<pre><code class="language-python">
+
+@app.get(&quot;/items&quot;)
+def list_items():
+    return fake_items_db</code></pre>
+<p><strong>23.</strong> Save.</p>
+<p><strong>24.</strong> POST a couple of items.</p>
+<pre><code class="language-bash">curl -X POST http://localhost:8000/items -H &quot;Content-Type: application/json&quot; -d '{&quot;name&quot;: &quot;Apple&quot;, &quot;price&quot;: 0.50}'
+curl -X POST http://localhost:8000/items -H &quot;Content-Type: application/json&quot; -d '{&quot;name&quot;: &quot;Bread&quot;, &quot;price&quot;: 2.50, &quot;is_offer&quot;: true}'</code></pre>
+<p><strong>25.</strong> List them.</p>
+<pre><code class="language-bash">curl http://localhost:8000/items</code></pre>
+<pre class="output"><code class="output">[{&quot;name&quot;:&quot;Apple&quot;,&quot;price&quot;:0.5,&quot;is_offer&quot;:null},{&quot;name&quot;:&quot;Bread&quot;,&quot;price&quot;:2.5,&quot;is_offer&quot;:true}]</code></pre>
+<p><strong>26.</strong> Restart the server (Ctrl+C in the uvicorn terminal, then <code>uvicorn main:app --reload</code> again). List items again.</p>
+<pre><code class="language-bash">curl http://localhost:8000/items</code></pre>
+<pre class="output"><code class="output">[]</code></pre>
+<p>(In-memory list — gone after restart. We'll fix this with a real DB in lesson 10.)</p>
+<p><strong>27.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;POST /items + Pydantic validation: working&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong><code>Content-Type: application/json</code></strong> on every POST. Forgetting it is the #1 cause of unexplained 422 errors. Drill it.</li><li>The single quotes around the <code>-d '{...}'</code> payload matter — they prevent your shell from interpreting <code>$</code> or <code>&quot;</code> inside the JSON.</li><li><code>is_offer: bool | None = None</code> — the default value is what makes the field optional. Without <code>= None</code>, Pydantic would require it.</li><li>The in-memory <code>fake_items_db</code> is <strong>not</strong> real persistence. Restart the server and it's gone. We'll fix that in lesson 10.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">curl -s -X POST http://localhost:8000/items -H &quot;Content-Type: application/json&quot; -d '{&quot;name&quot;: &quot;T&quot;, &quot;price&quot;: 1}'</code></pre>
+<p>You should see the item echoed back as JSON.</p>
+<pre><code class="language-bash">curl -s -o /dev/null -w &quot;%{http_code}\n&quot; -X POST http://localhost:8000/items -H &quot;Content-Type: application/json&quot; -d '{&quot;name&quot;: &quot;T&quot;}'</code></pre>
+<p>You should see <code>422</code>.</p>
+<pre><code class="language-bash">curl -s http://localhost:8000/items | python -m json.tool</code></pre>
+<p>You should see at least one item from the previous POST formatted as JSON.</p>
+<p>In the browser at <code>/docs</code>, the <code>POST /items</code> row should show your <code>Item</code> schema with <code>name</code>, <code>price</code>, <code>is_offer</code>.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m03-06-multiple-routes-and-routers.html">06-multiple-routes-and-routers.md</a> — Split the app into separate router files</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

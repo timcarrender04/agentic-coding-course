@@ -1,0 +1,169 @@
+{
+  "module": "06",
+  "dir": "phase-3-ai-assisted-development/06-heroui-frontend",
+  "title": "HeroUI Frontend",
+  "moduleObjectives": [
+    "Install Node.js with nvm and confirm `node`, `npm`, and `npx` resolve to nvm-managed paths",
+    "Initialize a HeroUI starter project with Next.js and Tailwind pre-configured and run its dev server with hot reload",
+    "Build interactive pages using HeroUI components such as `Button`, `Input`, `Card`, and `Checkbox`, applying the `\"use client\"` directive where hooks are used",
+    "Enable CORS in the FastAPI backend with `CORSMiddleware` so the browser-based frontend can call it",
+    "Fetch items from `http://localhost:8000/items` and render them as HeroUI Cards with loading, error, and empty states",
+    "Build a form that POSTs new items to the API and refreshes the displayed list inline without a page reload",
+    "Use Continue.dev chat, inline edit, and agent mode to extend the frontend, reviewing every proposed diff before accepting",
+    "Ship a frontend change through a branch, commit, and merge or GitHub PR workflow"
+  ],
+  "lessons": [
+    {
+      "file": "00-prerequisites-check.md",
+      "title": "Prerequisites Check",
+      "objective": "Verify that the FastAPI Compose stack, Continue.dev connection, and GitHub remote from earlier modules still work and that no conflicting system Node.js installation is present."
+    },
+    {
+      "file": "01-install-nodejs.md",
+      "title": "Install Node.js with nvm",
+      "objective": "Install nvm and the latest LTS release of Node.js, set it as the default, and confirm `node`, `npm`, and `npx` run from nvm-managed paths under your home directory."
+    },
+    {
+      "file": "02-init-heroui-app.md",
+      "title": "Init the HeroUI App",
+      "objective": "Scaffold a Next.js + HeroUI starter project with `npx heroui-cli@latest init`, install its dependencies, and run the dev server so the starter page loads on port 3000."
+    },
+    {
+      "file": "03-tour-and-first-component.md",
+      "title": "Tour + First Component",
+      "objective": "Build an interactive homepage from HeroUI `Button`, `Card`, and `Input` components and explain when a Next.js page needs the `\"use client\"` directive to use React hooks."
+    },
+    {
+      "file": "04-cors-and-fetch-items.md",
+      "title": "CORS + Fetch Items",
+      "objective": "Add `CORSMiddleware` to the FastAPI backend and fetch the items list from the browser, rendering each item as a HeroUI Card with loading, error, and empty states."
+    },
+    {
+      "file": "05-create-item-form.md",
+      "title": "Create-Item Form",
+      "objective": "Build a HeroUI form that POSTs new items to FastAPI, converts input strings to the types the API expects, surfaces server validation errors, and reloads the list inline on success."
+    },
+    {
+      "file": "06-extend-with-continue.md",
+      "title": "Extend with Continue.dev",
+      "objective": "Use Continue.dev agent mode on a git feature branch to add a Delete button with a confirmation modal, reviewing every proposed diff and recognizing when to abort a failing agent loop."
+    },
+    {
+      "file": "07-final-checkpoint.md",
+      "title": "Final Checkpoint",
+      "objective": "Ship a client-side, case-insensitive search filter for the items page end-to-end using Continue.dev, verify it in the browser, and commit and merge the change."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "After a successful nvm installation, running `which nvm` prints nothing. Why is that expected?",
+      "options": [
+        "The installation failed and must be re-run with sudo",
+        "nvm only becomes visible after you reboot the machine",
+        "nvm is a shell function sourced from `~/.bashrc`, not a binary, so you verify it with `command -v nvm`",
+        "The `which` command is not available in bash"
+      ],
+      "answer": 2,
+      "feedback": "nvm is loaded into the shell as a function from `~/.bashrc`, so `which` finds no binary; `command -v nvm` is the correct check."
+    },
+    {
+      "question": "Which command does the module use to scaffold the Next.js + HeroUI starter project?",
+      "options": [
+        "`npx heroui-cli@latest init`",
+        "`npm install -g @heroui/react && heroui init`",
+        "`npx create-next-app --heroui`",
+        "`docker run heroui/starter`"
+      ],
+      "answer": 0,
+      "feedback": "The lesson runs the HeroUI CLI on the fly with npx, avoiding any global install, and answers its prompts to create the project."
+    },
+    {
+      "question": "You add `useState` to a page in the `app/` directory and the browser shows an error saying the hook only works in a Client Component. What is the fix taught in the module?",
+      "options": [
+        "Restart the dev server with `npm run dev`",
+        "Move the hook into `app/layout.tsx`",
+        "Downgrade to an older version of Next.js",
+        "Add `\"use client\";` as the very first line of the file"
+      ],
+      "answer": 3,
+      "feedback": "Pages in `app/` default to server components, so any component using hooks must opt in with the `\"use client\"` directive at the top of the file."
+    },
+    {
+      "question": "Which prop do HeroUI's `Input` and `Checkbox` components use to hand you the new value directly, per the lessons?",
+      "options": [
+        "`onChange`",
+        "`onValueChange`",
+        "`onInput`",
+        "`setValue`"
+      ],
+      "answer": 1,
+      "feedback": "HeroUI's idiomatic prop is `onValueChange`, which passes the value itself rather than a DOM event like `onChange` does."
+    },
+    {
+      "question": "The page at `http://localhost:3000` fails to fetch `http://localhost:8000/items` and the browser console says the request was blocked by CORS policy. What fixes this in the course setup?",
+      "options": [
+        "Change the fetch call to use `mode: \"no-cors\"`",
+        "Serve the frontend from port 8000 instead",
+        "Add `CORSMiddleware` to the FastAPI app with `allow_origins=[\"http://localhost:3000\"]`",
+        "Add an `Access-Control-Allow-Origin` header to the fetch request in React"
+      ],
+      "answer": 2,
+      "feedback": "CORS is granted by the server, so the fix is adding FastAPI's `CORSMiddleware` configured to allow the frontend's origin."
+    },
+    {
+      "question": "Why does `curl http://localhost:8000/items` succeed even while the browser fetch from the frontend is blocked by CORS?",
+      "options": [
+        "CORS is enforced by browsers, so curl and server-side code are not affected",
+        "curl automatically includes the required Origin headers",
+        "The API whitelists curl's User-Agent by default",
+        "curl bypasses CORS by using HTTP/2"
+      ],
+      "answer": 0,
+      "feedback": "CORS is a browser security mechanism; tools like curl never enforce it, which is why the same endpoint works from the terminal."
+    },
+    {
+      "question": "In the create-item form, why does the submit handler send `Number(price)` instead of `price` in the POST body?",
+      "options": [
+        "`Number()` validates that the price is positive",
+        "`JSON.stringify` cannot serialize strings",
+        "FastAPI would round string prices incorrectly",
+        "The Input's value is a string, and the API expects `price` as a number"
+      ],
+      "answer": 3,
+      "feedback": "Form input values are always strings, so the code converts the price to a number before sending it to match what the API expects."
+    },
+    {
+      "question": "After the form's POST succeeds, what must the handler do so the new item appears in the list without reloading the page?",
+      "options": [
+        "Call `window.location.reload()`",
+        "Clear the form and re-fetch the items list, e.g. `await loadItems()`",
+        "Nothing — React re-renders automatically after any fetch",
+        "Restart the Next.js dev server"
+      ],
+      "answer": 1,
+      "feedback": "The lesson stresses re-fetching the list state after a successful POST; otherwise the new item only shows up on the next manual refresh."
+    },
+    {
+      "question": "Before letting Continue.dev's agent mode change the frontend, what does the module tell you to do first?",
+      "options": [
+        "Create a git feature branch so a bad result is easy to revert",
+        "Delete `node_modules` so the agent runs faster",
+        "Stop the FastAPI backend so the agent cannot call it",
+        "Switch Continue.dev to autocomplete mode"
+      ],
+      "answer": 0,
+      "feedback": "The rule is branch first, agent second: working on a feature branch means junk output can be discarded with a simple revert."
+    },
+    {
+      "question": "How does the final checkpoint's search box filter the items list?",
+      "options": [
+        "It calls a new FastAPI `/items/search` endpoint",
+        "It runs a SQL LIKE query through a new backend route",
+        "It filters the already-fetched items in the browser by name, case-insensitively",
+        "It re-renders the page on the server for every keystroke"
+      ],
+      "answer": 2,
+      "feedback": "The checkpoint explicitly requires a client-side filter with case-insensitive matching on the item name, with no new backend route."
+    }
+  ]
+}

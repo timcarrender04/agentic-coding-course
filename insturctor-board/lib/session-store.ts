@@ -23,6 +23,7 @@ function makeInitialState(): SessionState {
     timerEndsAt: null,
     timerPausedRemainingMs: null,
     broadcastOn: true,
+    copyEnabled: true,
     updatedAt: Date.now(),
   };
 }
@@ -97,9 +98,16 @@ export function dispatch(action: SessionAction): SessionState {
     case "broadcast":
       next = { ...prev, broadcastOn: action.on };
       break;
+    case "copyEnabled":
+      next = { ...prev, copyEnabled: action.on };
+      break;
   }
 
-  next = { ...next, updatedAt: Date.now() };
+  next = {
+    ...next,
+    updatedAt: Date.now(),
+    copyEnabled: next.copyEnabled ?? true,
+  };
   store.state = next;
   store.emitter.emit("change", next);
 

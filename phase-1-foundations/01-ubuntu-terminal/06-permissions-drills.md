@@ -235,6 +235,23 @@ stat -c "%a" ~/docker-course/practice/hello.sh
 ```
 You should see: `755`
 
+## Lab
+
+**Objective:** Read, set, and change file permissions and ownership with `chmod` and `chown`.
+
+**Task:** Work through the drills — build `hello.sh`, make it executable, cycle it through 644 and 755, and practice `chown` both directions. Then run the four Checkpoint commands in one terminal.
+
+**Submit:** One screenshot (or pasted transcript) of the four Checkpoint commands and their output: `ls -la ~/docker-course/practice/hello.sh`, running `~/docker-course/practice/hello.sh`, `ls -la ~/docker-course/practice/owned-by-me.txt`, `stat -c "%a" ~/docker-course/practice/hello.sh`.
+
+**Pass criteria:**
+
+- [ ] `ls -la` on `hello.sh` shows `-rwxr-xr-x`.
+- [ ] Running the script prints `Hello from my script!`.
+- [ ] `owned-by-me.txt` is owned by your username, not root.
+- [ ] `stat -c "%a"` prints `755`.
+
+**Unlocks:** [07-networking-drills.md](07-networking-drills.md)
+
 ---
 
 **Next up:** [07-networking-drills.md](07-networking-drills.md) -- Test your network connectivity

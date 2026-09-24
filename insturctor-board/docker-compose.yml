@@ -1,0 +1,29 @@
+# LiveKit with embedded TURN (same process as the SFU). External coturn + 127.0.0.1
+# often fails on Windows→WSL because relay UDP to another container never completes.
+
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    command: --dev --bind 0.0.0.0
+    environment:
+      LIVEKIT_CONFIG: |
+        port: 7880
+        keys:
+          devkey: secret
+        rtc:
+          tcp_port: 7881
+          udp_port: 7882
+          use_external_ip: false
+          node_ip: 127.0.0.1
+        turn:
+          enabled: true
+          udp_port: 3478
+          relay_range_start: 50000
+          relay_range_end: 50050
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+      - "3478:3478/udp"
+      - "50000-50050:50000-50050/udp"
+    restart: unless-stopped

@@ -1,6 +1,6 @@
 # Module 03: FastAPI from Scratch
 
-See [`../COURSE-SCHEDULE.md`](../COURSE-SCHEDULE.md) for the full 8-week, 16-session calendar. This module spans **multiple sessions** (it's longer than a single 2-hour block).
+See [`../COURSE-SCHEDULE.md`](../../docs/COURSE-SCHEDULE.md) for the full 8-week, 16-session calendar. This module spans **multiple sessions** (it's longer than a single 2-hour block).
 
 This module builds **one FastAPI application** from `python3 -m venv` to a containerized, Postgres-backed API. Every command and every line of code is typed by you — no copy-paste. By the end of lesson 12, the project sitting in `~/docker-course/fastapi-app/` is one you built line by line, not a starter someone gave you.
 

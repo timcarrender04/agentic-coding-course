@@ -44,22 +44,24 @@ Why do we use WSL in this course? Because the rest of the course (Module 01 onwa
    - Remember this password. You'll need it for `sudo` commands in Module 01.
 5. Once you see the Ubuntu prompt (`yourname@hostname:~$`), WSL is installed.
 
-## Step 3: install the WSL extension in Cursor
+## Step 3: install the WSL extension in VS Code
 
-1. Open Cursor.
+Remote support isn't built into VS Code — it comes from an extension you install yourself.
+
+1. Open VS Code.
 2. Open the extensions side bar (`Ctrl+Shift+X`).
 3. Search for **WSL**.
 4. The one you want is published by **Microsoft**, full id `ms-vscode-remote.remote-wsl`.
 5. Click **Install**.
 
-## Step 4: connect Cursor to WSL
+## Step 4: connect VS Code to WSL
 
-1. Look at the **bottom-left corner** of the Cursor window. There's a small green or blue button — it might just be two angle brackets `><`, or it might say something like "Open a Remote Window."
+1. Look at the **bottom-left corner** of the VS Code window. There's a small green or blue button — it might just be two angle brackets `><`, or it might say something like "Open a Remote Window."
 2. Click it.
 3. A menu drops down from the top of the window. Choose **"Connect to WSL"** (or "WSL: Connect to WSL").
-4. Cursor reloads. The bottom-left corner now shows **"WSL: Ubuntu"** (or whichever distro you have) on a green background.
+4. VS Code reloads. The bottom-left corner now shows **"WSL: Ubuntu"** (or whichever distro you have) on a green background.
 
-You are now running Cursor's "remote" half inside WSL. Your editor is still on Windows; the files, terminal, and tools are all in Linux.
+You are now running VS Code's "remote" half inside WSL. Your editor is still on Windows; the files, terminal, and tools are all in Linux.
 
 ## Step 5: open a Linux folder
 
@@ -87,9 +89,30 @@ You are now running Cursor's "remote" half inside WSL. Your editor is still on W
 You're done when:
 
 - [ ] `wsl --status` in PowerShell shows WSL is installed.
-- [ ] You installed the **WSL** extension in Cursor (publisher Microsoft).
-- [ ] The bottom-left of your Cursor window shows **"WSL: Ubuntu"** (or your distro name) on green.
+- [ ] You installed the **WSL** extension in VS Code (publisher Microsoft).
+- [ ] The bottom-left of your VS Code window shows **"WSL: Ubuntu"** (or your distro name) on green.
 - [ ] You opened a folder under `/home/<your-linux-username>/`.
 - [ ] You opened the integrated terminal and ran `uname -a` and saw output containing "Linux."
 
 If anything fails, raise your hand. WSL has more failure modes than the rest of the course combined and they're better to fix in person.
+
+## Lab
+
+**Objective:** Prove you have a working Unix shell — via WSL on Windows, or your native terminal on Mac/Linux.
+
+**Task:** Windows students: work through this lesson — install WSL if needed, install the WSL extension, connect VS Code to WSL, and run `uname -a` in the integrated terminal. Mac/Linux students: open your native terminal (Terminal app on Mac) and run `uname -a` — that's your whole lab.
+
+**Submit:** Windows — one screenshot of your VS Code window showing the green **"WSL: Ubuntu"** indicator in the bottom-left and the output of `uname -a` in the integrated terminal. Mac/Linux — one screenshot of `uname -a` and its output in your native terminal.
+
+**Pass criteria:**
+
+Windows:
+
+- [ ] The bottom-left indicator shows "WSL: Ubuntu" (or your distro name) on green.
+- [ ] The `uname -a` output is visible and mentions "Linux."
+
+Mac/Linux:
+
+- [ ] Screenshot shows your native terminal with `uname -a` and its output (mentioning "Darwin" on Mac, or "Linux").
+
+**Unlocks:** [06-ssh-remote.md](06-ssh-remote.md)

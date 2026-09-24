@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git and GitHub — The status / add / commit Cycle</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Make a series of commits using the edit, <code>git status</code>, <code>git add</code>, <code>git commit</code> cycle, including selective staging and the <code>-am</code> shortcut's untracked-file limitation.</div>
+<h1>Lesson 03: The status / add / commit Cycle</h1>
+<p><strong>By the end, you will have made several commits the way you'll make them every day for the rest of your career.</strong></p>
+<p>⏱ ~15 minutes of typing</p>
+<blockquote><p>The cycle: edit → <code>git status</code> → <code>git add</code> → <code>git commit -m &quot;...&quot;</code>. Repeat. That's 90% of Git in daily use.</p></blockquote>
+<hr />
+<p><strong>1.</strong> You're in <code>~/docker-course/fastapi-app</code>. Working tree is clean from lesson 02.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+git status</code></pre>
+<p>Should say <code>nothing to commit, working tree clean</code>.</p>
+<p><strong>2.</strong> Make a tiny change. Open <code>main.py</code> in VS Code and change the hello-world response from <code>{&quot;hello&quot;: &quot;fastapi&quot;}</code> to <code>{&quot;hello&quot;: &quot;git&quot;}</code>. Save.</p>
+<p><strong>3.</strong> Run status.</p>
+<pre><code class="language-bash">git status</code></pre>
+<pre class="output"><code class="output">On branch main
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+        modified:   main.py
+
+no changes added to commit (use &quot;git add&quot; to track)</code></pre>
+<p><strong>Read it carefully.</strong> The file is modified but not staged.</p>
+<p><strong>4.</strong> See exactly what changed.</p>
+<pre><code class="language-bash">git diff</code></pre>
+<pre class="output"><code class="output">diff --git a/main.py b/main.py
+index ...
+--- a/main.py
++++ b/main.py
+@@ -X,X +X,X @@ def read_root():
+-    return {&quot;hello&quot;: &quot;fastapi&quot;}
++    return {&quot;hello&quot;: &quot;git&quot;}</code></pre>
+<p><strong>Read it.</strong> Red lines (with <code>-</code>) are removed, green lines (with <code>+</code>) are added.</p>
+<p><strong>5.</strong> Stage just <code>main.py</code>.</p>
+<pre><code class="language-bash">git add main.py</code></pre>
+<p><strong>6.</strong> Status again.</p>
+<pre><code class="language-bash">git status</code></pre>
+<pre class="output"><code class="output">Changes to be committed:
+  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+        modified:   main.py</code></pre>
+<p>The file moved from &quot;Changes not staged&quot; to &quot;Changes to be committed&quot; — the <strong>staging area</strong>.</p>
+<p><strong>7.</strong> Commit it.</p>
+<pre><code class="language-bash">git commit -m &quot;Change hello response to git&quot;</code></pre>
+<pre class="output"><code class="output">[main def5678] Change hello response to git
+ 1 file changed, 1 insertion(+), 1 deletion(-)</code></pre>
+<p><strong>8.</strong> Status.</p>
+<pre><code class="language-bash">git status</code></pre>
+<p>Working tree clean again.</p>
+<p><strong>9.</strong> Log.</p>
+<pre><code class="language-bash">git log --oneline</code></pre>
+<p>You should see two commits.</p>
+<p><strong>10.</strong> Now make changes to <strong>two</strong> files and stage them selectively. Edit <code>main.py</code> again — change the response back to <code>{&quot;hello&quot;: &quot;fastapi&quot;}</code> and save.</p>
+<p><strong>11.</strong> Edit <code>routers/items.py</code> — at the very top of the file (above the imports), add a single comment line:</p>
+<pre><code class="language-python"># Items router — manages item CRUD</code></pre>
+<p>Save.</p>
+<p><strong>12.</strong> Status.</p>
+<pre><code class="language-bash">git status</code></pre>
+<p>You should see two modified files.</p>
+<p><strong>13.</strong> Stage only <code>main.py</code>.</p>
+<pre><code class="language-bash">git add main.py</code></pre>
+<p><strong>14.</strong> Status.</p>
+<pre><code class="language-bash">git status</code></pre>
+<p>You should see <code>main.py</code> under &quot;Changes to be committed&quot; and <code>routers/items.py</code> still under &quot;Changes not staged.&quot;</p>
+<p><strong>15.</strong> Commit just the staged change.</p>
+<pre><code class="language-bash">git commit -m &quot;Restore hello response to fastapi&quot;</code></pre>
+<p><strong>16.</strong> Status.</p>
+<pre><code class="language-bash">git status</code></pre>
+<p><code>routers/items.py</code> is still showing as modified — it wasn't part of the last commit.</p>
+<p><strong>17.</strong> Stage and commit it now.</p>
+<pre><code class="language-bash">git add routers/items.py
+git commit -m &quot;Add header comment to items router&quot;</code></pre>
+<p><strong>18.</strong> Look at history.</p>
+<pre><code class="language-bash">git log --oneline</code></pre>
+<p>You should see four commits now.</p>
+<p><strong>19.</strong> Try a &quot;shortcut&quot; you'll use often — <code>-am</code> stages and commits <strong>all already-tracked, modified files</strong> in one shot. Make a change first. Edit <code>routers/users.py</code> and add at the top:</p>
+<pre><code class="language-python"># Users router — manages user CRUD</code></pre>
+<p><strong>20.</strong> Use the shortcut.</p>
+<pre><code class="language-bash">git commit -am &quot;Add header comment to users router&quot;</code></pre>
+<pre class="output"><code class="output">[main ...] Add header comment to users router
+ 1 file changed, 1 insertion(+)</code></pre>
+<p><strong>Note:</strong> <code>-am</code> only stages files Git already tracks. New (untracked) files still need a plain <code>git add</code>.</p>
+<p><strong>21.</strong> Demonstrate that. Create a new file.</p>
+<pre><code class="language-bash">echo &quot;# Project notes&quot; &gt; NOTES.md</code></pre>
+<p><strong>22.</strong> Try the shortcut.</p>
+<pre><code class="language-bash">git commit -am &quot;Add notes file&quot;</code></pre>
+<pre class="output"><code class="output">On branch main
+Untracked files:
+        NOTES.md
+
+nothing added to commit but untracked files present</code></pre>
+<p><strong>See?</strong> The new file wasn't picked up — <code>-am</code> ignores untracked files.</p>
+<p><strong>23.</strong> Stage it manually and commit.</p>
+<pre><code class="language-bash">git add NOTES.md
+git commit -m &quot;Add NOTES.md placeholder&quot;</code></pre>
+<p><strong>24.</strong> History check.</p>
+<pre><code class="language-bash">git log --oneline</code></pre>
+<p>You should now have around six commits.</p>
+<p><strong>25.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Commit cycle drilled: $(git log --oneline | wc -l) commits total&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong><code>git status</code> between commands.</strong> Make it a tic. It tells you exactly what state Git thinks you're in.</li><li><strong><code>git diff</code> shows unstaged changes.</strong> To see staged-but-not-committed changes, use <code>git diff --staged</code>.</li><li><strong><code>-am</code> is a footgun for new files</strong> — it silently skips them. Always check <code>git status</code> before committing to confirm what's about to be included.</li><li><strong>Commit messages should be useful.</strong> <code>&quot;fix&quot;</code> and <code>&quot;wip&quot;</code> are unhelpful. Write what changed and why. Imperative mood (&quot;Add&quot;, &quot;Fix&quot;, &quot;Refactor&quot;) is the convention.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">git status</code></pre>
+<p>Should say <code>nothing to commit, working tree clean</code>.</p>
+<pre><code class="language-bash">git log --oneline | wc -l</code></pre>
+<p>Should print at least <code>5</code>.</p>
+<pre><code class="language-bash">git log -1 --format=&quot;%s&quot;</code></pre>
+<p>Should print your most recent commit message.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m04-04-diff-and-log.html">04-diff-and-log.md</a> — Read history and diffs like a pro</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

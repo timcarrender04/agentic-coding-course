@@ -1,22 +1,22 @@
-# Lesson 05: The Cursor Docker Sidebar
+# Lesson 05: The VS Code Docker Sidebar
 
 **Time:** ~10 min
 
 ```instructor
 Say: "Remember Module 00 lesson 04? The empty Docker sidebar? Now we go look at it populated. This is the payoff."
-Mention: "If their sidebar is still empty, the Cursor window is connected to the wrong environment. Bottom-left should say 'WSL: Ubuntu' or 'SSH: <hostname>'. Reconnect if needed."
+Mention: "If their sidebar is still empty, the VS Code window is connected to the wrong environment. Bottom-left should say 'WSL: Ubuntu' or 'SSH: <hostname>'. Reconnect if needed."
 Pause: After the sidebar fills in. Right-click a container — show 'Stop' and 'Remove' from the menu. Demonstrate UI/CLI parity, then move on.
 Say: "You're done when they can see their nginx container in CONTAINERS and the nginx image in IMAGES, and start/stop a container from the sidebar."
 ```
 
-Remember Module 00 lesson 04? You installed the Docker extension in Cursor and the sidebar said "Failed to connect" because Docker wasn't installed yet. Now Docker is installed. Let's go look.
+Remember Module 00 lesson 04? You installed the Docker extension in VS Code and the sidebar said "Failed to connect" because Docker wasn't installed yet. Now Docker is installed. Let's go look.
 
 ## Step 1: open the Docker sidebar
 
-1. In the activity bar (left edge of Cursor), click the **whale** icon (Docker).
+1. In the activity bar (left edge of VS Code), click the **whale** icon (Docker).
 2. The Docker side bar opens. The sections — **CONTAINERS**, **IMAGES**, **NETWORKS**, **VOLUMES**, **REGISTRIES** — should now be populated, not empty.
 
-If they're still empty or showing an error, your Cursor session might be looking at the wrong Docker daemon (e.g. Cursor is on Windows but Docker is in WSL). Make sure your Cursor window is connected to the same environment where you installed Docker — bottom-left should say "WSL: Ubuntu" or "SSH: <hostname>." Reconnect if needed.
+If they're still empty or showing an error, your VS Code session might be looking at the wrong Docker daemon (e.g. VS Code is on Windows but Docker is in WSL). Make sure your VS Code window is connected to the same environment where you installed Docker — bottom-left should say "WSL: Ubuntu" or "SSH: <hostname>." Reconnect if needed.
 
 ## Step 2: run a container and watch it appear
 
@@ -34,8 +34,8 @@ You can refresh the sidebar manually if it doesn't auto-update — there's a ref
 
 1. Right-click `sidebar-demo` in the sidebar.
 2. The context menu shows actions: **Stop**, **Restart**, **Remove**, **Inspect**, **Attach Shell**, **View Logs**, and more.
-3. Click **View Logs** — Cursor opens nginx's logs in a new editor tab.
-4. Click **Attach Shell** — Cursor opens a new integrated terminal that's already inside the container (same as `docker exec -it sidebar-demo bash`).
+3. Click **View Logs** — VS Code opens nginx's logs in a new editor tab.
+4. Click **Attach Shell** — VS Code opens a new integrated terminal that's already inside the container (same as `docker exec -it sidebar-demo bash`).
 
 Type `exit` to leave the attached shell.
 
@@ -72,7 +72,23 @@ The sidebar is for seeing. The CLI is for doing. Use both.
 
 You're done when:
 
-- [ ] You opened the Docker sidebar in Cursor and it showed populated sections (not "Failed to connect").
+- [ ] You opened the Docker sidebar in VS Code and it showed populated sections (not "Failed to connect").
 - [ ] You ran a container in the terminal and saw it appear in the sidebar.
 - [ ] You stopped and removed a container via right-click in the sidebar.
 - [ ] You opened a container's logs via the sidebar.
+
+## Lab
+
+**Objective:** Drive containers from VS Code's Docker sidebar, and know when the sidebar beats the CLI (and when it doesn't).
+
+**Task:** Work Steps 1–5 — open the Docker sidebar, run `sidebar-demo` from the terminal and watch it appear, view its logs and attach a shell from the right-click menu, then stop and remove it via the UI.
+
+**Submit:** One screenshot of the populated Docker sidebar showing the **CONTAINERS** and **IMAGES** sections — take it while `sidebar-demo` is running so it appears under CONTAINERS, with `nginx` visible under IMAGES.
+
+**Pass criteria:**
+
+- [ ] Sidebar shows populated CONTAINERS and IMAGES sections (not "Failed to connect").
+- [ ] `sidebar-demo` is visible under CONTAINERS with the green running icon.
+- [ ] You stopped and removed the container via right-click and opened its logs from the sidebar.
+
+**Unlocks:** [06-final-checkpoint.md](06-final-checkpoint.md)

@@ -264,6 +264,28 @@ tree ~/docker-course/
 
 ---
 
+## Lab
+
+**This is the Module 01 phase-gate lab.** Passing it unlocks Module 02.
+
+**Objective:** Prove your Ubuntu environment is fully configured and that you can work in the terminal from memory.
+
+**Task:** Run all 33 cumulative drills from memory (no copy-paste), then run the 5 Final Verification commands above in one terminal. On step 25, the Lesson 08 tolerance applies: if `ssh.service` doesn't exist on your WSL/VM setup, `systemctl is-active cron` returning `active` counts.
+
+**Submit:** One screenshot or pasted transcript of the five Final Verification commands and their output: `lsb_release -r`, `ping -c 1 8.8.8.8`, `curl --version | head -n 1`, `git --version`, `tree ~/docker-course/`.
+
+**Pass criteria:**
+
+- [ ] `lsb_release -r` shows `Release: 22.04` or `Release: 24.04`.
+- [ ] `ping -c 1 8.8.8.8` shows `0% packet loss`.
+- [ ] `curl --version | head -n 1` prints a curl version line.
+- [ ] `git --version` prints a git version line.
+- [ ] `tree ~/docker-course/` shows the directory tree with `notes`, `practice`, and `projects`.
+
+**Unlocks:** Module 02 — Docker Fundamentals (phase gate)
+
+---
+
 ## You're done with Module 01!
 
 You've built the muscle memory for:

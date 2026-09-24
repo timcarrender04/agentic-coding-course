@@ -13,7 +13,7 @@ Say: "You're done when `git --version` works AND `ls ~/docker-course/fastapi-app
 
 ---
 
-**1.** Open Cursor and connect to your Ubuntu environment. Open the integrated terminal.
+**1.** Open VS Code and connect to your Ubuntu environment. Open the integrated terminal.
 
 **2.** Confirm Git is installed (Module 01 lesson 5 installed it).
 ```bash

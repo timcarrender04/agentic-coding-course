@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubuntu Terminal Foundations — User and Group Setup</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Inspect user and group membership with <code>id</code> and <code>groups</code>, add a user to a group with <code>sudo usermod -aG</code>, and refresh group membership with <code>newgrp</code>.</div>
+<h1>Lesson 10: User and Group Setup</h1>
+<p><strong>By the end, you will understand users and groups and will have practiced the command needed to join the docker group.</strong></p>
+<p>⏱ ~10 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> Confirm.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-username</code></pre>
+<p><strong>3.</strong> See your user ID, group ID, and all groups you belong to.</p>
+<pre><code class="language-bash">id</code></pre>
+<pre class="output"><code class="output">uid=1000(your-user) gid=1000(your-user) groups=1000(your-user),4(adm),27(sudo)</code></pre>
+<p>(Output will vary. The important part: you should see <code>sudo</code> in your groups.)</p>
+<p><strong>4.</strong> See just your groups.</p>
+<pre><code class="language-bash">groups</code></pre>
+<pre class="output"><code class="output">your-user adm sudo</code></pre>
+<p><strong>5.</strong> Look at your entry in /etc/passwd.</p>
+<pre><code class="language-bash">grep $USER /etc/passwd</code></pre>
+<pre class="output"><code class="output">your-user:x:1000:1000:Your Name:/home/your-user:/bin/bash</code></pre>
+<p><strong>6.</strong> Look at the group file.</p>
+<pre><code class="language-bash">cat /etc/group | grep sudo</code></pre>
+<pre class="output"><code class="output">sudo:x:27:your-user</code></pre>
+<p>(This shows that your user is in the sudo group.)</p>
+<p><strong>7.</strong> Count how many groups exist on the system.</p>
+<pre><code class="language-bash">wc -l /etc/group</code></pre>
+<pre class="output"><code class="output">65 /etc/group</code></pre>
+<p>(Number will vary.)</p>
+<p><strong>8.</strong> List all groups your user belongs to — another way.</p>
+<pre><code class="language-bash">id -nG</code></pre>
+<pre class="output"><code class="output">your-user adm sudo</code></pre>
+<p><strong>9.</strong> Check if a &quot;docker&quot; group exists yet.</p>
+<pre><code class="language-bash">grep docker /etc/group</code></pre>
+<p>(No output — the docker group doesn't exist yet. It will be created when Docker is installed in Module 02.)</p>
+<p><strong>10.</strong> Preview the command to add yourself to the docker group — this WILL fail right now, and that's expected.</p>
+<pre><code class="language-bash">sudo usermod -aG docker $USER</code></pre>
+<pre class="output"><code class="output">usermod: group 'docker' does not exist</code></pre>
+<p>(This is expected! The docker group will exist after Module 02. You're building the muscle memory now so you can type this confidently later.)</p>
+<p><strong>11.</strong> Practice the same command pattern with a group that DOES exist — the adm group.</p>
+<pre><code class="language-bash">sudo usermod -aG adm $USER</code></pre>
+<p>(No output means success. You were likely already in this group.)</p>
+<p><strong>12.</strong> Confirm.</p>
+<pre><code class="language-bash">groups</code></pre>
+<pre class="output"><code class="output">your-user adm sudo</code></pre>
+<p>(You should see <code>adm</code> in the list.)</p>
+<p><strong>13.</strong> Look at who's in the adm group.</p>
+<pre><code class="language-bash">grep adm /etc/group</code></pre>
+<pre class="output"><code class="output">adm:x:4:syslog,your-user</code></pre>
+<p><strong>14.</strong> See all groups with your user in them.</p>
+<pre><code class="language-bash">grep $USER /etc/group</code></pre>
+<p>(Shows every group line that mentions your username.)</p>
+<p><strong>15.</strong> Check your effective user ID.</p>
+<pre><code class="language-bash">id -u</code></pre>
+<pre class="output"><code class="output">1000</code></pre>
+<p>(Your UID — typically 1000 for the first non-root user.)</p>
+<p><strong>16.</strong> Check your effective group ID.</p>
+<pre><code class="language-bash">id -g</code></pre>
+<pre class="output"><code class="output">1000</code></pre>
+<p><strong>17.</strong> Remember: after adding yourself to a new group, you need to either log out and back in, or use newgrp.</p>
+<pre><code class="language-bash">newgrp adm</code></pre>
+<p>(This refreshes your group membership in the current shell. You'll use this after adding yourself to the docker group in Module 02.)</p>
+<p><strong>18.</strong> Confirm the active group changed.</p>
+<pre><code class="language-bash">id -gn</code></pre>
+<pre class="output"><code class="output">adm</code></pre>
+<p><strong>19.</strong> Switch back to your default group.</p>
+<pre><code class="language-bash">newgrp $USER</code></pre>
+<p><strong>20.</strong> Confirm.</p>
+<pre><code class="language-bash">id -gn</code></pre>
+<pre class="output"><code class="output">your-user</code></pre>
+<p><strong>21.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;User and group setup: done&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">id</code></pre>
+<p>You should see your uid, gid, and groups including <code>sudo</code>.</p>
+<pre><code class="language-bash">groups</code></pre>
+<p>You should see your groups listed.</p>
+<pre><code class="language-bash">grep $USER /etc/group</code></pre>
+<p>You should see your user in multiple groups.</p>
+<pre><code class="language-bash">grep docker /etc/group</code></pre>
+<p>This should return nothing (docker group doesn't exist yet — it will after Module 02).</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Read users and groups with <code>id</code> and <code>groups</code>, and rehearse the <code>usermod -aG</code> command you'll need for Docker.</p>
+<p><strong>Task:</strong> Work through the drills. One command is SUPPOSED to fail: <code>sudo usermod -aG docker $USER</code> errors because the docker group doesn't exist until Docker is installed in Module 02. The error is the expected result — capture it, don't fix it.</p>
+<p><strong>Submit:</strong> One screenshot (or pasted transcript) showing three things: the output of <code>id</code>, the <code>sudo usermod -aG docker $USER</code> command with its error <code>usermod: group 'docker' does not exist</code>, and <code>grep docker /etc/group</code> returning nothing.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] <code>id</code> shows your uid, gid, and a groups list that includes <code>sudo</code>.</li><li>[ ] The submission includes the exact error <code>usermod: group 'docker' does not exist</code> — this failure is proof of the expected state, not a mistake.</li><li>[ ] <code>grep docker /etc/group</code> returns no output (the docker group must NOT exist yet).</li></ul>
+<p><strong>Unlocks:</strong> <a href="m01-11-final-checkpoint.html">11-final-checkpoint.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m01-11-final-checkpoint.html">11-final-checkpoint.md</a> — Prove you're ready for Docker</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

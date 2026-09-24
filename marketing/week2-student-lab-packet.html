@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agentic Coding — Week 2 Student Lab Packet · Temple College × ChiefOS</title>
+<link rel="stylesheet" href="../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --paper: #FFFFFF;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+    --wash-warm: #FDF3E3;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    font-family: 'Barlow', 'DejaVu Sans', Arial, sans-serif;
+    color: var(--ink);
+    font-size: 10.2pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: letter; margin: 0; }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.48in 0.6in 0.42in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: avoid; }
+  .page > * { flex-shrink: 0; }
+
+  .page-1 {
+    justify-content: space-between;
+    padding: 0.40in 0.58in 0.28in;
+  }
+  .page-1 .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .page-1 .stack > * { margin: 0 !important; }
+  .page-1 .brandbar {
+    margin: 0 !important;
+    padding-bottom: 8px;
+  }
+  .page-1 .brandbar img.tc { height: 38px; }
+  .page-1 .brandbar img.chief { height: 26px; }
+  .page-1 .hero h1 { font-size: 26pt; }
+  .page-1 .hero .phase-line {
+    font-size: 13.5pt;
+    margin-top: 3px;
+  }
+  .page-1 .hero .sub {
+    font-size: 9.8pt;
+    margin-top: 3px;
+  }
+  .page-1 .hero .meta {
+    margin-top: 6px;
+    padding: 4px 12px;
+    font-size: 9.5pt;
+  }
+  .page-1 .intro {
+    font-size: 9.1pt;
+    line-height: 1.4;
+  }
+  .page-1 h2 { font-size: 14.5pt; }
+  .page-1 .section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .page-1 .pillar {
+    padding: 6px 8px 7px;
+  }
+  .page-1 .pillar .num { font-size: 12pt; }
+  .page-1 .pillar h3 { font-size: 9.5pt; margin: 2px 0 1px; }
+  .page-1 .pillar p { font-size: 7.6pt; line-height: 1.3; }
+  .page-1 .twocol {
+    align-items: stretch;
+    gap: 8px;
+  }
+  .page-1 .card {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 10px;
+    min-height: 100%;
+  }
+  .page-1 .card .label { margin-bottom: 3px; font-size: 9pt; }
+  .page-1 .card ul {
+    flex: 1;
+    font-size: 8.1pt;
+    line-height: 1.4;
+  }
+  .page-1 .card li { margin-bottom: 2px; }
+  .page-1 table.agenda th,
+  .page-1 table.agenda td {
+    padding: 4px 7px;
+    font-size: 8pt;
+  }
+  .page-1 table.agenda th { font-size: 8.5pt; }
+  .page-1 table.agenda td.t { font-size: 9pt; }
+  .page-1 .callout {
+    padding: 7px 11px;
+    font-size: 8.2pt;
+    line-height: 1.35;
+  }
+  .page-1 .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 0 0 auto;
+    margin-top: 0;
+    width: 100%;
+  }
+  .page-1 .stats { margin: 0; }
+  .page-1 .stats .stat { padding: 9px 4px 8px; }
+  .page-1 .stats .n { font-size: 15pt; }
+  .page-1 .stats .l {
+    margin-top: 3px;
+    font-size: 6.6pt;
+  }
+  .page-1 .pagefoot {
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 0;
+    padding-top: 6px;
+    font-size: 7.5pt;
+  }
+
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 12px;
+  }
+  .brandbar img.tc { height: 44px; }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brandbar .collab .x {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 8.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar img.chief { height: 30px; }
+
+  .pagefoot {
+    position: absolute;
+    left: 0.6in; right: 0.6in; bottom: 0.34in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 7px;
+    font-size: 8pt;
+    color: var(--ink-soft);
+  }
+  .pagefoot b { color: var(--navy); font-weight: 600; }
+
+  h1, h2, h3 {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    color: var(--navy);
+  }
+  h2 {
+    font-size: 16pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 8px;
+  }
+  h2::after { content: ""; flex: 1; height: 3px; background: var(--orange); border-radius: 2px; }
+  h3 { font-size: 12pt; font-weight: 700; margin-bottom: 2px; }
+  code {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 8pt;
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+
+  .hero { margin: 0 0 10px; }
+  .hero .kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10.5pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 2px;
+  }
+  .hero h1 {
+    font-size: 30pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.0;
+  }
+  .hero .phase-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+  .hero .sub {
+    font-size: 10.4pt;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+  .hero .meta {
+    display: inline-block;
+    margin-top: 8px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 3px;
+  }
+  .hero .meta span { color: var(--orange); }
+
+  .intro {
+    font-size: 9.6pt;
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+  .intro b { color: var(--navy); }
+
+  .pillars { display: flex; gap: 8px; margin-bottom: 12px; }
+  .pillar {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--orange);
+    border-radius: 6px;
+    padding: 8px 9px 9px;
+    background: var(--wash);
+  }
+  .pillar .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 13pt;
+    color: var(--orange-deep);
+    line-height: 1;
+  }
+  .pillar h3 { font-size: 10.2pt; text-transform: uppercase; letter-spacing: 0.03em; margin: 3px 0 2px; }
+  .pillar p { font-size: 8pt; color: var(--ink-soft); line-height: 1.35; margin-top: 0; }
+
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 10px 12px;
+    background: var(--wash);
+  }
+  .card.navy {
+    background: var(--navy);
+    color: #e8edf2;
+    border-color: var(--navy);
+  }
+  .card .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9.5pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 5px;
+  }
+  .card.navy .label { color: var(--orange); }
+  .card ul { margin: 0 0 0 14px; font-size: 8.6pt; line-height: 1.5; }
+  .card.navy ul { color: #d5dde5; }
+  .card li { margin-bottom: 3px; }
+
+  table.agenda { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+  table.agenda th, table.agenda td {
+    border: 1px solid var(--line);
+    padding: 6px 8px;
+    font-size: 8.5pt;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 1.35;
+  }
+  table.agenda th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.agenda td.t {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10pt;
+    color: var(--navy);
+    width: 72px;
+    white-space: nowrap;
+    background: var(--wash);
+  }
+  table.agenda td.lab {
+    width: 118px;
+    font-weight: 600;
+    color: var(--navy-soft);
+  }
+  table.agenda tr.core td { background: #fff; }
+  table.agenda tr.stretch td { background: var(--wash-warm); }
+
+  .callout {
+    border-left: 4px solid var(--orange-deep);
+    background: var(--wash-warm);
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+    font-size: 8.7pt;
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .callout b { color: var(--navy); }
+
+  .stats {
+    margin-top: 0;
+    margin-bottom: 0;
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--navy);
+    color: #fff;
+  }
+  .stats .stat {
+    flex: 1;
+    text-align: center;
+    padding: 12px 4px 11px;
+    border-right: 1px solid rgba(255,255,255,0.12);
+  }
+  .stats .stat:last-child { border-right: none; }
+  .stats .n {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17pt;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stats .l {
+    font-size: 7pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #cfd8e0;
+    margin-top: 4px;
+  }
+
+  .lab-block { margin-bottom: 9px; }
+  .lab-block .lab-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .lab-block .lab-head .badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 9.5pt;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--navy);
+    color: #fff;
+    padding: 1px 8px;
+    border-radius: 3px;
+  }
+  .lab-block .lab-head .badge.warm {
+    background: var(--orange);
+    color: var(--navy);
+  }
+  .lab-block .lab-head h3 {
+    font-size: 11.5pt;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .lab-block .lab-head .time {
+    margin-left: auto;
+    font-size: 8.5pt;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+
+  table.labs { width: 100%; border-collapse: collapse; }
+  table.labs th, table.labs td {
+    border: 1px solid var(--line);
+    padding: 4px 7px;
+    font-size: 8pt;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.3;
+  }
+  table.labs th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8.8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.labs td.num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9pt;
+    color: var(--navy);
+    text-align: center;
+    width: 36px;
+    background: var(--wash);
+  }
+  table.labs td.title { width: 130px; font-weight: 600; color: var(--navy-soft); }
+  table.labs tr.stretch td { background: var(--wash-warm); }
+  table.labs tr.gate td { background: #EEF6F1; }
+
+  .outcome {
+    margin-top: auto;
+    margin-bottom: 28px;
+    background: var(--navy);
+    border-radius: 8px;
+    color: #fff;
+    padding: 11px 14px;
+  }
+  .outcome .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 3px;
+  }
+  .outcome p { font-size: 9.4pt; color: #e8edf2; line-height: 1.4; }
+  .outcome p b { color: #fff; }
+
+  .day-tag {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 8pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--orange);
+    color: var(--navy);
+    padding: 1px 7px;
+    border-radius: 3px;
+    margin-right: 4px;
+  }
+  .day-tag.wed {
+    background: var(--navy);
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 — OVERVIEW ================= -->
+<div class="page page-1">
+  <div class="stack">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Student Lab Packet</div>
+    <h1>Week 2 · Remote + Gate</h1>
+    <div class="phase-line">Module 00 Finish → Terminal Start</div>
+    <div class="sub">Connect to a real Linux environment, pass the Module 00 phase-gate, then take your first terminal steps.</div>
+    <div class="meta">Mon + Wed &nbsp;<span>·</span>&nbsp; 6:00–8:00 PM &nbsp;<span>·</span>&nbsp; Zoom &nbsp;<span>·</span>&nbsp; Labs 00:05–07 (+ 01:00–01)</div>
+  </div>
+
+  <p class="intro"><b>This week closes Module 00.</b> Monday we connect Windows to <b>WSL</b>, everyone to the college server over <b>SSH</b>, and walk the Module&nbsp;00 phase-gate live. Wednesday is a clinic for screenshots, connection issues, and (if you’re ready) the first Ubuntu terminal labs. Labs — not attendance — gate progress.</p>
+
+  <div class="section">
+  <h2>Week goals</h2>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="num">1</div>
+      <h3>WSL green</h3>
+      <p>Windows: bottom-left shows <b>WSL: Ubuntu</b>. Mac/Linux: native shell + <code>uname -a</code>.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">2</div>
+      <h3>SSH connected</h3>
+      <p>Green <b>SSH: hostname</b>. <code>hostname</code> + <code>whoami</code> match the remote — not your laptop.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">3</div>
+      <h3>Gate submitted</h3>
+      <p>One screenshot: green badge + <code>whoami</code> + <code>pwd</code> in the remote terminal.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">4</div>
+      <h3>Terminal ready</h3>
+      <p>Stretch / Wed: Module 01 setup check + <code>pwd</code> / <code>ls</code> / <code>cd</code>.</p>
+    </div>
+  </div>
+  </div>
+
+  <div class="twocol">
+    <div class="card">
+      <div class="label">Before Monday</div>
+      <ul>
+        <li>Finish labs <b>00:00–04</b> if anything is still open</li>
+        <li><b>Windows:</b> run <code>wsl --install</code> at home and <b>reboot</b> before class</li>
+        <li>Install extensions if missing: <b>WSL</b> + <b>Remote - SSH</b> (Microsoft)</li>
+        <li>Bring laptop + charger + admin / Linux password</li>
+        <li>Watch Module 00 videos for 05–07 if posted in D2L</li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <div class="label">Bring to class</div>
+      <ul>
+        <li>Any stuck screenshot or error from Week 1</li>
+        <li>Whether you’re on Windows, Mac, or Ubuntu</li>
+        <li>Notebook for the SSH host / user the instructor posts</li>
+        <li>Patience — first SSH connection asks you to type <b>yes</b></li>
+        <li>Laptop charger (sessions run ~2 hours)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+  <h2>Monday · instruction</h2>
+  <table class="agenda">
+    <thead>
+      <tr><th>Clock</th><th>Block</th><th>What we do live</th><th>Lab IDs</th></tr>
+    </thead>
+    <tbody>
+      <tr class="core">
+        <td class="t">6:00</td>
+        <td class="lab">Open + recap</td>
+        <td>Sign-in · OS check · who already has green WSL?</td>
+        <td>—</td>
+      </tr>
+      <tr class="core">
+        <td class="t">6:10</td>
+        <td class="lab">WSL connect</td>
+        <td>Windows: extension → connect → green badge · <code>uname -a</code>. Mac/Linux buddy-help</td>
+        <td>00:05</td>
+      </tr>
+      <tr class="core">
+        <td class="t">6:35</td>
+        <td class="lab">SSH remote</td>
+        <td>Remote - SSH · add host · type <b>yes</b> · open remote folder · <code>hostname</code> + <code>whoami</code></td>
+        <td>00:06</td>
+      </tr>
+      <tr class="core">
+        <td class="t">7:10</td>
+        <td class="lab">Phase-gate</td>
+        <td>~15 min, no help: palette → extension → remote → screenshot for D2L</td>
+        <td>00:07</td>
+      </tr>
+      <tr class="stretch">
+        <td class="t">7:50</td>
+        <td class="lab">Close</td>
+        <td>What “done” looks like · submit gate · Wed clinic preview</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="section">
+  <h2>Wednesday · lab clinic</h2>
+  <table class="agenda">
+    <thead>
+      <tr><th>Clock</th><th>Block</th><th>What we do live</th><th>Lab IDs</th></tr>
+    </thead>
+    <tbody>
+      <tr class="core">
+        <td class="t">6:00</td>
+        <td class="lab">Gate clinic</td>
+        <td>Screenshot triage · green-badge confusion · key / permission errors</td>
+        <td>00:07</td>
+      </tr>
+      <tr class="core">
+        <td class="t">6:40</td>
+        <td class="lab">SSH / WSL fix</td>
+        <td>Reconnect drills · smart-quote paste fails · wrong folder path</td>
+        <td>00:05–06</td>
+      </tr>
+      <tr class="stretch">
+        <td class="t">7:15</td>
+        <td class="lab">Terminal start</td>
+        <td>If gate is in: Module 01 setup check + <code>pwd</code> / <code>ls</code> / <code>cd</code></td>
+        <td>01:00–01</td>
+      </tr>
+      <tr class="core">
+        <td class="t">7:50</td>
+        <td class="lab">Close</td>
+        <td>Confirm gate submitted · homework through Sunday · Week 3 preview</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <b>Core path this week:</b> labs <b>00:05 → 00:06 → 00:07</b>. Warm rows = stretch. Do not start Module 01 until your Module 00 gate screenshot is submitted in D2L.
+  </div>
+  </div><!-- /.stack -->
+
+  <div class="bottom">
+  <div class="stats">
+    <div class="stat"><div class="n">2</div><div class="l">Live blocks</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">Core labs</div></div>
+    <div class="stat"><div class="n">00→01</div><div class="l">Module handoff</div></div>
+    <div class="stat"><div class="n">Gate</div><div class="l">Screenshot pass</div></div>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Week 2 Student Lab Packet · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 1 of 2</div>
+  </div>
+  </div><!-- /.bottom -->
+</div>
+
+<!-- ================= PAGE 2 — LAB DETAIL ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <h2>Lab layout — what “done” looks like</h2>
+  <p class="intro" style="margin-bottom:10px">Each row is one D2L learning object. Do the video (if available), then the lab, then submit the screenshot. Green rows = Module 00 phase-gate. Warm rows = Wednesday stretch after the gate is in.</p>
+
+  <div class="lab-block">
+    <div class="lab-head">
+      <span class="badge">Core</span>
+      <h3>Module 00 · Remotes + Phase-Gate</h3>
+      <span class="time">Mon focus · Wed cleanup</span>
+    </div>
+    <table class="labs">
+      <thead>
+        <tr><th>#</th><th>Lab</th><th>What you do</th><th>Pass / screenshot</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">00:05</td>
+          <td class="title">WSL Connection</td>
+          <td><span class="day-tag">Mon</span><b>Windows:</b> WSL extension → Connect to WSL → open <code>/home/…</code> → <code>uname -a</code>. <b>Mac/Linux:</b> native terminal <code>uname -a</code> (buddy-help Windows).</td>
+          <td>Windows: green <b>WSL: Ubuntu</b> + <code>uname -a</code> (says Linux). Mac/Linux: <code>uname -a</code> output</td>
+        </tr>
+        <tr>
+          <td class="num">00:06</td>
+          <td class="title">SSH Remote</td>
+          <td><span class="day-tag">Mon</span>Install <b>Remote - SSH</b> (Microsoft) → Connect to Host → paste instructor host → type <b>yes</b> → open remote folder → run <code>hostname</code> and <code>whoami</code>.</td>
+          <td>Green <b>SSH: hostname</b> + both command outputs (remote values, not laptop)</td>
+        </tr>
+        <tr class="gate">
+          <td class="num">00:07</td>
+          <td class="title">Final Checkpoint</td>
+          <td><span class="day-tag">Mon</span><b>Phase-gate — no help.</b> Command palette toggles terminal · install “Markdown All in One” · connect WSL <i>or</i> SSH · open remote folder · run <code>whoami</code> + <code>pwd</code>.</td>
+          <td><b>One</b> screenshot: green WSL/SSH badge + both outputs visible. Submit in D2L</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="lab-block">
+    <div class="lab-head">
+      <span class="badge warm">Stretch</span>
+      <h3>Module 01 · Terminal Start</h3>
+      <span class="time">Wed · only after gate submitted</span>
+    </div>
+    <table class="labs">
+      <thead>
+        <tr><th>#</th><th>Lab</th><th>What you do</th><th>Pass / screenshot</th></tr>
+      </thead>
+      <tbody>
+        <tr class="stretch">
+          <td class="num">01:00</td>
+          <td class="title">Setup Check</td>
+          <td><span class="day-tag wed">Wed</span>Confirm Ubuntu is ready: <code>lsb_release -a</code>, <code>ping -c 3 8.8.8.8</code>, <code>sudo whoami</code>, <code>pwd</code>.</td>
+          <td>Commands succeed without errors (password typing stays invisible)</td>
+        </tr>
+        <tr class="stretch">
+          <td class="num">01:01</td>
+          <td class="title">Where Am I?</td>
+          <td><span class="day-tag wed">Wed</span>Drill <code>pwd</code>, <code>ls</code>, <code>cd</code>, <code>cd -</code>, and home with bare <code>cd</code>. Stop hesitating about “where am I?”</td>
+          <td>Checkpoint paths match the lesson; you can <code>cd</code> home from anywhere</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Stuck-spot cheat sheet</h2>
+  <table class="agenda" style="margin-bottom:12px">
+    <thead>
+      <tr><th>Moment</th><th>What fails</th><th>Fix line</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="t">WSL</td>
+        <td>Needs reboot / blank password</td>
+        <td>Reboot after <code>wsl --install</code>. Password typing is invisible — keep typing, then Enter</td>
+      </tr>
+      <tr>
+        <td class="t">Badge</td>
+        <td>Opened <code>C:\Users\…</code></td>
+        <td>Not connected. Reconnect → green <b>WSL: Ubuntu</b> → open <code>/home/…</code></td>
+      </tr>
+      <tr>
+        <td class="t">SSH first</td>
+        <td>Fingerprint prompt stalls</td>
+        <td>Type <b>yes</b> (Enter alone does nothing — there is no default)</td>
+      </tr>
+      <tr>
+        <td class="t">SSH key</td>
+        <td>UNPROTECTED PRIVATE KEY</td>
+        <td>Windows: lock key permissions to your user only · or keep the key inside WSL</td>
+      </tr>
+      <tr>
+        <td class="t">Paste</td>
+        <td>Host string has curly quotes</td>
+        <td>Paste from chat / plain text only — never from Word or styled email</td>
+      </tr>
+      <tr>
+        <td class="t">After SSH</td>
+        <td>“My local files vanished”</td>
+        <td>Expected — every terminal/file is on the remote until you Close Remote Connection</td>
+      </tr>
+      <tr>
+        <td class="t">Gate</td>
+        <td>Stuck mid-checkpoint</td>
+        <td>Re-read the lesson — no instructor help during the 15-minute block. Ask after time’s up</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <b>After Wednesday → Sunday:</b> Module 00 gate must be in D2L. If you started Module 01, finish <b>01:00–01</b>. Don’t rush ahead into sudo/permissions yet — that’s Week 3. Minimum comfort: green remote badge, gate screenshot submitted, you can <code>pwd</code>/<code>cd</code> without panic.
+  </div>
+
+  <div class="outcome">
+    <div class="label">Links · questions</div>
+    <p>
+      <b>Class sign-in:</b> tktechventure.com/agentic-coding/sign-in &nbsp;·&nbsp;
+      <b>D2L:</b> templejc.desire2learn.com &nbsp;·&nbsp;
+      <b>Course site:</b> tktechventure.com/agentic-coding<br>
+      Stuck on D2L? Helpdesk@Templejc.edu · 254-298-8450 &nbsp;·&nbsp;
+      Course questions: <b>contact@tktechventure.com</b>
+    </p>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Week 2 Student Lab Packet · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 2 of 2</div>
+  </div>
+</div>
+
+</body>
+</html>

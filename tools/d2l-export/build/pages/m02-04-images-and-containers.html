@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Docker Installation and First Containers — Images vs Containers</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Distinguish images from containers by running multiple containers from one image, then clean up both with <code>docker rm</code>, <code>docker rmi</code>, and the prune commands.</div>
+<h1>Lesson 04: Images vs Containers</h1>
+<p><strong>By the end, you will be able to tell containers and images apart, and clean both up.</strong></p>
+<p>⏱ ~20 minutes of typing</p>
+<blockquote><p><strong>Image</strong> = the recipe (read-only blueprint). <strong>Container</strong> = the meal cooked from it (a running or stopped instance). One image, many containers.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> See all your images.</p>
+<pre><code class="language-bash">docker images</code></pre>
+<p>You should see <code>hello-world</code> and <code>nginx</code>.</p>
+<p><strong>3.</strong> See all your containers (running and stopped).</p>
+<pre><code class="language-bash">docker ps -a</code></pre>
+<p>You should see your <code>hello-world</code> containers from lesson 02 and your <code>web</code> container from lesson 03.</p>
+<p><strong>4.</strong> Run nginx <strong>three more times</strong> with different names — each one is a separate container from the same image.</p>
+<pre><code class="language-bash">docker run -d -p 8081:80 --name web2 nginx</code></pre>
+<pre><code class="language-bash">docker run -d -p 8082:80 --name web3 nginx</code></pre>
+<pre><code class="language-bash">docker run -d -p 8083:80 --name web4 nginx</code></pre>
+<p><strong>5.</strong> Look at running containers — three nginx containers, all from the <strong>same image</strong>.</p>
+<pre><code class="language-bash">docker ps</code></pre>
+<pre class="output"><code class="output">CONTAINER ID   IMAGE   ...   PORTS                  NAMES
+...            nginx   ...   0.0.0.0:8083-&gt;80/tcp   web4
+...            nginx   ...   0.0.0.0:8082-&gt;80/tcp   web2
+...            nginx   ...   0.0.0.0:8081-&gt;80/tcp   web3</code></pre>
+<p><strong>6.</strong> Confirm only one nginx <strong>image</strong> exists.</p>
+<pre><code class="language-bash">docker images | grep nginx</code></pre>
+<pre class="output"><code class="output">nginx   latest   ...   140MB</code></pre>
+<p><strong>One image, multiple containers.</strong> This is the point.</p>
+<p><strong>7.</strong> Hit each one — they're independent processes.</p>
+<pre><code class="language-bash">curl -s http://localhost:8081 | grep title
+curl -s http://localhost:8082 | grep title
+curl -s http://localhost:8083 | grep title</code></pre>
+<p>Each prints <code>&lt;title&gt;Welcome to nginx!&lt;/title&gt;</code>.</p>
+<p><strong>8.</strong> Stop them all at once.</p>
+<pre><code class="language-bash">docker stop web2 web3 web4</code></pre>
+<pre class="output"><code class="output">web2
+web3
+web4</code></pre>
+<p><strong>9.</strong> Confirm they're stopped.</p>
+<pre><code class="language-bash">docker ps</code></pre>
+<p>(Empty — none running.)</p>
+<p><strong>10.</strong> They still exist on disk.</p>
+<pre><code class="language-bash">docker ps -a</code></pre>
+<p>You should see <code>web</code>, <code>web2</code>, <code>web3</code>, <code>web4</code> and the old <code>hello-world</code> containers — all with <code>Exited</code> status.</p>
+<p><strong>11.</strong> Remove the stopped nginx containers.</p>
+<pre><code class="language-bash">docker rm web web2 web3 web4</code></pre>
+<pre class="output"><code class="output">web
+web2
+web3
+web4</code></pre>
+<p><strong>12.</strong> Confirm they're gone.</p>
+<pre><code class="language-bash">docker ps -a | grep web</code></pre>
+<p>(No output — the web containers are gone.)</p>
+<p><strong>13.</strong> Remove the old hello-world containers in one command. <code>$(...)</code> runs the inner command first and pastes the output as arguments.</p>
+<pre><code class="language-bash">docker rm $(docker ps -aq --filter ancestor=hello-world)</code></pre>
+<p>You'll see the IDs of the removed containers printed.</p>
+<p><strong>14.</strong> Confirm only no containers remain.</p>
+<pre><code class="language-bash">docker ps -a</code></pre>
+<p>(Empty.)</p>
+<p><strong>15.</strong> The <strong>images</strong> are still there — removing containers doesn't remove the images they were created from.</p>
+<pre><code class="language-bash">docker images</code></pre>
+<p>You should still see <code>hello-world</code> and <code>nginx</code>.</p>
+<p><strong>16.</strong> Remove the hello-world image.</p>
+<pre><code class="language-bash">docker rmi hello-world</code></pre>
+<pre class="output"><code class="output">Untagged: hello-world:latest
+Deleted: sha256:...</code></pre>
+<p><strong>17.</strong> Try to run it again — it'll be re-pulled because it's gone.</p>
+<pre><code class="language-bash">docker run hello-world</code></pre>
+<p>You should see the &quot;Unable to find image locally&quot; line again, then the welcome text.</p>
+<p><strong>18.</strong> Clean up that container we just made too.</p>
+<pre><code class="language-bash">docker rm $(docker ps -aq)</code></pre>
+<p><strong>19.</strong> A faster shortcut — <code>docker container prune</code> removes all stopped containers in one step.</p>
+<pre><code class="language-bash">docker container prune -f</code></pre>
+<pre class="output"><code class="output">Total reclaimed space: ...</code></pre>
+<p><strong>20.</strong> Same idea for images: <code>docker image prune -a</code> removes images that aren't being used by any container.</p>
+<pre><code class="language-bash">docker image prune -a -f</code></pre>
+<p>This removes hello-world and nginx since nothing is using them. You'll see their layers being deleted.</p>
+<p><strong>21.</strong> Confirm everything is gone.</p>
+<pre><code class="language-bash">docker images
+docker ps -a</code></pre>
+<p>Both should be empty (or nearly so).</p>
+<p><strong>22.</strong> Re-pull nginx — we'll need it for the final checkpoint.</p>
+<pre><code class="language-bash">docker pull nginx</code></pre>
+<p><strong>23.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Image vs container drills: complete&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>Quick reference</h2>
+<table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody><tr><td><code>docker images</code></td><td>List images</td></tr><tr><td><code>docker ps</code></td><td>List <strong>running</strong> containers</td></tr><tr><td><code>docker ps -a</code></td><td>List <strong>all</strong> containers, running and stopped</td></tr><tr><td><code>docker run &lt;image&gt;</code></td><td>Create a new container from an image and start it</td></tr><tr><td><code>docker stop &lt;name&gt;</code></td><td>Stop a running container</td></tr><tr><td><code>docker start &lt;name&gt;</code></td><td>Start a stopped container</td></tr><tr><td><code>docker rm &lt;name&gt;</code></td><td>Remove a stopped container</td></tr><tr><td><code>docker rmi &lt;image&gt;</code></td><td>Remove an image</td></tr><tr><td><code>docker logs &lt;name&gt;</code></td><td>Show a container's logs</td></tr><tr><td><code>docker exec -it &lt;name&gt; bash</code></td><td>Get a shell inside a running container</td></tr><tr><td><code>docker container prune -f</code></td><td>Remove all stopped containers</td></tr><tr><td><code>docker image prune -a -f</code></td><td>Remove all unused images</td></tr></tbody></table>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">docker images | grep nginx</code></pre>
+<p>You should see nginx (you re-pulled it in step 22).</p>
+<pre><code class="language-bash">docker ps -a</code></pre>
+<p>Should be empty or near-empty — you cleaned up.</p>
+<pre><code class="language-bash">docker run -d -p 8080:80 --name test nginx &amp;&amp; docker stop test &amp;&amp; docker rm test</code></pre>
+<p>Should run, stop, and remove a container with no errors.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Tell images and containers apart — one image, many containers — and clean both up.</p>
+<p><strong>Task:</strong> Work steps 1–23 — run three more containers from the one nginx image, then remove containers with <code>docker rm</code>, images with <code>docker rmi</code>, prune the rest, re-pull nginx, and log it.</p>
+<p><strong>Submit:</strong> Paste the output of the three Checkpoint commands — <code>docker images | grep nginx</code>, <code>docker ps -a</code>, and <code>docker run -d -p 8080:80 --name test nginx &amp;&amp; docker stop test &amp;&amp; docker rm test</code> — plus <code>tail ~/docker-course/notes/notes.txt</code> into D2L.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] <code>docker images | grep nginx</code> shows the nginx image (re-pulled in step 22).</li><li>[ ] <code>docker ps -a</code> is empty or near-empty — you cleaned up.</li><li>[ ] The run/stop/remove one-liner completed with no errors.</li><li>[ ] The notes tail includes <code>Image vs container drills: complete</code>.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m02-05-vscode-docker-sidebar.html">05-vscode-docker-sidebar.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m02-05-vscode-docker-sidebar.html">05-vscode-docker-sidebar.md</a> — See all this in VS Code's Docker sidebar</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

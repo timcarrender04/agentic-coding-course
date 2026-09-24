@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FastAPI from Scratch — Prerequisites Check</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Verify that Python 3, pip, Docker (without sudo), Docker Compose, curl, and the course directory from Modules 01 and 02 all still work before starting FastAPI.</div>
+<h1>Lesson 00: Prerequisites Check</h1>
+<p><strong>By the end, you will have confirmed that everything from Modules 01 and 02 still works on your machine.</strong></p>
+<p>⏱ ~10 minutes</p>
+<hr />
+<p><strong>1.</strong> Open VS Code connected to your Ubuntu environment (WSL or SSH from Module 00). Open the integrated terminal.</p>
+<p><strong>2.</strong> Confirm Python 3 is installed.</p>
+<pre><code class="language-bash">python3 --version</code></pre>
+<pre class="output"><code class="output">Python 3.10.12</code></pre>
+<p>(Any 3.10+ is fine.)</p>
+<p><strong>3.</strong> Confirm pip is installed.</p>
+<pre><code class="language-bash">pip3 --version</code></pre>
+<pre class="output"><code class="output">pip 22.0.2 from /usr/lib/python3/dist-packages/pip (python 3.10)</code></pre>
+<p><strong>4.</strong> Confirm Docker is installed and you're in the docker group.</p>
+<pre><code class="language-bash">docker --version</code></pre>
+<pre class="output"><code class="output">Docker version 24.0.7, build afdd53b</code></pre>
+<p><strong>5.</strong> Confirm Docker works without sudo.</p>
+<pre><code class="language-bash">docker run --rm hello-world | head -n 1</code></pre>
+<pre class="output"><code class="output">Hello from Docker!</code></pre>
+<p><strong>6.</strong> Confirm Docker Compose is available.</p>
+<pre><code class="language-bash">docker compose version</code></pre>
+<pre class="output"><code class="output">Docker Compose version v2.21.0</code></pre>
+<p><strong>7.</strong> Confirm curl is installed (Module 01 lesson 5 installed it).</p>
+<pre><code class="language-bash">curl --version | head -n 1</code></pre>
+<pre class="output"><code class="output">curl 7.81.0 (x86_64-pc-linux-gnu) ...</code></pre>
+<p><strong>8.</strong> Confirm your course directory exists from Module 01.</p>
+<pre><code class="language-bash">ls ~/docker-course/</code></pre>
+<p>You should see <code>notes</code>, <code>practice</code>, <code>projects</code>, etc.</p>
+<p><strong>9.</strong> Confirm your notes file is intact.</p>
+<pre><code class="language-bash">tail -n 3 ~/docker-course/notes/notes.txt</code></pre>
+<p>You should see entries from Modules 01 and 02.</p>
+<p><strong>10.</strong> Log this check.</p>
+<pre><code class="language-bash">echo &quot;Module 03 prereq check: passed $(date -Iseconds)&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<p>If <strong>any</strong> step above failed, do not continue. Go back and fix it:</p>
+<ul><li><code>python3</code> not found → <code>sudo apt install -y python3</code></li><li><code>pip3</code> not found → <code>sudo apt install -y python3-pip</code></li><li><code>docker</code> permission denied → you skipped <code>sudo usermod -aG docker $USER &amp;&amp; newgrp docker</code> in Module 02 lesson 01</li><li><code>~/docker-course/</code> missing → you skipped Module 01</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">python3 --version &amp;&amp; pip3 --version &amp;&amp; docker --version &amp;&amp; docker compose version &amp;&amp; curl --version | head -n 1</code></pre>
+<p>You should see five version lines, no errors.</p>
+<pre><code class="language-bash">docker run --rm hello-world &gt; /dev/null &amp;&amp; echo &quot;docker OK&quot;</code></pre>
+<p>You should see <code>docker OK</code>.</p>
+<pre><code class="language-bash">ls ~/docker-course/notes/notes.txt</code></pre>
+<p>You should see the path printed.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m03-01-python-environment.html">01-python-environment.md</a> — Set up a Python virtual environment for the FastAPI project</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

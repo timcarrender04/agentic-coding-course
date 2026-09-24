@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Continue.dev on the Shared vLLM Endpoint — The Inference Endpoint</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Describe the college's shared vLLM server — its 2x RTX A6000 hardware, the two Llama models, and their roles — and confirm the endpoint answers with an HTTP status code using <code>curl</code>.</div>
+<h1>Lesson 01: The Inference Endpoint</h1>
+<p><strong>By the end, you will understand the shared inference endpoint the college runs — the hardware, the serving stack, the two models it hosts, and their roles — and you'll have confirmed your machine can reach it over the network.</strong></p>
+<p>⏱ ~15 minutes of reading + one connectivity check</p>
+<blockquote><p>You are <strong>not</strong> running a model on your laptop. The college hosts <strong>one shared inference server</strong> on the campus network. Every student's editor points at the same box. Today we learn what that box is and confirm you can reach it. We install and configure nothing locally beyond the editor.</p></blockquote>
+<hr />
+<h2>The box</h2>
+<ul><li><strong>One shared server</strong>, hosted by the college. You connect to it over the campus network (LAN or Tailscale). It is <strong>not</strong> a per-student local GPU, and it is not something you install.</li><li><strong>Hardware:</strong> 2× <strong>NVIDIA RTX A6000</strong> — 48 GB VRAM each, <strong>~96 GB aggregate</strong>.</li><li><strong>Serving software:</strong> <strong>vLLM</strong>, exposing an <strong>OpenAI-compatible</strong> HTTP API. The two A6000s run <strong>tensor-parallel</strong> (<code>--tensor-parallel-size 2</code>) so a single large model can be split across both cards.</li><li><strong>Auth:</strong> a <strong>single shared API key</strong> (<code>sk-college-shared</code>), or no key at all on the campus network. There are no per-student tokens to request — everyone uses the same endpoint.</li></ul>
+<h3>The endpoint URL</h3>
+<pre class="output"><code class="output">http://gpu.college.local:8000/v1</code></pre>
+<p>Some teams may instead see a Tailscale IP for the same box, e.g.:</p>
+<pre class="output"><code class="output">http://100.68.103.54:8000/v1</code></pre>
+<p>Both point at the same server. Use whichever your instructor gives you. The <code>/v1</code> suffix is the OpenAI-compatible API path — the same shape the OpenAI SDK and Continue.dev expect.</p>
+<hr />
+<h2>The two models</h2>
+<p>The endpoint serves <strong>two</strong> Llama models, each with a distinct job:</p>
+<table><thead><tr><th>Role in Continue</th><th>Model</th><th>vLLM model id</th><th>Status</th></tr></thead><tbody><tr><td><strong>Autocomplete only</strong> (tab / ghost-text)</td><td><strong>Llama 3.1 8B Instruct</strong></td><td><code>meta-llama/Llama-3.1-8B-Instruct</code></td><td><strong>live now</strong></td></tr><tr><td><strong>Chat, inline edit, agent</strong> (everything else)</td><td><strong>Llama 3.3 70B Instruct</strong></td><td><code>meta-llama/Llama-3.3-70B-Instruct</code></td><td><strong>coming online</strong> — tensor-parallel across both A6000s (quantized, e.g. AWQ/FP8, to fit ~96 GB)</td></tr></tbody></table>
+<p><strong>Two models, two roles.</strong> Big models (70B) are smart but slower — perfect for chat, edits, and agent work where you wait a couple of seconds for a good answer. Small models (8B) are fast — perfect for tab autocomplete where you need a suggestion in milliseconds. You'll wire both into Continue in lesson 04, selecting each by name.</p>
+<blockquote><p><strong>Why Llama?</strong> Both are Meta's <strong>Llama</strong> models: US-origin and permissively licensed, which satisfies the course policy of <strong>no China-origin models</strong>. (An earlier draft config used a China-origin model in violation of that policy — Llama fixes it.) You don't choose model sizes by your own VRAM anymore; the shared box already hosts the right ones.</p></blockquote>
+<hr />
+<h2>Confirm you can reach it</h2>
+<p>You don't need the model list yet (that's lesson 02) — just prove the box answers.</p>
+<p><strong>1.</strong> From your dev environment's integrated terminal, ping the API path and print only the HTTP status code:</p>
+<pre><code class="language-bash">curl -s -o /dev/null -w &quot;%{http_code}\n&quot; http://gpu.college.local:8000/v1/models</code></pre>
+<p>(If your instructor gave you the Tailscale IP instead, substitute it for <code>gpu.college.local</code>.)</p>
+<p><strong>2.</strong> Read the result:</p>
+<ul><li><strong><code>200</code></strong> — the box answered and no key is required. </li><li><strong><code>401</code></strong> — the box answered but wants the shared key. <strong>This still means success for this lesson</strong> — you reached the server. You'll supply the key in lesson 02.</li><li><strong><code>000</code> or a hang</strong> — you did <strong>not</strong> reach the server. You're likely off the campus network. Connect to the LAN / start Tailscale, then retry. If it still fails, ask the instructor — they own the box.</li></ul>
+<p><strong>3.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Inference endpoint reachable: http://gpu.college.local:8000/v1 ($(date -Iseconds))&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Nothing to install here.</strong> No CUDA, no drivers, no <code>nvidia-smi</code>, no local GPU. If you find yourself installing an inference engine on your laptop, stop — you've misread the module. The server is already running.</li><li><strong>It's a network dependency now.</strong> The endpoint has to be reachable. Off-campus? You need Tailscale (or the VPN your instructor specifies). A <code>000</code> status is a network problem, not a model problem.</li><li><strong>Plain HTTP.</strong> The URL is <code>http://…</code>, not <code>https://</code> — it's an internal campus service. That's expected.</li><li><strong>The 70B may be &quot;coming online.&quot;</strong> If chat/edit later report the 70B isn't available yet, the 8B autocomplete model is still live. Confirm current status with your instructor.</li><li><strong>Shared box, shared load.</strong> Everyone in the cohort hits the same server. If responses feel slow during a busy lab, that's contention, not a broken setup.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">curl -s -o /dev/null -w &quot;%{http_code}\n&quot; http://gpu.college.local:8000/v1/models</code></pre>
+<p>Should print an HTTP status code (<code>200</code> or <code>401</code> — both mean the server answered). A <code>000</code> or a timeout means you can't reach the box; fix your network before lesson 02.</p>
+<p>You should also be able to state, without looking: which model does <strong>autocomplete</strong> (Llama 3.1 8B) and which does <strong>chat/edit/agent</strong> (Llama 3.3 70B).</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m05-02-connect-to-endpoint.html">02-connect-to-endpoint.md</a> — curl the shared endpoint and confirm the model list</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

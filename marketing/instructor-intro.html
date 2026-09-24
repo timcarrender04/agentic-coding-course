@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meet Your Instructor — Tim Carrender · Agentic Coding</title>
+<link rel="stylesheet" href="../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --navy-lift: #2A3A4C;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --paper: #FFFFFF;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: var(--navy);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    font-family: "Barlow", "DejaVu Sans", Arial, sans-serif;
+    color: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .stage {
+    width: min(100vw, calc(100vh * 16 / 9));
+    height: min(100vh, calc(100vw * 9 / 16));
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 3.2% 4% 2.8%;
+    background:
+      radial-gradient(ellipse 70% 55% at 78% 18%, rgba(245, 168, 62, 0.14) 0%, transparent 58%),
+      radial-gradient(ellipse 50% 45% at 12% 88%, rgba(232, 119, 34, 0.08) 0%, transparent 60%),
+      linear-gradient(165deg, #101820 0%, var(--navy) 40%, #172230 75%, #0f161e 100%);
+  }
+
+  .stage::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--orange-deep), var(--orange), var(--orange-deep));
+  }
+
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.6%;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 2.4%;
+    flex-shrink: 0;
+  }
+  .brandbar img.tc {
+    height: clamp(36px, 5.2vh, 56px);
+    width: auto;
+    display: block;
+    background: #fff;
+    border-radius: 4px;
+    padding: 4px 8px;
+  }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brandbar .collab .x {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 600;
+    font-size: clamp(9px, 1.15vh, 13px);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar .partner-chip {
+    background: rgba(255,255,255,0.96);
+    padding: 6px 12px;
+    border-radius: 4px;
+  }
+  .brandbar img.chief {
+    height: clamp(22px, 3.2vh, 34px);
+    width: auto;
+    display: block;
+  }
+
+  .main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3.5%;
+    min-height: 0;
+    align-items: stretch;
+  }
+
+  .kicker {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 600;
+    font-size: clamp(12px, 1.7vh, 18px);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 0.6%;
+  }
+
+  h1 {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    font-size: clamp(42px, 8.2vh, 88px);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+    color: #fff;
+    margin-bottom: 1.2%;
+  }
+
+  .role {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 600;
+    font-size: clamp(14px, 2vh, 22px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.72);
+    margin-bottom: 2.8%;
+  }
+  .role span { color: var(--orange); }
+
+  .lede {
+    font-size: clamp(14px, 1.85vh, 20px);
+    line-height: 1.45;
+    color: rgba(255,255,255,0.82);
+    max-width: 36em;
+    margin-bottom: 3%;
+  }
+  .lede b { color: #fff; font-weight: 600; }
+
+  .creds {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4vh;
+  }
+  .cred {
+    display: grid;
+    grid-template-columns: 9.5em 1fr;
+    gap: 0.8em;
+    align-items: baseline;
+    padding-left: 0.9em;
+    border-left: 3px solid var(--orange);
+  }
+  .cred .label {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    font-size: clamp(12px, 1.55vh, 16px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+  .cred .value {
+    font-size: clamp(13px, 1.7vh, 18px);
+    color: rgba(255,255,255,0.88);
+    line-height: 1.35;
+  }
+  .cred .value small {
+    display: block;
+    font-size: 0.88em;
+    color: rgba(255,255,255,0.55);
+    margin-top: 1px;
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 2.2%;
+    min-height: 0;
+  }
+
+  .panel {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 10px;
+    padding: 4.5% 5.5%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .panel.chiefos {
+    border-top: 3px solid var(--orange);
+    background:
+      linear-gradient(180deg, rgba(245, 168, 62, 0.10) 0%, transparent 42%),
+      rgba(255,255,255,0.04);
+  }
+
+  .panel .tag {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    font-size: clamp(11px, 1.4vh, 14px);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 1.2%;
+  }
+  .panel h2 {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    font-size: clamp(22px, 3.4vh, 36px);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
+    color: #fff;
+    margin-bottom: 2%;
+  }
+  .panel p {
+    font-size: clamp(13px, 1.65vh, 17px);
+    line-height: 1.45;
+    color: rgba(255,255,255,0.78);
+  }
+  .panel p + p { margin-top: 1.4%; }
+  .panel p b { color: #fff; font-weight: 600; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2%;
+    margin-top: auto;
+    padding-top: 3%;
+  }
+  .stat {
+    text-align: center;
+    padding: 2.5% 2%;
+    background: rgba(0,0,0,0.22);
+    border-radius: 6px;
+  }
+  .stat .n {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 800;
+    font-size: clamp(22px, 3.6vh, 38px);
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stat .l {
+    font-size: clamp(9px, 1.15vh, 12px);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.55);
+    margin-top: 4px;
+  }
+
+  .proof {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2vh;
+  }
+  .proof-item {
+    display: flex;
+    gap: 0.85em;
+    align-items: flex-start;
+  }
+  .proof-item .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--orange);
+    margin-top: 0.45em;
+    flex: none;
+  }
+  .proof-item .t {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    font-size: clamp(14px, 1.85vh, 19px);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #fff;
+    line-height: 1.15;
+  }
+  .proof-item .d {
+    font-size: clamp(12px, 1.45vh, 15px);
+    color: rgba(255,255,255,0.58);
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+
+  .foot {
+    flex-shrink: 0;
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.4%;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    font-size: clamp(11px, 1.35vh, 14px);
+    color: rgba(255,255,255,0.5);
+  }
+  .foot b { color: rgba(255,255,255,0.85); font-weight: 600; }
+  .foot .url {
+    font-family: "Barlow Condensed", sans-serif;
+    font-weight: 700;
+    font-size: 1.15em;
+    letter-spacing: 0.04em;
+    color: var(--orange);
+  }
+
+  @media (max-aspect-ratio: 14/9) {
+    .main { grid-template-columns: 1fr; gap: 2.5%; }
+    .side { flex-direction: row; }
+    .panel { flex: 1; }
+    .cred { grid-template-columns: 7.5em 1fr; }
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="brandbar">
+      <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+      <div class="collab">
+        <div class="x">In collaboration<br>with</div>
+        <div class="partner-chip">
+          <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="left">
+        <div class="kicker">Meet your instructor</div>
+        <h1>Tim Carrender</h1>
+        <div class="role">Instructor · Agentic Coding &nbsp;<span>·</span>&nbsp; Founder, TK Tech Venture</div>
+
+        <p class="lede">
+          A <b>retired Army Signal Warrant Officer</b> who still writes the code —
+          teaching the same agentic workflows he uses to ship real products,
+          including <b>ChiefOS</b> for the Signal community.
+        </p>
+
+        <div class="creds">
+          <div class="cred">
+            <div class="label">Service</div>
+            <div class="value">
+              20 years Army Signal / G6 · Retired <b>255N</b> Warrant Officer
+              <small>Program execution at echelon · CONUS &amp; OEF</small>
+            </div>
+          </div>
+          <div class="cred">
+            <div class="label">Education</div>
+            <div class="value">
+              B.S. Computer Science &amp; Business Management — <b>Liberty University</b>
+              <small>M.S. IT Management in progress — Liberty University</small>
+            </div>
+          </div>
+          <div class="cred">
+            <div class="label">Credentials</div>
+            <div class="value">
+              PMP · Security+ · Hands-on AI / full-stack delivery
+              <small>Technical PM who reads architecture and ships product</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="panel chiefos">
+          <div class="tag">Building now</div>
+          <h2>ChiefOS</h2>
+          <p>
+            Edge-deployable platform for the <b>Signal / G6</b> community —
+            operations &amp; training exercises, mission planning, and on-node learning
+            via Team Chief Academy and Network+.
+          </p>
+          <p>
+            Disconnected-capable. Built around unit procedures.
+            <b>Human warrant retains authority.</b>
+          </p>
+          <div class="stats">
+            <div class="stat"><div class="n">20</div><div class="l">Yrs Signal</div></div>
+            <div class="stat"><div class="n">9</div><div class="l">Shipped</div></div>
+            <div class="stat"><div class="n">255N</div><div class="l">Warrant</div></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="tag">Why this course</div>
+          <div class="proof">
+            <div class="proof-item">
+              <div class="dot"></div>
+              <div>
+                <div class="t">Ask Chief · 3,000+ soldiers</div>
+                <div class="d">iOS conversational AI — shipped on own time in 2023</div>
+              </div>
+            </div>
+            <div class="proof-item">
+              <div class="dot"></div>
+              <div>
+                <div class="t">ComStat · Battalion NetOps</div>
+                <div class="d">Adopted by Signal soldiers for training &amp; ops</div>
+              </div>
+            </div>
+            <div class="proof-item">
+              <div class="dot"></div>
+              <div>
+                <div class="t">Same stack you'll learn</div>
+                <div class="d">Terminal → APIs → AI agents → ship — not slideware</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">
+      <div><b>Agentic Coding</b> · Temple College Workforce Development × ChiefOS</div>
+      <div class="url">tktechventure.com</div>
+    </div>
+  </div>
+</body>
+</html>

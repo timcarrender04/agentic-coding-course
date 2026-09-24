@@ -1,46 +1,54 @@
-# Module 05: Local GPU + Continue.dev
+# Module 05: Continue.dev + Shared vLLM Endpoint
 
-See [`../COURSE-SCHEDULE.md`](../COURSE-SCHEDULE.md) for the full 8-week, 16-session calendar. This module spans **sessions 10 and 11**.
+See [`../COURSE-SCHEDULE.md`](../../docs/COURSE-SCHEDULE.md) for the full 8-week, 16-session calendar. This module spans **sessions 10 and 11**.
 
-This is the agentic-coding payoff module. You'll set up a **local LLM** running on your **NVIDIA GPU** via **Ollama in Docker Compose**, install **Continue.dev** in Cursor, and drill the four core agentic features — **chat**, **autocomplete**, **inline edit**, and **agent mode** — against the FastAPI repo you built in Module 03 and committed to Gitea in Module 04.
+This is the agentic-coding payoff module. You'll connect **VS Code** to the college's **shared vLLM inference endpoint** — a single server with **2× NVIDIA RTX A6000** serving **Llama** models over an OpenAI-compatible API — install **Continue.dev**, and drill the four core agentic features — **chat**, **autocomplete**, **inline edit**, and **agent mode** — against the FastAPI repo you built in Module 03 and committed to GitHub in Module 04.
 
-> **The "free + local" stack.** Cursor (the IDE you installed in Module 00, sign-in skipped) + Continue.dev (free open-source extension that works in any VS Code fork including Cursor) + Ollama (official container, run with Docker Compose) + a local NVIDIA GPU. No cloud bills, no usage caps, no data leaves your machine.
+> **The "free + college-hosted" stack.** VS Code (the editor you installed in Module 00) + Continue.dev (free, open-source AI extension) + the college's shared vLLM endpoint (Llama 3.3 70B for chat/edit/agent, Llama 3.1 8B for autocomplete). No cloud bills, no usage caps, no per-student GPU — you point the editor at one shared campus server. The prompts stay inside the college network.
 
 ## What you'll be able to do at the end of this module
 
-- Verify your NVIDIA GPU is visible from inside your dev environment (native, WSL, or SSH-to-GPU-host)
-- Run Ollama in Docker Compose and pull a coding model (Qwen 2.5 Coder)
-- Test the model from the command line with `docker compose exec … ollama run`
-- Install Continue.dev in Cursor and point it at your local Ollama
-- Chat with the model about files in your repo using `@file`, `@codebase`, `@diff`, `@terminal`
-- Get tab-autocomplete suggestions while typing (FIM completion via a small base model)
-- Highlight code and ask the model to edit it inline (`Ctrl+I`)
-- Use **agent mode** — let the model run shell commands, read files, and make multi-file changes against your FastAPI repo
+- Explain the shared inference endpoint — 2× RTX A6000 (~96 GB), vLLM, OpenAI-compatible — and which model serves which role
+- `curl` the endpoint's `/v1/models` and `/v1/chat/completions` routes with the shared key
+- Install Continue.dev in VS Code and point it at the shared endpoint
+- Chat with the 70B model about files in your repo using `@file`, `@codebase`, `@diff`, `@terminal`
+- Get tab-autocomplete suggestions while typing (from the fast 8B model)
+- Highlight code and ask the 70B to edit it inline (`Ctrl+I`)
+- Use **agent mode** — let the 70B run shell commands, read files, and make multi-file changes against your FastAPI repo
 
 ## Prerequisites
 
 - **Modules 00–04** complete. You should have:
-  - Cursor installed (Module 00)
+  - VS Code installed (Module 00)
   - Ubuntu terminal fluency (Module 01)
   - Docker working (Module 02)
-  - **NVIDIA Container Toolkit** installed so Docker can pass your GPU into containers (lesson 02 — required for the `gpus: all` Compose service)
   - FastAPI repo at `~/docker-course/fastapi-app/` (Module 03)
-  - Git + Gitea workflow (Module 04)
-- An **NVIDIA GPU** with at least **8 GB VRAM** (works on RTX 3060/12GB, 4060/8GB, 4070, 4080, 4090, A4000+, etc.). Lower VRAM is doable with smaller models — see lesson 03.
-- Up-to-date NVIDIA driver (verified in lesson 01).
-- ~10 GB of free disk space (model files).
+  - Git + GitHub workflow (Module 04)
+- The **Continue.dev** VS Code extension (installed in lesson 00 or 04).
+- **Network access to the shared endpoint** at `http://gpu.college.local:8000/v1` (or the Tailscale IP your instructor provides). On the campus LAN this is direct; off-campus you'll need Tailscale/VPN.
+- The **shared API key** (`sk-college-shared`) from your instructor — or confirmation that no key is required on the campus network.
 
-> **WSL2 students:** GPU passthrough requires the Windows-side NVIDIA driver to be installed (Game Ready or Studio). The CUDA libraries inside WSL come along for the ride. Lesson 01 verifies this.
-> **SSH-to-GPU-host students:** the instructor provisions a remote machine with the GPU; you stay connected to it via Cursor's Remote-SSH (Module 00 lesson 06). The Ollama Compose stack runs on that remote host; your IDE session stays local (or attached to that host via SSH).
+> **No local GPU required.** You do **not** run a model on your machine — there's nothing to install beyond the editor and extension, no drivers, no CUDA, no `nvidia-smi`. The GPUs live in the college server. Your only local dependency is being able to reach the endpoint over the network.
+>
+> **Remote / SSH students:** if your VS Code is attached via **Remote — SSH** or **Remote — WSL**, the Continue extension host (and its `~/.continue/config.yaml`) lives on that remote machine. The `apiBase` is the same college endpoint regardless — no port forwarding needed, just network reachability from wherever the extension host runs.
+
+## Models served
+
+| Role in Continue | Model | vLLM model id | Status |
+|---|---|---|---|
+| Autocomplete | Llama 3.1 8B Instruct | `meta-llama/Llama-3.1-8B-Instruct` | live now |
+| Chat / edit / agent | Llama 3.3 70B Instruct | `meta-llama/Llama-3.3-70B-Instruct` | coming online (tensor-parallel across both A6000s) |
+
+Both are Meta/Llama models — US-origin and permissively licensed, satisfying the course's no-China-origin-models policy.
 
 ## Lessons
 
 | # | File | Title | Est. Time |
 |---|------|-------|-----------|
 | 00 | [00-prerequisites-check.md](00-prerequisites-check.md) | Prerequisites Check | ~5 min |
-| 01 | [01-verify-gpu.md](01-verify-gpu.md) | Verify Your GPU | ~15 min |
-| 02 | [02-install-ollama.md](02-install-ollama.md) | Run Ollama (Docker Compose) | ~15 min |
-| 03 | [03-pull-and-test-models.md](03-pull-and-test-models.md) | Pull and Test Models | ~20 min |
+| 01 | [01-the-inference-endpoint.md](01-the-inference-endpoint.md) | The Inference Endpoint | ~15 min |
+| 02 | [02-connect-to-endpoint.md](02-connect-to-endpoint.md) | Connect to the Endpoint | ~15 min |
+| 03 | [03-explore-the-models.md](03-explore-the-models.md) | Explore the Models | ~20 min |
 | 04 | [04-install-and-configure-continue.md](04-install-and-configure-continue.md) | Install + Configure Continue.dev | ~25 min |
 | 05 | [05-chat.md](05-chat.md) | Chat | ~20 min |
 | 06 | [06-autocomplete.md](06-autocomplete.md) | Autocomplete | ~15 min |
@@ -50,6 +58,10 @@ This is the agentic-coding payoff module. You'll set up a **local LLM** running 
 
 **Total estimated time: ~2h 55m** across 2 sessions.
 
+## Server-side reference
+
+The [`vllm/docker-compose.yml`](vllm/docker-compose.yml) in this folder is the **server** configuration that runs the shared endpoint — provided for reference only. **Students do not run it.** It shows how vLLM serves the two Llama models tensor-parallel across the two A6000s.
+
 ## What's next
 
-Module 06 uses the same setup to drill effective prompting and refactoring patterns. Keep the `~/docker-course/ollama` Compose stack — Modules 06, 07, and 08 all assume local Ollama + Continue.dev is working.
+Module 06 uses the same setup to drill effective prompting and refactoring patterns. Nothing to keep running locally — Modules 06, 07, and 08 all assume VS Code + Continue.dev pointed at the shared vLLM endpoint.

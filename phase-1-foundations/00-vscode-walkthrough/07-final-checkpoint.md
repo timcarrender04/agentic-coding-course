@@ -2,7 +2,7 @@
 
 **Time:** ~15 min — **no instructor help**.
 
-This is a self-test. Do every step in order, on your own. If you get stuck, **re-read the relevant lesson** — don't ask the instructor or your neighbor. The point is to prove to yourself that you can drive Cursor without a guide.
+This is a self-test. Do every step in order, on your own. If you get stuck, **re-read the relevant lesson** — don't ask the instructor or your neighbor. The point is to prove to yourself that you can drive VS Code without a guide.
 
 ## The test
 
@@ -11,7 +11,7 @@ This is a self-test. Do every step in order, on your own. If you get stuck, **re
 3. **Connect to a remote environment.** Either:
    - Connect to **WSL** (Windows students), **or**
    - Connect to **SSH** using the instructor-provided host (any student).
-   Confirm the bottom-left of your Cursor window shows **"WSL: ..."** or **"SSH: ..."** on green.
+   Confirm the bottom-left of your VS Code window shows **"WSL: ..."** or **"SSH: ..."** on green.
 4. **Open a remote folder.** With the connection active, open any folder on the remote/WSL side. Your file explorer should show its contents.
 5. **Run two commands in the remote terminal.** Open the integrated terminal — it should be a remote terminal (its prompt is the remote/WSL hostname). Run:
    ```
@@ -20,23 +20,25 @@ This is a self-test. Do every step in order, on your own. If you get stuck, **re
    ```
    Both should print results from the remote, not your laptop.
 
-## What to submit
+## Lab
 
-Take **one screenshot** of your Cursor window that shows, at the same time:
+**This is the Module 00 phase-gate lab.**
 
-- The bottom-left status bar with **"WSL: ..."** or **"SSH: ..."** on green.
-- The integrated terminal with the output of `whoami` and `pwd` visible.
+**Objective:** Prove you can drive VS Code — command palette, extensions, remote connection, remote terminal — without a guide.
 
-Send it to the instructor however they've asked (Slack, email, LMS upload — instructor will say).
+**Task:** Complete all five steps of the test above on your own: toggle the terminal from the command palette, install "Markdown All in One" by Yu Zhang, connect to **WSL** (Windows students) **or** **SSH** using the instructor-provided host (any student), open a remote folder, and run `whoami` and `pwd` in the remote terminal.
 
-## Self-grade
+**Submit:** **One screenshot** of your VS Code window that shows, at the same time: the bottom-left status bar with **"WSL: ..."** or **"SSH: ..."** on green, and the integrated terminal with the output of `whoami` and `pwd` visible. Submit it in D2L.
 
-You pass this module if your screenshot clearly shows both:
+**Pass criteria:**
 
-- [ ] The green WSL or SSH indicator in the bottom-left.
-- [ ] The output of both `whoami` and `pwd` in the terminal.
+- [ ] The green WSL or SSH indicator is visible in the bottom-left.
+- [ ] The output of both `whoami` and `pwd` is visible in the terminal.
+- [ ] Everything is in a single screenshot.
 
 If yours is missing one of these, fix it before submitting. If you really can't get there in 15 minutes, raise your hand at the end of the time block — we'll regroup.
+
+**Unlocks:** Module 01 — Ubuntu Terminal Foundations (phase gate)
 
 ## What's next
 

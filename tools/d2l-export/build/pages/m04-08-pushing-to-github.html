@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git and GitHub — Pushing to GitHub</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Connect a local repository to a GitHub remote with <code>git remote add origin</code>, push it with <code>git push -u origin main</code>, and round-trip commits between the terminal and the web UI with <code>git push</code> and <code>git pull</code>.</div>
+<h1>Lesson 08: Pushing to GitHub</h1>
+<p><strong>By the end, your local FastAPI repo is mirrored in a public repo on GitHub, and you've made a commit on each side and synced them.</strong></p>
+<p>⏱ ~15 minutes of typing + clicking</p>
+<hr />
+<h2>Step 1: create the empty repo on GitHub</h2>
+<p><strong>1.</strong> In your browser, go to github.com. Click the <strong>&quot;+&quot; icon</strong> in the top-right → <strong>New repository</strong>.</p>
+<p><strong>2.</strong> Fill in:</p>
+<ul><li><strong>Owner:</strong> your username.</li><li><strong>Repository name:</strong> <code>fastapi-app</code> (matches your local folder name).</li><li><strong>Visibility:</strong> <strong>Public.</strong> Your classmates will browse and clone each other's repos in lessons 09–10 — that's the point.</li><li><strong>Initialize this repository:</strong> leave <strong>everything unchecked</strong> — no README, no <code>.gitignore</code>, no license. We're pushing an existing local repo — initializing on the server would create a conflict.</li></ul>
+<p><strong>3.</strong> Click <strong>Create repository</strong>.</p>
+<p><strong>4.</strong> GitHub drops you on the quick-setup page. Find the section <strong>&quot;…or push an existing repository from the command line&quot;</strong>:</p>
+<pre class="output"><code class="output">git remote add origin git@github.com:&lt;username&gt;/fastapi-app.git
+git branch -M main
+git push -u origin main</code></pre>
+<p>Make sure the <strong>SSH</strong> tab is selected (not HTTPS) — the URL must start with <code>git@github.com:</code>.</p>
+<blockquote><p><strong>Fallback — Module 03 project broken or missing?</strong> Don't rebuild it in class. Open the instructor's template repo at <code>github.com/&lt;INSTRUCTOR-GITHUB-USERNAME&gt;/course-items-api</code>, click <strong>Use this template → Create a new repository</strong>, name it <code>fastapi-app</code>, keep it <strong>Public</strong>, then clone it:</p>
+<pre><code class="language-bash">git clone git@github.com:&lt;username&gt;/fastapi-app.git ~/docker-course/fastapi-app</code></pre>
+<p>Cloning sets up <code>origin</code> for you, so skip Steps 2 and 3 below and continue at <strong>Step 4: round-trip a commit</strong>.</p></blockquote>
+<hr />
+<h2>Step 2: connect local to remote</h2>
+<p><strong>5.</strong> Back in the terminal, in your project.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app</code></pre>
+<p><strong>6.</strong> Confirm you have no remote yet.</p>
+<pre><code class="language-bash">git remote</code></pre>
+<p>(No output.)</p>
+<p><strong>7.</strong> Add the GitHub repo as the <code>origin</code> remote.</p>
+<pre><code class="language-bash">git remote add origin git@github.com:&lt;username&gt;/fastapi-app.git</code></pre>
+<p>(Substitute your real username from step 4.)</p>
+<p><strong>8.</strong> Confirm.</p>
+<pre><code class="language-bash">git remote -v</code></pre>
+<pre class="output"><code class="output">origin  git@github.com:&lt;username&gt;/fastapi-app.git (fetch)
+origin  git@github.com:&lt;username&gt;/fastapi-app.git (push)</code></pre>
+<hr />
+<h2>Step 3: push</h2>
+<p><strong>9.</strong> Push your <code>main</code> branch and set it as the upstream tracking branch (the <code>-u</code> does that).</p>
+<pre><code class="language-bash">git push -u origin main</code></pre>
+<p>You should see:</p>
+<pre class="output"><code class="output">Enumerating objects: ... done.
+Counting objects: 100% done.
+...
+To github.com:&lt;username&gt;/fastapi-app.git
+ * [new branch]      main -&gt; main
+branch 'main' set up to track 'origin/main'.</code></pre>
+<p><strong>10.</strong> Refresh the GitHub repo page in your browser. <strong>Your code is there.</strong> All your files, all your commits, all your branches' commits that ended up on <code>main</code>.</p>
+<p><strong>11.</strong> Click on a few files to confirm. Click the <strong>&quot;N commits&quot;</strong> link (top-right of the file list, with a clock icon) to see your history.</p>
+<hr />
+<h2>Step 4: round-trip a commit</h2>
+<p><strong>12.</strong> Make a change locally. Edit <code>NOTES.md</code> and add <code>Pushed to GitHub today</code>. Save.</p>
+<pre><code class="language-bash">git commit -am &quot;Note GitHub push&quot;</code></pre>
+<p><strong>13.</strong> Push.</p>
+<pre><code class="language-bash">git push</code></pre>
+<p>(No <code>-u</code> this time — <code>main</code> already tracks <code>origin/main</code>.)</p>
+<pre class="output"><code class="output">To github.com:&lt;username&gt;/fastapi-app.git
+   abc1234..def5678  main -&gt; main</code></pre>
+<p><strong>14.</strong> Refresh GitHub. The new commit is at the top of the history. Click the commit message to see its diff rendered in the browser — green added lines, red removed lines, same as <code>git show</code>.</p>
+<hr />
+<h2>Step 5: edit on GitHub, pull locally</h2>
+<p><strong>15.</strong> On GitHub, navigate to <code>NOTES.md</code>. Click the <strong>pencil/edit icon</strong> at the top-right of the file view.</p>
+<p><strong>16.</strong> Add a line at the bottom: <code>Edited via GitHub web UI</code>.</p>
+<p><strong>17.</strong> Click <strong>Commit changes...</strong> (green button, top-right). Set the commit message to <code>Edit NOTES via web</code>, keep <strong>Commit directly to the <code>main</code> branch</strong> selected, and click <strong>Commit changes</strong> (we'll do PRs in lesson 10).</p>
+<p><strong>18.</strong> Refresh the commits page — you should see the new commit.</p>
+<p><strong>19.</strong> Back in the terminal. <strong>Don't edit anything locally.</strong> Pull from GitHub.</p>
+<pre><code class="language-bash">git pull</code></pre>
+<pre class="output"><code class="output">remote: Enumerating objects: ... done.
+...
+Updating ...
+Fast-forward
+ NOTES.md | 1 +
+ 1 file changed, 1 insertion(+)</code></pre>
+<p><strong>20.</strong> Open <code>NOTES.md</code> in VS Code. The line <code>Edited via GitHub web UI</code> should now be there.</p>
+<p><strong>21.</strong> Confirm with log.</p>
+<pre><code class="language-bash">git log --oneline -3</code></pre>
+<hr />
+<h2>Step 6: see the SSH-vs-HTTPS distinction</h2>
+<p><strong>22.</strong> Look at the remote URL.</p>
+<pre><code class="language-bash">git remote get-url origin</code></pre>
+<pre class="output"><code class="output">git@github.com:&lt;username&gt;/fastapi-app.git</code></pre>
+<p><strong>SSH form</strong> — used for pushes/pulls without typing a password (your SSH key authenticates).</p>
+<p><strong>23.</strong> The HTTPS form would look like <code>https://github.com/&lt;username&gt;/fastapi-app.git</code>. GitHub doesn't accept your account password for HTTPS pushes — you'd need a personal access token. SSH is simpler once set up — that's why we're using it.</p>
+<p><strong>24.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;GitHub repo + first push: $(git remote get-url origin)&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Your repo is public.</strong> Anyone on the internet can read it. That's fine for course exercises — but never commit secrets. Your <code>.env</code> is in <code>.gitignore</code> from lesson 02 for exactly this reason. Check <code>git status</code> before every push.</li><li><strong>&quot;failed to push some refs&quot;</strong> means the remote has commits you don't have. Run <code>git pull</code> first, resolve any conflicts (lesson 09), then push again.</li><li><strong>Don't initialize the GitHub repo with a README</strong> if you have an existing local repo. The histories won't match and you'll get rejected pushes.</li><li><strong><code>-u</code> is only needed the first time</strong> for a new branch. After that, <code>git push</code> knows where to go.</li><li><strong>The remote name <code>origin</code> is convention, not magic.</strong> You could call it anything. <code>origin</code> is what most tools assume.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">git remote -v</code></pre>
+<p>Should show <code>origin</code> with a <code>git@github.com:</code> SSH URL.</p>
+<pre><code class="language-bash">git push --dry-run</code></pre>
+<p>Should print <code>Everything up-to-date</code> (or what would be pushed).</p>
+<p>On GitHub, the <strong>&quot;N commits&quot;</strong> count on your repo page should match <code>git log --oneline | wc -l</code> locally.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m04-09-cloning-and-pulling.html">09-cloning-and-pulling.md</a> — The other side of collaboration</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

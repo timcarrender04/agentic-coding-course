@@ -1,0 +1,168 @@
+{
+  "module": "00",
+  "dir": "phase-1-foundations/00-vscode-walkthrough",
+  "title": "VS Code Walkthrough",
+  "moduleObjectives": [
+    "Explain what an IDE is and how VS Code combines an editor, a terminal, and other tools in one window",
+    "Navigate the VS Code UI, naming the activity bar, side bar, editor, panel, and status bar, and run commands from the command palette",
+    "Open the integrated terminal and distinguish typing into the terminal from typing into the editor",
+    "Install, disable, and uninstall extensions from the marketplace, verifying the publisher before installing",
+    "Install the Docker extension and explain why its sidebar is empty before Docker itself is installed",
+    "Connect VS Code to WSL on Windows and open a folder in the Linux home directory",
+    "Connect VS Code to a remote machine over SSH, open a remote folder, and verify the terminal runs on the remote"
+  ],
+  "lessons": [
+    {
+      "file": "00-what-is-an-ide.md",
+      "title": "What is an IDE?",
+      "objective": "Install VS Code and explain the difference between an editor, a terminal, and an IDE."
+    },
+    {
+      "file": "01-vscode-tour.md",
+      "title": "VS Code UI Tour",
+      "objective": "Identify the activity bar, side bar, editor, panel, and status bar, and use the command palette (`Ctrl+Shift+P`) to toggle the terminal and change the editor font size."
+    },
+    {
+      "file": "02-integrated-terminal.md",
+      "title": "The Integrated Terminal",
+      "objective": "Open the integrated terminal, run `echo` commands at the prompt, and distinguish typing into the terminal from typing into the editor."
+    },
+    {
+      "file": "03-extensions-overview.md",
+      "title": "Extensions Overview",
+      "objective": "Install the Python extension by Microsoft from the marketplace, verify its publisher first, and describe when to use Install, Disable, and Uninstall."
+    },
+    {
+      "file": "04-docker-extension.md",
+      "title": "The Docker Extension",
+      "objective": "Install the Docker extension by Microsoft, locate its whale icon and sidebar sections, and explain why the sidebar shows 'Failed to connect' before Docker is installed."
+    },
+    {
+      "file": "05-wsl-connection.md",
+      "title": "Connecting to WSL",
+      "objective": "Connect VS Code to WSL using the WSL extension, open a folder in the Linux home directory, and verify the terminal is Linux by running `uname -a`."
+    },
+    {
+      "file": "06-ssh-remote.md",
+      "title": "Connecting over SSH",
+      "objective": "Connect VS Code to an instructor-provided remote host with the Remote - SSH extension, open a remote folder, and confirm the session by running `hostname` and `whoami`."
+    },
+    {
+      "file": "07-final-checkpoint.md",
+      "title": "Final Checkpoint",
+      "objective": "Demonstrate unaided use of VS Code by toggling the terminal from the command palette, installing an extension, connecting to WSL or SSH, and capturing a screenshot showing the green remote indicator with `whoami` and `pwd` output."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "According to the lessons, what makes VS Code an IDE rather than just an editor?",
+      "options": [
+        "It requires you to sign in to a Microsoft account before use",
+        "It can only be used for writing code, not plain text",
+        "It combines an editor, a terminal, and other development tools in one window",
+        "It includes a built-in AI assistant out of the box"
+      ],
+      "answer": 2,
+      "feedback": "An IDE (Integrated Development Environment) bolts an editor, a terminal, and other tools together in one window so you don't have to switch between separate programs."
+    },
+    {
+      "question": "Which keyboard shortcut opens the VS Code command palette?",
+      "options": [
+        "`Ctrl+Shift+P`",
+        "`Ctrl+,`",
+        "`Ctrl+Shift+X`",
+        "Ctrl+backtick"
+      ],
+      "answer": 0,
+      "feedback": "`Ctrl+Shift+P` (Cmd+Shift+P on Mac) opens the command palette, from which any VS Code command can be run by name."
+    },
+    {
+      "question": "In the VS Code window, what important information appears in the bottom-left section of the status bar?",
+      "options": [
+        "The current file's word count",
+        "The list of installed extensions",
+        "The editor font size setting",
+        "Where VS Code is connected to, such as a WSL or SSH indicator"
+      ],
+      "answer": 3,
+      "feedback": "The bottom-left of the status bar shows what environment VS Code is connected to, which is where the green 'WSL: Ubuntu' or 'SSH: hostname' indicator appears."
+    },
+    {
+      "question": "You type `echo hello` into the big middle area of the VS Code window and nothing runs. What went wrong?",
+      "options": [
+        "The command needs quotes around the word hello",
+        "You typed into the editor, which stores text in a file, instead of the terminal, which runs commands",
+        "The integrated terminal only works after Docker is installed",
+        "VS Code requires commands to be run from the command palette"
+      ],
+      "answer": 1,
+      "feedback": "The editor stores what you type into a file and never runs it; commands must be typed at the prompt in the terminal panel at the bottom."
+    },
+    {
+      "question": "Before clicking Install on an extension in the marketplace, what should you always check?",
+      "options": [
+        "That the extension was updated within the last week",
+        "That the extension is smaller than 100 MB",
+        "The publisher shown under the extension name, since multiple extensions can share the same name",
+        "That the extension has screenshots on its details page"
+      ],
+      "answer": 2,
+      "feedback": "There are sometimes multiple extensions with the same name (like Python), so you must verify the publisher, such as Microsoft's `ms-python`, before installing."
+    },
+    {
+      "question": "After installing the Docker extension, its sidebar shows 'Failed to connect' or empty sections. Why?",
+      "options": [
+        "The extension was published by the wrong publisher and must be reinstalled",
+        "Docker itself is not installed yet; that happens in Module 02, so the extension has nothing to talk to",
+        "The sidebar only populates when VS Code is connected over SSH",
+        "The whale icon must be clicked twice to start the Docker service"
+      ],
+      "answer": 1,
+      "feedback": "The extension is working correctly; Docker isn't installed until Module 02, so the sidebar has nothing to connect to and the empty state is expected."
+    },
+    {
+      "question": "What is the correct way to install WSL if `wsl --status` shows it is not installed?",
+      "options": [
+        "Run `wsl --install` in PowerShell as administrator, then reboot the computer",
+        "Install the WSL extension in VS Code, which installs WSL automatically",
+        "Run `wsl --status --install` in the VS Code integrated terminal",
+        "Download WSL from code.visualstudio.com and run the installer"
+      ],
+      "answer": 0,
+      "feedback": "WSL is installed by running `wsl --install` in an administrator PowerShell, and the installation requires a reboot before Ubuntu finishes setting up."
+    },
+    {
+      "question": "After connecting VS Code to WSL, which command confirms your integrated terminal is really running Linux?",
+      "options": [
+        "`echo hello`, which prints hello back",
+        "`wsl --status`, which prints the default distribution",
+        "`pwd`, which prints the current folder",
+        "`uname -a`, whose output mentions Linux"
+      ],
+      "answer": 3,
+      "feedback": "The lesson has you run `uname -a` and check that the output mentions 'Linux' as proof that the terminal is inside WSL."
+    },
+    {
+      "question": "When first connecting to a new SSH host, VS Code shows 'The authenticity of host ... can't be established. Are you sure you want to continue connecting (yes/no/[fingerprint])?' What must you do?",
+      "options": [
+        "Type `yes` and press Enter, because pressing Enter alone does nothing",
+        "Press Enter to accept the default answer",
+        "Type the remote machine's password",
+        "Close the prompt and reconnect from the command palette"
+      ],
+      "answer": 0,
+      "feedback": "The prompt has no default answer, so you must explicitly type `yes` and press Enter; pressing Enter by itself does nothing."
+    },
+    {
+      "question": "On Mac or Linux, why do you run `chmod 600` on your SSH key file before connecting?",
+      "options": [
+        "It converts the key into a format VS Code can read",
+        "It registers the key with the Remote - SSH extension",
+        "SSH refuses to use keys that anyone else can read, so the permissions must be locked down",
+        "It encrypts the key with your login password"
+      ],
+      "answer": 2,
+      "feedback": "`chmod 600` locks down the key file's permissions so only you can read it, which SSH requires before it will accept the key."
+    }
+  ]
+}

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
     template: `%s · Instructor Board`,
   },
   description:
-    "Live classroom dashboard — instructor cockpit, projector view, and student companion.",
+    "Zoom-friendly presenter board — share Present, keep Notes private.",
   icons: { icon: "/favicon.ico" },
 };
 

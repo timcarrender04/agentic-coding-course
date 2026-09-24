@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FastAPI from Scratch — Docker Compose and Postgres</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Orchestrate the FastAPI app and a Postgres database with <code>docker-compose.yml</code>, using a healthcheck, a named volume, a bind-mounted hot-reload dev loop, and a <code>.env</code> file for secrets.</div>
+<h1>Lesson 09: Docker Compose and Postgres</h1>
+<p><strong>By the end, you will have a <code>docker-compose.yml</code> defining two services — your FastAPI app and a Postgres database — running side by side, with hot-reload mounted in.</strong></p>
+<p>⏱ ~40 minutes of typing (this lesson runs long — it's normal)</p>
+<blockquote><p>Compose is YAML that orchestrates multiple containers. You declare services, volumes, networks; one <code>docker compose up</code> and Compose does the wiring.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Make sure you're in the project directory and any leftover container from lesson 08 is removed.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+docker ps -a --filter name=fastapi-app -q | xargs -r docker rm -f</code></pre>
+<p><strong>2.</strong> Create <code>docker-compose.yml</code>.</p>
+<pre><code class="language-bash">touch docker-compose.yml</code></pre>
+<p><strong>3.</strong> Open it in VS Code.</p>
+<p><strong>4.</strong> Type the top-level structure. Compose YAML is indentation-sensitive (2 spaces, no tabs).</p>
+<pre><code class="language-yaml">services:
+  api:
+    build: .
+    ports:
+      - &quot;8000:8000&quot;
+    volumes:
+      - ./:/app
+    environment:
+      DATABASE_URL: postgresql://postgres:devpass@db:5432/appdb
+    depends_on:
+      db:
+        condition: service_healthy
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: devpass
+      POSTGRES_DB: appdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - &quot;5432:5432&quot;
+    healthcheck:
+      test: [&quot;CMD-SHELL&quot;, &quot;pg_isready -U postgres&quot;]
+      interval: 2s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:</code></pre>
+<p><strong>5.</strong> Save. Read it back.</p>
+<pre><code class="language-bash">cat docker-compose.yml</code></pre>
+<p><strong>6.</strong> <strong>Read each block aloud</strong> before starting:</p>
+<ul><li><code>api</code> — built from your Dockerfile, port 8000 mapped, code mounted as a bind volume, env var pointing at the db service, waits for db to be healthy, runs uvicorn with reload.</li><li><code>db</code> — official postgres image, password baked in for dev, data persisted in a named volume <code>pgdata</code>, port 5432 mapped (for tools), healthcheck so api waits.</li><li><code>volumes:</code> — declares the named volume Postgres uses.</li></ul>
+<p><strong>7.</strong> Bring up the stack. The <code>-d</code> runs detached; without it the logs of both containers stream together.</p>
+<pre><code class="language-bash">docker compose up -d</code></pre>
+<p>You'll see <code>Creating network ...</code>, <code>Creating volume ...</code>, <code>Creating fastapi-app-db-1</code>, <code>Creating fastapi-app-api-1</code>.</p>
+<p><strong>8.</strong> List the services.</p>
+<pre><code class="language-bash">docker compose ps</code></pre>
+<p>You should see two services, both <code>Up</code>. The <code>db</code> service should show <code>(healthy)</code> after a few seconds.</p>
+<p><strong>9.</strong> Tail the api logs.</p>
+<pre><code class="language-bash">docker compose logs api</code></pre>
+<p>You should see uvicorn's startup banner.</p>
+<p><strong>10.</strong> Hit the api.</p>
+<pre><code class="language-bash">curl http://localhost:8000</code></pre>
+<pre class="output"><code class="output">{&quot;hello&quot;:&quot;fastapi&quot;}</code></pre>
+<p><strong>11.</strong> Hit <code>/items</code>.</p>
+<pre><code class="language-bash">curl http://localhost:8000/items</code></pre>
+<pre class="output"><code class="output">[]</code></pre>
+<p><strong>12.</strong> Now feel the <strong>bind-mount hot reload</strong>. Edit <code>main.py</code>, change <code>read_root</code> to:</p>
+<pre><code class="language-python">    return {&quot;hello&quot;: &quot;from-compose&quot;}</code></pre>
+<p><strong>13.</strong> Save. Look at the api logs — uvicorn should reload because of the <code>--reload</code> flag and the volume mount.</p>
+<pre><code class="language-bash">docker compose logs api --tail=10</code></pre>
+<p>You should see <code>WatchFiles detected changes in 'main.py'. Reloading...</code>.</p>
+<p><strong>14.</strong> Curl.</p>
+<pre><code class="language-bash">curl http://localhost:8000</code></pre>
+<pre class="output"><code class="output">{&quot;hello&quot;:&quot;from-compose&quot;}</code></pre>
+<p>(Same dopamine loop as the venv version, now in Docker.)</p>
+<p><strong>15.</strong> Revert the change to <code>{&quot;hello&quot;: &quot;fastapi&quot;}</code> and save.</p>
+<p><strong>16.</strong> Now poke at Postgres directly. Get a shell into the db container.</p>
+<pre><code class="language-bash">docker compose exec db psql -U postgres -d appdb</code></pre>
+<p>You should see the Postgres prompt:</p>
+<pre class="output"><code class="output">psql (16.x)
+appdb=#</code></pre>
+<p><strong>17.</strong> List databases.</p>
+<pre><code class="language-sql">\l</code></pre>
+<p>You should see <code>appdb</code> in the list.</p>
+<p><strong>18.</strong> List tables — should be empty.</p>
+<pre><code class="language-sql">\dt</code></pre>
+<pre class="output"><code class="output">Did not find any relations.</code></pre>
+<p><strong>19.</strong> Run a trivial query.</p>
+<pre><code class="language-sql">SELECT version();</code></pre>
+<p><strong>20.</strong> Exit psql.</p>
+<pre><code class="language-sql">\q</code></pre>
+<p><strong>21.</strong> Confirm the data volume exists separately from the container.</p>
+<pre><code class="language-bash">docker volume ls | grep pgdata</code></pre>
+<p>You should see your <code>fastapi-app_pgdata</code> volume.</p>
+<p><strong>22.</strong> Restart the db service — your data (well, the empty database) survives.</p>
+<pre><code class="language-bash">docker compose restart db
+docker compose exec db psql -U postgres -d appdb -c &quot;SELECT 1;&quot;</code></pre>
+<pre class="output"><code class="output"> ?column?
+----------
+        1</code></pre>
+<p><strong>23.</strong> Stop the stack.</p>
+<pre><code class="language-bash">docker compose down</code></pre>
+<pre class="output"><code class="output">Stopping fastapi-app-api-1 ... done
+Stopping fastapi-app-db-1  ... done
+Removing fastapi-app-api-1 ... done
+Removing fastapi-app-db-1  ... done
+Removing network fastapi-app_default</code></pre>
+<p><strong>Note:</strong> <code>down</code> does <strong>not</strong> remove the named volume <code>pgdata</code>. To wipe data, use <code>docker compose down -v</code>.</p>
+<p><strong>24.</strong> Bring it back up.</p>
+<pre><code class="language-bash">docker compose up -d</code></pre>
+<p><strong>25.</strong> Confirm the api is back up.</p>
+<pre><code class="language-bash">curl http://localhost:8000</code></pre>
+<pre class="output"><code class="output">{&quot;hello&quot;:&quot;fastapi&quot;}</code></pre>
+<p><strong>26.</strong> Add a <code>.env</code> file to keep the password out of the YAML. First, edit <code>docker-compose.yml</code> and replace the two <code>devpass</code> strings with <code>${POSTGRES_PASSWORD}</code> and the URL with <code>${DATABASE_URL}</code>. Add at the top of each service's environment list as needed. The relevant changes:</p>
+<p>In the <code>api</code> service's <code>environment</code>:</p>
+<pre><code class="language-yaml">      DATABASE_URL: ${DATABASE_URL}</code></pre>
+<p>In the <code>db</code> service's <code>environment</code>:</p>
+<pre><code class="language-yaml">      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}</code></pre>
+<p><strong>27.</strong> Create <code>.env</code> (Compose reads this automatically).</p>
+<pre><code class="language-bash">cat &gt; .env &lt;&lt;'EOF'
+POSTGRES_PASSWORD=devpass
+DATABASE_URL=postgresql://postgres:devpass@db:5432/appdb
+EOF</code></pre>
+<p><strong>28.</strong> Add <code>.env</code> to <code>.gitignore</code> so secrets don't get committed.</p>
+<pre><code class="language-bash">echo &quot;.env&quot; &gt;&gt; .gitignore</code></pre>
+<p><strong>29.</strong> Recreate the stack to pick up the env file.</p>
+<pre><code class="language-bash">docker compose up -d --force-recreate</code></pre>
+<p><strong>30.</strong> Confirm everything still works.</p>
+<pre><code class="language-bash">curl http://localhost:8000
+docker compose exec db psql -U postgres -d appdb -c &quot;SELECT 1;&quot;</code></pre>
+<p><strong>31.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Compose: api + postgres up, hot-reload via bind mount&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>YAML indentation.</strong> 2 spaces, never tabs. A misaligned key kills Compose with a cryptic error.</li><li><strong>The hostname is <code>db</code>, not <code>localhost</code>.</strong> From inside the api container, the postgres host is the <strong>service name</strong> in compose. Connection string: <code>postgresql://postgres:devpass@db:5432/appdb</code>. Beginners type <code>localhost</code> and spend 30 minutes debugging.</li><li><strong><code>depends_on: condition: service_healthy</code></strong> — this is what makes api wait until db is actually accepting connections, not just started. Without the healthcheck, api starts before postgres is ready and crashes on the first DB query.</li><li><code>docker compose down</code> keeps the volume. <code>docker compose down -v</code> wipes it (deletes all data). Be careful.</li><li>The <code>--reload</code> flag plus the bind mount (<code>./:/app</code>) is what gives you hot-reload inside the container. If you leave either out, you lose the dev loop.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">docker compose ps</code></pre>
+<p>Should show two services running, db <code>(healthy)</code>.</p>
+<pre><code class="language-bash">curl -s http://localhost:8000</code></pre>
+<p>Should print <code>{&quot;hello&quot;:&quot;fastapi&quot;}</code>.</p>
+<pre><code class="language-bash">docker compose exec db psql -U postgres -d appdb -c &quot;SELECT 1;&quot;</code></pre>
+<p>Should print <code>1</code>.</p>
+<pre><code class="language-bash">docker compose logs api --tail=5</code></pre>
+<p>Should show recent uvicorn output.</p>
+<pre><code class="language-bash">docker volume ls | grep pgdata</code></pre>
+<p>Should show your named volume.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m03-10-database-with-sqlalchemy.html">10-database-with-sqlalchemy.md</a> — Connect FastAPI to Postgres with SQLAlchemy</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

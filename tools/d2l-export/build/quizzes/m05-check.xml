@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd">
+  <assessment ident="quiz_m05" title="Module 05 Check on Learning — Continue.dev on the Shared vLLM Endpoint">
+    <qtimetadata>
+      <qtimetadatafield>
+        <fieldlabel>cc_profile</fieldlabel>
+        <fieldentry>cc.exam.v0p1</fieldentry>
+      </qtimetadatafield>
+      <qtimetadatafield>
+        <fieldlabel>qmd_scoretype</fieldlabel>
+        <fieldentry>Percentage</fieldentry>
+      </qtimetadatafield>
+    </qtimetadata>
+    <section ident="quiz_m05_root">
+
+    <item ident="quiz_m05_q1" title="Question 1">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;What serving software runs on the college's shared inference server, and what kind of API does it expose?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m05_q1_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m05_q1_a0">
+              <material><mattext texttype="text/html">vLLM, exposing an OpenAI-compatible HTTP API at the &lt;code&gt;/v1&lt;/code&gt; path</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q1_a1">
+              <material><mattext texttype="text/html">Ollama, exposing its own native REST API</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q1_a2">
+              <material><mattext texttype="text/html">llama.cpp server, exposing a gRPC API</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q1_a3">
+              <material><mattext texttype="text/html">Text Generation Inference, exposing a WebSocket streaming API</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m05_q1_resp">quiz_m05_q1_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m05_q1_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m05_q1_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The shared server runs vLLM, which exposes an OpenAI-compatible HTTP API — the &lt;code&gt;/v1&lt;/code&gt; suffix on the endpoint URL is the same API path the OpenAI SDK and Continue.dev expect.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m05_q2" title="Question 2">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;You run the lesson 01 reachability check and &lt;code&gt;curl&lt;/code&gt; prints &lt;code&gt;401&lt;/code&gt;. What does that result mean?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m05_q2_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m05_q2_a0">
+              <material><mattext texttype="text/html">The server is offline and you should retry later</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q2_a1">
+              <material><mattext texttype="text/html">You reached the server — it answered but wants the shared API key, which still counts as success for the reachability check</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q2_a2">
+              <material><mattext texttype="text/html">You are off the campus network and need to connect via Tailscale</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q2_a3">
+              <material><mattext texttype="text/html">The 70B model has not been loaded yet</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m05_q2_resp">quiz_m05_q2_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m05_q2_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m05_q2_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;A &lt;code&gt;401&lt;/code&gt; means the box answered but requires the shared key, so the network connection works — only a &lt;code&gt;000&lt;/code&gt; or a hang means you failed to reach the server.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m05_q3" title="Question 3">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Your &lt;code&gt;curl &amp;quot;$VLLM_BASE/models&amp;quot;&lt;/code&gt; request returns a &lt;code&gt;404&lt;/code&gt;. According to lesson 02, what is the most likely cause?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m05_q3_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m05_q3_a0">
+              <material><mattext texttype="text/html">The shared API key is wrong or missing</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q3_a1">
+              <material><mattext texttype="text/html">The 70B model has not finished loading</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q3_a2">
+              <material><mattext texttype="text/html">The server is overloaded by the rest of the cohort</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q3_a3">
+              <material><mattext texttype="text/html">You dropped the &lt;code&gt;/v1&lt;/code&gt; suffix from the base URL — the path must be &lt;code&gt;.../v1/models&lt;/code&gt;</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m05_q3_resp">quiz_m05_q3_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m05_q3_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m05_q3_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;A &lt;code&gt;404&lt;/code&gt; on &lt;code&gt;/models&lt;/code&gt; usually means the &lt;code&gt;/v1&lt;/code&gt; was dropped from the base URL; the correct path is &lt;code&gt;http://gpu.college.local:8000/v1/models&lt;/code&gt;.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m05_q4" title="Question 4">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Why does the course assign Llama 3.1 8B to autocomplete and Llama 3.3 70B to chat, edit, and agent mode?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m05_q4_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m05_q4_a0">
+              <material><mattext texttype="text/html">The 8B is the only model licensed for code completion</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q4_a1">
+              <material><mattext texttype="text/html">The 70B cannot generate code, only prose explanations</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q4_a2">
+              <material><mattext texttype="text/html">Autocomplete fires on every pause in typing and needs millisecond responses, so it gets the small fast model; chat, edit, and agent run once per request and reward reasoning, so they get the large model</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q4_a3">
+              <material><mattext texttype="text/html">The 8B has a larger context window than the 70B</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m05_q4_resp">quiz_m05_q4_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m05_q4_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m05_q4_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;Tab autocomplete must return suggestions in milliseconds, which suits the small fast 8B, while chat, inline edit, and agent mode run once per request and benefit from the 70B's stronger reasoning even though it is slower.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m05_q5" title="Question 5">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;In &lt;code&gt;~/.continue/config.yaml&lt;/code&gt;, which &lt;code&gt;provider&lt;/code&gt; value do you use for the models served by the college endpoint?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m05_q5_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m05_q5_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;provider: vllm&lt;/code&gt;, matching the serving software</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q5_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;provider: ollama&lt;/code&gt;, Continue's default local provider</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q5_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;provider: openai&lt;/code&gt;, because vLLM implements the OpenAI-compatible API</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q5_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;provider: llama&lt;/code&gt;, matching the model family</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m05_q5_resp">quiz_m05_q5_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m05_q5_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m05_q5_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;vLLM speaks the OpenAI API, so Continue's &lt;code&gt;openai&lt;/code&gt; provider is correct, with &lt;code&gt;apiBase&lt;/code&gt; pointing it at the college endpoint.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m05_q6" title="Question 6">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;What happens if you mistakenly give the 70B model the &lt;code&gt;autocomplete&lt;/code&gt; role instead of the 8B?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m05_q6_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m05_q6_a0">
+              <material><mattext texttype="text/html">Continue refuses to load the config file</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q6_a1">
+              <material><mattext texttype="text/html">Autocomplete silently stops working</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q6_a2">
+              <material><mattext texttype="text/html">Nothing changes — the &lt;code&gt;roles&lt;/code&gt; list is only a display label</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q6_a3">
+              <material><mattext texttype="text/html">Ghost-text suggestions become laggy because every pause in typing waits on the slow 70B</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m05_q6_resp">quiz_m05_q6_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m05_q6_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m05_q6_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;Roles matter: putting the slow 70B on autocomplete makes every keystroke pause wait on the large model, which is why the fast 8B holds the autocomplete role.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m05_q7" title="Question 7">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Which Continue context provider would you use to have the model summarize your uncommitted changes before you commit?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m05_q7_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m05_q7_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;@terminal&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q7_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;@diff&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q7_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;@codebase&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q7_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;@problems&lt;/code&gt;</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m05_q7_resp">quiz_m05_q7_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m05_q7_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m05_q7_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;&lt;code&gt;@diff&lt;/code&gt; sends the &lt;code&gt;git diff&lt;/code&gt; output of your uncommitted changes to the model, which lesson 05 uses to summarize the change about to be committed.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m05_q8" title="Question 8">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;While a ghost-text autocomplete suggestion is showing, which keys do what?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m05_q8_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m05_q8_a0">
+              <material><mattext texttype="text/html">Tab accepts the full suggestion, Esc dismisses it, and &lt;code&gt;Ctrl+Right&lt;/code&gt; accepts it one word at a time</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q8_a1">
+              <material><mattext texttype="text/html">Enter accepts the suggestion, Backspace dismisses it, and Tab indents the line</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q8_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;Ctrl+Enter&lt;/code&gt; accepts the suggestion, Tab dismisses it, and F2 accepts one line</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q8_a3">
+              <material><mattext texttype="text/html">Double-clicking accepts the suggestion, and there is no way to dismiss it</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m05_q8_resp">quiz_m05_q8_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m05_q8_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m05_q8_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;Lesson 06 drills exactly this: Tab accepts the full ghost-text suggestion, Esc dismisses it, and &lt;code&gt;Ctrl+Right&lt;/code&gt; walks through the suggestion word by word.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m05_q9" title="Question 9">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;According to lesson 07, what is the best approach when using &lt;code&gt;Ctrl+I&lt;/code&gt; inline edit to change code?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m05_q9_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m05_q9_a0">
+              <material><mattext texttype="text/html">Highlight the whole file so the model has maximum context for any change</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q9_a1">
+              <material><mattext texttype="text/html">Highlight the smallest selection that contains the change, and read every red and green line of the proposed diff before accepting</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q9_a2">
+              <material><mattext texttype="text/html">Accept the diff immediately, since the 70B rarely makes mistakes</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q9_a3">
+              <material><mattext texttype="text/html">Avoid undo after accepting, because inline edits cannot be reverted</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m05_q9_resp">quiz_m05_q9_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m05_q9_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m05_q9_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;Smaller selections produce better edits, and every proposed diff must be read before accepting — Continue's edits are normal VS Code undo entries if you accept by accident.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m05_q10" title="Question 10">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;In Continue's agent mode, what keeps you in control while the model reads files, writes files, and runs shell commands?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m05_q10_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m05_q10_a0">
+              <material><mattext texttype="text/html">Agent mode runs inside a Docker sandbox with no access to your repo</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q10_a1">
+              <material><mattext texttype="text/html">Agent mode can only propose changes and can never execute commands</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q10_a2">
+              <material><mattext texttype="text/html">Every tool call is gated on your explicit approval — you review each step and approve or reject it</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m05_q10_a3">
+              <material><mattext texttype="text/html">A git pre-commit hook automatically reverts any unwanted change</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m05_q10_resp">quiz_m05_q10_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m05_q10_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m05_q10_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;Lesson 08 stresses that every agent tool call is gated on your approval, so you read each proposed read, write, or shell command and approve or reject it deliberately.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+    </section>
+  </assessment>
+</questestinterop>

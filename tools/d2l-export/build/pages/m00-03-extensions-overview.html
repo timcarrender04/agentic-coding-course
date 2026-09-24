@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VS Code Walkthrough — Extensions Overview</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Install the Python extension by Microsoft from the marketplace, verify its publisher first, and describe when to use Install, Disable, and Uninstall.</div>
+<h1>Lesson 03: Extensions Overview</h1>
+<p><strong>Time:</strong> ~15 min</p>
+<h2>What is an extension?</h2>
+<p>An <strong>extension</strong> is a plugin that adds features to VS Code. VS Code by itself is a general-purpose IDE. Extensions specialize it: an extension might add Python support, or a Docker sidebar, or a way to connect to a remote computer. You install only the ones you need.</p>
+<p>Extensions are made by Microsoft, by community developers, and by companies. The big public list of all extensions is the <strong>marketplace</strong>.</p>
+<h2>Demo: open the marketplace</h2>
+<ol><li>Click the <strong>Extensions</strong> icon in the activity bar (the four squares with one floating away).</li></ol>
+<ul><li>Or press <strong><code>Ctrl+Shift+X</code></strong>.</li></ul>
+<ol><li>The side bar fills with a search box and a list of popular extensions.</li></ol>
+<h2>The buttons on an extension</h2>
+<p>Click any extension in the list. The right-hand pane shows its details: description, version, publisher, screenshots.</p>
+<p>The button next to the extension name does one of three things depending on its state:</p>
+<ul><li><strong>Install</strong> — extension isn't installed yet. Click to install.</li><li><strong>Uninstall</strong> — extension is installed. Click to remove it.</li><li><strong>Disable</strong> — extension is installed and turned on. Click to turn it off without removing it. Useful when an extension is misbehaving but you'll want it back.</li></ul>
+<p>Always look at the <strong>publisher</strong> under the extension name before installing. There are sometimes multiple extensions with the same name. Trusted publishers for this course: <strong>Microsoft</strong>, and the language/tool's official organization (e.g. <code>dbaeumer</code> for ESLint, <code>ms-python</code> for Python).</p>
+<h2>Course-recommended extensions</h2>
+<p>For this course you will install these. We'll install some now and some in later lessons of this module:</p>
+<table><thead><tr><th>Extension</th><th>Publisher</th><th>Lesson</th><th>Purpose</th></tr></thead><tbody><tr><td>Python</td><td>Microsoft (<code>ms-python</code>)</td><td>this lesson</td><td>Language support for Python</td></tr><tr><td>Docker</td><td>Microsoft (<code>ms-azuretools</code>)</td><td>lesson 04</td><td>Sidebar for inspecting containers</td></tr><tr><td>WSL</td><td>Microsoft (<code>ms-vscode-remote</code>)</td><td>lesson 05 (Windows only)</td><td>Connect VS Code to WSL</td></tr><tr><td>Remote - SSH</td><td>Microsoft (<code>ms-vscode-remote</code>)</td><td>lesson 06</td><td>Connect VS Code to a remote machine</td></tr><tr><td>Continue</td><td>Continue.dev (<code>Continue.continue</code>)</td><td>Module 05</td><td>Free AI assistant — chat, inline edit, autocomplete</td></tr></tbody></table>
+<blockquote><p>Don't install random extensions today. Stick to the list above. <strong>Continue.dev</strong> is our free AI extension, but we don't install it until Module 05 — leave it for now. We'll revisit extensions for actual work in later modules.</p></blockquote>
+<h2>Try it yourself: install Python</h2>
+<ol><li>Open the extensions side bar (<code>Ctrl+Shift+X</code>).</li><li>In the search box at the top, type <strong>Python</strong>.</li><li>The first result should be &quot;Python&quot; by Microsoft. Verify the publisher says <strong>Microsoft</strong> before clicking.</li><li>Click <strong>Install</strong>.</li><li>After a few seconds, the button changes to a gear/disable icon — that means it installed.</li><li>Scroll the side bar down to the <strong>INSTALLED</strong> section. You should see &quot;Python&quot; listed there.</li></ol>
+<h2>Disabling and uninstalling</h2>
+<p>You won't do this today, but for reference:</p>
+<ul><li>To turn an extension off temporarily: open the extensions side bar, click the extension, click the <strong>Disable</strong> dropdown next to the gear.</li><li>To remove it: same place, choose <strong>Uninstall</strong>.</li><li>After enable/disable, VS Code sometimes asks to reload the window. Click &quot;Reload.&quot;</li></ul>
+<h2>Checkpoint</h2>
+<p>You're done when:</p>
+<ul><li>[ ] You opened the extensions side bar with <code>Ctrl+Shift+X</code>.</li><li>[ ] You searched for and installed the <strong>Python</strong> extension by <strong>Microsoft</strong>.</li><li>[ ] &quot;Python&quot; appears under the <strong>INSTALLED</strong> section in the extensions side bar.</li><li>[ ] You know the difference between Install, Disable, and Uninstall.</li></ul>
+<p>If you accidentally installed a different &quot;Python&quot; extension (wrong publisher), uninstall it and install the Microsoft one.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Install an extension from the marketplace and verify its publisher before installing.</p>
+<p><strong>Task:</strong> Work through this lesson — open the extensions side bar (<code>Ctrl+Shift+X</code>), search for <strong>Python</strong>, verify the publisher is <strong>Microsoft</strong>, and install it.</p>
+<p><strong>Submit:</strong> One screenshot of the extensions side bar showing &quot;Python&quot; under the <strong>INSTALLED</strong> section, with the publisher (Microsoft) visible.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] &quot;Python&quot; appears under the INSTALLED section of the extensions side bar.</li><li>[ ] The publisher shown is Microsoft (<code>ms-python</code>).</li><li>[ ] No extra extensions were installed beyond the course list.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m00-04-docker-extension.html">04-docker-extension.md</a></p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

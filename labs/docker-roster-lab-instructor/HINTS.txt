@@ -1,0 +1,14 @@
+Hint ladder
+===========
+
+Teams of three. Grok/LLM in a browser is OK; they still need compose up
+on each laptop. Coach them to RUN containers, not python.
+
+1. "docker compose up -d --build — then docker compose ps. Is db healthy?"
+2. "DATABASE_URL host is db because that is the service name."
+3. "curl localhost:8080/api/signups — that is the web container, not app.py."
+4. Port 8080 still nginx → docker ps, rm the leftover.
+5. They ran uvicorn on the host → stop it; only compose.
+
+NEVER push this instructor-only notes folder to the public student repo
+if it diverges; the student repo is the shareable stack.

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 03 — FastAPI from Scratch</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+
+<h1>Module 03 — FastAPI from Scratch</h1>
+<div class="callout objective"><span class="label">🎯 What you'll be able to do after this module</span>
+<ul><li>Create and activate a Python virtual environment with <code>python3 -m venv</code> and pin project dependencies in a <code>requirements.txt</code></li><li>Build FastAPI routes (GET, POST, DELETE) that use typed path parameters, query parameters, and JSON request bodies</li><li>Validate request data with Pydantic models and interpret FastAPI's automatic 422 validation errors</li><li>Organize a growing application into per-resource routers using <code>APIRouter</code> prefixes and tags</li><li>Implement shared logic such as header-based authentication and database sessions with <code>Depends</code> dependency injection</li><li>Containerize the app with a Dockerfile and run it alongside Postgres using Docker Compose with healthchecks and named volumes</li><li>Persist data to Postgres using SQLAlchemy ORM models, an engine, and per-request sessions</li><li>Return correct HTTP status codes with <code>HTTPException</code> and verify every endpoint with both <code>curl</code> and the <code>/docs</code> Swagger UI</li></ul></div>
+<h2>Lessons and objectives</h2>
+<table><thead><tr><th>#</th><th>Lesson</th><th>Learning objective</th></tr></thead><tbody><tr><td>00</td><td>Prerequisites Check</td><td>Verify that Python 3, pip, Docker (without sudo), Docker Compose, curl, and the course directory from Modules 01 and 02 all still work before starting FastAPI.</td></tr><tr><td>01</td><td>Python Virtual Environment</td><td>Create, activate, and deactivate a project-scoped virtual environment with <code>python3 -m venv</code> and explain when to use a venv on the host versus running in Docker.</td></tr><tr><td>02</td><td>Installing FastAPI</td><td>Install FastAPI and Uvicorn into the active venv and freeze the exact package versions into a <code>requirements.txt</code> with <code>pip freeze</code>.</td></tr><tr><td>03</td><td>Hello World</td><td>Write a minimal FastAPI app in <code>main.py</code>, run it with <code>uvicorn main:app --reload</code>, and verify responses from curl, a browser, and the <code>/docs</code> Swagger UI.</td></tr><tr><td>04</td><td>Path and Query Params</td><td>Define routes with typed path parameters and optional query parameters, and demonstrate FastAPI rejecting mistyped input with 422 validation errors.</td></tr><tr><td>05</td><td>Request Bodies with Pydantic</td><td>Validate JSON request bodies on a <code>POST /items</code> route with a Pydantic <code>BaseModel</code> and test valid and invalid payloads from both curl and Swagger UI.</td></tr><tr><td>06</td><td>Multiple Routes and Routers</td><td>Refactor routes into per-resource modules using <code>APIRouter</code> with prefixes and tags, and mount them in <code>main.py</code> with <code>app.include_router</code>.</td></tr><tr><td>07</td><td>Dependencies and Injection</td><td>Implement a header-checking <code>get_current_user</code> dependency with <code>Depends</code> and apply it at route level and router level, distinguishing 401 and 422 responses.</td></tr><tr><td>08</td><td>Containerizing FastAPI</td><td>Write a Dockerfile that caches the pip-install layer, build the image, and run the containerized app with uvicorn bound to <code>0.0.0.0</code> so the mapped port is reachable.</td></tr><tr><td>09</td><td>Docker Compose and Postgres</td><td>Orchestrate the FastAPI app and a Postgres database with <code>docker-compose.yml</code>, using a healthcheck, a named volume, a bind-mounted hot-reload dev loop, and a <code>.env</code> file for secrets.</td></tr><tr><td>10</td><td>Database with SQLAlchemy</td><td>Replace the in-memory item store with Postgres persistence using a SQLAlchemy engine, ORM models, and a <code>get_db</code> session dependency, then verify the rows directly in psql.</td></tr><tr><td>11</td><td>Error Handling and Status Codes</td><td>Return correct HTTP status codes (201, 204, 400, 404) by setting <code>status_code</code> on route decorators and raising <code>HTTPException</code> for missing resources and business-rule violations.</td></tr><tr><td>12</td><td>Final Checkpoint</td><td>Build a complete <code>Profile</code> resource from memory — SQLAlchemy model, router, protected DELETE, and correct status codes — and pass a 10-step curl acceptance test.</td></tr></tbody></table>
+<p class="meta">Each lesson is one learning object with a paired lab. Work in order — completing a lab unlocks the next lesson.
+The module ends with a <strong>Check on Learning</strong> quiz and a hands-on final checkpoint.</p>
+</body>
+</html>

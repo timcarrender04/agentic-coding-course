@@ -15,7 +15,7 @@ Add a small feature to your FastAPI app and ship it through a real PR workflow.
 {
   "app": "fastapi-app",
   "version": "0.1.0",
-  "owner": "<your-gitea-username>"
+  "owner": "<your-github-username>"
 }
 ```
 
@@ -55,11 +55,11 @@ git log --oneline -3
 git push -u origin add-info-route
 ```
 
-**7.** In Gitea, open a pull request from `add-info-route` into `main`. Title: `Add /info route`. Description: a short summary.
+**7.** On GitHub, open a pull request from `add-info-route` into `main` (the **"Compare & pull request"** banner, or **Pull requests** → **New pull request**). Title: `Add /info route`. Description: a short summary.
 
-**8.** Leave at least one inline comment on your own PR (or have your pair partner do it). Reply to it.
+**8.** Leave at least one inline comment on your own PR (or ask a classmate to review it — you know where their repos are now). Reply to it.
 
-**9.** Merge the PR (use **Create a merge commit**). Delete the branch on Gitea.
+**9.** Merge the PR (use **Create a merge commit**). Delete the branch on GitHub.
 
 **10.** Pull on your local `main`.
 ```bash
@@ -76,7 +76,7 @@ curl http://localhost:8000/info
 ```
 Expected:
 ```
-{"app":"fastapi-app","version":"0.1.0","owner":"<your-gitea-username>"}
+{"app":"fastapi-app","version":"0.1.0","owner":"<your-github-username>"}
 ```
 
 ---
@@ -105,9 +105,9 @@ curl -s http://localhost:8000/info | python -m json.tool
 ```
 Prints your three-key JSON.
 
-In Gitea:
-- The **Pull Requests** tab shows your PR as **Merged**.
-- The **Commits** tab on `main` shows your two feature commits + the merge commit.
+On GitHub:
+- The **Pull requests** tab shows your PR as **Merged**.
+- The commit history on `main` shows your two feature commits + the merge commit.
 
 ---
 
@@ -116,8 +116,8 @@ In Gitea:
 A screenshot showing **all four** of these in one image:
 1. Your terminal with `curl http://localhost:8000/info` and its JSON response.
 2. Your terminal with `git log --oneline --graph -5`.
-3. Your Gitea PR page showing **Merged** status.
-4. Your Gitea repo file view of `main.py` with the `/info` route visible.
+3. Your GitHub PR page showing **Merged** status.
+4. Your GitHub repo file view of `main.py` with the `/info` route visible.
 
 Send it to the instructor however they've asked.
 
@@ -133,7 +133,7 @@ echo "Module 04 final checkpoint: passed $(date -Iseconds)" >> ~/docker-course/n
 You pass this module if:
 
 - [ ] The PR was opened, reviewed (with at least one comment), and merged.
-- [ ] The merged branch was deleted on both Gitea and locally.
+- [ ] The merged branch was deleted on both GitHub and locally.
 - [ ] `curl http://localhost:8000/info` returns the expected JSON.
 - [ ] The merge commit shows in `git log --oneline --graph` on `main`.
 
@@ -141,4 +141,4 @@ You pass this module if:
 
 ## What's next
 
-Module 05 turns on Cursor's AI features — Tab, Chat, Composer — using the repo you just built as the working codebase. Every change from here on flows through the same branch + PR + merge cycle you just drilled.
+Module 05 turns on Continue.dev's AI features in VS Code — autocomplete, chat, and agent mode — using the repo you just built as the working codebase. Every change from here on flows through the same branch + PR + merge cycle you just drilled.

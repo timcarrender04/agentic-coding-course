@@ -103,7 +103,7 @@ Access to fetch at 'http://localhost:8000/items' from origin 'http://localhost:3
 
 ## Step 2: add CORS middleware to FastAPI
 
-**8.** Open the **backend** project — `~/docker-course/fastapi-app/main.py` — in Cursor.
+**8.** Open the **backend** project — `~/docker-course/fastapi-app/main.py` — in VS Code.
 
 **9.** Add the import at the top with the other FastAPI imports:
 ```python

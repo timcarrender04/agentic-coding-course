@@ -44,7 +44,7 @@ git switch -c add-delete-button
 
 **3.** Open the Continue side bar. Switch to **Agent** mode.
 
-**4.** In Cursor, open `app/page.tsx` so it's the visible file.
+**4.** In VS Code, open `app/page.tsx` so it's the visible file.
 
 **5.** In Continue, type:
 ```
@@ -124,11 +124,11 @@ git commit -m "Add Delete button with confirmation modal"
 
 **19.** Push the branch.
 ```bash
-# Assumes you set up a frontend repo on Gitea earlier; if not, skip the push for now
+# Assumes you set up a frontend repo on GitHub earlier; if not, skip the push for now
 git remote -v
 ```
 
-If you have an `origin` set, `git push -u origin add-delete-button` and open a PR on Gitea (Module 04 lesson 10 workflow). If not, just merge locally:
+If you have an `origin` set, `git push -u origin add-delete-button` and open a PR on GitHub (Module 04 lesson 10 workflow). If not, just merge locally:
 ```bash
 git switch main
 git merge add-delete-button

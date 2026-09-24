@@ -3,4 +3,7 @@ node_modules/@adobe/react-spectrum/ColorWheel/package.json
 
 node_modules/
 
+# Nested public lab repo (published separately; do not treat as a submodule)
+labs/docker-roster-lab/.git/
+
 

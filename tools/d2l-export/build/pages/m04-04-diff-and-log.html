@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git and GitHub — Diff and Log</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Inspect unstaged, staged, and between-commit changes with <code>git diff</code> and read history with <code>git log</code> filters such as <code>--oneline</code>, <code>--graph</code>, <code>--author</code>, and <code>--grep</code>.</div>
+<h1>Lesson 04: Diff and Log</h1>
+<p><strong>By the end, you will be fluent in <code>git diff</code>, <code>git log</code>, and the most useful flags on each.</strong></p>
+<p>⏱ ~15 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Confirm you're in the project and the tree is clean.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+git status</code></pre>
+<p><strong>2.</strong> Look at the full log.</p>
+<pre><code class="language-bash">git log</code></pre>
+<p>(Press <code>q</code> to quit the pager.)</p>
+<p><strong>3.</strong> One-line per commit.</p>
+<pre><code class="language-bash">git log --oneline</code></pre>
+<p><strong>4.</strong> With branch + tag decorations.</p>
+<pre><code class="language-bash">git log --oneline --decorate</code></pre>
+<p>You should see <code>(HEAD -&gt; main)</code> next to the most recent commit.</p>
+<p><strong>5.</strong> With a tiny visual graph (more useful when you have branches).</p>
+<pre><code class="language-bash">git log --oneline --graph --decorate --all</code></pre>
+<p><strong>6.</strong> Show file changes with each commit.</p>
+<pre><code class="language-bash">git log --stat --oneline</code></pre>
+<p><strong>7.</strong> Show the actual diff with each commit.</p>
+<pre><code class="language-bash">git log -p</code></pre>
+<p>(Lots of output. Press <code>q</code> to quit.)</p>
+<p><strong>8.</strong> Filter to commits touching a specific file.</p>
+<pre><code class="language-bash">git log --oneline -- main.py</code></pre>
+<p><strong>9.</strong> Filter by author.</p>
+<pre><code class="language-bash">git log --oneline --author=&quot;Your Name&quot;</code></pre>
+<p><strong>10.</strong> Filter by message text.</p>
+<pre><code class="language-bash">git log --oneline --grep=&quot;hello&quot;</code></pre>
+<p>You should see your &quot;Change hello response to git&quot; and &quot;Restore hello response to fastapi&quot; commits.</p>
+<p><strong>11.</strong> Show just the last N commits.</p>
+<pre><code class="language-bash">git log --oneline -3</code></pre>
+<p><strong>12.</strong> Look at one specific commit by hash. Pick any short hash from <code>git log --oneline</code>.</p>
+<pre><code class="language-bash">git show &lt;paste-a-hash-here&gt;</code></pre>
+<p>You'll see the commit metadata + the diff.</p>
+<p><strong>13.</strong> Now make changes to feel <code>git diff</code> properly. Edit <code>routers/items.py</code> and add a docstring under the <code>class ItemIn(BaseModel):</code> line:</p>
+<pre><code class="language-python">    &quot;&quot;&quot;Pydantic model for incoming item creation requests.&quot;&quot;&quot;</code></pre>
+<p><strong>14.</strong> Save. Diff.</p>
+<pre><code class="language-bash">git diff</code></pre>
+<p>You should see exactly the line you added.</p>
+<p><strong>15.</strong> See the diff with more context lines.</p>
+<pre><code class="language-bash">git diff -U10</code></pre>
+<p>(Default is <code>-U3</code> — three lines of context above and below each change.)</p>
+<p><strong>16.</strong> Stage the change.</p>
+<pre><code class="language-bash">git add routers/items.py</code></pre>
+<p><strong>17.</strong> <code>git diff</code> now shows nothing — staged changes don't appear in plain <code>git diff</code>.</p>
+<pre><code class="language-bash">git diff</code></pre>
+<p>(No output.)</p>
+<p><strong>18.</strong> See the staged diff.</p>
+<pre><code class="language-bash">git diff --staged</code></pre>
+<p>(Same diff as before — but now you're looking at what's about to be committed.)</p>
+<p><strong>19.</strong> Commit it.</p>
+<pre><code class="language-bash">git commit -m &quot;Add docstring to ItemIn model&quot;</code></pre>
+<p><strong>20.</strong> See the diff between the commit you just made and the commit before it.</p>
+<pre><code class="language-bash">git diff HEAD~1 HEAD</code></pre>
+<p>(<code>HEAD</code> = the latest commit. <code>HEAD~1</code> = one commit before HEAD. <code>HEAD~2</code> = two before, etc.)</p>
+<p><strong>21.</strong> Same diff in stat form.</p>
+<pre><code class="language-bash">git diff HEAD~1 HEAD --stat</code></pre>
+<p><strong>22.</strong> See the full diff between any two commits — pick two short hashes from <code>git log --oneline</code>.</p>
+<pre><code class="language-bash">git diff &lt;older-hash&gt; &lt;newer-hash&gt;</code></pre>
+<p><strong>23.</strong> Compare a single file across two commits.</p>
+<pre><code class="language-bash">git diff HEAD~3 HEAD -- main.py</code></pre>
+<p><strong>24.</strong> A pretty log format you might want to alias later. Type it once now.</p>
+<pre><code class="language-bash">git log --pretty=format:&quot;%h %an %ar  %s&quot; -10</code></pre>
+<pre class="output"><code class="output">abc1234 Your Name 5 minutes ago  Add docstring to ItemIn model
+def5678 Your Name 10 minutes ago  Add header comment to users router
+...</code></pre>
+<p><strong>25.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Diff + log fluency drilled&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong><code>git diff</code> shows working-tree changes only.</strong> For staged changes, <code>git diff --staged</code>. For both, <code>git diff HEAD</code>.</li><li><strong><code>HEAD~N</code></strong> counts back from your current commit. <code>HEAD~1</code> = parent, <code>HEAD~2</code> = grandparent. With merges this gets weirder; we won't worry about that yet.</li><li><strong>Pager controls</strong> (<code>less</code>): <code>q</code> to quit, <code>/text</code> to search, <code>n</code> for next match, space for next page, <code>b</code> for back.</li><li><strong>Don't shell out to <code>cat</code> to see commits</strong> — <code>git show</code> is the right tool.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">git log --oneline | wc -l</code></pre>
+<p>Should print at least <code>6</code>.</p>
+<pre><code class="language-bash">git log --oneline --grep=&quot;hello&quot; | wc -l</code></pre>
+<p>Should print at least <code>1</code>.</p>
+<pre><code class="language-bash">git diff HEAD~1 HEAD --stat</code></pre>
+<p>Should show one file changed (the docstring you added).</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m04-05-branches.html">05-branches.md</a> — Work on multiple things at once</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

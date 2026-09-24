@@ -10,44 +10,46 @@ export default function Home() {
     <main className="min-h-screen flex items-center justify-center p-8">
       <div className="max-w-3xl w-full">
         <p className="text-label-caps text-[var(--color-primary)] mb-3">
-          Agentic Coding · classroom dashboard
+          Agentic Coding · Zoom session
         </p>
         <h1 className="text-5xl md:text-6xl font-bold tracking-tight font-display">
           Instructor Board
         </h1>
         <p className="mt-4 text-lg text-[var(--color-ink-soft)]">
-          Three coordinated views over the same lesson:{" "}
+          Share <strong>Present</strong> in Zoom. Keep <strong>Notes</strong>{" "}
+          on your screen (second monitor or a window you don&rsquo;t share).
+          Same lesson stays in sync —{" "}
           <strong>{modules.length}</strong> modules ·{" "}
-          <strong>{totalLessons}</strong> lessons. The instructor advances; the
-          projector and student devices follow within a second.
+          <strong>{totalLessons}</strong> lessons.
         </p>
 
-        <div className="grid sm:grid-cols-3 gap-4 mt-10">
+        <div className="grid sm:grid-cols-2 gap-4 mt-10">
           <LaunchCard
-            blurb="The cockpit. Drives session state for everyone."
-            color="primary"
-            href="/instructor"
-            kbd="I"
-            title="Instructor"
-          />
-          <LaunchCard
-            blurb="Clean view for the beamer. Read-only mirror."
+            blurb="Clean lesson view. Share this browser window in Zoom."
             color="ink"
             href="/projector"
             kbd="P"
-            title="Projector"
+            title="Present"
           />
           <LaunchCard
-            blurb="Student companion. Mark steps as you go."
+            blurb="Your private cockpit: syllabus, step controls, and talking points."
+            color="primary"
+            href="/instructor"
+            kbd="N"
+            title="Notes"
+          />
+          <LaunchCard
+            blurb="Interactive baseline survey charts for kickoff discussion."
             color="secondary"
-            href="/student"
+            href="/class-materials"
             kbd="S"
-            title="Student"
+            title="Survey"
           />
         </div>
 
         <p className="mt-10 text-sm text-[var(--color-ink-faint)]">
-          Source: {modules.map((m) => `${m.id}-${m.title}`).join(" · ")}
+          Tip: open both, advance from Notes — Present follows. Source:{" "}
+          {modules.map((m) => `${m.id}-${m.title}`).join(" · ")}
         </p>
       </div>
     </main>

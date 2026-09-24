@@ -44,7 +44,7 @@ git diff
 ```
 (No output — the change is gone.)
 
-**6.** Open `main.py` in Cursor — should show `{"hello": "branched"}` again.
+**6.** Open `main.py` in VS Code — should show `{"hello": "branched"}` again.
 
 ---
 
@@ -239,4 +239,4 @@ Should match.
 
 ---
 
-**Next up:** [07-gitea-account-and-ssh.md](07-gitea-account-and-ssh.md) — Connect to your Gitea account
+**Next up:** [07-github-account-and-ssh.md](07-github-account-and-ssh.md) — Connect to your GitHub account

@@ -1,0 +1,127 @@
+Module,Lesson,Level,Title,Objective
+00,,module,VS Code Walkthrough,"Explain what an IDE is and how VS Code combines an editor, a terminal, and other tools in one window"
+00,,module,VS Code Walkthrough,"Navigate the VS Code UI, naming the activity bar, side bar, editor, panel, and status bar, and run commands from the command palette"
+00,,module,VS Code Walkthrough,Open the integrated terminal and distinguish typing into the terminal from typing into the editor
+00,,module,VS Code Walkthrough,"Install, disable, and uninstall extensions from the marketplace, verifying the publisher before installing"
+00,,module,VS Code Walkthrough,Install the Docker extension and explain why its sidebar is empty before Docker itself is installed
+00,,module,VS Code Walkthrough,Connect VS Code to WSL on Windows and open a folder in the Linux home directory
+00,,module,VS Code Walkthrough,"Connect VS Code to a remote machine over SSH, open a remote folder, and verify the terminal runs on the remote"
+00,00,lesson,What is an IDE?,"Install VS Code and explain the difference between an editor, a terminal, and an IDE."
+00,01,lesson,VS Code UI Tour,"Identify the activity bar, side bar, editor, panel, and status bar, and use the command palette (`Ctrl+Shift+P`) to toggle the terminal and change the editor font size."
+00,02,lesson,The Integrated Terminal,"Open the integrated terminal, run `echo` commands at the prompt, and distinguish typing into the terminal from typing into the editor."
+00,03,lesson,Extensions Overview,"Install the Python extension by Microsoft from the marketplace, verify its publisher first, and describe when to use Install, Disable, and Uninstall."
+00,04,lesson,The Docker Extension,"Install the Docker extension by Microsoft, locate its whale icon and sidebar sections, and explain why the sidebar shows 'Failed to connect' before Docker is installed."
+00,05,lesson,Connecting to WSL,"Connect VS Code to WSL using the WSL extension, open a folder in the Linux home directory, and verify the terminal is Linux by running `uname -a`."
+00,06,lesson,Connecting over SSH,"Connect VS Code to an instructor-provided remote host with the Remote - SSH extension, open a remote folder, and confirm the session by running `hostname` and `whoami`."
+00,07,lesson,Final Checkpoint,"Demonstrate unaided use of VS Code by toggling the terminal from the command palette, installing an extension, connecting to WSL or SSH, and capturing a screenshot showing the green remote indicator with `whoami` and `pwd` output."
+01,,module,Ubuntu Terminal Foundations,"Navigate the Linux filesystem confidently using `pwd`, `ls`, and `cd`"
+01,,module,Ubuntu Terminal Foundations,"Create, copy, move, rename, and delete files and directories from the terminal"
+01,,module,Ubuntu Terminal Foundations,"Read and edit files from the terminal using `cat`, `head`, `tail`, `less`, `nano`, and output redirection"
+01,,module,Ubuntu Terminal Foundations,Update an Ubuntu system and install packages with `apt` using `sudo`
+01,,module,Ubuntu Terminal Foundations,Interpret and modify file permissions and ownership with `chmod` and `chown`
+01,,module,Ubuntu Terminal Foundations,"Diagnose basic network connectivity and DNS with `ping`, `curl`, `dig`, and `ss`"
+01,,module,Ubuntu Terminal Foundations,"Inspect running processes and service status with `ps`, `top`, `systemctl`, and `journalctl`"
+01,,module,Ubuntu Terminal Foundations,"Chain commands with pipes and `grep`, and manage users and groups in preparation for the docker group"
+01,00,lesson,Setup Check,"Verify that the Ubuntu environment is course-ready by checking the OS release, internet connectivity, DNS resolution, and sudo access."
+01,01,lesson,Where Am I?,"Navigate the filesystem without hesitation using `pwd`, `ls`, `cd` with absolute paths, `cd -`, and the `~` home shortcut."
+01,02,lesson,Making Things,"Create the ~/docker-course working directory and practice creating, copying, moving, renaming, and deleting files and directories with `mkdir`, `touch`, `cp`, `mv`, and `rm`."
+01,03,lesson,Looking Inside Files,"Create, read, and edit files from the terminal using `echo` with `>` and `>>` redirection, `cat`, `head`, `tail`, `less`, `wc -l`, and `nano`."
+01,04,lesson,Sudo and System Updates,"Perform a full system update with `sudo apt update`, `sudo apt upgrade -y`, and `sudo apt autoremove -y`."
+01,05,lesson,Installing Software,"Install and verify the Docker prerequisite packages (curl, wget, git, htop, tree, ca-certificates, gnupg) using `sudo apt install`."
+01,06,lesson,Permissions Drills,Read permission strings and change file permissions and ownership using `chmod` in symbolic and numeric forms and `chown` with sudo.
+01,07,lesson,Networking Drills,"Diagnose network readiness for Docker Hub using `ip a`, `ping`, `curl`, `ss -tuln`, and `dig`."
+01,08,lesson,Processes and Services,"Inspect running processes and service status using `ps aux`, `top`, `htop`, `systemctl`, `journalctl`, `uptime`, `free -h`, and `df -h`."
+01,09,lesson,Pipes and Grep,"Chain commands together with pipes and search files using `grep` (including -v, -i, and -r), `wc -l`, `cut`, `sort`, and `uniq`."
+01,10,lesson,User and Group Setup,"Inspect user and group membership with `id` and `groups`, add a user to a group with `sudo usermod -aG`, and refresh group membership with `newgrp`."
+01,11,lesson,Final Checkpoint,Demonstrate every skill from the module by running the cumulative command drill from memory to prove the environment is ready for Docker installation.
+02,,module,Docker Installation and First Containers,"Install Docker Engine from the official Docker apt repository, including the GPG key and repository setup"
+02,,module,Docker Installation and First Containers,Add your user to the `docker` group so Docker commands run without `sudo`
+02,,module,Docker Installation and First Containers,"Run `docker run hello-world` and explain the pull, create, run, and exit sequence Docker performs"
+02,,module,Docker Installation and First Containers,Run an nginx container in detached mode with a port mapping and reach it from a browser
+02,,module,Docker Installation and First Containers,"Distinguish images from containers and clean up both with `docker rm`, `docker rmi`, and the prune commands"
+02,,module,Docker Installation and First Containers,Manage and inspect containers and images from the VS Code Docker sidebar
+02,00,lesson,Setup Check,"Verify the Ubuntu environment is ready for Docker installation by checking Linux, sudo, the curl and gpg packages, network reachability of Docker Hub, and free disk space."
+02,01,lesson,Install Docker Engine,Install Docker Engine from the official Docker apt repository and add your user to the docker group so `docker info` works without sudo.
+02,02,lesson,Your First Container,"Run the hello-world container and explain the six steps Docker performed, from pulling the image off Docker Hub to the container exiting."
+02,03,lesson,Running a Real Image,"Run an nginx web server as a detached, port-mapped, named container, reach it from a browser, and inspect it with `docker logs` and `docker exec`."
+02,04,lesson,Images vs Containers,"Distinguish images from containers by running multiple containers from one image, then clean up both with `docker rm`, `docker rmi`, and the prune commands."
+02,05,lesson,The VS Code Docker Sidebar,"Manage containers and images from the VS Code Docker sidebar, including stopping, removing, viewing logs, and attaching a shell via the right-click menu."
+02,06,lesson,Final Checkpoint,"Demonstrate module mastery by running, verifying, and cleaning up a named detached nginx container end-to-end without instructor help."
+03,,module,FastAPI from Scratch,Create and activate a Python virtual environment with `python3 -m venv` and pin project dependencies in a `requirements.txt`
+03,,module,FastAPI from Scratch,"Build FastAPI routes (GET, POST, DELETE) that use typed path parameters, query parameters, and JSON request bodies"
+03,,module,FastAPI from Scratch,Validate request data with Pydantic models and interpret FastAPI's automatic 422 validation errors
+03,,module,FastAPI from Scratch,Organize a growing application into per-resource routers using `APIRouter` prefixes and tags
+03,,module,FastAPI from Scratch,Implement shared logic such as header-based authentication and database sessions with `Depends` dependency injection
+03,,module,FastAPI from Scratch,Containerize the app with a Dockerfile and run it alongside Postgres using Docker Compose with healthchecks and named volumes
+03,,module,FastAPI from Scratch,"Persist data to Postgres using SQLAlchemy ORM models, an engine, and per-request sessions"
+03,,module,FastAPI from Scratch,Return correct HTTP status codes with `HTTPException` and verify every endpoint with both `curl` and the `/docs` Swagger UI
+03,00,lesson,Prerequisites Check,"Verify that Python 3, pip, Docker (without sudo), Docker Compose, curl, and the course directory from Modules 01 and 02 all still work before starting FastAPI."
+03,01,lesson,Python Virtual Environment,"Create, activate, and deactivate a project-scoped virtual environment with `python3 -m venv` and explain when to use a venv on the host versus running in Docker."
+03,02,lesson,Installing FastAPI,Install FastAPI and Uvicorn into the active venv and freeze the exact package versions into a `requirements.txt` with `pip freeze`.
+03,03,lesson,Hello World,"Write a minimal FastAPI app in `main.py`, run it with `uvicorn main:app --reload`, and verify responses from curl, a browser, and the `/docs` Swagger UI."
+03,04,lesson,Path and Query Params,"Define routes with typed path parameters and optional query parameters, and demonstrate FastAPI rejecting mistyped input with 422 validation errors."
+03,05,lesson,Request Bodies with Pydantic,Validate JSON request bodies on a `POST /items` route with a Pydantic `BaseModel` and test valid and invalid payloads from both curl and Swagger UI.
+03,06,lesson,Multiple Routes and Routers,"Refactor routes into per-resource modules using `APIRouter` with prefixes and tags, and mount them in `main.py` with `app.include_router`."
+03,07,lesson,Dependencies and Injection,"Implement a header-checking `get_current_user` dependency with `Depends` and apply it at route level and router level, distinguishing 401 and 422 responses."
+03,08,lesson,Containerizing FastAPI,"Write a Dockerfile that caches the pip-install layer, build the image, and run the containerized app with uvicorn bound to `0.0.0.0` so the mapped port is reachable."
+03,09,lesson,Docker Compose and Postgres,"Orchestrate the FastAPI app and a Postgres database with `docker-compose.yml`, using a healthcheck, a named volume, a bind-mounted hot-reload dev loop, and a `.env` file for secrets."
+03,10,lesson,Database with SQLAlchemy,"Replace the in-memory item store with Postgres persistence using a SQLAlchemy engine, ORM models, and a `get_db` session dependency, then verify the rows directly in psql."
+03,11,lesson,Error Handling and Status Codes,"Return correct HTTP status codes (201, 204, 400, 404) by setting `status_code` on route decorators and raising `HTTPException` for missing resources and business-rule violations."
+03,12,lesson,Final Checkpoint,"Build a complete `Profile` resource from memory — SQLAlchemy model, router, protected DELETE, and correct status codes — and pass a 10-step curl acceptance test."
+04,,module,Git and GitHub,"Configure Git globally with `user.name`, `user.email`, and `init.defaultBranch` set to `main`"
+04,,module,Git and GitHub,Initialize a repository and manage changes through the status / add / commit cycle with descriptive commit messages
+04,,module,Git and GitHub,"Inspect changes and history confidently using `git status`, `git diff`, and `git log` with their most useful flags"
+04,,module,Git and GitHub,"Create, switch, merge, and delete branches, distinguishing fast-forward merges from true merge commits"
+04,,module,Git and GitHub,"Recover from common mistakes using `git restore`, `git restore --staged`, `git commit --amend`, and `git reset`"
+04,,module,Git and GitHub,"Generate an ed25519 SSH key, register it with a GitHub account, and push a local repository to a GitHub remote"
+04,,module,Git and GitHub,"Clone a repository from GitHub, pull updates, and resolve a merge conflict by hand"
+04,,module,Git and GitHub,"Open a pull request on GitHub, review and respond to inline comments, and merge it back to `main`"
+04,00,lesson,Prerequisites Check,Verify that Git is installed and the Module 03 FastAPI project exists with no pre-existing `.git` directory.
+04,01,lesson,Configure Git,"Configure Git globally with `user.name`, `user.email`, `init.defaultBranch=main`, and `pull.rebase=false`, then verify the settings stored in `~/.gitconfig`."
+04,02,lesson,Init and First Commit,"Initialize a Git repository in the FastAPI project, extend `.gitignore`, stage everything with `git add .`, and make a first commit on `main`."
+04,03,lesson,The status / add / commit Cycle,"Make a series of commits using the edit, `git status`, `git add`, `git commit` cycle, including selective staging and the `-am` shortcut's untracked-file limitation."
+04,04,lesson,Diff and Log,"Inspect unstaged, staged, and between-commit changes with `git diff` and read history with `git log` filters such as `--oneline`, `--graph`, `--author`, and `--grep`."
+04,05,lesson,Branches,"Create and switch branches with `git switch`, merge a feature branch into `main` via both a fast-forward and a true merge commit, and delete merged branches with `git branch -d`."
+04,06,lesson,Undoing Things,"Undo common mistakes by discarding edits with `git restore`, unstaging with `git restore --staged`, amending the last commit with `git commit --amend`, and removing a commit with `git reset`."
+04,07,lesson,GitHub Account and SSH Key,"Generate an ed25519 SSH key with `ssh-keygen`, register the public key in GitHub's settings, and verify passwordless authentication with `ssh -T`."
+04,08,lesson,Pushing to GitHub,"Connect a local repository to a GitHub remote with `git remote add origin`, push it with `git push -u origin main`, and round-trip commits between the terminal and the web UI with `git push` and `git pull`."
+04,09,lesson,"Cloning, Pulling, and Conflicts","Clone a repository from GitHub, sync changes between two working copies with `git pull`, and resolve a merge conflict by editing out the conflict markers, staging the file, and committing the merge."
+04,10,lesson,Pull Requests,"Push a feature branch to GitHub, open a pull request, leave and respond to inline review comments, merge the PR with a merge commit, and sync the result to the local `main`."
+04,11,lesson,Final Checkpoint,"Complete a full branch, commit, push, pull request, review, and merge cycle from memory and verify the new `/info` route works end to end."
+05,,module,Continue.dev on the Shared vLLM Endpoint,Verify that the college's shared vLLM inference endpoint is reachable from your dev environment using a `curl` status check
+05,,module,Continue.dev on the Shared vLLM Endpoint,Query the endpoint's `/v1/models` route with the shared API key and identify the exact model ids it serves
+05,,module,Continue.dev on the Shared vLLM Endpoint,Send chat completions to Llama 3.3 70B over the OpenAI-compatible API and explain why Llama 3.1 8B is reserved for autocomplete
+05,,module,Continue.dev on the Shared vLLM Endpoint,Configure Continue.dev in VS Code via `~/.continue/config.yaml` with role-separated models pointing at the shared endpoint
+05,,module,Continue.dev on the Shared vLLM Endpoint,"Chat about your FastAPI repo using the `@file`, `@codebase`, `@diff`, and `@terminal` context providers"
+05,,module,Continue.dev on the Shared vLLM Endpoint,"Use tab autocomplete to write a working route, reading every ghost-text suggestion before accepting it"
+05,,module,Continue.dev on the Shared vLLM Endpoint,"Edit highlighted code with `Ctrl+I` inline edits, accepting, rejecting, or partially accepting each proposed diff"
+05,,module,Continue.dev on the Shared vLLM Endpoint,"Use agent mode to make approval-gated, multi-file changes and ship a feature through a GitHub pull request"
+05,00,lesson,Prerequisites Check,"Confirm the deliverables from Modules 00-04 (Git, Docker Compose, the FastAPI repo, and the GitHub remote) still work and that the Continue.dev extension is installed in VS Code."
+05,01,lesson,The Inference Endpoint,"Describe the college's shared vLLM server — its 2x RTX A6000 hardware, the two Llama models, and their roles — and confirm the endpoint answers with an HTTP status code using `curl`."
+05,02,lesson,Connect to the Endpoint,Query the endpoint's `/v1/models` route with the shared API key via `curl` and confirm the exact Llama model ids appear in the OpenAI-style JSON response.
+05,03,lesson,Explore the Models,"Send real chat completions to the 70B model through the OpenAI-compatible `/v1/chat/completions` route, use a system prompt to steer its style, and explain why the 8B model is reserved for autocomplete."
+05,04,lesson,Install + Configure Continue.dev,"Install Continue.dev in VS Code and write `~/.continue/config.yaml` so the 70B serves chat, edit, and apply while the 8B serves autocomplete, then verify with a first chat and a ghost-text completion."
+05,05,lesson,Chat,"Use the `@file`, `@codebase`, `@diff`, and `@terminal` context providers to bring real repository context into Continue chat and get grounded answers about your FastAPI code."
+05,06,lesson,Autocomplete,"Write a working `PUT /items/{item_id}` route using tab autocomplete, reading each ghost-text suggestion before accepting with Tab, refining by typing, or dismissing with Esc."
+05,07,lesson,Inline Edit,"Use `Ctrl+I` inline edits to rename a function, add validation, extract a helper, and draft a test, reviewing every proposed diff before accepting, rejecting, or partially accepting it."
+05,08,lesson,Agent Mode,"Use Continue's agent mode to make approval-gated, multi-file changes on a feature branch, reviewing each tool call and rejecting steps that are wrong or destructive."
+05,09,lesson,Final Checkpoint,"Build a case-insensitive `GET /items/search` route with the Continue.dev + college vLLM stack, verify it with curl and Swagger UI, and ship it through a GitHub pull request."
+06,,module,HeroUI Frontend,"Install Node.js with nvm and confirm `node`, `npm`, and `npx` resolve to nvm-managed paths"
+06,,module,HeroUI Frontend,Initialize a HeroUI starter project with Next.js and Tailwind pre-configured and run its dev server with hot reload
+06,,module,HeroUI Frontend,"Build interactive pages using HeroUI components such as `Button`, `Input`, `Card`, and `Checkbox`, applying the `""use client""` directive where hooks are used"
+06,,module,HeroUI Frontend,Enable CORS in the FastAPI backend with `CORSMiddleware` so the browser-based frontend can call it
+06,,module,HeroUI Frontend,"Fetch items from `http://localhost:8000/items` and render them as HeroUI Cards with loading, error, and empty states"
+06,,module,HeroUI Frontend,Build a form that POSTs new items to the API and refreshes the displayed list inline without a page reload
+06,,module,HeroUI Frontend,"Use Continue.dev chat, inline edit, and agent mode to extend the frontend, reviewing every proposed diff before accepting"
+06,,module,HeroUI Frontend,"Ship a frontend change through a branch, commit, and merge or GitHub PR workflow"
+06,00,lesson,Prerequisites Check,"Verify that the FastAPI Compose stack, Continue.dev connection, and GitHub remote from earlier modules still work and that no conflicting system Node.js installation is present."
+06,01,lesson,Install Node.js with nvm,"Install nvm and the latest LTS release of Node.js, set it as the default, and confirm `node`, `npm`, and `npx` run from nvm-managed paths under your home directory."
+06,02,lesson,Init the HeroUI App,"Scaffold a Next.js + HeroUI starter project with `npx heroui-cli@latest init`, install its dependencies, and run the dev server so the starter page loads on port 3000."
+06,03,lesson,Tour + First Component,"Build an interactive homepage from HeroUI `Button`, `Card`, and `Input` components and explain when a Next.js page needs the `""use client""` directive to use React hooks."
+06,04,lesson,CORS + Fetch Items,"Add `CORSMiddleware` to the FastAPI backend and fetch the items list from the browser, rendering each item as a HeroUI Card with loading, error, and empty states."
+06,05,lesson,Create-Item Form,"Build a HeroUI form that POSTs new items to FastAPI, converts input strings to the types the API expects, surfaces server validation errors, and reloads the list inline on success."
+06,06,lesson,Extend with Continue.dev,"Use Continue.dev agent mode on a git feature branch to add a Delete button with a confirmation modal, reviewing every proposed diff and recognizing when to abort a failing agent loop."
+06,07,lesson,Final Checkpoint,"Ship a client-side, case-insensitive search filter for the items page end-to-end using Continue.dev, verify it in the browser, and commit and merge the change."
+live,3,live-lab,Live lab — Terminal Escape Night,Week 3 Wednesday live lab
+live,4,live-lab,Live lab — Operation Uplink,Week 4 Wednesday live lab
+live,6,live-lab,Live lab — Docker signup roster,Week 6 Wednesday live lab

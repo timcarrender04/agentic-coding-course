@@ -57,7 +57,7 @@ curl http://localhost:8000
 touch database.py
 ```
 
-**8.** Open `database.py` in Cursor. Type:
+**8.** Open `database.py` in VS Code. Type:
 ```python
 import os
 

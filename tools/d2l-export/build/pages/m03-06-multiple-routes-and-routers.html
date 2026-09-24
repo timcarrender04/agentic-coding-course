@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FastAPI from Scratch — Multiple Routes and Routers</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Refactor routes into per-resource modules using <code>APIRouter</code> with prefixes and tags, and mount them in <code>main.py</code> with <code>app.include_router</code>.</div>
+<h1>Lesson 06: Multiple Routes and Routers</h1>
+<p><strong>By the end, you will have refactored the items routes into a separate <code>routers/items.py</code> module, added a <code>routers/users.py</code>, and mounted both in <code>main.py</code> with <code>APIRouter</code>.</strong></p>
+<p>⏱ ~25 minutes of typing</p>
+<blockquote><p>One file per resource. As your app grows, you don't want every route in <code>main.py</code> — you want each resource (items, users, orders, …) in its own file. <code>APIRouter</code> is FastAPI's mechanism for that.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Make sure your venv is active and uvicorn is running with <code>--reload</code>.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app &amp;&amp; source .venv/bin/activate</code></pre>
+<p><strong>2.</strong> Create the routers directory.</p>
+<pre><code class="language-bash">mkdir routers</code></pre>
+<p><strong>3.</strong> Make it a Python package by adding an empty <code>__init__.py</code>.</p>
+<pre><code class="language-bash">touch routers/__init__.py</code></pre>
+<p><strong>4.</strong> Confirm.</p>
+<pre><code class="language-bash">ls routers/</code></pre>
+<pre class="output"><code class="output">__init__.py</code></pre>
+<p><strong>5.</strong> Create <code>routers/items.py</code>.</p>
+<pre><code class="language-bash">touch routers/items.py</code></pre>
+<p><strong>6.</strong> Open <code>routers/items.py</code> in VS Code.</p>
+<p><strong>7.</strong> Type the imports:</p>
+<pre><code class="language-python">from fastapi import APIRouter
+from pydantic import BaseModel</code></pre>
+<p><strong>8.</strong> Create the router with a prefix and a tag (the tag is what shows up as the section header in Swagger).</p>
+<pre><code class="language-python">
+
+router = APIRouter(prefix=&quot;/items&quot;, tags=[&quot;items&quot;])</code></pre>
+<p><strong>9.</strong> Move the <code>Item</code> model from <code>main.py</code> to here:</p>
+<pre><code class="language-python">
+
+class Item(BaseModel):
+    name: str
+    price: float
+    is_offer: bool | None = None</code></pre>
+<p><strong>10.</strong> Add the in-memory store:</p>
+<pre><code class="language-python">
+
+fake_items_db: list[Item] = []</code></pre>
+<p><strong>11.</strong> Add the routes — note <code>@router.get</code>, not <code>@app.get</code>. And the prefix <code>/items</code> is already on the router, so paths here are relative.</p>
+<pre><code class="language-python">
+
+@router.get(&quot;&quot;)
+def list_items():
+    return fake_items_db
+
+
+@router.get(&quot;/{item_id}&quot;)
+def read_item(item_id: int, q: str | None = None, short: bool = False):
+    if short:
+        return {&quot;item_id&quot;: item_id}
+    return {&quot;item_id&quot;: item_id, &quot;q&quot;: q}
+
+
+@router.post(&quot;&quot;)
+def create_item(item: Item):
+    fake_items_db.append(item)
+    return item</code></pre>
+<p><strong>12.</strong> Save.</p>
+<p><strong>13.</strong> Now create the users router.</p>
+<pre><code class="language-bash">touch routers/users.py</code></pre>
+<p><strong>14.</strong> Open <code>routers/users.py</code> and type:</p>
+<pre><code class="language-python">from fastapi import APIRouter
+from pydantic import BaseModel
+
+
+router = APIRouter(prefix=&quot;/users&quot;, tags=[&quot;users&quot;])
+
+
+class User(BaseModel):
+    name: str
+    email: str
+
+
+fake_users_db: list[User] = []
+
+
+@router.get(&quot;&quot;)
+def list_users():
+    return fake_users_db
+
+
+@router.post(&quot;&quot;)
+def create_user(user: User):
+    fake_users_db.append(user)
+    return user</code></pre>
+<p><strong>15.</strong> Save.</p>
+<p><strong>16.</strong> Now slim down <code>main.py</code> to just import and mount the routers. Open <code>main.py</code> and replace its contents with:</p>
+<pre><code class="language-python">from fastapi import FastAPI
+
+from routers import items, users
+
+app = FastAPI()
+
+
+@app.get(&quot;/&quot;)
+def read_root():
+    return {&quot;hello&quot;: &quot;fastapi&quot;}
+
+
+app.include_router(items.router)
+app.include_router(users.router)</code></pre>
+<p><strong>17.</strong> Save. Watch uvicorn reload. If you see <code>ImportError</code>, check that <code>routers/__init__.py</code> exists.</p>
+<p><strong>18.</strong> Confirm the project structure.</p>
+<pre><code class="language-bash">ls -la
+ls -la routers/</code></pre>
+<p>You should see:</p>
+<pre class="output"><code class="output">.
+├── .gitignore
+├── .venv/
+├── main.py
+├── requirements.txt
+└── routers/
+    ├── __init__.py
+    ├── items.py
+    └── users.py</code></pre>
+<p><strong>19.</strong> Curl the moved items route. The path is the same as before because the router has prefix <code>/items</code>.</p>
+<pre><code class="language-bash">curl http://localhost:8000/items</code></pre>
+<pre class="output"><code class="output">[]</code></pre>
+<p><strong>20.</strong> Curl the new users route.</p>
+<pre><code class="language-bash">curl http://localhost:8000/users</code></pre>
+<pre class="output"><code class="output">[]</code></pre>
+<p><strong>21.</strong> POST a user.</p>
+<pre><code class="language-bash">curl -X POST http://localhost:8000/users \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;Ada&quot;, &quot;email&quot;: &quot;ada@example.com&quot;}'</code></pre>
+<pre class="output"><code class="output">{&quot;name&quot;:&quot;Ada&quot;,&quot;email&quot;:&quot;ada@example.com&quot;}</code></pre>
+<p><strong>22.</strong> List users to confirm it stuck.</p>
+<pre><code class="language-bash">curl http://localhost:8000/users</code></pre>
+<pre class="output"><code class="output">[{&quot;name&quot;:&quot;Ada&quot;,&quot;email&quot;:&quot;ada@example.com&quot;}]</code></pre>
+<p><strong>23.</strong> POST an item to confirm the items router still works.</p>
+<pre><code class="language-bash">curl -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;Widget&quot;, &quot;price&quot;: 5.0}'</code></pre>
+<p><strong>24.</strong> Hit the path-param route on items.</p>
+<pre><code class="language-bash">curl http://localhost:8000/items/42</code></pre>
+<pre class="output"><code class="output">{&quot;item_id&quot;:42,&quot;q&quot;:null}</code></pre>
+<p><strong>25.</strong> Open <code>/docs</code> in the browser. Refresh. You should now see <strong>two sections</strong> (&quot;items&quot; and &quot;users&quot;) thanks to the <code>tags=</code> argument on each router.</p>
+<p><strong>26.</strong> Click the <strong>&quot;items&quot;</strong> tag header in Swagger — the items routes collapse/expand together. Same for &quot;users&quot;.</p>
+<p><strong>27.</strong> Hit <code>POST /users</code> from Swagger UI to confirm it works there too.</p>
+<p><strong>28.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Routers: items + users split out&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong><code>__init__.py</code> in <code>routers/</code></strong> — without it, <code>from routers import items</code> fails with <code>ModuleNotFoundError</code>.</li><li>The <code>prefix=&quot;/items&quot;</code> is already on the router, so don't repeat it: write <code>@router.get(&quot;&quot;)</code> for <code>/items</code>, not <code>@router.get(&quot;/items&quot;)</code> (which would become <code>/items/items</code>).</li><li><code>app.include_router(items.router)</code> — note the <code>.router</code>. The router <em>object</em> is what FastAPI mounts, not the module.</li><li>When you move code between files, the in-memory state moves too. The <code>fake_items_db</code> you POSTed to in lesson 05 is gone — it lived in the old <code>main.py</code>. The new one is empty until you POST again.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">curl -s http://localhost:8000/items</code></pre>
+<p>Should return <code>[]</code> or whatever you POSTed since the refactor.</p>
+<pre><code class="language-bash">curl -s http://localhost:8000/users</code></pre>
+<p>Should return <code>[]</code> or your test users.</p>
+<pre><code class="language-bash">curl -s -o /dev/null -w &quot;%{http_code}\n&quot; http://localhost:8000/items/42</code></pre>
+<p>Should return <code>200</code>.</p>
+<pre><code class="language-bash">ls routers/</code></pre>
+<p>Should show <code>__init__.py</code>, <code>items.py</code>, <code>users.py</code>.</p>
+<p>In <code>/docs</code> you should see <strong>two tagged sections</strong>: &quot;items&quot; and &quot;users&quot;.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m03-07-dependencies-and-injection.html">07-dependencies-and-injection.md</a> — Use <code>Depends</code> to share logic across routes</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

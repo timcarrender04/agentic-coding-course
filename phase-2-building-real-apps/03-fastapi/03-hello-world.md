@@ -26,11 +26,11 @@ source .venv/bin/activate
 touch main.py
 ```
 
-**3.** Open `main.py` in Cursor. From the terminal:
+**3.** Open `main.py` in VS Code. From the terminal:
 ```bash
 code main.py
 ```
-(If `code` doesn't work, click `main.py` in Cursor's file explorer.)
+(If `code` doesn't work, click `main.py` in VS Code's file explorer.)
 
 **4.** Type the import line at the top.
 ```python
@@ -95,7 +95,7 @@ INFO:     Started server process [...]
 INFO:     Application startup complete.
 ```
 
-**11.** **Leave that terminal running.** Open a **second** integrated terminal in Cursor (the `+` button at the top-right of the terminal panel, or the dropdown). In the new terminal, hit your server.
+**11.** **Leave that terminal running.** Open a **second** integrated terminal in VS Code (the `+` button at the top-right of the terminal panel, or the dropdown). In the new terminal, hit your server.
 ```bash
 curl http://localhost:8000
 ```
@@ -120,7 +120,7 @@ content-type: application/json
 **13.** Open a browser and visit `http://localhost:8000`.
 
    - **WSL students:** Windows browser, `http://localhost:8000`.
-   - **SSH students:** look at Cursor's "Ports" tab in the bottom panel — port 8000 should be auto-forwarded. Click the globe icon to open in your local browser.
+   - **SSH students:** look at VS Code's "Ports" tab in the bottom panel — port 8000 should be auto-forwarded. Click the globe icon to open in your local browser.
 
 You should see `{"hello":"world"}`.
 
@@ -172,7 +172,7 @@ echo "FastAPI hello-world running on port 8000" >> ~/docker-course/notes/notes.t
 - **`uvicorn main:app --reload`** — `main` is the file (without `.py`), `app` is the variable inside it. If you renamed the file to `app.py`, you'd run `uvicorn app:app --reload`.
 - Without `--reload`, you'd have to stop and restart the server after every change. **Always use `--reload` during development.**
 - "Address already in use" → another `uvicorn` is still running somewhere. `pkill uvicorn` or `lsof -i :8000` to find and kill it.
-- Indentation matters in Python. The body of `read_root` must be indented 4 spaces (Cursor does this for you).
+- Indentation matters in Python. The body of `read_root` must be indented 4 spaces (VS Code does this for you).
 
 ---
 

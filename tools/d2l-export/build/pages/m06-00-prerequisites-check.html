@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HeroUI Frontend — Prerequisites Check</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Verify that the FastAPI Compose stack, Continue.dev connection, and GitHub remote from earlier modules still work and that no conflicting system Node.js installation is present.</div>
+<h1>Lesson 00: Prerequisites Check</h1>
+<p><strong>By the end, you will have confirmed Modules 03–05 still work and that you don't already have Node.js installed in a conflicting way.</strong></p>
+<p>⏱ ~5 minutes</p>
+<hr />
+<p><strong>1.</strong> Open VS Code connected to your dev environment. Open the integrated terminal.</p>
+<p><strong>2.</strong> Confirm the FastAPI Compose stack still starts.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+docker compose up -d
+sleep 3
+curl -s http://localhost:8000 | python3 -m json.tool</code></pre>
+<p>You should see <code>{&quot;hello&quot;:&quot;fastapi&quot;}</code> (or whatever you renamed it).</p>
+<p><strong>3.</strong> Confirm Continue.dev is wired to the shared vLLM endpoint (Llama). Open the Continue side bar and send the message:</p>
+<pre class="output"><code class="output">Reply with the single word: ready</code></pre>
+<p>You should get <code>ready</code> back within ~10 seconds. If not, see Module 05 lesson 04.</p>
+<p><strong>4.</strong> Confirm GitHub is reachable.</p>
+<pre><code class="language-bash">git -C ~/docker-course/fastapi-app remote -v</code></pre>
+<p>Should show your GitHub origin URL.</p>
+<p><strong>5.</strong> Check whether Node.js is already installed (we want to use <strong>nvm</strong> to manage versions cleanly — a system-installed Node can interfere).</p>
+<pre><code class="language-bash">which node npm 2&gt;&amp;1</code></pre>
+<p><strong>6. If you see <code>/usr/bin/node</code> or similar</strong>, you have a system Node. That's not a blocker but flag it to the instructor — we'll prefer the nvm-managed one in lesson 01.</p>
+<p><strong>7. If you see <code>which: no node in (...)</code></strong>, perfect — clean slate.</p>
+<p><strong>8.</strong> Log this check.</p>
+<pre><code class="language-bash">echo &quot;Module 06 prereq check: passed $(date -Iseconds)&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li>The FastAPI stack from Module 03 must be running for lesson 04 onward. Easiest: leave it up for the whole module.</li><li>The shared vLLM endpoint from Module 05 must be reachable so Continue.dev works.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">curl -s -o /dev/null -w &quot;%{http_code}\n&quot; http://localhost:8000</code></pre>
+<p>Should print <code>200</code>.</p>
+<pre><code class="language-bash">docker compose -f ~/docker-course/fastapi-app/docker-compose.yml ps --status=running | tail -n +2 | wc -l</code></pre>
+<p>Should print <code>2</code> (api + db running).</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m06-01-install-nodejs.html">01-install-nodejs.md</a> — Install Node.js with nvm</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

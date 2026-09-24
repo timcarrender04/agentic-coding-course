@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FastAPI from Scratch — Python Virtual Environment</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Create, activate, and deactivate a project-scoped virtual environment with <code>python3 -m venv</code> and explain when to use a venv on the host versus running in Docker.</div>
+<h1>Lesson 01: Python Virtual Environment</h1>
+<p><strong>By the end, you will have a Python virtual environment activated in your project directory and you will know how to toggle it on and off.</strong></p>
+<p>⏱ ~15 minutes of typing</p>
+<blockquote><p>A <strong>virtual environment</strong> (venv) is an isolated copy of Python and its packages, scoped to one project. Installing FastAPI into a venv keeps it from polluting your system Python.</p></blockquote>
+<hr />
+<h2>When to use a venv (especially without Docker)</h2>
+<p>You use a venv whenever you want a <strong>project-scoped Python</strong> on your machine: predictable package versions, no clashes with system tools, and a clear “this folder owns my dependencies” story. That applies to everyday coding <strong>and</strong> to running checks locally.</p>
+<p><strong>Testing and iterating without Docker</strong> is one of the main reasons to set this up first:</p>
+<ul><li><strong>Speed:</strong> Activating a venv and running <code>pytest</code>, <code>uvicorn</code>, or a one-off script is seconds. Building an image, starting a container, and mounting volumes is slower—fine for integration work, heavy for a tight edit–test loop.</li><li><strong>IDE and debugger:</strong> Your editor’s Python interpreter can point at <code>.venv</code>. Breakpoints, “run the test under the caret,” and type-checking against installed packages work cleanly without wiring Docker into the IDE (possible, but more moving parts).</li><li><strong>Failures are easier to read:</strong> Tracebacks and log lines reference paths on your host. When something breaks in a container, you often need to map container paths and env vars back to your repo—again, great for realism, not ideal for the first pass at a failing test.</li><li><strong>Network and filesystem:</strong> Hitting <code>localhost:8000</code> from a browser on your host, reading a local SQLite file, or using a test double does not require publishing ports or bind-mount conventions from day one.</li></ul>
+<p><strong>When Docker still matters (later in the course):</strong> Containers give you <strong>repeatable environments</strong>—same OS-ish layer, same Python base image, same install steps—so “works on my machine” disappears for deploys and CI. You will often <strong>develop in a venv</strong> and <strong>verify in Docker</strong> (or run CI in Docker) so you get fast local feedback <em>and</em> confidence that the app behaves the same when packaged.</p>
+<p><strong>Practical split:</strong></p>
+<table><thead><tr><th>Goal</th><th>Typical choice</th></tr></thead><tbody><tr><td>Unit tests, quick API smoke tests, learning FastAPI</td><td>Venv on the host (this lesson)</td></tr><tr><td>Postgres/Redis wired like prod, multi-service compose, deployment parity</td><td>Docker / Compose</td></tr></tbody></table>
+<p>Neither replaces the other. The venv is your <strong>default tool for “run Python on this machine”</strong>; Docker is your <strong>default tool for “run the same stack everywhere else.”</strong> If you skip the venv and only use Docker, every small test pays container startup cost; if you only use a venv, you can miss issues that only appear in the containerized layout—so both show up in a solid workflow.</p>
+<hr />
+<p><strong>1.</strong> Install the venv package (some Ubuntu installs ship without it).</p>
+<pre><code class="language-bash">sudo apt install -y python3-venv python3-pip</code></pre>
+<p><strong>2.</strong> Make sure you're in your home directory.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>3.</strong> Create the project folder.</p>
+<pre><code class="language-bash">mkdir -p ~/docker-course/fastapi-app</code></pre>
+<p><strong>4.</strong> Move into it.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app</code></pre>
+<p><strong>5.</strong> Confirm.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-user/docker-course/fastapi-app</code></pre>
+<p><strong>6.</strong> Create a virtual environment in a folder called <code>.venv</code>. The dot prefix hides it from <code>ls</code> by default.</p>
+<pre><code class="language-bash">python3 -m venv .venv</code></pre>
+<p>(No output. Takes a couple of seconds.)</p>
+<p><strong>7.</strong> See what got created.</p>
+<pre><code class="language-bash">ls -la .venv</code></pre>
+<p>You should see <code>bin</code>, <code>include</code>, <code>lib</code>, <code>pyvenv.cfg</code>.</p>
+<p><strong>8.</strong> Activate the venv.</p>
+<pre><code class="language-bash">source .venv/bin/activate</code></pre>
+<p><strong>9.</strong> Look at your prompt — it should now start with <code>(.venv)</code>. That's how you know the venv is active.</p>
+<pre class="output"><code class="output">(.venv) your-user@host:~/docker-course/fastapi-app$</code></pre>
+<p><strong>10.</strong> See which Python you're using now.</p>
+<pre><code class="language-bash">which python</code></pre>
+<pre class="output"><code class="output">/home/your-user/docker-course/fastapi-app/.venv/bin/python</code></pre>
+<p>(That's the <strong>venv</strong> Python, not the system one.)</p>
+<p><strong>11.</strong> Same for pip.</p>
+<pre><code class="language-bash">which pip</code></pre>
+<pre class="output"><code class="output">/home/your-user/docker-course/fastapi-app/.venv/bin/pip</code></pre>
+<p><strong>12.</strong> Check the Python version inside the venv.</p>
+<pre><code class="language-bash">python --version</code></pre>
+<pre class="output"><code class="output">Python 3.10.12</code></pre>
+<p>(Note: you can now type <code>python</code>, not <code>python3</code> — the venv aliases it.)</p>
+<p><strong>13.</strong> Deactivate the venv.</p>
+<pre><code class="language-bash">deactivate</code></pre>
+<p><strong>14.</strong> Look at your prompt — the <code>(.venv)</code> is gone. You're back to system Python.</p>
+<pre><code class="language-bash">which python</code></pre>
+<pre class="output"><code class="output">/usr/bin/python</code></pre>
+<p>(Or <code>python3</code> only — depends on your distro.)</p>
+<p><strong>15.</strong> Reactivate it. You'll be doing this a lot.</p>
+<pre><code class="language-bash">source .venv/bin/activate</code></pre>
+<p><strong>16.</strong> Confirm the prompt is back to <code>(.venv)</code>.</p>
+<pre><code class="language-bash">which python</code></pre>
+<pre class="output"><code class="output">/home/your-user/docker-course/fastapi-app/.venv/bin/python</code></pre>
+<p><strong>17.</strong> Add <code>.venv/</code> to a <code>.gitignore</code> so the venv never gets committed if this becomes a git repo.</p>
+<pre><code class="language-bash">echo &quot;.venv/&quot; &gt; .gitignore</code></pre>
+<p><strong>18.</strong> Confirm.</p>
+<pre><code class="language-bash">cat .gitignore</code></pre>
+<pre class="output"><code class="output">.venv/</code></pre>
+<p><strong>19.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;venv created at ~/docker-course/fastapi-app/.venv&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Every time you open a new terminal, the venv is NOT active.</strong> You will have to run <code>source .venv/bin/activate</code> again. This is the #1 source of &quot;why is FastAPI not found&quot; errors for the rest of the module.</li><li>The <code>(.venv)</code> prompt prefix is your single source of truth. If you don't see it, the venv is off.</li><li>Don't run <code>pip install</code> outside the venv. It will install into your system Python and you'll waste an hour debugging.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">which python</code></pre>
+<p>You should see <code>/home/.../fastapi-app/.venv/bin/python</code>.</p>
+<pre><code class="language-bash">echo $VIRTUAL_ENV</code></pre>
+<p>You should see the path to your <code>.venv</code> directory.</p>
+<pre><code class="language-bash">ls -la ~/docker-course/fastapi-app</code></pre>
+<p>You should see <code>.venv</code> and <code>.gitignore</code>.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m03-02-installing-fastapi.html">02-installing-fastapi.md</a> — Install FastAPI into your venv</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

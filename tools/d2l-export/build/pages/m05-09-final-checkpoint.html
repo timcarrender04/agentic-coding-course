@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Continue.dev on the Shared vLLM Endpoint — Final Checkpoint</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Build a case-insensitive <code>GET /items/search</code> route with the Continue.dev + college vLLM stack, verify it with curl and Swagger UI, and ship it through a GitHub pull request.</div>
+<h1>Lesson 09: Final Checkpoint</h1>
+<p><strong>Time:</strong> ~20 min — <strong>no instructor help.</strong></p>
+<p>Build a small feature using the full stack: Continue.dev + the college vLLM endpoint, against the FastAPI repo, shipped through a GitHub PR (Module 04 workflow).</p>
+<hr />
+<h2>The task</h2>
+<p>Add a <strong><code>GET /items/search?q=&lt;query&gt;</code></strong> route that returns all items whose <code>name</code> contains the query string (case-insensitive).</p>
+<p>You decide how to use the AI — chat, autocomplete, inline edit, or agent mode. The point is to use the college stack to ship a real feature.</p>
+<hr />
+<h2>Constraints</h2>
+<ul><li>The route must be on the existing items router (<code>routers/items.py</code>).</li><li>Use SQLAlchemy <code>ilike</code> or equivalent for case-insensitive matching.</li><li>Return a list of <code>ItemOut</code>.</li><li>An empty query (<code>q=</code> or missing) returns all items (or a 400 — your call, justify it in the PR).</li><li>Test it with curl from the terminal <strong>and</strong> from <code>/docs</code>.</li><li>Ship it through a feature branch + PR + merge on GitHub.</li></ul>
+<hr />
+<h2>Suggested workflow</h2>
+<p><strong>1.</strong> Branch.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+git switch main
+git pull
+git switch -c add-item-search</code></pre>
+<p><strong>2.</strong> Use whichever Continue mode you prefer to build the route. <strong>Read every diff before accepting.</strong></p>
+<p><strong>3.</strong> Restart the stack and verify with curl:</p>
+<pre><code class="language-bash">docker compose restart api
+sleep 3
+# create a couple of items first if needed
+curl -s &quot;http://localhost:8000/items/search?q=apple&quot; | python3 -m json.tool</code></pre>
+<p><strong>4.</strong> Open <code>/docs</code> and try the route from Swagger UI.</p>
+<p><strong>5.</strong> Commit, push, open a PR on GitHub, leave at least one self-review comment, merge, delete the branch.</p>
+<pre><code class="language-bash">git add routers/items.py
+git commit -m &quot;Add /items/search route&quot;
+git push -u origin add-item-search
+# then PR + merge in the GitHub web UI
+git switch main
+git pull
+git branch -d add-item-search</code></pre>
+<hr />
+<h2>Acceptance test</h2>
+<p>After merging:</p>
+<pre><code class="language-bash">git log --oneline --graph -5</code></pre>
+<p>Should show the merge commit from your PR.</p>
+<pre><code class="language-bash">docker compose up -d
+sleep 3
+curl -s -o /dev/null -w &quot;%{http_code}\n&quot; &quot;http://localhost:8000/items/search?q=anything&quot;</code></pre>
+<p>Should print <code>200</code>.</p>
+<pre><code class="language-bash"># create test data
+curl -s -X POST http://localhost:8000/items -H &quot;Content-Type: application/json&quot; -d '{&quot;name&quot;:&quot;Apple&quot;,&quot;price&quot;:1}' &gt; /dev/null
+curl -s -X POST http://localhost:8000/items -H &quot;Content-Type: application/json&quot; -d '{&quot;name&quot;:&quot;Banana&quot;,&quot;price&quot;:2}' &gt; /dev/null
+curl -s &quot;http://localhost:8000/items/search?q=app&quot; | python3 -m json.tool</code></pre>
+<p>Should return one item (the apple), not the banana.</p>
+<hr />
+<h2>What to submit</h2>
+<p>A screenshot showing <strong>all of these</strong> in one image:</p>
+<ol><li>VS Code with the new code visible in <code>routers/items.py</code> and the Continue chat panel showing the prompt you used.</li><li>A terminal with the search curl returning matching items.</li><li>The GitHub PR page showing your PR as <strong>Merged</strong>.</li></ol>
+<hr />
+<h2>Self-grade</h2>
+<p>You pass this module if:</p>
+<ul><li>[ ] The search endpoint behaves as specified.</li><li>[ ] You used Continue.dev (chat / inline edit / agent mode — any combination) and the college vLLM models to build it.</li><li>[ ] The PR was opened, reviewed (one comment minimum), and merged on GitHub.</li><li>[ ] You did <strong>not</strong> sign in to a paid cloud AI service — the free VS Code + Continue.dev + college endpoint stack did the whole job.</li></ul>
+<p>Then:</p>
+<pre><code class="language-bash">echo &quot;Module 05 final checkpoint: passed $(date -Iseconds)&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>What's next</h2>
+<p>Module 06 (session 12) drills effective prompting and refactoring patterns against this same repo, same stack. The hard infrastructure work is done — from here it's about getting better at <em>using</em> the agent.</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

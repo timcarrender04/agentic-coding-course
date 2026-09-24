@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VS Code Walkthrough — Connecting to WSL</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Connect VS Code to WSL using the WSL extension, open a folder in the Linux home directory, and verify the terminal is Linux by running <code>uname -a</code>.</div>
+<h1>Lesson 05: Connecting to WSL</h1>
+<p><strong>Time:</strong> ~20 min</p>
+<blockquote><p><strong>This lesson is for Windows students only.</strong> Mac and Linux students: you already have a real Unix terminal — skip ahead to lesson 06, or pair up with a Windows neighbor and help them.</p></blockquote>
+<h2>What is WSL?</h2>
+<p><strong>WSL</strong> stands for <strong>Windows Subsystem for Linux</strong>. It is a real Linux operating system that runs <em>inside</em> Windows, side by side with your normal Windows environment. You don't dual-boot, you don't run a VM in the old slow way — you just open WSL and you're in a Linux shell.</p>
+<p>Why do we use WSL in this course? Because the rest of the course (Module 01 onward) assumes you have a Linux terminal. On Windows, the cleanest way to get one is WSL.</p>
+<h2>Step 1: check whether WSL is installed</h2>
+<ol><li>Open Windows <strong>PowerShell</strong> (press the Windows key, type &quot;powershell&quot;, press Enter).</li><li>In PowerShell, type:</li></ol>
+<p>   ``<code>    wsl --status    </code>``</p>
+<ol><li>Two outcomes:</li></ol>
+<ul><li><strong>It prints version info</strong> like &quot;Default Distribution: Ubuntu&quot; — WSL is installed. Skip to Step 3.</li><li><strong>It prints &quot;WSL is not installed&quot;</strong> or an error — go to Step 2.</li></ul>
+<h2>Step 2: install WSL (if needed)</h2>
+<blockquote><p>Heads up: this requires a <strong>reboot</strong>. Your instructor will tell you whether to do this in class or at home.</p></blockquote>
+<ol><li>In <strong>PowerShell as administrator</strong> (right-click PowerShell → &quot;Run as administrator&quot;), run:</li></ol>
+<p>   ``<code>    wsl --install    </code>``</p>
+<ol><li>Wait for it to finish. It will install WSL and a default Ubuntu distribution.</li><li><strong>Reboot your computer.</strong></li><li>After reboot, Ubuntu will launch automatically and ask you to <strong>create a Linux username and password.</strong></li></ol>
+<ul><li>The password <strong>does not show on screen</strong> when you type — no asterisks, no dots, nothing. Just type it carefully and press Enter. Then confirm it.</li><li>Pick a simple lowercase username. It does <strong>not</strong> have to match your Windows username.</li><li>Remember this password. You'll need it for <code>sudo</code> commands in Module 01.</li></ul>
+<ol><li>Once you see the Ubuntu prompt (<code>yourname@hostname:~$</code>), WSL is installed.</li></ol>
+<h2>Step 3: install the WSL extension in VS Code</h2>
+<p>Remote support isn't built into VS Code — it comes from an extension you install yourself.</p>
+<ol><li>Open VS Code.</li><li>Open the extensions side bar (<code>Ctrl+Shift+X</code>).</li><li>Search for <strong>WSL</strong>.</li><li>The one you want is published by <strong>Microsoft</strong>, full id <code>ms-vscode-remote.remote-wsl</code>.</li><li>Click <strong>Install</strong>.</li></ol>
+<h2>Step 4: connect VS Code to WSL</h2>
+<ol><li>Look at the <strong>bottom-left corner</strong> of the VS Code window. There's a small green or blue button — it might just be two angle brackets <code>&gt;&lt;</code>, or it might say something like &quot;Open a Remote Window.&quot;</li><li>Click it.</li><li>A menu drops down from the top of the window. Choose <strong>&quot;Connect to WSL&quot;</strong> (or &quot;WSL: Connect to WSL&quot;).</li><li>VS Code reloads. The bottom-left corner now shows <strong>&quot;WSL: Ubuntu&quot;</strong> (or whichever distro you have) on a green background.</li></ol>
+<p>You are now running VS Code's &quot;remote&quot; half inside WSL. Your editor is still on Windows; the files, terminal, and tools are all in Linux.</p>
+<h2>Step 5: open a Linux folder</h2>
+<ol><li><strong>File → Open Folder…</strong></li><li>The path bar should now show Linux paths. Navigate to <code>/home/&lt;your-linux-username&gt;/</code>.</li><li>Click <strong>OK</strong>.</li><li>The file explorer in the side bar fills with whatever is in your Linux home directory (probably empty or just a couple of dotfiles).</li></ol>
+<h2>Step 6: confirm the terminal is Linux</h2>
+<ol><li>Open the integrated terminal (`<code> Ctrl+</code> ``).</li><li>The prompt should look like:</li></ol>
+<p>   ``<code>    yourname@hostname:~$    </code>`<code>    That's a Linux prompt. Not </code>PS C:\&gt;` — that would be PowerShell.</p>
+<ol><li>Type:</li></ol>
+<p>   ``<code>    uname -a    </code>``    The output should mention &quot;Linux&quot; somewhere. If it does, you really are inside WSL.</p>
+<h2>Checkpoint</h2>
+<p>You're done when:</p>
+<ul><li>[ ] <code>wsl --status</code> in PowerShell shows WSL is installed.</li><li>[ ] You installed the <strong>WSL</strong> extension in VS Code (publisher Microsoft).</li><li>[ ] The bottom-left of your VS Code window shows <strong>&quot;WSL: Ubuntu&quot;</strong> (or your distro name) on green.</li><li>[ ] You opened a folder under <code>/home/&lt;your-linux-username&gt;/</code>.</li><li>[ ] You opened the integrated terminal and ran <code>uname -a</code> and saw output containing &quot;Linux.&quot;</li></ul>
+<p>If anything fails, raise your hand. WSL has more failure modes than the rest of the course combined and they're better to fix in person.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Prove you have a working Unix shell — via WSL on Windows, or your native terminal on Mac/Linux.</p>
+<p><strong>Task:</strong> Windows students: work through this lesson — install WSL if needed, install the WSL extension, connect VS Code to WSL, and run <code>uname -a</code> in the integrated terminal. Mac/Linux students: open your native terminal (Terminal app on Mac) and run <code>uname -a</code> — that's your whole lab.</p>
+<p><strong>Submit:</strong> Windows — one screenshot of your VS Code window showing the green <strong>&quot;WSL: Ubuntu&quot;</strong> indicator in the bottom-left and the output of <code>uname -a</code> in the integrated terminal. Mac/Linux — one screenshot of <code>uname -a</code> and its output in your native terminal.</p>
+<p><strong>Pass criteria:</strong></p>
+<p>Windows:</p>
+<ul><li>[ ] The bottom-left indicator shows &quot;WSL: Ubuntu&quot; (or your distro name) on green.</li><li>[ ] The <code>uname -a</code> output is visible and mentions &quot;Linux.&quot;</li></ul>
+<p>Mac/Linux:</p>
+<ul><li>[ ] Screenshot shows your native terminal with <code>uname -a</code> and its output (mentioning &quot;Darwin&quot; on Mac, or &quot;Linux&quot;).</li></ul>
+<p><strong>Unlocks:</strong> <a href="m00-06-ssh-remote.html">06-ssh-remote.md</a></p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

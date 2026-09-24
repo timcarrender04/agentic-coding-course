@@ -217,6 +217,23 @@ docker run -d -p 8080:80 --name test nginx && docker stop test && docker rm test
 ```
 Should run, stop, and remove a container with no errors.
 
+## Lab
+
+**Objective:** Tell images and containers apart — one image, many containers — and clean both up.
+
+**Task:** Work steps 1–23 — run three more containers from the one nginx image, then remove containers with `docker rm`, images with `docker rmi`, prune the rest, re-pull nginx, and log it.
+
+**Submit:** Paste the output of the three Checkpoint commands — `docker images | grep nginx`, `docker ps -a`, and `docker run -d -p 8080:80 --name test nginx && docker stop test && docker rm test` — plus `tail ~/docker-course/notes/notes.txt` into D2L.
+
+**Pass criteria:**
+
+- [ ] `docker images | grep nginx` shows the nginx image (re-pulled in step 22).
+- [ ] `docker ps -a` is empty or near-empty — you cleaned up.
+- [ ] The run/stop/remove one-liner completed with no errors.
+- [ ] The notes tail includes `Image vs container drills: complete`.
+
+**Unlocks:** [05-vscode-docker-sidebar.md](05-vscode-docker-sidebar.md)
+
 ---
 
-**Next up:** [05-cursor-docker-sidebar.md](05-cursor-docker-sidebar.md) — See all this in Cursor's Docker sidebar
+**Next up:** [05-vscode-docker-sidebar.md](05-vscode-docker-sidebar.md) — See all this in VS Code's Docker sidebar

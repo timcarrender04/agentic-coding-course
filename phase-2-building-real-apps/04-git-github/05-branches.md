@@ -8,7 +8,7 @@
 
 ```instructor
 Say: "Branch is a movable pointer to a commit. Cheap, free, and the unit of work-in-progress. Today: create a feature branch, commit, merge, delete."
-Mention: "If a student says 'my edits disappeared,' they're on the wrong branch. `git branch` lists branches with `*` on the current one — and Cursor's bottom-left shows it too."
+Mention: "If a student says 'my edits disappeared,' they're on the wrong branch. `git branch` lists branches with `*` on the current one — and VS Code's bottom-left shows it too."
 Pause: After the merge. Draw the commit graph on the board if you can — two-line graph with the merge commit. That mental model unblocks everything for the rest of the module.
 Say: "You're done when they've created `feature/...`, made a commit on it, merged it back to `main` cleanly, and deleted the feature branch."
 ```
@@ -64,7 +64,7 @@ git branch
   main
 ```
 
-**7.** Look at the bottom-left of your Cursor window — it should now say `add-health-route` instead of `main`. Cursor reads `.git/HEAD` to show the current branch.
+**7.** Look at the bottom-left of your VS Code window — it should now say `add-health-route` instead of `main`. VS Code reads `.git/HEAD` to show the current branch.
 
 **8.** Quick shortcut: create + switch in one command. (We won't actually use this now — just know it exists.)
 ```bash
@@ -72,7 +72,7 @@ git branch
 # git checkout -b another-branch   # older equivalent
 ```
 
-**9.** Now make a real change on this branch. Open `main.py` in Cursor. Above `app.include_router(items.router)`, add a `/health` route:
+**9.** Now make a real change on this branch. Open `main.py` in VS Code. Above `app.include_router(items.router)`, add a `/health` route:
 ```python
 
 
@@ -106,7 +106,7 @@ The new commit is on top, on `add-health-route`.
 git switch main
 ```
 
-**15.** Open `main.py` in Cursor. **The `/health` route is gone.** It only exists on the other branch. Switching branches changes the files on disk to match that branch's commit.
+**15.** Open `main.py` in VS Code. **The `/health` route is gone.** It only exists on the other branch. Switching branches changes the files on disk to match that branch's commit.
 
 **16.** Confirm with the log.
 ```bash

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ChiefOS × Temple College — Virtual Camera Background (Corners)</title>
+  <link rel="stylesheet" href="../../public/branding/fonts/fonts.css" />
+  <style>
+    :root {
+      --navy: #131C26;
+      --orange: #F5A83E;
+      --orange-deep: #E87722;
+      --paper: #FFFFFF;
+      --ink-soft: #4a5866;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: var(--navy);
+    }
+
+    body {
+      font-family: "Barlow", "DejaVu Sans", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .stage {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 85% 65% at 50% 40%, #1e2c3c 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 88% 12%, rgba(232, 119, 34, 0.08) 0%, transparent 70%),
+        linear-gradient(168deg, #0e151c 0%, var(--navy) 45%, #172230 100%);
+    }
+
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 80% at 50% 45%, transparent 45%, rgba(8, 12, 18, 0.5) 100%);
+      pointer-events: none;
+    }
+
+    .top-rail {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--orange-deep), var(--orange), var(--orange-deep));
+    }
+
+    .bottom-rail {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--orange-deep), var(--orange), var(--orange-deep));
+    }
+
+    /* Soft geometric floor wash — depth without clutter */
+    .floor {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 220px;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.28) 100%);
+      pointer-events: none;
+    }
+
+    .plate {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: 8px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
+      padding: 18px 28px;
+    }
+
+    .plate.tc {
+      left: 56px;
+      bottom: 56px;
+    }
+
+    .plate.tc img {
+      height: 72px;
+      width: auto;
+      display: block;
+    }
+
+    .plate.chief {
+      right: 56px;
+      bottom: 56px;
+      background: #0f1612;
+      padding: 16px 22px;
+      border: 1px solid rgba(232, 119, 34, 0.35);
+    }
+
+    .plate.chief img {
+      height: 48px;
+      width: auto;
+      display: block;
+    }
+
+    .caption {
+      position: absolute;
+      left: 50%;
+      bottom: 64px;
+      transform: translateX(-50%);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .caption .course {
+      font-family: "Barlow Condensed", "DejaVu Sans Condensed", sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+
+    .caption .sub {
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: rgba(230, 236, 242, 0.55);
+    }
+
+    .caption .rule {
+      width: 28px;
+      height: 2px;
+      background: var(--orange-deep);
+      margin: 0 auto 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" role="img" aria-label="Co-branded virtual camera background: Temple College and ChiefOS">
+    <div class="top-rail"></div>
+    <div class="floor"></div>
+    <div class="vignette"></div>
+
+    <div class="plate tc">
+      <img src="../../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development" />
+    </div>
+
+    <div class="caption">
+      <div class="rule"></div>
+      <p class="course">Agentic Coding</p>
+      <p class="sub">Temple College Workforce Development × ChiefOS</p>
+    </div>
+
+    <div class="plate chief">
+      <img src="../../public/branding/chiefos-logo-transparent.svg" alt="ChiefOS" />
+    </div>
+
+    <div class="bottom-rail"></div>
+  </div>
+</body>
+</html>

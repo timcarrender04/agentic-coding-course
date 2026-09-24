@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd">
+  <assessment ident="quiz_m01" title="Module 01 Check on Learning — Ubuntu Terminal Foundations">
+    <qtimetadata>
+      <qtimetadatafield>
+        <fieldlabel>cc_profile</fieldlabel>
+        <fieldentry>cc.exam.v0p1</fieldentry>
+      </qtimetadatafield>
+      <qtimetadatafield>
+        <fieldlabel>qmd_scoretype</fieldlabel>
+        <fieldentry>Percentage</fieldentry>
+      </qtimetadatafield>
+    </qtimetadata>
+    <section ident="quiz_m01_root">
+
+    <item ident="quiz_m01_q1" title="Question 1">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;What does the command &lt;code&gt;cd -&lt;/code&gt; do?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m01_q1_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m01_q1_a0">
+              <material><mattext texttype="text/html">Takes you to your previous directory and prints where it took you</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q1_a1">
+              <material><mattext texttype="text/html">Takes you to your home directory</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q1_a2">
+              <material><mattext texttype="text/html">Moves up one level to the parent directory</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q1_a3">
+              <material><mattext texttype="text/html">Takes you to the root of the filesystem</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m01_q1_resp">quiz_m01_q1_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m01_q1_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m01_q1_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;&lt;code&gt;cd -&lt;/code&gt; switches to the directory you were in previously and prints the path it moved to, letting you bounce between two locations.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m01_q2" title="Question 2">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;What does the &lt;code&gt;-p&lt;/code&gt; flag do in &lt;code&gt;mkdir -p projects/web/app&lt;/code&gt;?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m01_q2_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m01_q2_a0">
+              <material><mattext texttype="text/html">Prompts for confirmation before creating each directory</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q2_a1">
+              <material><mattext texttype="text/html">Creates the full nested path in one command and does not error if directories already exist</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q2_a2">
+              <material><mattext texttype="text/html">Sets read and write permissions on the new directories</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q2_a3">
+              <material><mattext texttype="text/html">Prints each directory name as it is created</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m01_q2_resp">quiz_m01_q2_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m01_q2_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m01_q2_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;&lt;code&gt;mkdir -p&lt;/code&gt; creates all missing parent directories in the path and succeeds silently even if the path already exists, which makes it safe to rerun.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m01_q3" title="Question 3">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;When redirecting &lt;code&gt;echo&lt;/code&gt; output into a file, what is the difference between &lt;code&gt;&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m01_q3_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m01_q3_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;&amp;gt;&lt;/code&gt; appends to the file while &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt; overwrites it</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q3_a1">
+              <material><mattext texttype="text/html">They behave exactly the same</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q3_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;&amp;gt;&lt;/code&gt; only works on new files and &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt; only works on existing files</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q3_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;&amp;gt;&lt;/code&gt; overwrites the file while &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt; appends to it</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m01_q3_resp">quiz_m01_q3_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m01_q3_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m01_q3_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;A single &lt;code&gt;&amp;gt;&lt;/code&gt; replaces the file's contents while &lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt; adds to the end, which is why using &lt;code&gt;&amp;gt;&lt;/code&gt; by mistake can destroy a file.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m01_q4" title="Question 4">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;What does &lt;code&gt;sudo apt update&lt;/code&gt; do?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m01_q4_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m01_q4_a0">
+              <material><mattext texttype="text/html">Installs all available package upgrades</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q4_a1">
+              <material><mattext texttype="text/html">Removes packages that are no longer needed</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q4_a2">
+              <material><mattext texttype="text/html">Downloads the latest list of available software packages</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q4_a3">
+              <material><mattext texttype="text/html">Upgrades Ubuntu to the next release version</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m01_q4_resp">quiz_m01_q4_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m01_q4_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m01_q4_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;&lt;code&gt;apt update&lt;/code&gt; only refreshes the package list so the system knows what versions are available; &lt;code&gt;apt upgrade&lt;/code&gt; is what actually installs the upgrades.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m01_q5" title="Question 5">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;According to the lesson, why is the &lt;code&gt;gnupg&lt;/code&gt; package installed before Module 02?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m01_q5_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m01_q5_a0">
+              <material><mattext texttype="text/html">It handles encryption keys, which is needed for Docker's GPG key</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q5_a1">
+              <material><mattext texttype="text/html">It provides the certificates required for secure HTTPS connections</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q5_a2">
+              <material><mattext texttype="text/html">It is a better process viewer than top</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q5_a3">
+              <material><mattext texttype="text/html">It displays directory structures visually</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m01_q5_resp">quiz_m01_q5_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m01_q5_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m01_q5_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson installs gnupg because it handles encryption keys, and the Docker installation in Module 02 requires it to work with Docker's GPG key.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m01_q6" title="Question 6">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;After running &lt;code&gt;chmod 755 hello.sh&lt;/code&gt;, what permission string does &lt;code&gt;ls -la&lt;/code&gt; show for the file?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m01_q6_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m01_q6_a0">
+              <material><mattext texttype="text/html">-rw-r--r--</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q6_a1">
+              <material><mattext texttype="text/html">-rwxr-xr-x</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q6_a2">
+              <material><mattext texttype="text/html">-rwxrwxrwx</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q6_a3">
+              <material><mattext texttype="text/html">-rw-rw-r--</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m01_q6_resp">quiz_m01_q6_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m01_q6_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m01_q6_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;755 means the owner gets rwx (7) while group and everyone else get r-x (5), which displays as -rwxr-xr-x.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m01_q7" title="Question 7">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Which command shows the ports currently listening on your machine?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m01_q7_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m01_q7_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;ping -c 3 8.8.8.8&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q7_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;ip a&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q7_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;dig +short hub.docker.com&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q7_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;ss -tuln&lt;/code&gt;</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m01_q7_resp">quiz_m01_q7_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m01_q7_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m01_q7_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;&lt;code&gt;ss -tuln&lt;/code&gt; lists listening TCP and UDP sockets with their local addresses and ports, such as port 22 for SSH.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m01_q8" title="Question 8">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;What does &lt;code&gt;systemctl is-active ssh&lt;/code&gt; print when the SSH service is running?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m01_q8_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m01_q8_a0">
+              <material><mattext texttype="text/html">enabled</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q8_a1">
+              <material><mattext texttype="text/html">running</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q8_a2">
+              <material><mattext texttype="text/html">active</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q8_a3">
+              <material><mattext texttype="text/html">online</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m01_q8_resp">quiz_m01_q8_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m01_q8_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m01_q8_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;&lt;code&gt;systemctl is-active&lt;/code&gt; gives a one-word status, and a running service reports &lt;code&gt;active&lt;/code&gt;; &lt;code&gt;enabled&lt;/code&gt; is what &lt;code&gt;systemctl is-enabled&lt;/code&gt; reports for boot startup.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m01_q9" title="Question 9">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;What does &lt;code&gt;echo &amp;quot;hello world&amp;quot; | grep -v hello&lt;/code&gt; output?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m01_q9_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m01_q9_a0">
+              <material><mattext texttype="text/html">hello world</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q9_a1">
+              <material><mattext texttype="text/html">world</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q9_a2">
+              <material><mattext texttype="text/html">Nothing, because &lt;code&gt;grep -v&lt;/code&gt; prints only lines that do NOT match</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q9_a3">
+              <material><mattext texttype="text/html">An error, because -v is not a valid grep flag</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m01_q9_resp">quiz_m01_q9_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m01_q9_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m01_q9_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The -v flag inverts the match so grep prints non-matching lines, and since the only input line contains &amp;quot;hello&amp;quot; it is excluded.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m01_q10" title="Question 10">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;In this module, running &lt;code&gt;sudo usermod -aG docker $USER&lt;/code&gt; fails. Why?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m01_q10_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m01_q10_a0">
+              <material><mattext texttype="text/html">The user does not have sudo access yet</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q10_a1">
+              <material><mattext texttype="text/html">The docker group does not exist yet; it is created when Docker is installed in Module 02</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q10_a2">
+              <material><mattext texttype="text/html">usermod can only be run while logged in directly as root</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m01_q10_a3">
+              <material><mattext texttype="text/html">The -aG flags must come after the username</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m01_q10_resp">quiz_m01_q10_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m01_q10_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m01_q10_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson runs the command as a rehearsal and it fails with &amp;quot;group 'docker' does not exist&amp;quot; because the docker group is only created when Docker is installed in Module 02.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+    </section>
+  </assessment>
+</questestinterop>

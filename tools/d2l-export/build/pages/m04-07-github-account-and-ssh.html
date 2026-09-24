@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git and GitHub — GitHub Account and SSH Key</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Generate an ed25519 SSH key with <code>ssh-keygen</code>, register the public key in GitHub's settings, and verify passwordless authentication with <code>ssh -T</code>.</div>
+<h1>Lesson 07: GitHub Account and SSH</h1>
+<p><strong>By the end, you will have a free GitHub account, an SSH key on your machine, and that key registered with GitHub so you can push without typing a password.</strong></p>
+<p>⏱ ~20 minutes of typing + clicking</p>
+<blockquote><p><strong>GitHub</strong> is the largest Git host in the world — the same site most companies and open-source projects use. Your course repos will be <strong>public</strong>, on purpose: classmates can browse, clone, and review each other's work, exactly like real open source.</p></blockquote>
+<hr />
+<h2>Step 1: create your GitHub account</h2>
+<p><strong>1.</strong> Open your browser. Go to:</p>
+<pre class="output"><code class="output">https://github.com/signup</code></pre>
+<p>(If you already have a GitHub account, sign in and skip to step 4.)</p>
+<p><strong>2.</strong> Use the <strong>same email</strong> you set in <code>git config --global user.email</code> (lesson 01). Mismatched emails create commits that don't link to your profile.</p>
+<p><strong>3.</strong> Pick a username carefully. It will be <strong>public</strong> — visible to classmates now and to future employers later. Something professional based on your name beats <code>xX_c0d3r_Xx</code>. Complete the email verification GitHub sends you.</p>
+<p><strong>4.</strong> Once logged in, look at the top-right of the page — your avatar should appear. Click it → <strong>Settings</strong> → <strong>Emails</strong> → confirm your email matches the one from lesson 01.</p>
+<hr />
+<h2>Step 2: generate an SSH key (if you don't have one)</h2>
+<p><strong>5.</strong> Back in VS Code's integrated terminal. Check whether you already have a key.</p>
+<pre><code class="language-bash">ls ~/.ssh/id_ed25519.pub 2&gt;/dev/null</code></pre>
+<p>If you see a path printed, you already have a key — <strong>skip to Step 3</strong>.</p>
+<p><strong>6.</strong> Generate one. The <code>-t ed25519</code> picks a modern key type. The <code>-C &quot;...&quot;</code> is just a label.</p>
+<pre><code class="language-bash">ssh-keygen -t ed25519 -C &quot;you@example.com&quot;</code></pre>
+<p><strong>7.</strong> Three prompts:</p>
+<ul><li><strong>&quot;Enter file in which to save the key&quot;</strong> — press Enter to accept the default <code>~/.ssh/id_ed25519</code>.</li><li><strong>&quot;Enter passphrase&quot;</strong> — for this course, press Enter twice for no passphrase. (In real life, set one.)</li><li><strong>&quot;Enter same passphrase again&quot;</strong> — Enter again.</li></ul>
+<p><strong>8.</strong> Output:</p>
+<pre class="output"><code class="output">Your identification has been saved in /home/your-user/.ssh/id_ed25519
+Your public key has been saved in /home/your-user/.ssh/id_ed25519.pub
+The key fingerprint is: SHA256:...</code></pre>
+<p><strong>9.</strong> Confirm both files exist.</p>
+<pre><code class="language-bash">ls -la ~/.ssh/id_ed25519*</code></pre>
+<p>You should see two files: <code>id_ed25519</code> (private) and <code>id_ed25519.pub</code> (public).</p>
+<p><strong>10.</strong> <strong>The private key never leaves your machine.</strong> Permissions should be <code>600</code> (owner read/write only). Verify.</p>
+<pre><code class="language-bash">ls -la ~/.ssh/id_ed25519</code></pre>
+<p>The permissions should look like <code>-rw-------</code>.</p>
+<p><strong>11.</strong> If they're not, fix them.</p>
+<pre><code class="language-bash">chmod 600 ~/.ssh/id_ed25519</code></pre>
+<hr />
+<h2>Step 3: copy the public key</h2>
+<p><strong>12.</strong> Print the <strong>public</strong> key (the <code>.pub</code> file).</p>
+<pre><code class="language-bash">cat ~/.ssh/id_ed25519.pub</code></pre>
+<pre class="output"><code class="output">ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... you@example.com</code></pre>
+<p><strong>13.</strong> Select that entire line in your terminal and copy it (right-click → Copy, or Ctrl+Shift+C in most terminals).</p>
+<hr />
+<h2>Step 4: register the key on GitHub</h2>
+<p><strong>14.</strong> In your browser, go to <strong>github.com → top-right avatar → Settings → SSH and GPG keys</strong>.</p>
+<p><strong>15.</strong> Click <strong>New SSH key</strong> (the green button).</p>
+<p><strong>16.</strong> Fill in:</p>
+<ul><li><strong>Title:</strong> something like <code>course-laptop</code>. (Just a label for you.)</li><li><strong>Key type:</strong> leave as <strong>Authentication Key</strong>.</li><li><strong>Key:</strong> paste the entire public key line from step 13.</li></ul>
+<p><strong>17.</strong> Click <strong>Add SSH key</strong>. GitHub may ask you to re-enter your password to confirm. The key should appear in the list.</p>
+<hr />
+<h2>Step 5: test the SSH connection</h2>
+<p><strong>18.</strong> Test from the terminal.</p>
+<pre><code class="language-bash">ssh -T git@github.com</code></pre>
+<p><strong>19.</strong> First time, you'll see:</p>
+<pre class="output"><code class="output">The authenticity of host 'github.com (140.82.x.x)' can't be established.
+ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+Are you sure you want to continue connecting (yes/no/[fingerprint])?</code></pre>
+<p>Type <code>yes</code> and press Enter. (Don't just press Enter — there's no default.)</p>
+<p><strong>20.</strong> Successful auth looks like:</p>
+<pre class="output"><code class="output">Hi &lt;username&gt;! You've successfully authenticated, but GitHub does not provide shell access.</code></pre>
+<p><strong>That message means it worked.</strong> GitHub won't give you a shell, but it confirmed your identity.</p>
+<p><strong>21.</strong> If instead you see <code>Permission denied (publickey)</code>:</p>
+<ul><li>Make sure you pasted the <strong>public</strong> key (<code>.pub</code> file), not the private one.</li><li>Make sure you pasted the <strong>whole line</strong>, including <code>ssh-ed25519</code> at the start and the email at the end.</li><li>Check the private key's permissions (<code>chmod 600 ~/.ssh/id_ed25519</code> — SSH refuses keys that other users can read).</li><li>Run <code>ssh -vT git@github.com</code> to see verbose output.</li></ul>
+<p><strong>22.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;GitHub SSH auth: working ($(ssh -T git@github.com 2&gt;&amp;1 | head -n 1))&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Public vs private key.</strong> You paste the <code>.pub</code> file's contents into GitHub. Never paste the private key (<code>id_ed25519</code> without <code>.pub</code>). The private key stays on your machine forever. If you accidentally pasted the private key anywhere, delete that key pair and generate a new one.</li><li><strong>Wrong key permissions.</strong> If the private key is readable by anyone else (<code>-rw-r--r--</code>), SSH silently refuses to use it. <code>chmod 600 ~/.ssh/id_ed25519</code> fixes it.</li><li><strong>Some classroom networks block outbound port 22.</strong> If <code>ssh -T</code> hangs, GitHub offers SSH over port 443: test with <code>ssh -T -p 443 git@ssh.github.com</code>. Ask the instructor before setting that up permanently.</li><li><strong>Email mismatch.</strong> If your GitHub email doesn't match <code>git config --global user.email</code>, GitHub won't link your commits to your profile. Fix one or the other to match.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">ls ~/.ssh/id_ed25519.pub</code></pre>
+<p>Should print the path.</p>
+<pre><code class="language-bash">ssh -T git@github.com</code></pre>
+<p>Should print <code>Hi &lt;username&gt;! You've successfully authenticated, but GitHub does not provide shell access.</code></p>
+<p>In the GitHub web UI, your SSH key should appear at <strong>Settings → SSH and GPG keys</strong> with the title you gave it.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m04-08-pushing-to-github.html">08-pushing-to-github.md</a> — Push your repo to GitHub</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Continue.dev on the Shared vLLM Endpoint — Explore the Models</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Send real chat completions to the 70B model through the OpenAI-compatible <code>/v1/chat/completions</code> route, use a system prompt to steer its style, and explain why the 8B model is reserved for autocomplete.</div>
+<h1>Lesson 03: Explore the Models</h1>
+<p><strong>By the end, you will have sent a real chat completion to the 70B model over the OpenAI-compatible API, felt its latency, and confirmed the 8B model is autocomplete-only.</strong></p>
+<p>⏱ ~20 minutes of typing + reading</p>
+<blockquote><p><strong>Two models, two roles.</strong> The <strong>70B</strong> (Llama 3.3 70B Instruct) is the smart, conversational model — it handles chat, inline edit, and agent mode. The <strong>8B</strong> (Llama 3.1 8B Instruct) is fast and lightweight — it's strictly the tab-autocomplete engine. Today we exercise the 70B directly with <code>curl</code>, the same API Continue.dev will use in lesson 04.</p></blockquote>
+<p><strong>All calls reuse the shell variables from lesson 02.</strong> If you opened a fresh terminal, set them again:</p>
+<pre><code class="language-bash">export VLLM_BASE=http://gpu.college.local:8000/v1
+export VLLM_KEY=sk-college-shared</code></pre>
+<hr />
+<h2>The two roles, restated</h2>
+<table><thead><tr><th>Model</th><th>vLLM model id</th><th>Role</th><th>Why</th></tr></thead><tbody><tr><td>Llama 3.3 70B Instruct</td><td><code>meta-llama/Llama-3.3-70B-Instruct</code></td><td>chat, edit, agent</td><td>Large, reasoning-capable; worth the extra second.</td></tr><tr><td>Llama 3.1 8B Instruct</td><td><code>meta-llama/Llama-3.1-8B-Instruct</code></td><td>autocomplete only</td><td>Small and fast; returns a suggestion in milliseconds.</td></tr></tbody></table>
+<p>You do <strong>not</strong> pick a model by your own hardware — the shared box already hosts both. You just address each by its <code>id</code>.</p>
+<hr />
+<p><strong>1.</strong> Send a first chat completion to the <strong>70B</strong>. This is the OpenAI-compatible <code>/v1/chat/completions</code> route.</p>
+<pre><code class="language-bash">curl -s &quot;$VLLM_BASE/chat/completions&quot; \
+  -H &quot;Authorization: Bearer $VLLM_KEY&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;model&quot;: &quot;meta-llama/Llama-3.3-70B-Instruct&quot;,
+    &quot;messages&quot;: [
+      {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;What does the FastAPI Depends() function do, in one sentence?&quot;}
+    ]
+  }' | python3 -c &quot;import sys,json; print(json.load(sys.stdin)['choices'][0]['message']['content'])&quot;</code></pre>
+<p>You should see a multi-second pause (the 70B is large and shared), then a coherent one-sentence answer printed. <strong>That's the model Continue will use for chat.</strong></p>
+<p><strong>2.</strong> Feel the shape of the request. Notice three things:</p>
+<ul><li><code>&quot;model&quot;</code> names the exact id from lesson 02.</li><li><code>&quot;messages&quot;</code> is a list of role/content turns — same format the OpenAI SDK uses.</li><li>The answer comes back at <code>choices[0].message.content</code>.</li></ul>
+<p><strong>3.</strong> Try a system prompt to steer the style — models take a <code>system</code> turn before the <code>user</code> turn.</p>
+<pre><code class="language-bash">curl -s &quot;$VLLM_BASE/chat/completions&quot; \
+  -H &quot;Authorization: Bearer $VLLM_KEY&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;model&quot;: &quot;meta-llama/Llama-3.3-70B-Instruct&quot;,
+    &quot;messages&quot;: [
+      {&quot;role&quot;: &quot;system&quot;, &quot;content&quot;: &quot;You are a terse senior Python engineer. Answer in one line of code, no prose.&quot;},
+      {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;A FastAPI route that returns {\&quot;ok\&quot;: true}.&quot;}
+    ]
+  }' | python3 -c &quot;import sys,json; print(json.load(sys.stdin)['choices'][0]['message']['content'])&quot;</code></pre>
+<p>You should get essentially a single line of Python. Same model, very different behavior — that's the system prompt at work.</p>
+<p><strong>4.</strong> Ask a follow-up-style question in one call to feel the model's coding ability:</p>
+<pre><code class="language-bash">curl -s &quot;$VLLM_BASE/chat/completions&quot; \
+  -H &quot;Authorization: Bearer $VLLM_KEY&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;model&quot;: &quot;meta-llama/Llama-3.3-70B-Instruct&quot;,
+    &quot;messages&quot;: [
+      {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Show me a tiny example of FastAPI Depends() with a dependency function.&quot;}
+    ]
+  }' | python3 -c &quot;import sys,json; print(json.load(sys.stdin)['choices'][0]['message']['content'])&quot;</code></pre>
+<p>Read the code it returns. This is the quality you'll get in the chat panel in lesson 05.</p>
+<p><strong>5.</strong> Now look at the <strong>8B</strong>. It <em>can</em> answer a chat prompt, but in this course it is reserved for autocomplete. Prove it responds, then leave it alone:</p>
+<pre><code class="language-bash">curl -s &quot;$VLLM_BASE/chat/completions&quot; \
+  -H &quot;Authorization: Bearer $VLLM_KEY&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;model&quot;: &quot;meta-llama/Llama-3.1-8B-Instruct&quot;,
+    &quot;messages&quot;: [
+      {&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Complete this function:\ndef fib(n):&quot;}
+    ]
+  }' | python3 -c &quot;import sys,json; print(json.load(sys.stdin)['choices'][0]['message']['content'])&quot;</code></pre>
+<p>It answers, and faster than the 70B — but notice it's a smaller, less careful model. In Continue we give it <strong>only</strong> the <code>autocomplete</code> role, where speed matters and the context is tightly scoped. Chat/edit/agent all go to the 70B.</p>
+<blockquote><p><strong>Why 8B for autocomplete and 70B for everything else?</strong> Tab autocomplete fires on every pause in your typing — it must return in milliseconds, so it needs the small, fast model. Chat, inline edit, and agent mode run once when you ask, and reward reasoning — so they get the big model even though it's a beat slower. Same reason you'd never wait two seconds for every ghost-text suggestion.</p></blockquote>
+<p><strong>6.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Models explored: chat-completions OK against Llama-3.3-70B (chat/edit/agent), Llama-3.1-8B reserved for autocomplete&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>First response is slow.</strong> The 70B is large and shared across the whole cohort. Expect a few seconds before text comes back, longer during a busy lab. Don't conclude it's broken until you've waited.</li><li><strong><code>model not found</code> / <code>404</code> on the 70B.</strong> The 70B is <strong>coming online</strong> — mid-migration it may not be loaded yet. Confirm with your instructor. In the meantime the 8B is live, so the API itself works.</li><li><strong><code>401 Unauthorized</code>.</strong> The shared key is wrong or missing — recheck <code>VLLM_KEY</code> and the <code>Authorization</code> header (lesson 02).</li><li><strong>Don't put the 8B on chat in Continue.</strong> It's the autocomplete model. Using it for chat gives weaker answers; that's why lesson 04's <code>roles:</code> keep chat/edit/agent on the 70B.</li><li><strong>It's shared, not private.</strong> Everything you send goes to the college server. Don't paste secrets — build the hygiene habit now (it carries into lesson 05).</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">curl -s &quot;$VLLM_BASE/chat/completions&quot; \
+  -H &quot;Authorization: Bearer $VLLM_KEY&quot; -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;model&quot;:&quot;meta-llama/Llama-3.3-70B-Instruct&quot;,&quot;messages&quot;:[{&quot;role&quot;:&quot;user&quot;,&quot;content&quot;:&quot;What is 2+2? One word.&quot;}]}' \
+  | python3 -c &quot;import sys,json; print(json.load(sys.stdin)['choices'][0]['message']['content'])&quot;</code></pre>
+<p>Should print <code>4</code> (or <code>Four</code>). If the 70B isn't online yet, run the same call with <code>meta-llama/Llama-3.1-8B-Instruct</code> to confirm the API works, and check 70B status with the instructor.</p>
+<p>You should also be able to say why the 8B is the autocomplete model and the 70B does everything else.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m05-04-install-and-configure-continue.html">04-install-and-configure-continue.md</a> — Wire Continue.dev to the vLLM endpoint</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

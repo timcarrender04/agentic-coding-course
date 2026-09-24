@@ -21,7 +21,7 @@ git config --global user.name "Your Name"
 ```
 (Replace `Your Name` with your actual name. Quotes matter if it has a space.)
 
-**2.** Set your email. **Use the same email you'll use for your Gitea account in lesson 07.**
+**2.** Set your email. **Use the same email you'll use for your GitHub account in lesson 07.**
 ```bash
 git config --global user.email "you@example.com"
 ```
@@ -93,7 +93,7 @@ echo "Git configured: $(git config --global user.name) <$(git config --global us
 
 ## ⚠️ Watch out
 
-- **Use a real email** that matches what you'll use on Gitea. Mismatched emails create commits that don't link to your Gitea profile.
+- **Use a real email** that matches what you'll use on GitHub. Mismatched emails create commits that don't link to your GitHub profile.
 - `--global` writes to `~/.gitconfig` and applies to every repo for your user. Without `--global`, the setting only applies to the current repo.
 - If you typo your name or email, just re-run the command — the new value overwrites the old.
 

@@ -175,6 +175,24 @@ dpkg -l | grep gnupg
 ```
 You should see gnupg in the list.
 
+## Lab
+
+**Objective:** Install the seven prerequisite packages (curl, wget, git, htop, tree, ca-certificates, gnupg) and verify each one answers.
+
+**Task:** Install each package by working through the drills — type every command even if apt says it's already installed. Then run the five Checkpoint commands in one terminal.
+
+**Submit:** One screenshot (or pasted transcript) of the five Checkpoint commands and their output: `curl --version | head -n 1`, `git --version`, `tree --version`, `which wget`, `dpkg -l | grep gnupg`.
+
+**Pass criteria:** (version numbers vary by machine — any version string passes)
+
+- [ ] `curl --version | head -n 1` prints a curl version line.
+- [ ] `git --version` prints a git version line.
+- [ ] `tree --version` prints a tree version line.
+- [ ] `which wget` prints `/usr/bin/wget`.
+- [ ] `dpkg -l | grep gnupg` shows gnupg in the installed list.
+
+**Unlocks:** [06-permissions-drills.md](06-permissions-drills.md)
+
 ---
 
 **Next up:** [06-permissions-drills.md](06-permissions-drills.md) — Understand and change file permissions

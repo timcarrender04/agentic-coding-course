@@ -1,0 +1,179 @@
+{
+  "module": "05",
+  "dir": "phase-3-ai-assisted-development/05-continue-vllm",
+  "title": "Continue.dev on the Shared vLLM Endpoint",
+  "moduleObjectives": [
+    "Verify that the college's shared vLLM inference endpoint is reachable from your dev environment using a `curl` status check",
+    "Query the endpoint's `/v1/models` route with the shared API key and identify the exact model ids it serves",
+    "Send chat completions to Llama 3.3 70B over the OpenAI-compatible API and explain why Llama 3.1 8B is reserved for autocomplete",
+    "Configure Continue.dev in VS Code via `~/.continue/config.yaml` with role-separated models pointing at the shared endpoint",
+    "Chat about your FastAPI repo using the `@file`, `@codebase`, `@diff`, and `@terminal` context providers",
+    "Use tab autocomplete to write a working route, reading every ghost-text suggestion before accepting it",
+    "Edit highlighted code with `Ctrl+I` inline edits, accepting, rejecting, or partially accepting each proposed diff",
+    "Use agent mode to make approval-gated, multi-file changes and ship a feature through a GitHub pull request"
+  ],
+  "lessons": [
+    {
+      "file": "00-prerequisites-check.md",
+      "title": "Prerequisites Check",
+      "objective": "Confirm the deliverables from Modules 00-04 (Git, Docker Compose, the FastAPI repo, and the GitHub remote) still work and that the Continue.dev extension is installed in VS Code."
+    },
+    {
+      "file": "01-the-inference-endpoint.md",
+      "title": "The Inference Endpoint",
+      "objective": "Describe the college's shared vLLM server — its 2x RTX A6000 hardware, the two Llama models, and their roles — and confirm the endpoint answers with an HTTP status code using `curl`."
+    },
+    {
+      "file": "02-connect-to-endpoint.md",
+      "title": "Connect to the Endpoint",
+      "objective": "Query the endpoint's `/v1/models` route with the shared API key via `curl` and confirm the exact Llama model ids appear in the OpenAI-style JSON response."
+    },
+    {
+      "file": "03-explore-the-models.md",
+      "title": "Explore the Models",
+      "objective": "Send real chat completions to the 70B model through the OpenAI-compatible `/v1/chat/completions` route, use a system prompt to steer its style, and explain why the 8B model is reserved for autocomplete."
+    },
+    {
+      "file": "04-install-and-configure-continue.md",
+      "title": "Install + Configure Continue.dev",
+      "objective": "Install Continue.dev in VS Code and write `~/.continue/config.yaml` so the 70B serves chat, edit, and apply while the 8B serves autocomplete, then verify with a first chat and a ghost-text completion."
+    },
+    {
+      "file": "05-chat.md",
+      "title": "Chat",
+      "objective": "Use the `@file`, `@codebase`, `@diff`, and `@terminal` context providers to bring real repository context into Continue chat and get grounded answers about your FastAPI code."
+    },
+    {
+      "file": "06-autocomplete.md",
+      "title": "Autocomplete",
+      "objective": "Write a working `PUT /items/{item_id}` route using tab autocomplete, reading each ghost-text suggestion before accepting with Tab, refining by typing, or dismissing with Esc."
+    },
+    {
+      "file": "07-inline-edit.md",
+      "title": "Inline Edit",
+      "objective": "Use `Ctrl+I` inline edits to rename a function, add validation, extract a helper, and draft a test, reviewing every proposed diff before accepting, rejecting, or partially accepting it."
+    },
+    {
+      "file": "08-agent-mode.md",
+      "title": "Agent Mode",
+      "objective": "Use Continue's agent mode to make approval-gated, multi-file changes on a feature branch, reviewing each tool call and rejecting steps that are wrong or destructive."
+    },
+    {
+      "file": "09-final-checkpoint.md",
+      "title": "Final Checkpoint",
+      "objective": "Build a case-insensitive `GET /items/search` route with the Continue.dev + college vLLM stack, verify it with curl and Swagger UI, and ship it through a GitHub pull request."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What serving software runs on the college's shared inference server, and what kind of API does it expose?",
+      "options": [
+        "vLLM, exposing an OpenAI-compatible HTTP API at the `/v1` path",
+        "Ollama, exposing its own native REST API",
+        "llama.cpp server, exposing a gRPC API",
+        "Text Generation Inference, exposing a WebSocket streaming API"
+      ],
+      "answer": 0,
+      "feedback": "The shared server runs vLLM, which exposes an OpenAI-compatible HTTP API — the `/v1` suffix on the endpoint URL is the same API path the OpenAI SDK and Continue.dev expect."
+    },
+    {
+      "question": "You run the lesson 01 reachability check and `curl` prints `401`. What does that result mean?",
+      "options": [
+        "The server is offline and you should retry later",
+        "You reached the server — it answered but wants the shared API key, which still counts as success for the reachability check",
+        "You are off the campus network and need to connect via Tailscale",
+        "The 70B model has not been loaded yet"
+      ],
+      "answer": 1,
+      "feedback": "A `401` means the box answered but requires the shared key, so the network connection works — only a `000` or a hang means you failed to reach the server."
+    },
+    {
+      "question": "Your `curl \"$VLLM_BASE/models\"` request returns a `404`. According to lesson 02, what is the most likely cause?",
+      "options": [
+        "The shared API key is wrong or missing",
+        "The 70B model has not finished loading",
+        "The server is overloaded by the rest of the cohort",
+        "You dropped the `/v1` suffix from the base URL — the path must be `.../v1/models`"
+      ],
+      "answer": 3,
+      "feedback": "A `404` on `/models` usually means the `/v1` was dropped from the base URL; the correct path is `http://gpu.college.local:8000/v1/models`."
+    },
+    {
+      "question": "Why does the course assign Llama 3.1 8B to autocomplete and Llama 3.3 70B to chat, edit, and agent mode?",
+      "options": [
+        "The 8B is the only model licensed for code completion",
+        "The 70B cannot generate code, only prose explanations",
+        "Autocomplete fires on every pause in typing and needs millisecond responses, so it gets the small fast model; chat, edit, and agent run once per request and reward reasoning, so they get the large model",
+        "The 8B has a larger context window than the 70B"
+      ],
+      "answer": 2,
+      "feedback": "Tab autocomplete must return suggestions in milliseconds, which suits the small fast 8B, while chat, inline edit, and agent mode run once per request and benefit from the 70B's stronger reasoning even though it is slower."
+    },
+    {
+      "question": "In `~/.continue/config.yaml`, which `provider` value do you use for the models served by the college endpoint?",
+      "options": [
+        "`provider: vllm`, matching the serving software",
+        "`provider: ollama`, Continue's default local provider",
+        "`provider: openai`, because vLLM implements the OpenAI-compatible API",
+        "`provider: llama`, matching the model family"
+      ],
+      "answer": 2,
+      "feedback": "vLLM speaks the OpenAI API, so Continue's `openai` provider is correct, with `apiBase` pointing it at the college endpoint."
+    },
+    {
+      "question": "What happens if you mistakenly give the 70B model the `autocomplete` role instead of the 8B?",
+      "options": [
+        "Continue refuses to load the config file",
+        "Autocomplete silently stops working",
+        "Nothing changes — the `roles` list is only a display label",
+        "Ghost-text suggestions become laggy because every pause in typing waits on the slow 70B"
+      ],
+      "answer": 3,
+      "feedback": "Roles matter: putting the slow 70B on autocomplete makes every keystroke pause wait on the large model, which is why the fast 8B holds the autocomplete role."
+    },
+    {
+      "question": "Which Continue context provider would you use to have the model summarize your uncommitted changes before you commit?",
+      "options": [
+        "`@terminal`",
+        "`@diff`",
+        "`@codebase`",
+        "`@problems`"
+      ],
+      "answer": 1,
+      "feedback": "`@diff` sends the `git diff` output of your uncommitted changes to the model, which lesson 05 uses to summarize the change about to be committed."
+    },
+    {
+      "question": "While a ghost-text autocomplete suggestion is showing, which keys do what?",
+      "options": [
+        "Tab accepts the full suggestion, Esc dismisses it, and `Ctrl+Right` accepts it one word at a time",
+        "Enter accepts the suggestion, Backspace dismisses it, and Tab indents the line",
+        "`Ctrl+Enter` accepts the suggestion, Tab dismisses it, and F2 accepts one line",
+        "Double-clicking accepts the suggestion, and there is no way to dismiss it"
+      ],
+      "answer": 0,
+      "feedback": "Lesson 06 drills exactly this: Tab accepts the full ghost-text suggestion, Esc dismisses it, and `Ctrl+Right` walks through the suggestion word by word."
+    },
+    {
+      "question": "According to lesson 07, what is the best approach when using `Ctrl+I` inline edit to change code?",
+      "options": [
+        "Highlight the whole file so the model has maximum context for any change",
+        "Highlight the smallest selection that contains the change, and read every red and green line of the proposed diff before accepting",
+        "Accept the diff immediately, since the 70B rarely makes mistakes",
+        "Avoid undo after accepting, because inline edits cannot be reverted"
+      ],
+      "answer": 1,
+      "feedback": "Smaller selections produce better edits, and every proposed diff must be read before accepting — Continue's edits are normal VS Code undo entries if you accept by accident."
+    },
+    {
+      "question": "In Continue's agent mode, what keeps you in control while the model reads files, writes files, and runs shell commands?",
+      "options": [
+        "Agent mode runs inside a Docker sandbox with no access to your repo",
+        "Agent mode can only propose changes and can never execute commands",
+        "Every tool call is gated on your explicit approval — you review each step and approve or reject it",
+        "A git pre-commit hook automatically reverts any unwanted change"
+      ],
+      "answer": 2,
+      "feedback": "Lesson 08 stresses that every agent tool call is gated on your approval, so you read each proposed read, write, or shell command and approve or reject it deliberately."
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VS Code Walkthrough — What is an IDE?</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Install VS Code and explain the difference between an editor, a terminal, and an IDE.</div>
+<h1>Lesson 00: What is an IDE?</h1>
+<p><strong>Time:</strong> ~15 min</p>
+<h2>Concepts</h2>
+<p>Before we install anything, three words you'll hear all day:</p>
+<ul><li><strong>Editor</strong> — a program that lets you type and save text into a file. Notepad on Windows, TextEdit on Mac. That's it. No magic.</li><li><strong>Terminal</strong> — a program where you type commands as text and the computer runs them. No buttons, no menus. Just text in, text out. The Windows &quot;Command Prompt&quot; and the Mac &quot;Terminal app&quot; are both terminals.</li><li><strong>IDE</strong> — short for <strong>Integrated Development Environment</strong>. It is an editor and a terminal and a bunch of other tools, all bolted together in one window. The whole point of an IDE is that you don't have to alt-tab between five different programs to write, run, and debug code.</li></ul>
+<p><strong>VS Code is an IDE.</strong> VS Code (Visual Studio Code, made by Microsoft) is one of the most widely used IDEs in the world. Because it's so popular, if you ever google something like &quot;how do I do X in VS Code&quot; the answer will match exactly what's on your screen.</p>
+<blockquote><p><strong>A note on AI for this course:</strong> Out of the box, VS Code has no AI assistant — it's just the editor. In Module 05 we'll install <strong>Continue.dev</strong>, a free, open-source extension that gives you the same agentic-coding features (chat, inline edit, autocomplete) powered by the college's shared LLM server. Today we just want the IDE itself. If VS Code offers to &quot;Sign in to sync settings,&quot; that's optional cloud sync and unrelated — skip it.</p></blockquote>
+<h2>Demo (instructor at the front)</h2>
+<p>The instructor will show:</p>
+<ol><li>Notepad (or TextEdit) — just an editor.</li><li>Command Prompt (or Terminal app) — just a terminal.</li><li>VS Code — both, plus more, in one window.</li></ol>
+<p>You will see how the same task (&quot;write a file, then run it&quot;) looks in all three.</p>
+<h2>Hands-on: install VS Code</h2>
+<ol><li>Open your normal web browser.</li><li>Go to <strong>code.visualstudio.com</strong>.</li><li>Click <strong>Download</strong> for your operating system (Windows / Mac / Linux).</li><li>Run the installer. Accept the defaults.</li><li>Launch VS Code.</li></ol>
+<p>When VS Code first opens you'll land on a <strong>Welcome</strong> tab. It may offer to:</p>
+<ul><li><strong>Choose a color theme.</strong> Pick whichever you like. Light or dark — your eyes, your call.</li><li><strong>Sign in to sync settings.</strong> This is optional cloud sync of your settings across machines. <strong>Skip it for the whole course</strong> — you don't need it.</li><li><strong>Get Started walkthroughs.</strong> VS Code shows a few &quot;getting started&quot; tips on the Welcome tab. Feel free to close them — we'll cover everything you need as we go.</li></ul>
+<p>The shortcuts in the rest of this module assume VS Code's <strong>default</strong> keybindings, which is what you get out of the box. You don't need to change anything.</p>
+<h2>Checkpoint</h2>
+<p>You're done with this lesson when:</p>
+<ul><li>[ ] VS Code is installed on your laptop.</li><li>[ ] You have VS Code open and you see a welcome screen (or an empty window with a sidebar on the left).</li><li>[ ] You did <strong>not</strong> need to sign in to anything — VS Code is free and works immediately.</li><li>[ ] You can explain in one sentence what an IDE is. Try it on the person next to you.</li></ul>
+<p>If VS Code won't install or won't open, raise your hand. <strong>Don't move on until your laptop is at the checkpoint above.</strong> Every later lesson assumes you're sitting in front of a working VS Code window.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Explain editor vs terminal vs IDE, and have VS Code installed and open.</p>
+<p><strong>Task:</strong> Work through this lesson — install VS Code from code.visualstudio.com, launch it, and land on the Welcome tab. Skip &quot;Sign in to sync settings.&quot;</p>
+<p><strong>Submit:</strong> One screenshot of your full VS Code window showing the Welcome tab (or an empty window with the left sidebar), plus one sentence in the submission comment: what an IDE is, in your own words.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] Screenshot shows VS Code open on your machine.</li><li>[ ] You did not sign in to anything.</li><li>[ ] Your one-sentence definition says an IDE combines an editor, a terminal, and other tools in one window.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m00-01-vscode-tour.html">01-vscode-tour.md</a></p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

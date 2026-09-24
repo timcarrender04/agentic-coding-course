@@ -4,22 +4,22 @@
 
 ⏱ ~15 minutes of typing
 
-> Autocomplete is the most-used Continue feature. As you type, the small base model predicts what comes next as **ghost text**. Tab to accept, keep typing to refine, Esc to dismiss.
+> Autocomplete is the most-used Continue feature. As you type, the small 8B model predicts what comes next as **ghost text**. Tab to accept, keep typing to refine, Esc to dismiss.
 
 ```instructor
-Say: "Tab autocomplete is the most-used Continue feature. The small base model predicts what comes next as ghost text. Tab accepts, keep typing refines, Esc dismisses."
-Mention: "If no ghost text appears: check the Continue panel for errors, confirm the autocomplete model is in `ollama list`, and confirm `roles:` in config has it on `autocomplete`. Those are the four common causes."
+Say: "Tab autocomplete is the most-used Continue feature. The small 8B model predicts what comes next as ghost text. Tab accepts, keep typing refines, Esc dismisses."
+Mention: "If no ghost text appears: check the Continue panel for errors, confirm the 8B model appears in the endpoint's model list (lesson 02's curl), and confirm `roles:` in config has it on `autocomplete`. Those are the common causes."
 Pause: After they accept their first ghost-text completion. Sit with it. The first time autocomplete writes a real line for them is the moment Continue clicks.
 Say: "You're done when ghost text appears within ~500ms of a pause in typing AND they've shipped a real route in `routers/items.py` using mostly autocomplete."
 ```
 
 ---
 
-**1.** Make sure your FastAPI repo is open in Cursor and the venv is **not** active in your terminal (autocomplete works regardless — keeping the prompt clean).
+**1.** Make sure your FastAPI repo is open in VS Code and the venv is **not** active in your terminal (autocomplete works regardless — keeping the prompt clean).
 
 **2.** Open `routers/items.py`.
 
-**3.** Find the `delete_item` function. Position your cursor at the end of that function's last line.
+**3.** Find the `delete_item` function. Position your caret at the end of that function's last line.
 
 ---
 
@@ -80,7 +80,7 @@ def update_item(item_id: int, item: ItemIn, db: Session = Depends(get_db)):
 
 ## Drill 3: refusing a bad suggestion
 
-**15.** Position cursor on a new line at the bottom of `routers/items.py`. Type:
+**15.** Position the caret on a new line at the bottom of `routers/items.py`. Type:
 ```python
 def supercalifragilisticexpialidocious(
 ```
@@ -154,10 +154,10 @@ echo "Autocomplete used to write PUT /items route" >> ~/docker-course/notes/note
 
 ## ⚠️ Watch out
 
-- **Read every suggestion before Tab.** The 1.5B-base model is fast but limited. It will sometimes invent module names, miss imports, or hallucinate field names. Tab is a commitment.
+- **Read every suggestion before Tab.** The 8B model is fast but limited. It will sometimes invent module names, miss imports, or hallucinate field names. Tab is a commitment.
 - **Latency varies with file size.** Long files mean more context prefix to process — completions can take 1–2 seconds on big files. Patience.
 - **Imports.** The autocomplete model often won't add `import` lines for symbols it uses. You'll fix imports manually or via Continue chat.
-- **Ghost text only appears at the cursor.** It won't suggest in the middle of an existing line — only when you stop typing in a position where new code makes sense.
+- **Ghost text only appears at the caret.** It won't suggest in the middle of an existing line — only when you stop typing in a position where new code makes sense.
 
 ---
 

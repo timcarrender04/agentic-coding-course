@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agentic Coding — Student Environment Setup Guide</title>
+<link rel="stylesheet" href="../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --paper: #FFFFFF;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+    --wash-warm: #FDF3E3;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    font-family: 'Barlow', 'DejaVu Sans', Arial, sans-serif;
+    color: var(--ink);
+    font-size: 10.2pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: letter; margin: 0; }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.52in 0.6in 0.72in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: avoid; }
+  .page > * { flex-shrink: 0; }
+
+  /* ---------- shared chrome ---------- */
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 18px;
+  }
+  .brandbar img.tc { height: 44px; }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brandbar .collab .x {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 8.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar img.chief { height: 30px; }
+
+  .pagefoot {
+    position: absolute;
+    left: 0.6in; right: 0.6in; bottom: 0.34in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 7px;
+    font-size: 8pt;
+    color: var(--ink-soft);
+  }
+  .pagefoot b { color: var(--navy); font-weight: 600; }
+  .pagefoot .url { color: var(--orange-deep); font-weight: 600; }
+
+  h1, h2, h3, .disp {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    color: var(--navy);
+  }
+  h2 {
+    font-size: 19pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+  }
+  h2::after { content: ""; flex: 1; height: 3px; background: var(--orange); border-radius: 2px; }
+  h3 { font-size: 13.5pt; font-weight: 700; margin-bottom: 4px; }
+  p + p { margin-top: 8px; }
+  a { color: var(--orange-deep); text-decoration: none; font-weight: 600; }
+  code {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 8.8pt;
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+
+  /* ---------- hero ---------- */
+  .hero { margin: 6px 0 14px; }
+  .hero .kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 11pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 2px;
+  }
+  .hero h1 {
+    font-size: 42pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.0;
+  }
+  .hero .sub {
+    font-size: 13pt;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+  .hero .meta {
+    display: inline-block;
+    margin-top: 10px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 3px;
+  }
+  .hero .meta span { color: var(--orange); }
+
+  /* ---------- kickoff callout ---------- */
+  .kickoff {
+    border: 2.5px solid var(--orange);
+    border-radius: 8px;
+    background: var(--wash-warm);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+  }
+  .kickoff .tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 10pt;
+    color: #fff;
+    background: var(--orange-deep);
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+  }
+  .kickoff h3 { font-size: 16pt; }
+  .kickoff p { font-size: 10pt; margin-top: 4px; }
+  .kickoff .bring {
+    margin-top: 8px;
+    font-size: 10pt;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 7px 12px;
+  }
+  .kickoff .bring b { color: var(--navy); }
+
+  /* ---------- checklist ---------- */
+  .checklist { list-style: none; margin-bottom: 4px; }
+  .checklist li {
+    font-size: 10pt;
+    padding: 6px 0 6px 30px;
+    position: relative;
+    border-bottom: 1px solid var(--line);
+  }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    left: 2px; top: 8px;
+    width: 13px; height: 13px;
+    border: 2px solid var(--orange-deep);
+    border-radius: 3px;
+    background: #fff;
+  }
+  .checklist b { color: var(--navy); }
+
+  /* ---------- access cards ---------- */
+  .accessgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .acard {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--orange);
+    border-radius: 5px;
+    padding: 8px 12px;
+    background: #fff;
+  }
+  .acard .anum {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 9pt;
+    letter-spacing: 0.12em;
+    color: var(--orange-deep);
+    text-transform: uppercase;
+  }
+  .acard h3 { font-size: 11.5pt; }
+  .acard p { font-size: 8.8pt; color: var(--ink-soft); line-height: 1.45; margin-top: 2px; }
+  .acard p b { color: var(--navy); }
+  .acard.wide { grid-column: span 2; border-left-color: var(--navy); background: var(--wash); }
+
+  /* ---------- requirements ---------- */
+  .req-common {
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 9.6pt;
+    margin-bottom: 10px;
+  }
+  .req-common b { color: var(--navy); }
+  .req-cols { display: flex; gap: 12px; }
+  .req-col {
+    flex: 1;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .req-col .head {
+    background: var(--navy);
+    color: #fff;
+    padding: 8px 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .req-col .head span { color: var(--orange); font-size: 9.5pt; letter-spacing: 0.1em; display: block; font-weight: 600;}
+  .req-col ul { list-style: none; padding: 10px 14px; }
+  .req-col li {
+    font-size: 9.2pt;
+    padding: 4px 0 4px 18px;
+    position: relative;
+    border-bottom: 1px dashed var(--line);
+  }
+  .req-col li:last-child { border-bottom: none; }
+  .req-col li::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 9px;
+    width: 9px; height: 9px;
+    border-radius: 2px;
+    background: var(--orange);
+  }
+  .callout-warn {
+    margin-top: 10px;
+    border-left: 4px solid var(--orange-deep);
+    background: var(--wash-warm);
+    border-radius: 0 6px 6px 0;
+    padding: 8px 14px;
+    font-size: 9.4pt;
+  }
+  .callout-warn b { color: var(--navy); }
+
+  /* ---------- install timeline table ---------- */
+  table.installs { width: 100%; border-collapse: collapse; margin-bottom: 12px; }
+  table.installs th, table.installs td {
+    border: 1px solid var(--line);
+    padding: 4px 9px;
+    text-align: left;
+    font-size: 9pt;
+    vertical-align: top;
+  }
+  table.installs th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  table.installs td b { color: var(--navy); }
+  table.installs td.when {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10pt;
+    color: var(--navy);
+    width: 108px;
+    background: var(--wash);
+    white-space: nowrap;
+  }
+  table.installs tr.now td.when { background: var(--wash-warm); color: var(--orange-deep); }
+
+  .steps { margin: 4px 0 10px; }
+  .steps h3 { font-size: 12pt; text-transform: uppercase; letter-spacing: 0.03em; }
+  .steps ol { padding-left: 20px; }
+  .steps li { font-size: 9.2pt; padding: 1.5px 0; }
+  .steps li b { color: var(--navy); }
+
+  /* ---------- contact ---------- */
+  .contact {
+    margin-top: auto;
+    background: var(--navy);
+    border-radius: 8px;
+    color: #fff;
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+  .contact .who { flex: 1; }
+  .contact .who .name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16pt;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .contact .who .role { color: var(--orange); font-size: 9.5pt; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+  .contact .who .line { font-size: 9.5pt; color: #cfd8e0; margin-top: 4px; }
+  .contact .who .line b { color: #fff; font-weight: 600; }
+  .contact .qr2 { width: 84px; height: 84px; background: #fff; border-radius: 6px; padding: 5px; flex: none; }
+  .contact .qr2 img { width: 100%; height: 100%; }
+  .contact .surveyagain { text-align: right; flex: none; }
+  .contact .surveyagain .t { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.1em; color: #cfd8e0; }
+  .contact .surveyagain .u {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13pt; font-weight: 700; color: var(--orange);
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 — KICKOFF + CHECKLIST ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Agentic Coding · Student Setup Guide</div>
+    <h1>Getting Set Up</h1>
+    <div class="sub">Everything you need in place for day one — accounts, laptop, and software.</div>
+    <div class="meta">Kickoff: Monday, July 20 &nbsp;<span>·</span>&nbsp; 6:00–8:00 PM &nbsp;<span>·</span>&nbsp; Live on Zoom</div>
+  </div>
+
+  <div class="kickoff">
+    <div class="tag">Day one · What to expect</div>
+    <h3>Monday is an intro &amp; setup session</h3>
+    <p>The first live block is a welcome session, not a lecture you can fall behind in. We'll walk through how the course works, tour <b>D2L Brightspace</b> (the online platform where every video, lesson, and lab submission lives), and then set up every laptop together — installing <b>VS&nbsp;Code</b>, adding the right extensions, and getting Windows machines scheduled for <b>WSL</b> (Ubuntu Linux). Nobody needs anything installed beforehand: the whole point of Monday is making sure everyone leaves with a working environment and access to everything the course uses.</p>
+    <div class="bring"><b>Join on Zoom:</b> <b>templejc-edu.zoom.us/j/85627136277</b> &nbsp;·&nbsp; Meeting ID: 856 2713 6277</div>
+    <div class="bring"><b>Have ready:</b> your laptop &nbsp;·&nbsp; its charger &nbsp;·&nbsp; the password you use to log in to it (installs will ask for it) &nbsp;·&nbsp; your D2L login</div>
+  </div>
+
+  <h2>Your before-Monday checklist</h2>
+  <ul class="checklist">
+    <li><b>Complete the pre-course survey</b> — <b>tktechventure.com/agentic-coding</b> (5 minutes). It tells us exactly what machine you're bringing so Monday runs smoothly.</li>
+    <li><b>Log in to D2L Brightspace</b> and confirm you can see the <b>Agentic Coding</b> course. This is where the whole course happens — if you can't get in, email the instructor <i>before</i> Monday so it's fixed by day one.</li>
+    <li><b>Check your laptop</b> against the requirements on page 2 — 8&nbsp;GB RAM, 30&nbsp;GB free disk, and the ability to install software (administrator rights).</li>
+    <li><b>Know your computer's login password.</b> We'll be installing software Monday, and your machine will ask for it. Locked-down work laptops are a problem — flag them early.</li>
+    <li><b>Optional head starts:</b> create a free <b>GitHub</b> account at github.com (needed by week 10), and confident Windows users can pre-install <b>WSL2</b> at home (page 3) — it needs a reboot, which is why we don't do it in class.</li>
+  </ul>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Temple College Workforce Development × ChiefOS</div>
+    <div>Pre-course survey: <span class="url">tktechventure.com/agentic-coding</span></div>
+    <div>Page 1 of 3</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 2 — ACCOUNTS + LAPTOP REQUIREMENTS ================= -->
+<div class="page">
+  <h2>Accounts &amp; access you'll use</h2>
+  <div class="accessgrid">
+    <div class="acard wide">
+      <div class="anum">The course platform · Check before Monday</div>
+      <h3>D2L Brightspace — your LMS</h3>
+      <p>Every concept video, lesson, and lab lives in D2L, and submitting each lab unlocks the next lesson — labs, not attendance, drive your progress. <b>Before Monday:</b> log in with your Temple College credentials and confirm the Agentic Coding course appears. Can't get in? Email the instructor right away.</p>
+    </div>
+    <div class="acard">
+      <div class="anum">Do first · 5 minutes</div>
+      <h3>Pre-course survey</h3>
+      <p><b>tktechventure.com/agentic-coding</b> — tells us your machine and operating system so we can prep for it.</p>
+    </div>
+    <div class="acard">
+      <div class="anum">Free · Needed by week 10</div>
+      <h3>GitHub account</h3>
+      <p>Create one at <b>github.com</b> whenever you like. We'll connect it with SSH keys in Module 04 (Git &amp; GitHub).</p>
+    </div>
+    <div class="acard">
+      <div class="anum">Provided · Nothing to sign up for</div>
+      <h3>College AI server</h3>
+      <p>The AI coding assistant runs on the college's own server; details come in Module 05. <b>No ChatGPT, Claude, or cloud subscription — ever.</b></p>
+    </div>
+    <div class="acard">
+      <div class="anum">Provided · Handed out in class</div>
+      <h3>College Linux server (SSH)</h3>
+      <p>Mac students (and anyone whose machine can't run WSL) get login details for the college's Linux server during Module 00. Nothing to do beforehand.</p>
+    </div>
+  </div>
+
+  <h2>What your computer needs</h2>
+  <div class="req-common">
+    <b>Everyone:</b> a 64-bit laptop with <b>8 GB RAM</b> (16 GB recommended), <b>30 GB free disk</b>, reliable internet, and <b>administrator rights</b> to install software. <b>No GPU required</b> — the AI runs on college hardware.
+  </div>
+
+  <div class="req-cols">
+    <div class="req-col">
+      <div class="head">Windows <span>Windows 10 / 11 + WSL2</span></div>
+      <ul>
+        <li><b>Windows 10</b> (version 2004 / build 19041 or later) or any <b>Windows 11</b>.</li>
+        <li><b>WSL2 with Ubuntu</b> — installed in Module 00 (or at home, page 3). Expect one reboot.</li>
+        <li>Hardware <b>virtualization enabled</b> in BIOS/UEFI (usually already on).</li>
+        <li><b>Fallback:</b> if WSL2 won't work, do the whole course over SSH into the college's Linux server.</li>
+      </ul>
+    </div>
+    <div class="req-col">
+      <div class="head">Mac <span>macOS — Apple Silicon or Intel</span></div>
+      <ul>
+        <li><b>macOS 12 Monterey or later</b> — Apple Silicon (M1–M4) and Intel Macs are both fine.</li>
+        <li>Uses the <b>built-in Terminal</b> — no WSL or extra setup needed for a Unix shell.</li>
+        <li>VS Code, Docker Desktop, and all developer tools install natively.</li>
+        <li>For Ubuntu-specific drills (<code>apt</code>, services), you'll SSH into the college's Linux server.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout-warn">
+    <b>Not supported:</b> Chromebooks and tablets (including iPads) — this course needs a laptop you can install software on. If that's your situation, email the instructor before Monday and we'll figure out an option.
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Temple College Workforce Development × ChiefOS</div>
+    <div>Pre-course survey: <span class="url">tktechventure.com/agentic-coding</span></div>
+    <div>Page 2 of 3</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 3 — SOFTWARE TIMELINE + OPTIONAL HEAD STARTS ================= -->
+<div class="page">
+  <h2>The software — what installs when</h2>
+  <p style="font-size:9.4pt; color:var(--ink-soft); margin-bottom:8px;">You install almost everything <b>together, in class, at the moment the course needs it</b> — nothing below is homework; it's just the road ahead.</p>
+  <table class="installs">
+    <tr><th style="width:108px">When</th><th style="width:190px">What</th><th>Notes</th></tr>
+    <tr class="now">
+      <td class="when">Week 1 · Monday</td>
+      <td><b>VS Code</b> + Python &amp; Docker extensions</td>
+      <td>Installed together at the kickoff. Free, Windows &amp; Mac.</td>
+    </tr>
+    <tr class="now">
+      <td class="when">Week 1–2</td>
+      <td><b>WSL2 + Ubuntu</b> (Win) · <b>Remote-SSH</b></td>
+      <td>WSL needs a reboot, so it's finished at home; Mac students set up SSH instead.</td>
+    </tr>
+    <tr>
+      <td class="when">Module 02 · wk 5</td>
+      <td><b>Docker Engine</b></td>
+      <td>Until then the Docker sidebar in VS Code says "failed to connect" — <b>that's normal</b>.</td>
+    </tr>
+    <tr>
+      <td class="when">Module 03 · wk 7</td>
+      <td><b>Python venv + FastAPI</b></td>
+      <td>Python 3 is already on Ubuntu; we add virtual environments and pip installs.</td>
+    </tr>
+    <tr>
+      <td class="when">Module 04 · wk 10</td>
+      <td><b>Git config + GitHub SSH keys</b></td>
+      <td>Git ships with Ubuntu — we configure it and connect your GitHub account.</td>
+    </tr>
+    <tr>
+      <td class="when">Module 05 · wk 13</td>
+      <td><b>Continue.dev</b> AI extension</td>
+      <td>Connected to the college AI server. Please don't install it early.</td>
+    </tr>
+    <tr>
+      <td class="when">Module 06 · wk 16</td>
+      <td><b>Node.js via nvm</b></td>
+      <td>For the HeroUI/Next.js frontend and your capstone.</td>
+    </tr>
+  </table>
+
+  <div class="steps">
+    <h3>Optional head start #1 — install VS Code (all students, ~5 min)</h3>
+    <ol>
+      <li>Go to <b>code.visualstudio.com</b> and download the installer for your system.</li>
+      <li>Run it and accept the defaults. If it offers to "sign in to sync settings," you can <b>skip that</b>.</li>
+      <li>That's it — don't install any extensions yet; we do that together Monday.</li>
+    </ol>
+  </div>
+
+  <div class="steps">
+    <h3>Optional head start #2 — install WSL2 + Ubuntu (confident Windows users, ~20 min + reboot)</h3>
+    <ol>
+      <li>Right-click the Start button → <b>Terminal (Admin)</b> or <b>PowerShell (Admin)</b>.</li>
+      <li>Type <code>wsl --install</code> and press Enter, then <b>reboot</b> when asked.</li>
+      <li>After the reboot, Ubuntu asks you to create a <b>username</b> (short, lowercase) and a <b>password</b> — the password is invisible while you type; that's normal. <b>Write both down.</b></li>
+      <li>If anything goes wrong, stop and bring it Monday — that's exactly what the first sessions are for.</li>
+    </ol>
+  </div>
+
+  <div class="callout-warn" style="margin-top:0; margin-bottom:12px;">
+    <b>Please don't install ahead:</b> Docker, Continue.dev, or any AI/extension bundles. We install each one together at the right moment, configured the way the course needs it — installing early usually creates cleanup work, not a head start.
+  </div>
+
+  <div class="contact">
+    <div class="who">
+      <div class="name">Tim Carrender</div>
+      <div class="role">Instructor · Temple College Workforce Development × ChiefOS</div>
+      <div class="line"><b>Email:</b> tim.carrender@gmail.com &nbsp;·&nbsp; <b>Live blocks:</b> Monday + Wednesday, 6:00–8:00 PM</div>
+      <div class="line">Stuck on anything in this guide? Email with "Agentic Coding" in the subject — or just bring it Monday.</div>
+    </div>
+    <div class="surveyagain">
+      <div class="t">Pre-course survey</div>
+      <div class="u">tktechventure.com/<br>agentic-coding</div>
+    </div>
+    <div class="qr2"><img src="../public/branding/survey-qr.svg" alt="Survey QR code"></div>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Temple College Workforce Development × ChiefOS</div>
+    <div>Pre-course survey: <span class="url">tktechventure.com/agentic-coding</span></div>
+    <div>Page 3 of 3</div>
+  </div>
+</div>
+
+</body>
+</html>

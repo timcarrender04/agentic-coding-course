@@ -1,0 +1,194 @@
+{
+  "module": "03",
+  "dir": "phase-2-building-real-apps/03-fastapi",
+  "title": "FastAPI from Scratch",
+  "moduleObjectives": [
+    "Create and activate a Python virtual environment with `python3 -m venv` and pin project dependencies in a `requirements.txt`",
+    "Build FastAPI routes (GET, POST, DELETE) that use typed path parameters, query parameters, and JSON request bodies",
+    "Validate request data with Pydantic models and interpret FastAPI's automatic 422 validation errors",
+    "Organize a growing application into per-resource routers using `APIRouter` prefixes and tags",
+    "Implement shared logic such as header-based authentication and database sessions with `Depends` dependency injection",
+    "Containerize the app with a Dockerfile and run it alongside Postgres using Docker Compose with healthchecks and named volumes",
+    "Persist data to Postgres using SQLAlchemy ORM models, an engine, and per-request sessions",
+    "Return correct HTTP status codes with `HTTPException` and verify every endpoint with both `curl` and the `/docs` Swagger UI"
+  ],
+  "lessons": [
+    {
+      "file": "00-prerequisites-check.md",
+      "title": "Prerequisites Check",
+      "objective": "Verify that Python 3, pip, Docker (without sudo), Docker Compose, curl, and the course directory from Modules 01 and 02 all still work before starting FastAPI."
+    },
+    {
+      "file": "01-python-environment.md",
+      "title": "Python Virtual Environment",
+      "objective": "Create, activate, and deactivate a project-scoped virtual environment with `python3 -m venv` and explain when to use a venv on the host versus running in Docker."
+    },
+    {
+      "file": "02-installing-fastapi.md",
+      "title": "Installing FastAPI",
+      "objective": "Install FastAPI and Uvicorn into the active venv and freeze the exact package versions into a `requirements.txt` with `pip freeze`."
+    },
+    {
+      "file": "03-hello-world.md",
+      "title": "Hello World",
+      "objective": "Write a minimal FastAPI app in `main.py`, run it with `uvicorn main:app --reload`, and verify responses from curl, a browser, and the `/docs` Swagger UI."
+    },
+    {
+      "file": "04-path-and-query-params.md",
+      "title": "Path and Query Params",
+      "objective": "Define routes with typed path parameters and optional query parameters, and demonstrate FastAPI rejecting mistyped input with 422 validation errors."
+    },
+    {
+      "file": "05-request-bodies-with-pydantic.md",
+      "title": "Request Bodies with Pydantic",
+      "objective": "Validate JSON request bodies on a `POST /items` route with a Pydantic `BaseModel` and test valid and invalid payloads from both curl and Swagger UI."
+    },
+    {
+      "file": "06-multiple-routes-and-routers.md",
+      "title": "Multiple Routes and Routers",
+      "objective": "Refactor routes into per-resource modules using `APIRouter` with prefixes and tags, and mount them in `main.py` with `app.include_router`."
+    },
+    {
+      "file": "07-dependencies-and-injection.md",
+      "title": "Dependencies and Injection",
+      "objective": "Implement a header-checking `get_current_user` dependency with `Depends` and apply it at route level and router level, distinguishing 401 and 422 responses."
+    },
+    {
+      "file": "08-containerizing-fastapi.md",
+      "title": "Containerizing FastAPI",
+      "objective": "Write a Dockerfile that caches the pip-install layer, build the image, and run the containerized app with uvicorn bound to `0.0.0.0` so the mapped port is reachable."
+    },
+    {
+      "file": "09-docker-compose-and-postgres.md",
+      "title": "Docker Compose and Postgres",
+      "objective": "Orchestrate the FastAPI app and a Postgres database with `docker-compose.yml`, using a healthcheck, a named volume, a bind-mounted hot-reload dev loop, and a `.env` file for secrets."
+    },
+    {
+      "file": "10-database-with-sqlalchemy.md",
+      "title": "Database with SQLAlchemy",
+      "objective": "Replace the in-memory item store with Postgres persistence using a SQLAlchemy engine, ORM models, and a `get_db` session dependency, then verify the rows directly in psql."
+    },
+    {
+      "file": "11-error-handling-and-status-codes.md",
+      "title": "Error Handling and Status Codes",
+      "objective": "Return correct HTTP status codes (201, 204, 400, 404) by setting `status_code` on route decorators and raising `HTTPException` for missing resources and business-rule violations."
+    },
+    {
+      "file": "12-final-checkpoint.md",
+      "title": "Final Checkpoint",
+      "objective": "Build a complete `Profile` resource from memory — SQLAlchemy model, router, protected DELETE, and correct status codes — and pass a 10-step curl acceptance test."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "You run `python -c \"import main\"` and get `ModuleNotFoundError: No module named 'fastapi'`. According to the lessons, what is the most likely cause?",
+      "options": [
+        "FastAPI must be reinstalled with `sudo pip install fastapi`",
+        "The virtual environment is not activated in this terminal — `(.venv)` is missing from the prompt",
+        "`main.py` is missing the `app = FastAPI()` line",
+        "Uvicorn is not running yet"
+      ],
+      "answer": 1,
+      "feedback": "The lessons call a forgotten `source .venv/bin/activate` the number-one mistake of the module, and this error is its telltale symptom."
+    },
+    {
+      "question": "In the command `uvicorn main:app --reload`, what do `main` and `app` refer to?",
+      "options": [
+        "`main` is the project directory and `app` is the Dockerfile stage to run",
+        "`main` is the entry function and `app` is the value it returns",
+        "`main` is the Python file (without `.py`) and `app` is the FastAPI instance variable inside it",
+        "`main` is the git branch and `app` is the name given to the process"
+      ],
+      "answer": 2,
+      "feedback": "The lesson explains that `main` names the module file and `app` names the FastAPI object, so renaming the file to `app.py` would change the command to `uvicorn app:app --reload`."
+    },
+    {
+      "question": "A route is declared as `def read_item(item_id: int)`. What happens when a client requests `/items/banana`?",
+      "options": [
+        "200 OK with `{\"item_id\": \"banana\"}` returned as a string",
+        "404 Not Found because the path does not match any route",
+        "500 Internal Server Error from the failed type conversion",
+        "422 Unprocessable Entity with a validation error naming the failing field"
+      ],
+      "answer": 3,
+      "feedback": "FastAPI reads the `int` type hint and automatically rejects non-integer input with a 422 whose body says which field failed and why."
+    },
+    {
+      "question": "A curl POST to `/items` with a correct-looking JSON payload keeps failing with a `json_invalid` error. Per the lesson, what is the most common cause?",
+      "options": [
+        "The `-H \"Content-Type: application/json\"` header is missing from the request",
+        "The URL was not quoted, so the shell consumed the `?` character",
+        "The `-X POST` flag must come after the `-d` flag",
+        "Uvicorn must be restarted after every POST request"
+      ],
+      "answer": 0,
+      "feedback": "The lesson demonstrates that omitting the `Content-Type: application/json` header prevents FastAPI from parsing the body and calls it the top cause of unexplained errors on POST."
+    },
+    {
+      "question": "A router is created with `APIRouter(prefix=\"/items\", tags=[\"items\"])`. How should you declare the route that lists items at the path `/items`?",
+      "options": [
+        "`@app.get(\"/items\")` inside the router file",
+        "`@router.get(\"/items\")`",
+        "`@router.get(\"\")`",
+        "`@router.get(\"/list\")`"
+      ],
+      "answer": 2,
+      "feedback": "The prefix is already applied by the router, so `@router.get(\"\")` maps to `/items`, while `@router.get(\"/items\")` would wrongly produce `/items/items`."
+    },
+    {
+      "question": "The `get_current_user` dependency requires an `X-Token` header. What does the protected route return when the header is present but has the wrong value?",
+      "options": [
+        "422, because the header failed Pydantic validation",
+        "401, because the dependency raises `HTTPException(status_code=401)` for an invalid token",
+        "403, because the user lacks permission for the resource",
+        "404, because protected routes are hidden without authentication"
+      ],
+      "answer": 1,
+      "feedback": "The lesson distinguishes 422 (header missing, rejected by framework-level validation) from 401 (header present but wrong, raised by the dependency's `HTTPException`)."
+    },
+    {
+      "question": "Why must the Dockerfile's `CMD` run uvicorn with `--host 0.0.0.0`?",
+      "options": [
+        "It enables hot-reload inside the container",
+        "It tells Docker which port to publish on the host",
+        "It runs uvicorn with elevated privileges so it can open port 8000",
+        "It makes uvicorn listen beyond the container's loopback so `docker run -p` traffic from the host can reach it"
+      ],
+      "answer": 3,
+      "feedback": "The lesson calls this the most common Dockerfile mistake: without `--host 0.0.0.0`, uvicorn binds only to the container's loopback and curl from the host gets a connection reset despite the port mapping."
+    },
+    {
+      "question": "In the Compose stack, what hostname should the FastAPI container use in its connection string to reach Postgres?",
+      "options": [
+        "`db`, the service name defined in `docker-compose.yml`",
+        "`localhost`, since both containers run on the same machine",
+        "`postgres`, the name of the Docker image",
+        "`127.0.0.1:5432`, the port mapped to the host"
+      ],
+      "answer": 0,
+      "feedback": "Inside the Compose network, containers reach each other by service name, so the connection string is `postgresql://postgres:devpass@db:5432/appdb` — typing `localhost` is called the number-one connection-string mistake."
+    },
+    {
+      "question": "In the SQLAlchemy create pattern `db.add(db_item)`, `db.commit()`, `db.refresh(db_item)`, what does the `db.refresh` call do?",
+      "options": [
+        "It re-runs the pending SQL statements in case the commit failed",
+        "It clears the session cache so the next request starts clean",
+        "It reloads database-generated values like the auto-increment `id` back onto the object",
+        "It creates the table if it does not exist yet"
+      ],
+      "answer": 2,
+      "feedback": "The lesson warns that skipping `db.refresh(db_item)` leaves the response with `id: null` because the auto-generated id is only loaded back from the database by the refresh."
+    },
+    {
+      "question": "The lesson adds a check that rejects items with `price <= 0` using a 400 response. Why 400 rather than 422?",
+      "options": [
+        "400 signals a violation of your own business rules, while FastAPI reserves 422 for Pydantic's structural validation errors",
+        "422 is deprecated in FastAPI and 400 is its replacement",
+        "400 makes FastAPI automatically roll back the database transaction",
+        "422 responses cannot include a custom `detail` message"
+      ],
+      "answer": 0,
+      "feedback": "The lesson states that validation errors are always 422 (raised automatically by Pydantic), while 400 Bad Request is for business-rule violations you enforce in your own route code."
+    }
+  ]
+}

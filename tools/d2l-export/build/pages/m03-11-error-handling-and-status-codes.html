@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FastAPI from Scratch — Error Handling and Status Codes</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Return correct HTTP status codes (201, 204, 400, 404) by setting <code>status_code</code> on route decorators and raising <code>HTTPException</code> for missing resources and business-rule violations.</div>
+<h1>Lesson 11: Error Handling and Status Codes</h1>
+<p><strong>By the end, your API returns 201 on POST, 404 when an item doesn't exist, and 204 on successful DELETE — all using <code>HTTPException</code> and FastAPI's <code>status_code</code> argument.</strong></p>
+<p>⏱ ~25 minutes of typing</p>
+<blockquote><p>Default status codes are 200 for everything. That's wrong. POST should be 201 (Created), DELETE should be 204 (No Content), missing resources should be 404 (Not Found).</p></blockquote>
+<hr />
+<p><strong>1.</strong> Compose should still be up from lesson 10. Confirm.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+docker compose ps</code></pre>
+<p><strong>2.</strong> Open <code>routers/items.py</code>.</p>
+<p><strong>3.</strong> Add <code>HTTPException</code> and <code>status</code> to the FastAPI import. Update the line:</p>
+<pre><code class="language-python">from fastapi import APIRouter, Depends, HTTPException, status</code></pre>
+<p><strong>4.</strong> Update the <code>read_item</code> route to return 404 when the item isn't found. Replace the existing <code>read_item</code> with:</p>
+<pre><code class="language-python">@router.get(&quot;/{item_id}&quot;, response_model=ItemOut)
+def read_item(item_id: int, db: Session = Depends(get_db)):
+    item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    if item is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=&quot;Item not found&quot;)
+    return item</code></pre>
+<p><strong>5.</strong> Save.</p>
+<p><strong>6.</strong> Curl a non-existent item.</p>
+<pre><code class="language-bash">curl -i http://localhost:8000/items/999999</code></pre>
+<pre class="output"><code class="output">HTTP/1.1 404 Not Found
+...
+{&quot;detail&quot;:&quot;Item not found&quot;}</code></pre>
+<p><strong>7.</strong> Curl an existing item (use an id you POSTed earlier).</p>
+<pre><code class="language-bash">curl -i http://localhost:8000/items/1</code></pre>
+<pre class="output"><code class="output">HTTP/1.1 200 OK
+...
+{&quot;name&quot;:&quot;Real Apple&quot;,...}</code></pre>
+<p><strong>8.</strong> Now make POST return 201. Update the <code>create_item</code> decorator:</p>
+<pre><code class="language-python">@router.post(&quot;&quot;, response_model=ItemOut, status_code=status.HTTP_201_CREATED)
+def create_item(item: ItemIn, db: Session = Depends(get_db)):
+    db_item = models.Item(**item.model_dump())
+    db.add(db_item)
+    db.commit()
+    db.refresh(db_item)
+    return db_item</code></pre>
+<p><strong>9.</strong> Save.</p>
+<p><strong>10.</strong> Curl a POST and check the status.</p>
+<pre><code class="language-bash">curl -i -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;ErrCheck&quot;, &quot;price&quot;: 1.0}'</code></pre>
+<pre class="output"><code class="output">HTTP/1.1 201 Created
+...
+{&quot;name&quot;:&quot;ErrCheck&quot;,&quot;price&quot;:1.0,&quot;is_offer&quot;:null,&quot;id&quot;:...}</code></pre>
+<p><strong>11.</strong> Now add a DELETE route. Append to <code>routers/items.py</code>:</p>
+<pre><code class="language-python">
+
+@router.delete(&quot;/{item_id}&quot;, status_code=status.HTTP_204_NO_CONTENT)
+def delete_item(item_id: int, db: Session = Depends(get_db)):
+    item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    if item is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=&quot;Item not found&quot;)
+    db.delete(item)
+    db.commit()
+    return None</code></pre>
+<p><strong>12.</strong> Save.</p>
+<p><strong>13.</strong> Pick an existing item id (e.g. 1) and delete it.</p>
+<pre><code class="language-bash">curl -i -X DELETE http://localhost:8000/items/1</code></pre>
+<pre class="output"><code class="output">HTTP/1.1 204 No Content
+...</code></pre>
+<p>(204 means success with no response body — the standard for successful deletes.)</p>
+<p><strong>14.</strong> Try to read it now.</p>
+<pre><code class="language-bash">curl -i http://localhost:8000/items/1</code></pre>
+<pre class="output"><code class="output">HTTP/1.1 404 Not Found
+...
+{&quot;detail&quot;:&quot;Item not found&quot;}</code></pre>
+<p><strong>15.</strong> Try to delete the same item again.</p>
+<pre><code class="language-bash">curl -i -X DELETE http://localhost:8000/items/1</code></pre>
+<pre class="output"><code class="output">HTTP/1.1 404 Not Found
+{&quot;detail&quot;:&quot;Item not found&quot;}</code></pre>
+<p><strong>16.</strong> Confirm in the DB.</p>
+<pre><code class="language-bash">docker compose exec db psql -U postgres -d appdb -c &quot;SELECT * FROM items WHERE id=1;&quot;</code></pre>
+<pre class="output"><code class="output"> id | name | price | is_offer
+----+------+-------+----------
+(0 rows)</code></pre>
+<p><strong>17.</strong> Add a custom error class. Sometimes you want a body other than <code>{&quot;detail&quot;: &quot;...&quot;}</code>. Add a 400 case for invalid prices. Update the <code>create_item</code> route's body to validate (right after <code>def create_item(...)</code>):</p>
+<pre><code class="language-python">    if item.price &lt;= 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=&quot;price must be positive&quot;,
+        )</code></pre>
+<p><strong>18.</strong> Save.</p>
+<p><strong>19.</strong> Try a negative-priced item.</p>
+<pre><code class="language-bash">curl -i -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;Bad&quot;, &quot;price&quot;: -1}'</code></pre>
+<pre class="output"><code class="output">HTTP/1.1 400 Bad Request
+{&quot;detail&quot;:&quot;price must be positive&quot;}</code></pre>
+<p><strong>20.</strong> And zero.</p>
+<pre><code class="language-bash">curl -i -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;Zero&quot;, &quot;price&quot;: 0}'</code></pre>
+<pre class="output"><code class="output">HTTP/1.1 400 Bad Request</code></pre>
+<p><strong>21.</strong> A valid one still works.</p>
+<pre><code class="language-bash">curl -i -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;: &quot;Good&quot;, &quot;price&quot;: 5}'</code></pre>
+<pre class="output"><code class="output">HTTP/1.1 201 Created</code></pre>
+<p><strong>22.</strong> Open <code>/docs</code>. Refresh. Each route now shows its proper response codes (201, 204, 404, 400).</p>
+<p><strong>23.</strong> Try the DELETE from Swagger UI. Find an item id in the list, paste it into the DELETE form, click Execute. The response body is empty and the status is 204 — Swagger shows both.</p>
+<p><strong>24.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Status codes: 201/204/400/404 wired in&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>Status code quick reference</h2>
+<table><thead><tr><th>Code</th><th>Meaning</th><th>When to use</th></tr></thead><tbody><tr><td>200</td><td>OK</td><td>Default for GET; POST/PUT that return the resource</td></tr><tr><td>201</td><td>Created</td><td>POST that creates a new resource</td></tr><tr><td>204</td><td>No Content</td><td>Successful DELETE; PUT that doesn't return the resource</td></tr><tr><td>400</td><td>Bad Request</td><td>Caller's input is wrong (business rule violation)</td></tr><tr><td>401</td><td>Unauthorized</td><td>Caller didn't authenticate</td></tr><tr><td>403</td><td>Forbidden</td><td>Caller authenticated but lacks permission</td></tr><tr><td>404</td><td>Not Found</td><td>Resource doesn't exist</td></tr><tr><td>409</td><td>Conflict</td><td>Business state prevents the action (e.g. duplicate email)</td></tr><tr><td>422</td><td>Unprocessable Entity</td><td>Pydantic validation rejected the body — FastAPI does this automatically</td></tr><tr><td>500</td><td>Internal Server Error</td><td>Your code crashed — FastAPI does this automatically when an exception escapes</td></tr></tbody></table>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong><code>status_code=status.HTTP_201_CREATED</code></strong> is on the <strong>decorator</strong>, not on the return statement. The decorator sets the success status; <code>HTTPException</code> overrides it for errors.</li><li><strong>204 must not return a body.</strong> FastAPI honors this — even if you <code>return {&quot;foo&quot;: &quot;bar&quot;}</code> from a 204 route, the body is dropped. Just <code>return None</code>.</li><li><strong><code>HTTPException(detail=...)</code></strong> — <code>detail</code> is what shows up in the <code>{&quot;detail&quot;: &quot;...&quot;}</code> response. Use clear, user-actionable messages, but don't leak internal details (no stack traces).</li><li><strong>Validation errors are always 422</strong>, not 400. 400 is for <em>your</em> business rules; 422 is for Pydantic's structural validation.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">curl -s -o /dev/null -w &quot;%{http_code}\n&quot; http://localhost:8000/items/999999</code></pre>
+<p>Should print <code>404</code>.</p>
+<pre><code class="language-bash">curl -s -o /dev/null -w &quot;%{http_code}\n&quot; -X POST http://localhost:8000/items -H &quot;Content-Type: application/json&quot; -d '{&quot;name&quot;:&quot;X&quot;,&quot;price&quot;:1}'</code></pre>
+<p>Should print <code>201</code>.</p>
+<pre><code class="language-bash">curl -s -o /dev/null -w &quot;%{http_code}\n&quot; -X DELETE http://localhost:8000/items/$(curl -s http://localhost:8000/items | python -c &quot;import sys,json;print(json.load(sys.stdin)[-1]['id'])&quot;)</code></pre>
+<p>Should print <code>204</code> (deletes the most-recently created item).</p>
+<pre><code class="language-bash">curl -s -o /dev/null -w &quot;%{http_code}\n&quot; -X POST http://localhost:8000/items -H &quot;Content-Type: application/json&quot; -d '{&quot;name&quot;:&quot;X&quot;,&quot;price&quot;:-1}'</code></pre>
+<p>Should print <code>400</code>.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m03-12-final-checkpoint.html">12-final-checkpoint.md</a> — Build a <code>User</code> resource end-to-end from memory</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

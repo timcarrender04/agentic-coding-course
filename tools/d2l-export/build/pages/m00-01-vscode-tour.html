@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VS Code Walkthrough — VS Code UI Tour</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Identify the activity bar, side bar, editor, panel, and status bar, and use the command palette (<code>Ctrl+Shift+P</code>) to toggle the terminal and change the editor font size.</div>
+<h1>Lesson 01: VS Code UI Tour</h1>
+<p><strong>Time:</strong> ~15 min</p>
+<blockquote><p>Mac users: every <code>Ctrl+...</code> shortcut in this module is <code>Cmd+...</code> on your machine. The lesson uses <code>Ctrl</code> everywhere — translate as you go.</p></blockquote>
+<h2>What you'll learn</h2>
+<p>The names of every part of the VS Code window. Once you know the names, you can google your way out of any problem.</p>
+<h2>The parts of the window</h2>
+<pre class="output"><code class="output">+----------------------------------------------------------+
+| Title bar                                                |
++--+----------------+--------------------------------------+
+|A |                |                                      |
+|c |  Side bar      |       Editor                         |
+|t |  (file tree,   |   (where files open as tabs)         |
+|i |   search,      |                                      |
+|v |   extensions…) |                                      |
+|i |                |                                      |
+|t |                +--------------------------------------+
+|y |                |   Panel  (terminal lives here)       |
+|  |                |                                      |
+|B |                |                                      |
+|a |                |                                      |
+|r |                |                                      |
++--+----------------+--------------------------------------+
+| Status bar  (the green &lt;&lt; thing in the bottom-left)      |
++----------------------------------------------------------+</code></pre>
+<ul><li><strong>Activity bar</strong> — the thin strip of icons on the very left edge of the window.</li><li><strong>Side bar</strong> — the wider panel that opens when you click an activity-bar icon.</li><li><strong>Editor</strong> — the big middle area where files open. Each open file is a <strong>tab</strong> at the top.</li><li><strong>Panel</strong> — a horizontal area at the bottom of the editor. The integrated terminal lives here. Hidden by default.</li><li><strong>Status bar</strong> — the colored strip at the very bottom. The bottom-left section is important — it tells you where VS Code is &quot;connected to&quot; (we'll see this in lessons 05 and 06).</li></ul>
+<h2>Demo: the activity bar, top to bottom</h2>
+<ol><li><strong>Files</strong> (📄 stacked icon) — your folder's file tree. The default view.</li><li><strong>Search</strong> (magnifying glass) — search across every file in the folder at once.</li><li><strong>Source Control</strong> (a Y-shape) — git stuff. We'll come back to this in a later module.</li><li><strong>Run and Debug</strong> (a play button with a bug) — run code with breakpoints. Later module.</li><li><strong>Extensions</strong> (four squares with one floating) — the marketplace. Lesson 03.</li><li><strong>Continue</strong> (added in Module 05) — once we install the Continue.dev extension, its icon appears here for AI chat. It's not installed yet, so you won't see it today.</li></ol>
+<p>There may be more or fewer icons depending on your VS Code version and installed extensions. That's fine.</p>
+<h2>Demo: open a folder</h2>
+<ol><li><strong>File → Open Folder…</strong> (or <code>Ctrl+K Ctrl+O</code>).</li><li>Pick any folder on your computer — your Desktop, your Documents, anything.</li><li>The first time VS Code opens that folder it asks &quot;Do you trust the authors of the files in this folder?&quot; Click <strong>Yes</strong>.</li><li>Look at the file explorer in the side bar. You should see your folder's contents.</li></ol>
+<p>Click any file. It opens in the editor as a new tab. You can have many tabs open at once. Click the <strong>×</strong> on a tab to close it.</p>
+<h2>Demo: the command palette</h2>
+<p>This is the most important shortcut in the entire IDE.</p>
+<ol><li>Press <strong>Ctrl+Shift+P</strong> (Mac: Cmd+Shift+P).</li><li>A search box appears at the top of the window. This is the <strong>command palette</strong>.</li><li>Type &quot;toggle terminal&quot; — you'll see a match. Press Enter.</li><li>The integrated terminal opens at the bottom of the editor. (We'll use this in the next lesson.)</li><li>Press <strong>Ctrl+Shift+P</strong> again, type &quot;toggle terminal&quot; again, Enter — terminal closes.</li></ol>
+<p>Anything you can do in VS Code is also available through the command palette by name. If you forget a shortcut, this is how you find it.</p>
+<h2>Demo: settings</h2>
+<ol><li>Press <strong>Ctrl+,</strong> (comma) — the settings page opens.</li><li>There's a search box at the top. Type &quot;font size.&quot;</li><li>The first result is &quot;Editor: Font Size.&quot; Change it from 14 to <strong>16</strong>. The change is instant — look at any open file, the text is bigger.</li></ol>
+<p>Settings save automatically. Close the settings tab when you're done.</p>
+<h2>Try it yourself</h2>
+<ol><li>Close any folder you have open (<code>File → Close Folder</code>).</li><li>Open a folder of your choosing.</li><li>Open any file.</li><li>Use the command palette to toggle the terminal. Then toggle it again to close it.</li><li>Open settings and change &quot;Editor: Font Size&quot; to <strong>16</strong>.</li></ol>
+<h2>Checkpoint</h2>
+<p>You're done when:</p>
+<ul><li>[ ] You can name (out loud) the activity bar, side bar, editor, panel, and status bar.</li><li>[ ] You opened a folder and a file.</li><li>[ ] You opened the command palette with <code>Ctrl+Shift+P</code> and ran &quot;Toggle Terminal.&quot;</li><li>[ ] Your editor font size is 16.</li></ul>
+<p>If you didn't get there, ask a neighbor before raising your hand.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Name the five regions of the VS Code window and drive it with the command palette.</p>
+<p><strong>Task:</strong> Work through this lesson's demos — open a folder and a file, use the command palette (<code>Ctrl+Shift+P</code>) to run &quot;Toggle Terminal,&quot; and change &quot;Editor: Font Size&quot; to 16 in settings.</p>
+<p><strong>Submit:</strong> One screenshot of your full VS Code window with your folder open in the side bar and the Settings tab showing &quot;Editor: Font Size&quot; set to 16, plus the five region names (activity bar, side bar, editor, panel, status bar) typed in the submission comment.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] Screenshot shows a folder open in the file explorer.</li><li>[ ] The Settings tab shows &quot;Editor: Font Size&quot; at 16.</li><li>[ ] Your comment names all five regions of the window.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m00-02-integrated-terminal.html">02-integrated-terminal.md</a></p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

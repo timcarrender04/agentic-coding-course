@@ -297,6 +297,23 @@ ls ~/docker-course/projects/web/app/
 ```
 Should show an empty directory (no error).
 
+## Lab
+
+**Objective:** Build the `~/docker-course/` working directory and manage files with `mkdir`, `touch`, `cp`, `mv`, and `rm`.
+
+**Task:** Work through the 33 drills in this lesson — the directory structure they leave behind is the artifact. Then run the four Checkpoint commands in one terminal.
+
+**Submit:** One screenshot (or pasted transcript) of the four Checkpoint commands and their output: `ls ~/docker-course/`, `ls ~/docker-course/practice/`, `ls ~/docker-course/notes/`, `ls ~/docker-course/projects/web/app/`.
+
+**Pass criteria:**
+
+- [ ] `ls ~/docker-course/` shows `notes  practice  projects`.
+- [ ] `ls ~/docker-course/practice/` shows `file1.txt  file2.txt`.
+- [ ] `ls ~/docker-course/notes/` shows `file1.txt  renamed.txt`.
+- [ ] `ls ~/docker-course/projects/web/app/` returns with no error (empty directory).
+
+**Unlocks:** [03-looking-inside-files.md](03-looking-inside-files.md)
+
 ---
 
 **Next up:** [03-looking-inside-files.md](03-looking-inside-files.md) — Read and edit files

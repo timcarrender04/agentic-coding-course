@@ -1,0 +1,189 @@
+{
+  "module": "01",
+  "dir": "phase-1-foundations/01-ubuntu-terminal",
+  "title": "Ubuntu Terminal Foundations",
+  "moduleObjectives": [
+    "Navigate the Linux filesystem confidently using `pwd`, `ls`, and `cd`",
+    "Create, copy, move, rename, and delete files and directories from the terminal",
+    "Read and edit files from the terminal using `cat`, `head`, `tail`, `less`, `nano`, and output redirection",
+    "Update an Ubuntu system and install packages with `apt` using `sudo`",
+    "Interpret and modify file permissions and ownership with `chmod` and `chown`",
+    "Diagnose basic network connectivity and DNS with `ping`, `curl`, `dig`, and `ss`",
+    "Inspect running processes and service status with `ps`, `top`, `systemctl`, and `journalctl`",
+    "Chain commands with pipes and `grep`, and manage users and groups in preparation for the docker group"
+  ],
+  "lessons": [
+    {
+      "file": "00-setup-check.md",
+      "title": "Setup Check",
+      "objective": "Verify that the Ubuntu environment is course-ready by checking the OS release, internet connectivity, DNS resolution, and sudo access."
+    },
+    {
+      "file": "01-where-am-i.md",
+      "title": "Where Am I?",
+      "objective": "Navigate the filesystem without hesitation using `pwd`, `ls`, `cd` with absolute paths, `cd -`, and the `~` home shortcut."
+    },
+    {
+      "file": "02-making-things.md",
+      "title": "Making Things",
+      "objective": "Create the ~/docker-course working directory and practice creating, copying, moving, renaming, and deleting files and directories with `mkdir`, `touch`, `cp`, `mv`, and `rm`."
+    },
+    {
+      "file": "03-looking-inside-files.md",
+      "title": "Looking Inside Files",
+      "objective": "Create, read, and edit files from the terminal using `echo` with `>` and `>>` redirection, `cat`, `head`, `tail`, `less`, `wc -l`, and `nano`."
+    },
+    {
+      "file": "04-sudo-and-updates.md",
+      "title": "Sudo and System Updates",
+      "objective": "Perform a full system update with `sudo apt update`, `sudo apt upgrade -y`, and `sudo apt autoremove -y`."
+    },
+    {
+      "file": "05-installing-software.md",
+      "title": "Installing Software",
+      "objective": "Install and verify the Docker prerequisite packages (curl, wget, git, htop, tree, ca-certificates, gnupg) using `sudo apt install`."
+    },
+    {
+      "file": "06-permissions-drills.md",
+      "title": "Permissions Drills",
+      "objective": "Read permission strings and change file permissions and ownership using `chmod` in symbolic and numeric forms and `chown` with sudo."
+    },
+    {
+      "file": "07-networking-drills.md",
+      "title": "Networking Drills",
+      "objective": "Diagnose network readiness for Docker Hub using `ip a`, `ping`, `curl`, `ss -tuln`, and `dig`."
+    },
+    {
+      "file": "08-processes-and-services.md",
+      "title": "Processes and Services",
+      "objective": "Inspect running processes and service status using `ps aux`, `top`, `htop`, `systemctl`, `journalctl`, `uptime`, `free -h`, and `df -h`."
+    },
+    {
+      "file": "09-pipes-and-grep.md",
+      "title": "Pipes and Grep",
+      "objective": "Chain commands together with pipes and search files using `grep` (including -v, -i, and -r), `wc -l`, `cut`, `sort`, and `uniq`."
+    },
+    {
+      "file": "10-user-and-group-setup.md",
+      "title": "User and Group Setup",
+      "objective": "Inspect user and group membership with `id` and `groups`, add a user to a group with `sudo usermod -aG`, and refresh group membership with `newgrp`."
+    },
+    {
+      "file": "11-final-checkpoint.md",
+      "title": "Final Checkpoint",
+      "objective": "Demonstrate every skill from the module by running the cumulative command drill from memory to prove the environment is ready for Docker installation."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "What does the command `cd -` do?",
+      "options": [
+        "Takes you to your previous directory and prints where it took you",
+        "Takes you to your home directory",
+        "Moves up one level to the parent directory",
+        "Takes you to the root of the filesystem"
+      ],
+      "answer": 0,
+      "feedback": "`cd -` switches to the directory you were in previously and prints the path it moved to, letting you bounce between two locations."
+    },
+    {
+      "question": "What does the `-p` flag do in `mkdir -p projects/web/app`?",
+      "options": [
+        "Prompts for confirmation before creating each directory",
+        "Creates the full nested path in one command and does not error if directories already exist",
+        "Sets read and write permissions on the new directories",
+        "Prints each directory name as it is created"
+      ],
+      "answer": 1,
+      "feedback": "`mkdir -p` creates all missing parent directories in the path and succeeds silently even if the path already exists, which makes it safe to rerun."
+    },
+    {
+      "question": "When redirecting `echo` output into a file, what is the difference between `>` and `>>`?",
+      "options": [
+        "`>` appends to the file while `>>` overwrites it",
+        "They behave exactly the same",
+        "`>` only works on new files and `>>` only works on existing files",
+        "`>` overwrites the file while `>>` appends to it"
+      ],
+      "answer": 3,
+      "feedback": "A single `>` replaces the file's contents while `>>` adds to the end, which is why using `>` by mistake can destroy a file."
+    },
+    {
+      "question": "What does `sudo apt update` do?",
+      "options": [
+        "Installs all available package upgrades",
+        "Removes packages that are no longer needed",
+        "Downloads the latest list of available software packages",
+        "Upgrades Ubuntu to the next release version"
+      ],
+      "answer": 2,
+      "feedback": "`apt update` only refreshes the package list so the system knows what versions are available; `apt upgrade` is what actually installs the upgrades."
+    },
+    {
+      "question": "According to the lesson, why is the `gnupg` package installed before Module 02?",
+      "options": [
+        "It handles encryption keys, which is needed for Docker's GPG key",
+        "It provides the certificates required for secure HTTPS connections",
+        "It is a better process viewer than top",
+        "It displays directory structures visually"
+      ],
+      "answer": 0,
+      "feedback": "The lesson installs gnupg because it handles encryption keys, and the Docker installation in Module 02 requires it to work with Docker's GPG key."
+    },
+    {
+      "question": "After running `chmod 755 hello.sh`, what permission string does `ls -la` show for the file?",
+      "options": [
+        "-rw-r--r--",
+        "-rwxr-xr-x",
+        "-rwxrwxrwx",
+        "-rw-rw-r--"
+      ],
+      "answer": 1,
+      "feedback": "755 means the owner gets rwx (7) while group and everyone else get r-x (5), which displays as -rwxr-xr-x."
+    },
+    {
+      "question": "Which command shows the ports currently listening on your machine?",
+      "options": [
+        "`ping -c 3 8.8.8.8`",
+        "`ip a`",
+        "`dig +short hub.docker.com`",
+        "`ss -tuln`"
+      ],
+      "answer": 3,
+      "feedback": "`ss -tuln` lists listening TCP and UDP sockets with their local addresses and ports, such as port 22 for SSH."
+    },
+    {
+      "question": "What does `systemctl is-active ssh` print when the SSH service is running?",
+      "options": [
+        "enabled",
+        "running",
+        "active",
+        "online"
+      ],
+      "answer": 2,
+      "feedback": "`systemctl is-active` gives a one-word status, and a running service reports `active`; `enabled` is what `systemctl is-enabled` reports for boot startup."
+    },
+    {
+      "question": "What does `echo \"hello world\" | grep -v hello` output?",
+      "options": [
+        "hello world",
+        "world",
+        "Nothing, because `grep -v` prints only lines that do NOT match",
+        "An error, because -v is not a valid grep flag"
+      ],
+      "answer": 2,
+      "feedback": "The -v flag inverts the match so grep prints non-matching lines, and since the only input line contains \"hello\" it is excluded."
+    },
+    {
+      "question": "In this module, running `sudo usermod -aG docker $USER` fails. Why?",
+      "options": [
+        "The user does not have sudo access yet",
+        "The docker group does not exist yet; it is created when Docker is installed in Module 02",
+        "usermod can only be run while logged in directly as root",
+        "The -aG flags must come after the username"
+      ],
+      "answer": 1,
+      "feedback": "The lesson runs the command as a rehearsal and it fails with \"group 'docker' does not exist\" because the docker group is only created when Docker is installed in Module 02."
+    }
+  ]
+}

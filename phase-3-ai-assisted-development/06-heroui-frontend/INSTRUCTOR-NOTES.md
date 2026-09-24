@@ -5,7 +5,7 @@
 - [ ] **Run `heroui-cli init` end-to-end on your own machine the day before.** The HeroUI CLI changes prompts and defaults occasionally; lesson 02 assumes a specific flow.
 - [ ] **Pre-install Node.js + nvm** on a backup laptop in case a student's `nvm install` fails on the classroom network.
 - [ ] **Verify Module 03's FastAPI Compose stack still starts** for every student. `docker compose up -d` from `~/docker-course/fastapi-app/` should give them `{"hello":"fastapi"}` on `:8000`. The frontend is useless without it.
-- [ ] **Decide port handling for SSH-to-remote students.** If they're SSH'd into a remote machine via Cursor's Remote-SSH, Cursor auto-forwards port 8000. They'll need port 3000 forwarded too — Cursor does this automatically when Next.js prints the URL, but flag it.
+- [ ] **Decide port handling for SSH-to-remote students.** If they're SSH'd into a remote machine via the VS Code Remote — SSH extension, VS Code auto-forwards port 8000. They'll need port 3000 forwarded too — VS Code does this automatically when Next.js prints the URL, but flag it.
 - [ ] **Pre-pull the HeroUI starter dependencies** on the classroom mirror if your network is tight. First `npm install` after `heroui-cli init` is ~150 MB.
 
 ## General Tips

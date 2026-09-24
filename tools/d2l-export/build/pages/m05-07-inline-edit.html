@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Continue.dev on the Shared vLLM Endpoint — Inline Edit</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Use <code>Ctrl+I</code> inline edits to rename a function, add validation, extract a helper, and draft a test, reviewing every proposed diff before accepting, rejecting, or partially accepting it.</div>
+<h1>Lesson 07: Inline Edit</h1>
+<p><strong>By the end, you will have used <code>Ctrl+I</code> to highlight code and ask the model to change it — accepting, rejecting, and partially accepting the diff.</strong></p>
+<p>⏱ ~15 minutes of typing + reading diffs</p>
+<blockquote><p>Inline edit (<code>Ctrl+I</code>) is the second-most-used Continue feature. You select code, describe a change, the model proposes a diff, and you accept or reject it line by line.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Open <code>routers/items.py</code> in VS Code.</p>
+<p><strong>2.</strong> Confirm clean state.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app &amp;&amp; git status</code></pre>
+<hr />
+<h2>Drill 1: rename a function</h2>
+<p><strong>3.</strong> Find the <code>read_item</code> function. <strong>Highlight the entire function</strong> (from <code>@router.get(...)</code> decorator through the end of the body).</p>
+<p><strong>4.</strong> Press <strong><code>Ctrl+I</code></strong> (Cmd+I on Mac). A small input box appears at the top of the editor.</p>
+<p><strong>5.</strong> Type:</p>
+<pre class="output"><code class="output">Rename this function from read_item to get_item_by_id. Update the function name only — keep the route path and behavior identical.</code></pre>
+<p><strong>6.</strong> Press Enter.</p>
+<p><strong>7.</strong> A diff overlay appears in your editor. Red = removed, green = added. Read it carefully.</p>
+<p><strong>8.</strong> If it looks right, click <strong>Accept</strong> (or press the accept shortcut shown — usually <code>Ctrl+Enter</code>).</p>
+<p><strong>9.</strong> If it looks wrong, click <strong>Reject</strong> (<code>Esc</code> or <code>Ctrl+Z</code> after accepting).</p>
+<p><strong>10.</strong> You can also <strong>accept partial</strong> — accept some hunks of the diff and reject others. Look for the per-hunk buttons.</p>
+<p><strong>11.</strong> Confirm the function was renamed.</p>
+<pre><code class="language-bash">grep -n &quot;def get_item_by_id\|def read_item&quot; routers/items.py</code></pre>
+<p>You should see the new name and not the old one.</p>
+<hr />
+<h2>Drill 2: add error handling</h2>
+<p><strong>12.</strong> Find the <code>update_item</code> function you wrote in lesson 06. Highlight the <strong>body</strong> of the function (the four-or-so lines after the <code>def</code> line).</p>
+<p><strong>13.</strong> <code>Ctrl+I</code>. Type:</p>
+<pre class="output"><code class="output">Add a check at the start of the body: if item.price is provided and is &lt;= 0, raise HTTPException 400 with the message &quot;price must be positive&quot;. Keep the rest of the logic the same.</code></pre>
+<p><strong>14.</strong> Read the proposed diff. The model should add a 2–3 line check before the existing logic.</p>
+<p><strong>15.</strong> Accept if it's right; reject and re-prompt if not.</p>
+<p><strong>16.</strong> Confirm.</p>
+<pre><code class="language-bash">grep -B 1 &quot;price must be positive&quot; routers/items.py</code></pre>
+<hr />
+<h2>Drill 3: extract a helper</h2>
+<p><strong>17.</strong> Highlight the <code>db.query(models.Item).filter(models.Item.id == item_id).first()</code> line that appears in <code>read_item</code>/<code>get_item_by_id</code>, <code>update_item</code>, and <code>delete_item</code> — pick <strong>one occurrence</strong>.</p>
+<p><strong>18.</strong> <code>Ctrl+I</code>. Type:</p>
+<pre class="output"><code class="output">This pattern repeats. Extract it into a helper function `get_item_or_404(db, item_id)` defined at the top of the file (after imports, before the router) that does the query and the 404 check. Then use the helper here. Don't change the other call sites yet.</code></pre>
+<p><strong>19.</strong> This is a bigger change. The model may propose multi-line changes. Read carefully.</p>
+<p><strong>20.</strong> Accept. Now manually update the <strong>other</strong> two call sites (<code>update_item</code>, <code>delete_item</code>) to use the helper. You can do each with <code>Ctrl+I</code> again — highlight just the query+404 lines and ask the model to &quot;use the get_item_or_404 helper instead.&quot;</p>
+<p><strong>21.</strong> Run a quick syntax check:</p>
+<pre><code class="language-bash">python3 -c &quot;import ast; ast.parse(open('routers/items.py').read()); print('OK')&quot;</code></pre>
+<p>You should see <code>OK</code>.</p>
+<p><strong>22.</strong> Restart the stack and confirm endpoints still work.</p>
+<pre><code class="language-bash">docker compose restart api
+sleep 3
+curl -s -o /dev/null -w &quot;%{http_code}\n&quot; http://localhost:8000/items</code></pre>
+<p>Should print <code>200</code>.</p>
+<hr />
+<h2>Drill 4: write a test</h2>
+<p><strong>23.</strong> Open a fresh terminal.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+source .venv/bin/activate
+pip install pytest httpx</code></pre>
+<p><strong>24.</strong> Create a test file.</p>
+<pre><code class="language-bash">mkdir -p tests
+touch tests/__init__.py
+touch tests/test_items.py</code></pre>
+<p><strong>25.</strong> Open <code>tests/test_items.py</code>. Type only:</p>
+<pre><code class="language-python">from fastapi.testclient import TestClient
+
+from main import app
+
+
+client = TestClient(app)</code></pre>
+<p>Save.</p>
+<p><strong>26.</strong> Highlight the whole file. <code>Ctrl+I</code>. Type:</p>
+<pre class="output"><code class="output">Add a pytest test function called test_create_and_read_item that:
+1. POSTs a new item to /items with name &quot;Test&quot; and price 1.0
+2. asserts the response status is 201
+3. extracts the id from the response
+4. GETs /items/{id}
+5. asserts the response status is 200 and the name matches.</code></pre>
+<p><strong>27.</strong> Read the diff. Accept if reasonable.</p>
+<p><strong>28.</strong> Run the test (note: this runs the app in-process against an in-memory or whatever DB the test client uses — it'll likely fail if your code requires the real Postgres. That's fine for the drill, you saw the model write a real test).</p>
+<pre><code class="language-bash">pytest tests/test_items.py -v 2&gt;&amp;1 | tail -n 20</code></pre>
+<p><strong>29.</strong> <strong>Don't worry about test pass/fail right now</strong> — getting the test infrastructure wired up properly is its own module. The point is you wrote a real test by describing it.</p>
+<hr />
+<h2>Drill 5: clean up + commit</h2>
+<p><strong>30.</strong> Deactivate venv (we're done with the test).</p>
+<pre><code class="language-bash">deactivate</code></pre>
+<p><strong>31.</strong> Commit the helper extraction.</p>
+<pre><code class="language-bash">git add routers/items.py
+git commit -m &quot;Extract get_item_or_404 helper&quot;</code></pre>
+<p><strong>32.</strong> The test file is in-progress; leave it for now or commit it as a WIP.</p>
+<pre><code class="language-bash">git add tests/
+git commit -m &quot;WIP: add first integration test&quot;</code></pre>
+<p><strong>33.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Inline edit drilled: rename, add validation, extract helper, write test&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Always read the diff.</strong> Inline edit produces real changes to your file. Accept blindly and you'll spend an hour debugging &quot;why does my route return 500.&quot; Habit: read every red and green line.</li><li><strong>Smaller selections = better edits.</strong> Highlighting a whole 200-line file and saying &quot;fix all the things&quot; leads to chaos. Pick the smallest scope that contains the change you want.</li><li><strong>Imports get missed sometimes.</strong> If the model adds a function call to a new module, it might not add the <code>import</code>. Run a syntax check or eyeball the imports.</li><li><strong>Use <code>Ctrl+Z</code> if you accepted by accident.</strong> Continue's edits are normal VS Code undo entries — one undo reverts the whole change.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">grep &quot;get_item_or_404&quot; routers/items.py | wc -l</code></pre>
+<p>Should print at least <code>2</code> (definition + at least one call).</p>
+<pre><code class="language-bash">grep -c &quot;@router\.&quot; routers/items.py</code></pre>
+<p>Should match the number of routes you have (at least 5).</p>
+<pre><code class="language-bash">git log --oneline -2</code></pre>
+<p>Should show your &quot;Extract get_item_or_404 helper&quot; commit.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m05-08-agent-mode.html">08-agent-mode.md</a> — Let the model run commands and edit multiple files</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

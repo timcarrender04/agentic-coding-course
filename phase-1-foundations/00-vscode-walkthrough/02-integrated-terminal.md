@@ -19,7 +19,7 @@ You already have a terminal on your computer:
 - **Mac:** "Terminal" (in Applications → Utilities).
 - **Linux:** "Terminal" or "Console" (varies by distro).
 
-Cursor has a terminal **built into** its window. That's the **integrated terminal**. It's the same kind of program as the ones above — same commands, same output — just embedded inside the IDE so you don't have to alt-tab to a separate window.
+VS Code has a terminal **built into** its window. That's the **integrated terminal**. It's the same kind of program as the ones above — same commands, same output — just embedded inside the IDE so you don't have to alt-tab to a separate window.
 
 ## Why this matters
 
@@ -80,3 +80,19 @@ You're done when:
 - [ ] You can explain the difference between typing into the editor and typing into the terminal.
 
 You don't need to memorize any commands today. That's tomorrow's problem (Module 01).
+
+## Lab
+
+**Objective:** Open the integrated terminal and run your first commands in it.
+
+**Task:** Work through this lesson — open the integrated terminal (`` Ctrl+` ``, View → Terminal, or the command palette), then run `echo hello` and `echo` with your own name.
+
+**Submit:** One screenshot of your VS Code window with the terminal panel showing both `echo` commands and their output.
+
+**Pass criteria:**
+
+- [ ] The terminal panel is visible at the bottom of the VS Code window (not a separate app).
+- [ ] `echo hello` and its `hello` output are visible.
+- [ ] `echo` with your own name and its output are visible.
+
+**Unlocks:** [03-extensions-overview.md](03-extensions-overview.md)

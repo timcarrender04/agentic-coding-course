@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agentic Coding — Phase 1 Syllabus · Temple College × ChiefOS</title>
+<link rel="stylesheet" href="../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --paper: #FFFFFF;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+    --wash-warm: #FDF3E3;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    font-family: 'Barlow', 'DejaVu Sans', Arial, sans-serif;
+    color: var(--ink);
+    font-size: 10.2pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: letter; margin: 0; }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.52in 0.6in 0.72in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: avoid; }
+  .page > * { flex-shrink: 0; }
+
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 18px;
+  }
+  .brandbar img.tc { height: 44px; }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brandbar .collab .x {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 8.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar img.chief { height: 30px; }
+
+  .pagefoot {
+    position: absolute;
+    left: 0.6in; right: 0.6in; bottom: 0.34in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 7px;
+    font-size: 8pt;
+    color: var(--ink-soft);
+  }
+  .pagefoot b { color: var(--navy); font-weight: 600; }
+  .pagefoot .url { color: var(--orange-deep); font-weight: 600; }
+
+  h1, h2, h3, .disp {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    color: var(--navy);
+  }
+  h2 {
+    font-size: 19pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+  }
+  h2::after { content: ""; flex: 1; height: 3px; background: var(--orange); border-radius: 2px; }
+  h3 { font-size: 13.5pt; font-weight: 700; margin-bottom: 4px; }
+  p + p { margin-top: 8px; }
+  code {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 8.2pt;
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+
+  /* ---------- page 1 ---------- */
+  .hero { margin: 4px 0 14px; }
+  .hero .kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 11pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 2px;
+  }
+  .hero h1 {
+    font-size: 42pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.0;
+  }
+  .hero .phase-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+  .hero .sub {
+    font-size: 12.5pt;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-top: 6px;
+  }
+  .hero .meta {
+    display: inline-block;
+    margin-top: 12px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 3px;
+  }
+  .hero .meta span { color: var(--orange); }
+
+  .intro {
+    font-size: 10.6pt;
+    margin-bottom: 14px;
+  }
+  .intro b { color: var(--navy); }
+
+  .pillars { display: flex; gap: 10px; margin-bottom: 14px; }
+  .pillar {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--orange);
+    border-radius: 6px;
+    padding: 9px 10px;
+    background: var(--wash);
+  }
+  .pillar .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 14pt;
+    color: var(--orange-deep);
+  }
+  .pillar h3 { font-size: 11.5pt; text-transform: uppercase; letter-spacing: 0.03em; }
+  .pillar p { font-size: 8.6pt; color: var(--ink-soft); line-height: 1.4; margin-top: 2px; }
+
+  .req-common {
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 9.6pt;
+    margin-bottom: 10px;
+  }
+  .req-common b { color: var(--navy); }
+
+  .callout-warn {
+    border-left: 4px solid var(--orange-deep);
+    background: var(--wash-warm);
+    border-radius: 0 6px 6px 0;
+    padding: 8px 14px;
+    font-size: 9.4pt;
+    margin-bottom: 14px;
+  }
+  .callout-warn b { color: var(--navy); }
+
+  .stats {
+    margin-top: auto;
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--navy);
+    color: #fff;
+  }
+  .stats .stat {
+    flex: 1;
+    text-align: center;
+    padding: 12px 4px 10px;
+    border-right: 1px solid rgba(255,255,255,0.12);
+  }
+  .stats .stat:last-child { border-right: none; }
+  .stats .n {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22pt;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stats .l {
+    font-size: 7.6pt;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #cfd8e0;
+    margin-top: 3px;
+  }
+
+  /* ---------- page 2 ---------- */
+  .lede {
+    font-size: 9.4pt;
+    color: var(--ink-soft);
+    margin-bottom: 12px;
+  }
+  .lede b { color: var(--navy); }
+
+  .phase-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .phase-head .badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 11pt;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--orange);
+    color: var(--navy);
+    padding: 2px 10px;
+    border-radius: 3px;
+  }
+  .phase-head h3 { font-size: 14.5pt; text-transform: uppercase; margin: 0; }
+  .phase-head .sub { font-size: 9pt; color: var(--ink-soft); }
+
+  table.syl { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+  table.syl th, table.syl td {
+    border: 1px solid var(--line);
+    padding: 5px 9px;
+    font-size: 9.2pt;
+    text-align: left;
+    vertical-align: top;
+  }
+  table.syl th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  table.syl td.wk {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10.5pt;
+    color: var(--navy);
+    text-align: center;
+    width: 40px;
+    background: var(--wash);
+  }
+  table.syl td.mod { width: 130px; font-weight: 600; color: var(--navy-soft); }
+  table.syl tr.gate td { background: var(--wash-warm); }
+
+  table.live { width: 100%; border-collapse: collapse; }
+  table.live th, table.live td {
+    border: 1px solid var(--line);
+    padding: 5px 8px;
+    font-size: 8.4pt;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.35;
+  }
+  table.live th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.live td.wk {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11pt;
+    color: var(--navy);
+    text-align: center;
+    width: 36px;
+    background: var(--wash);
+  }
+  table.live td b { color: var(--navy); }
+  table.live tr.gate td { background: var(--wash-warm); }
+
+  /* ---------- pages 3–4 ---------- */
+  .modgrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .modcard {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--orange);
+    border-radius: 5px;
+    padding: 7px 10px;
+    background: #fff;
+  }
+  .modcard .mnum {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 8.5pt;
+    letter-spacing: 0.12em;
+    color: var(--orange-deep);
+    text-transform: uppercase;
+  }
+  .modcard h3 { font-size: 11pt; margin-bottom: 2px; }
+  .modcard p { font-size: 8.2pt; color: var(--ink-soft); line-height: 1.35; }
+
+  .lab-block { margin-bottom: 10px; }
+  .lab-block .lab-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .lab-block .lab-head .badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 9.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--navy);
+    color: #fff;
+    padding: 1px 8px;
+    border-radius: 3px;
+  }
+  .lab-block .lab-head h3 {
+    font-size: 12pt;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .lab-block .lab-head .sub {
+    font-size: 8.5pt;
+    color: var(--ink-soft);
+  }
+
+  table.labs { width: 100%; border-collapse: collapse; }
+  table.labs th, table.labs td {
+    border: 1px solid var(--line);
+    padding: 3px 7px;
+    font-size: 8pt;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.3;
+  }
+  table.labs th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.labs td.num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9pt;
+    color: var(--navy);
+    text-align: center;
+    width: 28px;
+    background: var(--wash);
+  }
+  table.labs td.title { width: 150px; font-weight: 600; color: var(--navy-soft); }
+  table.labs tr.gate td { background: var(--wash-warm); }
+
+  .outcome {
+    margin-top: auto;
+    background: var(--navy);
+    border-radius: 8px;
+    color: #fff;
+    padding: 12px 16px;
+  }
+  .outcome .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 3px;
+  }
+  .outcome p { font-size: 9.8pt; color: #e8edf2; line-height: 1.4; }
+  .outcome p b { color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 — COVER ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Course Syllabus</div>
+    <h1>Agentic Coding</h1>
+    <div class="phase-line">Phase 1 — Foundations</div>
+    <div class="sub">Get comfortable in the developer environment and with containerized workflows before writing any application code.</div>
+    <div class="meta">Weeks 1–6 &nbsp;<span>·</span>&nbsp; Modules 00–02 &nbsp;<span>·</span>&nbsp; 27 labs &nbsp;<span>·</span>&nbsp; Mon + Wed, 6:00–8:00 PM</div>
+  </div>
+
+  <p class="intro"><b>Phase 1</b> is the foundation of Agentic Coding at Temple College Workforce Development, delivered in collaboration with ChiefOS. Over six weeks you master VS&nbsp;Code, the Ubuntu terminal, and Docker — the tools every later module depends on. Content lives in <b>D2L Brightspace</b>; progress is gated by completing labs, not by attendance. Twice-weekly live blocks support you while you move at your own pace.</p>
+
+  <h2>How Phase 1 works</h2>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="num">1</div>
+      <h3>Watch</h3>
+      <p>Every lesson opens with a 2–3 minute concept video that sets up what you're about to do.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">2</div>
+      <h3>Do</h3>
+      <p>Every lesson has a hands-on lab — real commands on your own machine, building real things.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">3</div>
+      <h3>Submit</h3>
+      <p>Each lab produces an artifact in D2L. Completing it unlocks the next lesson.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">4</div>
+      <h3>Get unstuck live</h3>
+      <p>Monday instruction + Wednesday lab clinic. Labs — not attendance — gate your progress.</p>
+    </div>
+  </div>
+
+  <h2>What your computer needs</h2>
+  <div class="req-common">
+    <b>Everyone:</b> a 64-bit laptop with <b>8 GB RAM</b> (16 GB recommended), <b>30 GB free disk space</b>, reliable internet, and <b>administrator rights</b> to install software. <b>Windows 10/11 with WSL2 (Ubuntu)</b> or <b>macOS 12+</b>. No GPU required — AI models (Phase 3) run on the college's shared server.
+  </div>
+  <div class="callout-warn">
+    <b>Not supported:</b> Chromebooks and tablets (including iPads). Phase 1 lives in a real Linux/Unix shell — you need a laptop you can install software on. Windows students may alternatively work entirely over SSH into the college Linux server.
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">6</div><div class="l">Weeks</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">Modules</div></div>
+    <div class="stat"><div class="n">27</div><div class="l">Hands-on labs</div></div>
+    <div class="stat"><div class="n">2</div><div class="l">Live blocks / week</div></div>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding · Phase 1</b> · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 1 of 4</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 2 — PACE + LIVE CALENDAR ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <h2>Suggested six-week pace</h2>
+  <p class="lede">This schedule orients you and sets each week's live-block focus — it is a <b>suggested pace</b>, not a lock. Highlighted rows are <b>module checkpoints</b> (phase-gates) that must be passed to advance.</p>
+
+  <div class="phase-head">
+    <span class="badge">Phase 1</span>
+    <h3>Foundations</h3>
+    <span class="sub">Weeks 1–6 · Modules 00–02 · 27 labs</span>
+  </div>
+  <table class="syl">
+    <tr><th style="width:40px">Wk</th><th style="width:130px">Module</th><th>Focus</th></tr>
+    <tr><td class="wk">1</td><td class="mod">00 · VS Code</td><td>What an IDE is, installing VS Code, UI tour, the integrated terminal, extensions</td></tr>
+    <tr class="gate"><td class="wk">2</td><td class="mod">00 → 01</td><td>Remote connections (WSL / SSH), <b>Module 00 checkpoint</b>; terminal setup + navigation</td></tr>
+    <tr><td class="wk">3</td><td class="mod">01 · Terminal</td><td>Creating files &amp; folders, reading files, sudo &amp; updates, installing software, permissions</td></tr>
+    <tr class="gate"><td class="wk">4</td><td class="mod">01 · Terminal</td><td>Networking, processes &amp; services, pipes &amp; grep, users &amp; groups, <b>Module 01 checkpoint</b></td></tr>
+    <tr><td class="wk">5</td><td class="mod">02 · Docker</td><td>Docker install, your first container (hello-world), running a real image (nginx)</td></tr>
+    <tr class="gate"><td class="wk">6</td><td class="mod">02 · Docker</td><td>Images vs containers, the VS Code Docker sidebar, <b>Module 02 / Phase 1 checkpoint</b> + buffer</td></tr>
+  </table>
+
+  <h2>Live-block calendar</h2>
+  <p class="lede">Monday and Wednesday, <b>6:00–8:00 PM</b>. Monday introduces the week's objects; Wednesday is a lab clinic. Come whenever you can — attendance does not gate progress.</p>
+  <table class="live">
+    <tr>
+      <th style="width:36px">Wk</th>
+      <th>Monday — instruction</th>
+      <th>Wednesday — lab clinic</th>
+    </tr>
+    <tr>
+      <td class="wk">1</td>
+      <td>Course kickoff; editor vs terminal vs IDE; VS Code install, UI tour, integrated terminal (00:00–02)</td>
+      <td>Clinic on labs 00:00–04 — extension installs; Windows students: pre-install WSL at home (reboot)</td>
+    </tr>
+    <tr class="gate">
+      <td class="wk">2</td>
+      <td>Remote connections: WSL (Windows) and SSH to the college server (00:05–06); walk Module 00 gate live</td>
+      <td>Clinic — gate submissions (00:07), key/permission errors; start terminal labs 01:00–01</td>
+    </tr>
+    <tr>
+      <td class="wk">3</td>
+      <td>Terminal core: making things, reading/editing files, sudo + apt, installing software, permissions (01:02–06)</td>
+      <td>Clinic — <code>rm -r</code> fear, nano/less exits, <code>chmod</code>/<code>chown</code>; budget most of clinic for permissions</td>
+    </tr>
+    <tr class="gate">
+      <td class="wk">4</td>
+      <td>Terminal advanced: networking, processes/services, pipes/grep, users/groups (01:07–10); demo intentional <code>usermod</code> failure</td>
+      <td>Clinic + <b>Module 01 phase-gate</b> (01:11) — timed, no-help run; redo-the-lesson triage</td>
+    </tr>
+    <tr>
+      <td class="wk">5</td>
+      <td>Docker: what it is, Engine install, hello-world, nginx on port 8080 (02:00–03)</td>
+      <td>Clinic — WSL <code>systemctl</code> vs <code>service docker start</code>, docker-group, port-forward paths</td>
+    </tr>
+    <tr class="gate">
+      <td class="wk">6</td>
+      <td>Images vs containers, cleanup, VS Code Docker sidebar (02:04–05); walk the Phase 1 gate end to end</td>
+      <td><b>Phase 1 gate clinic</b> (02:06) + buffer — screenshot submissions, catch-up; preview Phase 2</td>
+    </tr>
+  </table>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding · Phase 1</b> · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 2 of 4</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 3 — MODULES + LABS 00–01 ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <h2>Modules at a glance</h2>
+  <div class="modgrid">
+    <div class="modcard">
+      <div class="mnum">Module 00 · 8 lessons</div>
+      <h3>VS Code &amp; IDE</h3>
+      <p>Editor vs terminal vs IDE, UI, terminal pane, extensions, Remote — WSL and SSH.</p>
+    </div>
+    <div class="modcard">
+      <div class="mnum">Module 01 · 12 lessons</div>
+      <h3>Ubuntu Terminal</h3>
+      <p>Navigate, create, inspect; sudo &amp; apt; permissions; networking; processes; pipes &amp; grep; users.</p>
+    </div>
+    <div class="modcard">
+      <div class="mnum">Module 02 · 7 lessons</div>
+      <h3>Docker</h3>
+      <p>Install Engine, hello-world, nginx, images vs containers, VS Code Docker sidebar, phase gate.</p>
+    </div>
+  </div>
+
+  <h2>Lab catalog</h2>
+  <p class="lede">Each lesson is one learning object with a paired lab. Highlighted rows are <b>final checkpoints</b> required to advance. Full lab definitions (Objective → Task → Submit → Pass criteria) live in each lesson in D2L / the course repo.</p>
+
+  <div class="lab-block">
+    <div class="lab-head">
+      <span class="badge">00</span>
+      <h3>VS Code &amp; IDE Fundamentals</h3>
+      <span class="sub">8 labs</span>
+    </div>
+    <table class="labs">
+      <tr><th>#</th><th>Lesson</th><th>Lab task</th></tr>
+      <tr><td class="num">00</td><td class="title">What is an IDE?</td><td>Install VS Code; submit a screenshot of the welcome screen</td></tr>
+      <tr><td class="num">01</td><td class="title">VS Code UI Tour</td><td>Open a folder, use the command palette, set font size to 16</td></tr>
+      <tr><td class="num">02</td><td class="title">Integrated Terminal</td><td>Open the terminal and run <code>echo</code> commands successfully</td></tr>
+      <tr><td class="num">03</td><td class="title">Extensions Overview</td><td>Install the Python extension by Microsoft</td></tr>
+      <tr><td class="num">04</td><td class="title">Docker Extension</td><td>Install the Docker extension; sidebar populates after Module 02</td></tr>
+      <tr><td class="num">05</td><td class="title">Connecting to WSL</td><td>Connect to WSL and run <code>uname -a</code> showing Linux</td></tr>
+      <tr><td class="num">06</td><td class="title">Connecting over SSH</td><td>Connect to the host; run <code>hostname</code> and <code>whoami</code></td></tr>
+      <tr class="gate"><td class="num">07</td><td class="title">Final Checkpoint</td><td>Screenshot of a remote terminal with <code>whoami</code> and <code>pwd</code></td></tr>
+    </table>
+  </div>
+
+  <div class="lab-block">
+    <div class="lab-head">
+      <span class="badge">01</span>
+      <h3>Ubuntu Terminal Fundamentals</h3>
+      <span class="sub">12 labs · continued on next page</span>
+    </div>
+    <table class="labs">
+      <tr><th>#</th><th>Lesson</th><th>Lab task</th></tr>
+      <tr><td class="num">00</td><td class="title">Setup Check</td><td>Run version, network, and sudo checks; confirm all pass</td></tr>
+      <tr><td class="num">01</td><td class="title">Where Am I?</td><td>Move between directories; use <code>cd -</code> and <code>cd ~</code>; list root dirs</td></tr>
+      <tr><td class="num">02</td><td class="title">Making Things</td><td>Create <code>~/docker-course/</code> with notes, practice, projects folders</td></tr>
+      <tr><td class="num">03</td><td class="title">Looking Inside Files</td><td>Create a notes file, append lines, edit with nano, verify 9 lines</td></tr>
+      <tr><td class="num">04</td><td class="title">Sudo and Updates</td><td>Run <code>sudo apt update</code> and <code>sudo apt upgrade -y</code> successfully</td></tr>
+      <tr><td class="num">05</td><td class="title">Installing Software</td><td>Install curl, wget, git, tree, etc.; verify each version</td></tr>
+      <tr><td class="num">06</td><td class="title">Permissions Drills</td><td>Create a 755 executable script; change ownership with <code>chown</code></td></tr>
+    </table>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding · Phase 1</b> · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 3 of 4</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 4 — LABS 01 (rest) + 02 ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="lab-block">
+    <div class="lab-head">
+      <span class="badge">01</span>
+      <h3>Ubuntu Terminal Fundamentals</h3>
+      <span class="sub">continued · labs 07–11</span>
+    </div>
+    <table class="labs">
+      <tr><th>#</th><th>Lesson</th><th>Lab task</th></tr>
+      <tr><td class="num">07</td><td class="title">Networking Drills</td><td>Ping 8.8.8.8, reach hub.docker.com, check ports with <code>ss</code></td></tr>
+      <tr><td class="num">08</td><td class="title">Processes and Services</td><td>Run <code>ps</code>/<code>top</code>/<code>htop</code>; confirm SSH and cron services active</td></tr>
+      <tr><td class="num">09</td><td class="title">Pipes and Grep</td><td>Use pipes to count items; grep files and logs for patterns</td></tr>
+      <tr><td class="num">10</td><td class="title">User and Group Setup</td><td>Check <code>id</code>/<code>groups</code>; preview <code>usermod -aG docker</code></td></tr>
+      <tr class="gate"><td class="num">11</td><td class="title">Final Checkpoint</td><td>Run 33 commands from memory across all topics; all checks pass</td></tr>
+    </table>
+  </div>
+
+  <div class="lab-block">
+    <div class="lab-head">
+      <span class="badge">02</span>
+      <h3>Docker Fundamentals</h3>
+      <span class="sub">7 labs · Phase 1 gate</span>
+    </div>
+    <table class="labs">
+      <tr><th>#</th><th>Lesson</th><th>Lab task</th></tr>
+      <tr><td class="num">00</td><td class="title">Setup Check</td><td>Verify Linux, sudo, prerequisites, Module 01 complete</td></tr>
+      <tr><td class="num">01</td><td class="title">Install Docker Engine</td><td>Run Docker without sudo; <code>docker info</code> works</td></tr>
+      <tr><td class="num">02</td><td class="title">Your First Container</td><td>Run hello-world; list images and containers with <code>docker ps</code></td></tr>
+      <tr><td class="num">03</td><td class="title">Running a Real Image</td><td>Run nginx on port 8080; load the page and view logs</td></tr>
+      <tr><td class="num">04</td><td class="title">Images vs Containers</td><td>Run three nginx containers from one image</td></tr>
+      <tr><td class="num">05</td><td class="title">VS Code Docker Sidebar</td><td>Run, stop, remove a container via the UI; view logs</td></tr>
+      <tr class="gate"><td class="num">06</td><td class="title">Final Checkpoint</td><td>Run nginx, curl it, screenshot the sidebar, clean up — <b>Phase 1 gate</b></td></tr>
+    </table>
+  </div>
+
+  <div class="outcome">
+    <div class="label">Phase 1 outcome</div>
+    <p>By the end of Phase 1 you are <b>confident in the developer environment and containerized workflows</b> — ready for Phase 2 (FastAPI + Git/GitHub) and Phase 3 (AI-assisted development with Continue.dev on the college's shared inference server).</p>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding · Phase 1</b> · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 4 of 4</div>
+  </div>
+</div>
+
+</body>
+</html>

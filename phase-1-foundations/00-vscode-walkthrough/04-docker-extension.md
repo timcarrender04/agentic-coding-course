@@ -17,7 +17,7 @@ Say: "You're done when the whale icon is in your activity bar and you can explai
 You don't need to fully understand Docker today. You just need to know:
 
 - Docker is installed in **Module 02**, not now.
-- Cursor has a **Docker extension** that gives you a sidebar for looking at your containers, images, etc. We're installing that extension now so it's ready when you need it.
+- VS Code has a **Docker extension** (Microsoft's "Container Tools") that gives you a sidebar for looking at your containers, images, etc. We're installing that extension now so it's ready when you need it.
 
 ## Important: what you'll see vs what works
 
@@ -54,3 +54,19 @@ You're done when:
 - [ ] The Docker whale icon is in your activity bar on the left.
 - [ ] You clicked it and saw the CONTAINERS / IMAGES / NETWORKS / VOLUMES / REGISTRIES sections (even if they're empty or showing an error).
 - [ ] You can explain in one sentence why the sidebar is empty right now.
+
+## Lab
+
+**Objective:** Install the Docker extension so it's ready for Module 02, and understand why its sidebar is empty today.
+
+**Task:** Work through this lesson — install the **Docker** extension by Microsoft (`ms-azuretools.vscode-docker`), then click the whale icon and tour the sidebar sections.
+
+**Submit:** One screenshot showing the Docker whale icon in your activity bar with the Docker side bar open (its "Failed to connect" or empty sections visible), plus one sentence in the submission comment explaining why the sidebar is empty right now.
+
+**Pass criteria:**
+
+- [ ] The whale icon appears in the activity bar.
+- [ ] The Docker side bar sections (CONTAINERS / IMAGES / NETWORKS / VOLUMES / REGISTRIES) are visible, empty or showing an error.
+- [ ] Your one-sentence comment says the sidebar is empty because Docker itself isn't installed until Module 02.
+
+**Unlocks:** [05-wsl-connection.md](05-wsl-connection.md)

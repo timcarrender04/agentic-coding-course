@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git and GitHub — Pull Requests</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Push a feature branch to GitHub, open a pull request, leave and respond to inline review comments, merge the PR with a merge commit, and sync the result to the local <code>main</code>.</div>
+<h1>Lesson 10: Pull Requests</h1>
+<p><strong>By the end, you will have opened a pull request on GitHub, reviewed and merged it — and opened a PR to the class practice repo plus reviewed a classmate's PR.</strong></p>
+<p>⏱ ~35 minutes of typing + clicking</p>
+<blockquote><p>A <strong>pull request</strong> (PR) is a proposal to merge one branch into another. The web UI shows the diff, lets people comment, and gates the merge. Every team uses this workflow.</p></blockquote>
+<hr />
+<h2>Part 1: a PR on your own repo</h2>
+<p>You'll walk the full loop solo first — author and reviewer both — so the mechanics are familiar before the class exercise.</p>
+<h2>Step 1: create a feature branch</h2>
+<p><strong>1.</strong> From your project directory.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app</code></pre>
+<p><strong>2.</strong> Confirm clean.</p>
+<pre><code class="language-bash">git status</code></pre>
+<p><strong>3.</strong> Make sure you're up to date with the remote.</p>
+<pre><code class="language-bash">git pull</code></pre>
+<p><strong>4.</strong> Create a feature branch.</p>
+<pre><code class="language-bash">git switch -c add-version-route</code></pre>
+<hr />
+<h2>Step 2: build the feature</h2>
+<p><strong>5.</strong> Open <code>main.py</code> in VS Code. Above <code>app.include_router(items.router)</code>, add a new route:</p>
+<pre><code class="language-python">
+
+@app.get(&quot;/version&quot;)
+def version():
+    return {&quot;version&quot;: &quot;0.1.0&quot;}</code></pre>
+<p><strong>6.</strong> Save.</p>
+<p><strong>7.</strong> Commit.</p>
+<pre><code class="language-bash">git commit -am &quot;Add /version route returning 0.1.0&quot;</code></pre>
+<p><strong>8.</strong> Edit <code>NOTES.md</code> to add a line: <code>Added /version</code>. Save and commit.</p>
+<pre><code class="language-bash">git commit -am &quot;Note /version in NOTES&quot;</code></pre>
+<hr />
+<h2>Step 3: push the branch</h2>
+<p><strong>9.</strong> Push the branch — <code>-u</code> because it's the first push of this branch.</p>
+<pre><code class="language-bash">git push -u origin add-version-route</code></pre>
+<p>You should see:</p>
+<pre class="output"><code class="output">remote:
+remote: Create a pull request for 'add-version-route' on GitHub by visiting:
+remote:      https://github.com/&lt;username&gt;/fastapi-app/pull/new/add-version-route
+remote:
+To github.com:&lt;username&gt;/fastapi-app.git
+ * [new branch]      add-version-route -&gt; add-version-route
+branch 'add-version-route' set up to track 'origin/add-version-route'.</code></pre>
+<p><strong>Note the URL GitHub suggested.</strong> That's the PR creation page.</p>
+<hr />
+<h2>Step 4: open the pull request</h2>
+<p><strong>10.</strong> Open the URL from step 9 in your browser. (Or go to your repo on github.com — a yellow <strong>&quot;Compare &amp; pull request&quot;</strong> banner appears for recently pushed branches; click it. If the banner's gone, use <strong>Pull requests</strong> → <strong>New pull request</strong>.)</p>
+<p><strong>11.</strong> You should see:</p>
+<ul><li><strong>base:</strong> <code>main</code></li><li><strong>compare:</strong> <code>add-version-route</code></li><li>The diff of your two commits</li></ul>
+<p><strong>12.</strong> Set the title to something useful: <code>Add /version route</code>.</p>
+<p><strong>13.</strong> Set the description to something like:</p>
+<pre class="output"><code class="output">Adds GET /version returning {&quot;version&quot;: &quot;0.1.0&quot;}.
+
+- New route in main.py
+- Note in NOTES.md</code></pre>
+<p><strong>14.</strong> Click <strong>Create pull request</strong>.</p>
+<p><strong>15.</strong> You're on the PR page. Tour it:</p>
+<ul><li><strong>Conversation tab</strong> — comments, status events.</li><li><strong>Commits tab</strong> — your two commits.</li><li><strong>Files changed tab</strong> — the diff.</li></ul>
+<hr />
+<h2>Step 5: review</h2>
+<p><strong>16.</strong> You'll review your own PR — yes, it's a little weird. The real peer review comes in Part 2; this round is to learn where the buttons are.</p>
+<p><strong>17.</strong> Click <strong>Files changed</strong>. Hover over a line in the diff — a blue <strong>+</strong> icon appears at the left edge. Click it to add an inline comment.</p>
+<p><strong>18.</strong> Leave one comment on a line of <code>main.py</code>. For example, on the <code>return {&quot;version&quot;: &quot;0.1.0&quot;}</code> line, add:</p>
+<pre class="output"><code class="output">Should we read the version from a constant or env var instead of hardcoding?</code></pre>
+<p><strong>19.</strong> Click <strong>Add single comment</strong> (or <strong>Start a review</strong> to batch comments and submit them all at once).</p>
+<p><strong>20.</strong> Go back to the <strong>Conversation</strong> tab. Your comment should appear inline with the diff snippet.</p>
+<hr />
+<h2>Step 6: respond to feedback</h2>
+<p><strong>21.</strong> As the author, address the comment. Edit <code>main.py</code> — change the version line:</p>
+<pre><code class="language-python">APP_VERSION = &quot;0.1.0&quot;
+
+
+@app.get(&quot;/version&quot;)
+def version():
+    return {&quot;version&quot;: APP_VERSION}</code></pre>
+<p>(<code>APP_VERSION</code> constant declared above the route.)</p>
+<p><strong>22.</strong> Save, commit, push.</p>
+<pre><code class="language-bash">git commit -am &quot;Hoist version to APP_VERSION constant&quot;
+git push</code></pre>
+<p><strong>23.</strong> Refresh the PR page on GitHub. The new commit shows up in the <strong>Commits</strong> tab and in the diff — a PR tracks its branch, so pushing updates the PR automatically.</p>
+<p><strong>24.</strong> Reply to the original review comment with something like <code>Done — moved to APP_VERSION</code>. Click <strong>Comment</strong>.</p>
+<p><strong>25.</strong> Mark the thread resolved (the <strong>Resolve conversation</strong> button on the comment thread).</p>
+<hr />
+<h2>Step 7: merge</h2>
+<p><strong>26.</strong> Scroll to the bottom of the <strong>Conversation</strong> tab. There's a green <strong>Merge pull request</strong> button.</p>
+<p><strong>27.</strong> Pick a merge style — the dropdown arrow on the button offers three:</p>
+<ul><li><strong>Create a merge commit</strong> — keeps the branch's full history with a merge commit on top.</li><li><strong>Squash and merge</strong> — collapses all PR commits into one on <code>main</code>. Common for small features.</li><li><strong>Rebase and merge</strong> — replays the branch's commits on top of <code>main</code> linearly (no merge commit). For this drill, pick <strong>Create a merge commit</strong>.</li></ul>
+<p><strong>28.</strong> Click <strong>Merge pull request</strong>, then <strong>Confirm merge</strong>.</p>
+<p><strong>29.</strong> GitHub shows &quot;Pull request successfully merged and closed.&quot; There's a <strong>Delete branch</strong> button — click it. (The merged branch is no longer needed.)</p>
+<hr />
+<h2>Step 8: sync locally</h2>
+<p><strong>30.</strong> Back in the terminal.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+git switch main
+git pull</code></pre>
+<p>You should see the merge commit + your branch's commits arrive.</p>
+<p><strong>31.</strong> Look at the graph.</p>
+<pre><code class="language-bash">git log --oneline --graph -8</code></pre>
+<p>The merge from your PR is there.</p>
+<p><strong>32.</strong> The branch is gone on the remote. Delete the local copy too.</p>
+<pre><code class="language-bash">git branch -d add-version-route</code></pre>
+<p><strong>33.</strong> Confirm.</p>
+<pre><code class="language-bash">git branch</code></pre>
+<p>Only <code>* main</code>.</p>
+<p><strong>34.</strong> Test the new route end-to-end. Start your stack if it's not running.</p>
+<pre><code class="language-bash">docker compose up -d
+sleep 2
+curl http://localhost:8000/version</code></pre>
+<pre class="output"><code class="output">{&quot;version&quot;:&quot;0.1.0&quot;}</code></pre>
+<hr />
+<h2>Part 2: the class PR exercise (fork → PR → review)</h2>
+<p>Your instructor hosts a hub repo: <code>&lt;INSTRUCTOR-GITHUB-USERNAME&gt;/course-pr-practice</code>. You <strong>can't push to it</strong> — you don't own it. So you <strong>fork</strong> it (a fork is your own server-side copy on GitHub), push to your fork, and open a PR from your fork back to the instructor's repo. This is exactly how open-source contributions work.</p>
+<p><strong>35.</strong> In your browser, open:</p>
+<pre class="output"><code class="output">https://github.com/&lt;INSTRUCTOR-GITHUB-USERNAME&gt;/course-pr-practice</code></pre>
+<p>Click <strong>Fork</strong> (top-right) → <strong>Create fork</strong>. GitHub drops you on your copy: <code>&lt;username&gt;/course-pr-practice</code>.</p>
+<p><strong>36.</strong> Clone <strong>your fork</strong> (not the instructor's repo).</p>
+<pre><code class="language-bash">cd ~/docker-course
+git clone git@github.com:&lt;username&gt;/course-pr-practice.git
+cd course-pr-practice</code></pre>
+<p><strong>37.</strong> Create a branch for your card.</p>
+<pre><code class="language-bash">git switch -c add-student-card</code></pre>
+<p><strong>38.</strong> Add your student card. Create <code>students/&lt;your-github-username&gt;.md</code> in VS Code (the <code>students/</code> folder already exists in the repo) with content like:</p>
+<pre><code class="language-markdown"># Your Name
+
+- GitHub: @&lt;your-github-username&gt;
+- Favorite Git command so far: `git log --oneline --graph`</code></pre>
+<p><strong>39.</strong> Stage, commit, push.</p>
+<pre><code class="language-bash">git add students/&lt;your-github-username&gt;.md
+git commit -m &quot;Add student card for &lt;your-github-username&gt;&quot;
+git push -u origin add-student-card</code></pre>
+<p><strong>40.</strong> Open the PR. Go to your fork on github.com and click the <strong>&quot;Compare &amp; pull request&quot;</strong> banner. Check the header carefully:</p>
+<ul><li><strong>base repository:</strong> <code>&lt;INSTRUCTOR-GITHUB-USERNAME&gt;/course-pr-practice</code>, <strong>base:</strong> <code>main</code></li><li><strong>head repository:</strong> <code>&lt;username&gt;/course-pr-practice</code>, <strong>compare:</strong> <code>add-student-card</code></li></ul>
+<p>   This is a <strong>cross-fork PR</strong> — proposing changes into a repo you can't push to.</p>
+<p><strong>41.</strong> Title: <code>Add student card: &lt;your-github-username&gt;</code>. Click <strong>Create pull request</strong>. (You're opening it on the <strong>instructor's</strong> repo — check the URL.)</p>
+<p><strong>42.</strong> Now review a classmate. Go to <code>&lt;INSTRUCTOR-GITHUB-USERNAME&gt;/course-pr-practice</code> → <strong>Pull requests</strong> tab. Pick an open PR from a classmate (your instructor may assign who reviews whom — a simple rule: review the PR opened right after yours in the list).</p>
+<p><strong>43.</strong> Open their PR → <strong>Files changed</strong> → leave <strong>at least one inline comment</strong>. Make it real — a question, a genuine remark, or a suggestion, not just &quot;LGTM&quot;.</p>
+<p><strong>44.</strong> Click <strong>Review changes</strong> (top-right of Files changed) → select <strong>Comment</strong> (or <strong>Approve</strong>) → <strong>Submit review</strong>.</p>
+<p><strong>45.</strong> The instructor merges card PRs during or after class. When yours merges, you'll get a notification, and your card will appear in the hub's <code>students/</code> folder alongside everyone else's.</p>
+<p><strong>46.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;First PR merged on GitHub: /version route; card PR opened on course-pr-practice&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Never commit directly to <code>main</code></strong> when collaborating. Branch + PR is the workflow. Direct commits to <code>main</code> skip review.</li><li><strong>Fork vs clone.</strong> A <strong>fork</strong> is your copy of someone else's repo <em>on GitHub</em> (server-side). A <strong>clone</strong> is a local copy of any repo (your machine). For the class exercise you do both: fork the hub, then clone your fork.</li><li><strong>The &quot;Compare &amp; pull request&quot; banner is temporary.</strong> It only shows for recently pushed branches. If it's gone, <strong>Pull requests</strong> → <strong>New pull request</strong> does the same thing.</li><li><strong>A merged PR's branch should be deleted.</strong> Both on GitHub (the <strong>Delete branch</strong> button) and locally (<code>git branch -d</code>). Stale branches pile up fast otherwise.</li><li><strong>Squash vs merge commit vs rebase</strong> is a team-by-team religious decision. Pick one and be consistent. The lessons use merge commits because they're the most explicit.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">git -C ~/docker-course/fastapi-app log --oneline --graph -5</code></pre>
+<p>Should show the merge of <code>add-version-route</code>.</p>
+<pre><code class="language-bash">git -C ~/docker-course/fastapi-app branch</code></pre>
+<p>Should show only <code>* main</code>.</p>
+<pre><code class="language-bash">curl http://localhost:8000/version</code></pre>
+<p>Should print <code>{&quot;version&quot;:&quot;0.1.0&quot;}</code>.</p>
+<p>On GitHub:</p>
+<ul><li>Your <code>fastapi-app</code> repo's <strong>Pull requests</strong> tab should show one <strong>Merged</strong> PR with your description and the conversation.</li><li><code>&lt;INSTRUCTOR-GITHUB-USERNAME&gt;/course-pr-practice</code> should show your card PR (<strong>Open</strong>, or <strong>Merged</strong> once the instructor gets to it).</li><li>A classmate's PR on the practice repo should have at least one review comment from you.</li></ul>
+<hr />
+<p><strong>Next up:</strong> <a href="m04-11-final-checkpoint.html">11-final-checkpoint.md</a> — The whole loop, from memory</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Docker Installation and First Containers — Your First Container</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Run the hello-world container and explain the six steps Docker performed, from pulling the image off Docker Hub to the container exiting.</div>
+<h1>Lesson 02: Your First Container</h1>
+<p><strong>By the end, you will have run a container and you will understand what just happened.</strong></p>
+<p>⏱ ~10 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> Run the smallest possible container.</p>
+<pre><code class="language-bash">docker run hello-world</code></pre>
+<pre class="output"><code class="output">Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+...
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+...</code></pre>
+<p><strong>3.</strong> Read what Docker just told you. The first line said &quot;Unable to find image 'hello-world:latest' locally&quot; — <strong>that is not an error.</strong> Docker checked your local machine, didn't have the image, so it pulled it from Docker Hub and ran it. From now on, that image is cached locally.</p>
+<p><strong>4.</strong> Run it again. Notice it's faster — no pull this time.</p>
+<pre><code class="language-bash">docker run hello-world</code></pre>
+<pre class="output"><code class="output">Hello from Docker!
+...</code></pre>
+<p><strong>5.</strong> Look at the image Docker downloaded.</p>
+<pre><code class="language-bash">docker images</code></pre>
+<pre class="output"><code class="output">REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+hello-world   latest    9c7a54a9a43c   8 months ago    13.3kB</code></pre>
+<p>(IDs and dates will vary. Notice the size — 13 KB. Tiny.)</p>
+<p><strong>6.</strong> Look at containers. By default <code>docker ps</code> shows only running ones.</p>
+<pre><code class="language-bash">docker ps</code></pre>
+<pre class="output"><code class="output">CONTAINER ID   IMAGE   COMMAND   CREATED   STATUS   PORTS   NAMES</code></pre>
+<p>(Empty — hello-world ran and exited.)</p>
+<p><strong>7.</strong> Look at all containers, including stopped ones.</p>
+<pre><code class="language-bash">docker ps -a</code></pre>
+<pre class="output"><code class="output">CONTAINER ID   IMAGE         COMMAND    CREATED         STATUS                     PORTS   NAMES
+abc123def456   hello-world   &quot;/hello&quot;   30 seconds ago  Exited (0) 28 seconds ago          modest_einstein
+xyz789...      hello-world   &quot;/hello&quot;   1 minute ago    Exited (0) 1 minute ago            funny_curie</code></pre>
+<p>(Two stopped containers — one for each time you ran the image. Names are auto-generated.)</p>
+<p><strong>8.</strong> Read the names Docker gave them. They're random adjective + scientist combos.</p>
+<p><strong>9.</strong> Get just the container IDs.</p>
+<pre><code class="language-bash">docker ps -aq</code></pre>
+<pre class="output"><code class="output">abc123def456
+xyz789ghi012</code></pre>
+<p><strong>10.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;First container: hello-world ran successfully&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>What just happened (read this)</h2>
+<p>When you ran <code>docker run hello-world</code>, Docker did six things:</p>
+<ol><li>Looked for a local image called <code>hello-world</code> — didn't find it.</li><li>Connected to <strong>Docker Hub</strong> (docker.io) — the default public image registry.</li><li>Downloaded the <code>hello-world</code> image.</li><li>Created a <strong>container</strong> from that image (a running instance of it).</li><li>Started the container, which ran a tiny program that printed the welcome text.</li><li>The program finished, so the container <strong>exited</strong>. The container is now stopped, but still on disk (which is why <code>docker ps -a</code> shows it).</li></ol>
+<p><strong>Image</strong> = the read-only blueprint Docker downloaded. <strong>Container</strong> = a running (or stopped) instance of an image. We'll explore this distinction more in lesson 04.</p>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">docker images | grep hello-world</code></pre>
+<p>You should see the hello-world image listed.</p>
+<pre><code class="language-bash">docker ps -a | grep hello-world</code></pre>
+<p>You should see at least one stopped hello-world container.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Run your first container and explain what <code>docker run</code> actually did — pull, create, run, exit.</p>
+<p><strong>Task:</strong> Work steps 1–10 — run <code>hello-world</code> twice, compare <code>docker ps</code> with <code>docker ps -a</code>, then log it.</p>
+<p><strong>Submit:</strong> Paste the output of <code>docker images | grep hello-world</code>, <code>docker ps -a | grep hello-world</code>, and <code>tail ~/docker-course/notes/notes.txt</code> into D2L.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] The hello-world image is listed under <code>docker images</code>.</li><li>[ ] At least one hello-world container shows <code>Exited (0)</code> in <code>docker ps -a</code>.</li><li>[ ] The notes tail includes <code>First container: hello-world ran successfully</code>.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m02-03-running-nginx.html">03-running-nginx.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m02-03-running-nginx.html">03-running-nginx.md</a> — Run a real image</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

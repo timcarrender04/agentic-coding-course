@@ -19,7 +19,7 @@ cd ~/docker-course/fastapi-frontend
 npm run dev
 ```
 
-**2.** In Cursor, open `~/docker-course/fastapi-frontend` as a folder (`File → Open Folder…`).
+**2.** In VS Code, open `~/docker-course/fastapi-frontend` as a folder (`File → Open Folder…`).
 
 ---
 

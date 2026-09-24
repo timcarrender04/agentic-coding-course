@@ -133,6 +133,23 @@ sudo whoami
 
 You should see `root`.
 
+## Lab
+
+**Objective:** Confirm your Ubuntu environment is ready for this module — supported release, working network, and sudo access.
+
+**Task:** Work through the six drills in this lesson, then run the three Checkpoint commands (`lsb_release -r`, `ping -c 1 8.8.8.8`, `sudo whoami`) in one terminal.
+
+**Submit:** One screenshot (or pasted transcript) of the three Checkpoint commands and their output: `lsb_release -r`, `ping -c 1 8.8.8.8`, and `sudo whoami`.
+
+**Pass criteria:**
+
+- [ ] `lsb_release -r` shows `Release: 22.04` or `Release: 24.04`. (Fresh cloud VM said "command not found"? Installing it first with `sudo apt install -y lsb-release` is fine.)
+- [ ] `ping -c 1 8.8.8.8` shows `0% packet loss`.
+- [ ] `sudo whoami` prints `root`.
+- [ ] If `ping google.com` failed on WSL, you applied the documented DNS fix (`nameserver 8.8.8.8` in `/etc/resolv.conf`) and names now resolve.
+
+**Unlocks:** [01-where-am-i.md](01-where-am-i.md)
+
 ---
 
 **Next up:** [01-where-am-i.md](01-where-am-i.md) — Navigate the filesystem

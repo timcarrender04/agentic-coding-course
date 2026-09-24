@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HeroUI Frontend — Create-Item Form</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Build a HeroUI form that POSTs new items to FastAPI, converts input strings to the types the API expects, surfaces server validation errors, and reloads the list inline on success.</div>
+<h1>Lesson 05: Create-Item Form</h1>
+<p><strong>By the end, you will have a HeroUI form that POSTs new items to FastAPI and refreshes the list inline — full create-and-display loop.</strong></p>
+<p>⏱ ~20 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> In <code>~/docker-course/fastapi-frontend/app/page.tsx</code>, you currently have a list view. We're adding a form above it that creates new items.</p>
+<p><strong>2.</strong> Replace the contents of <code>app/page.tsx</code> with:</p>
+<pre><code class="language-tsx">&quot;use client&quot;;
+
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Checkbox,
+  Input,
+  Spinner,
+} from &quot;@heroui/react&quot;;
+import { FormEvent, useEffect, useState } from &quot;react&quot;;
+
+type Item = {
+  id: number;
+  name: string;
+  price: number;
+  is_offer: boolean | null;
+};
+
+const API = &quot;http://localhost:8000&quot;;
+
+export default function Home() {
+  const [items, setItems] = useState&lt;Item[]&gt;([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState&lt;string | null&gt;(null);
+
+  // form state
+  const [name, setName] = useState(&quot;&quot;);
+  const [price, setPrice] = useState(&quot;&quot;);
+  const [isOffer, setIsOffer] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState&lt;string | null&gt;(null);
+
+  async function loadItems() {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API}/items`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setItems(await res.json());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() =&gt; {
+    loadItems();
+  }, []);
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    setSubmitting(true);
+    setFormError(null);
+    try {
+      const res = await fetch(`${API}/items`, {
+        method: &quot;POST&quot;,
+        headers: { &quot;Content-Type&quot;: &quot;application/json&quot; },
+        body: JSON.stringify({
+          name,
+          price: Number(price),
+          is_offer: isOffer,
+        }),
+      });
+      if (!res.ok) {
+        const detail = await res.text();
+        throw new Error(`HTTP ${res.status}: ${detail}`);
+      }
+      // success — clear form and reload list
+      setName(&quot;&quot;);
+      setPrice(&quot;&quot;);
+      setIsOffer(false);
+      await loadItems();
+    } catch (err) {
+      setFormError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    &lt;main className=&quot;flex min-h-screen flex-col items-center gap-6 p-8&quot;&gt;
+      &lt;h1 className=&quot;text-3xl font-bold&quot;&gt;Items&lt;/h1&gt;
+
+      &lt;Card className=&quot;w-96&quot;&gt;
+        &lt;CardHeader&gt;
+          &lt;h2 className=&quot;text-lg font-semibold&quot;&gt;Add an item&lt;/h2&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardBody&gt;
+          &lt;form onSubmit={handleSubmit} className=&quot;flex flex-col gap-3&quot;&gt;
+            &lt;Input
+              label=&quot;Name&quot;
+              value={name}
+              onValueChange={setName}
+              isRequired
+            /&gt;
+            &lt;Input
+              label=&quot;Price&quot;
+              type=&quot;number&quot;
+              step=&quot;0.01&quot;
+              value={price}
+              onValueChange={setPrice}
+              isRequired
+            /&gt;
+            &lt;Checkbox isSelected={isOffer} onValueChange={setIsOffer}&gt;
+              On offer
+            &lt;/Checkbox&gt;
+            &lt;Button
+              type=&quot;submit&quot;
+              color=&quot;primary&quot;
+              isLoading={submitting}
+              isDisabled={!name || !price}
+            &gt;
+              Add item
+            &lt;/Button&gt;
+            {formError &amp;&amp; (
+              &lt;p className=&quot;text-sm text-red-500&quot;&gt;{formError}&lt;/p&gt;
+            )}
+          &lt;/form&gt;
+        &lt;/CardBody&gt;
+      &lt;/Card&gt;
+
+      &lt;div className=&quot;flex flex-col gap-2 w-96&quot;&gt;
+        {loading &amp;&amp; &lt;Spinner label=&quot;Loading items...&quot; /&gt;}
+        {error &amp;&amp; &lt;p className=&quot;text-red-500&quot;&gt;Error: {error}&lt;/p&gt;}
+        {!loading &amp;&amp; !error &amp;&amp; items.length === 0 &amp;&amp; (
+          &lt;p className=&quot;text-gray-500&quot;&gt;No items yet — add one!&lt;/p&gt;
+        )}
+        {items.map((item) =&gt; (
+          &lt;Card key={item.id}&gt;
+            &lt;CardHeader className=&quot;flex justify-between&quot;&gt;
+              &lt;span className=&quot;font-semibold&quot;&gt;{item.name}&lt;/span&gt;
+              &lt;span&gt;${item.price.toFixed(2)}&lt;/span&gt;
+            &lt;/CardHeader&gt;
+            &lt;CardBody&gt;
+              {item.is_offer ? (
+                &lt;span className=&quot;text-green-600&quot;&gt;On offer&lt;/span&gt;
+              ) : (
+                &lt;span className=&quot;text-gray-500&quot;&gt;Regular price&lt;/span&gt;
+              )}
+            &lt;/CardBody&gt;
+          &lt;/Card&gt;
+        ))}
+      &lt;/div&gt;
+    &lt;/main&gt;
+  );
+}</code></pre>
+<p><strong>3.</strong> Save. Watch the dev-server terminal hot-reload.</p>
+<p><strong>4.</strong> In the browser at <code>http://localhost:3000</code>, you should see the form Card above the items list.</p>
+<hr />
+<h2>Drill the form</h2>
+<p><strong>5.</strong> Type <code>Cheese</code> in Name, <code>5.00</code> in Price. Click <strong>Add item</strong>.</p>
+<p><strong>6.</strong> The button shows a loading spinner briefly (HeroUI's <code>isLoading</code> prop), then the form clears, then the list reloads with <code>Cheese</code> at the bottom.</p>
+<p><strong>7.</strong> Confirm it's really in the database:</p>
+<pre><code class="language-bash">curl -s http://localhost:8000/items | python3 -m json.tool | tail -n 10</code></pre>
+<p>Cheese should be there.</p>
+<p><strong>8.</strong> And in psql:</p>
+<pre><code class="language-bash">docker compose -f ~/docker-course/fastapi-app/docker-compose.yml exec db \
+  psql -U postgres -d appdb -c &quot;SELECT * FROM items WHERE name='Cheese';&quot;</code></pre>
+<hr />
+<h2>Drill validation errors</h2>
+<p><strong>9.</strong> Try adding an item with <code>price = -1</code> (the FastAPI lesson 11 validation should reject it).</p>
+<p><strong>10.</strong> Click <strong>Add item</strong>. The Add button works (no client-side number-range check in our code), but the response from the server is a 400:</p>
+<pre class="output"><code class="output">HTTP 400: {&quot;detail&quot;:&quot;price must be positive&quot;}</code></pre>
+<p>That message appears in red below the Add button — exactly the behavior the form wires up.</p>
+<p><strong>11.</strong> Try a non-numeric value — type <code>free</code> in Price. Note the Input's <code>type=&quot;number&quot;</code> mostly prevents this in modern browsers; on older ones the form-level error path catches it.</p>
+<p><strong>12.</strong> Try the <code>is_offer</code> checkbox. Add an item with it checked — the list shows it as <strong>On offer</strong> in green.</p>
+<hr />
+<h2>Toggle the form into a Modal (optional polish)</h2>
+<p>Skip this section if pressed for time.</p>
+<p><strong>13.</strong> Real apps often put creation forms in a modal. HeroUI has a Modal component. Highlight the entire form Card and use Continue.dev:</p>
+<ul><li><strong>Ctrl+I</strong>, prompt: ``<code> Wrap this form in a HeroUI Modal that opens when an &quot;Add item&quot; button is clicked. Use the useDisclosure hook from @heroui/react. Keep the form contents identical. </code>``</li><li>Read the diff. Accept if reasonable.</li></ul>
+<p><strong>14.</strong> The page now shows a small &quot;Add item&quot; button at the top; clicking it opens a modal with the form.</p>
+<hr />
+<h2>Commit</h2>
+<p><strong>15.</strong> Stage and commit:</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-frontend
+git add app/page.tsx
+git commit -m &quot;Add create-item form (Card + Input + Checkbox + Button)&quot;</code></pre>
+<p><strong>16.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Frontend create-item form: working end-to-end&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong><code>onValueChange</code>, not <code>onChange</code>.</strong> HeroUI's Input/Checkbox/Switch use <code>onValueChange</code> which gives you the value directly. <code>onChange</code> would give you an Event, which works but isn't idiomatic for HeroUI.</li><li><strong><code>Number(price)</code> not <code>price</code>.</strong> Input values are strings. The API expects a number for <code>price</code>. Convert before sending.</li><li><strong>Always <code>await loadItems()</code> after a successful POST.</strong> Otherwise the new item shows up only on next refresh.</li><li><strong>Don't put the API URL in 12 places.</strong> The constant <code>const API = &quot;http://localhost:8000&quot;</code> is the seed of an env var (<code>NEXT_PUBLIC_API_URL</code>). We'll skip env vars today; flag it for refactor.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">grep &quot;handleSubmit&quot; app/page.tsx</code></pre>
+<p>Should match.</p>
+<p>In the browser:</p>
+<ul><li>The form accepts name + price + isOffer.</li><li>The Add button is disabled until both name and price have values.</li><li>Submitting creates an item that immediately appears in the list below.</li><li>Submitting an invalid price shows the error message in red.</li></ul>
+<pre><code class="language-bash">curl -s http://localhost:8000/items | python3 -c &quot;import sys,json; print(len(json.load(sys.stdin)))&quot;</code></pre>
+<p>Should print a number that increases each time you submit a valid item.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m06-06-extend-with-continue.html">06-extend-with-continue.md</a> — Use Continue.dev's agent mode to add a feature</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

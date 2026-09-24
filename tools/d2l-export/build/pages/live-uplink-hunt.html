@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Live lab — Operation Uplink</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+
+<h1>Live lab — Operation Uplink (“Signal Lost”)</h1>
+<p class="meta">Wednesday live lab · 6:00–8:00 PM · opens the night; Module 01 phase-gate (01:11) runs in the back half · reviews labs 01:07–10</p>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span>
+Re-run networking (<code>ip a</code>/<code>ss -tuln</code>/<code>curl</code>/<code>dig</code>), processes, pipes, and users/groups under a story, then sit the Module 01 phase-gate from memory.</div>
+
+<p><strong>The mission:</strong> saboteurs hit Relay Station 4 overnight and cut its uplink. Four subsystems — Antenna Array, Relay Rack, Log Archive, Crew Deck — each hold <strong>one fragment</strong> of the console's restart sequence. Recover all four, arm the console, and fire three test packets at the beacon. <strong>Every station is solvable with commands from labs 01:07–10.</strong> Some clues sit in files; some are <em>running</em>, hiding in the machine itself.</p>
+
+<h2>Do this before 6:00 PM — required</h2>
+<ol>
+<li>Download <a href="../files/uplink-hunt/setup.sh"><code>setup.sh</code></a> from this topic.</li>
+<li>Run <code>bash setup.sh</code> as yourself, <strong>never</strong> with sudo (this game never asks for a password).</li>
+<li>Verify: <code>ls ~/uplink-hunt</code> shows <strong>four station folders</strong>.</li>
+<li>Pre-flight from lab 01:07: <code>which dig || sudo apt install -y dnsutils</code>.</li>
+<li><strong>Don't go in yet.</strong></li>
+</ol>
+<pre><code class="language-bash">bash setup.sh
+ls ~/uplink-hunt
+which dig || sudo apt install -y dnsutils</code></pre>
+
+<h2>How the hunt works</h2>
+<table>
+<thead><tr><th>Piece</th><th>What it means</th></tr></thead>
+<tbody>
+<tr><td><strong>Crews</strong></td><td>Pairs. Each crew gets a Zoom breakout. A station is cleared only when <strong>both</strong> hold the fragment.</td></tr>
+<tr><td><strong>Roles (swap every station)</strong></td><td><strong>Driver</strong> shares screen and types while narrating. <strong>Navigator</strong> reads the briefings and calls the next command. You each drive twice.</td></tr>
+<tr><td><strong>Rule #1</strong></td><td>Both must fire. Everything on your own machine. The final banner must come from <strong>both terminals</strong>.</td></tr>
+<tr><td><strong>Hints</strong></td><td>Three hint tokens. Unlimited free hint: read the briefing again — or read what your last command printed. Machinery quiet? <code>bash power.sh</code>.</td></tr>
+</tbody>
+</table>
+
+<h2>Tonight's clock</h2>
+<table>
+<thead><tr><th>Clock</th><th>Block</th><th>What happens</th></tr></thead>
+<tbody>
+<tr><td>6:00</td><td>Check-in</td><td>✓ in chat when <code>ls ~/uplink-hunt</code> shows four stations. Setup rescue. Crews assigned.</td></tr>
+<tr><td>6:05</td><td>The hunt</td><td>60:00 on the clock. First in-story act: <code>bash power.sh</code>.</td></tr>
+<tr><td>7:05</td><td>Debrief</td><td>Banners tallied. Crews teach the stations back.</td></tr>
+<tr><td>7:15</td><td>Phase-gate</td><td><strong>Module 01 phase-gate (01:11)</strong> — timed, no-help, from memory.</td></tr>
+<tr><td>7:55</td><td>Close</td><td>Labs 01:07–11 due Sunday. Week 5: Docker arrives over the link you restored.</td></tr>
+</tbody>
+</table>
+
+<h2>Train before tonight — six uplink skills</h2>
+<table>
+<thead><tr><th>#</th><th>Can you…</th><th>Practice</th><th>From lab</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Find your machine's own network addresses</td><td><code>ip a</code></td><td>01:07</td></tr>
+<tr><td>2</td><td>List every port your machine is listening on</td><td><code>ss -tuln</code></td><td>01:07</td></tr>
+<tr><td>3</td><td>Turn a name into an address — and fetch a URL</td><td><code>dig +short example.com</code> · <code>curl</code></td><td>01:07</td></tr>
+<tr><td>4</td><td>Find one process in a crowded process table</td><td><code>ps aux | grep name</code></td><td>01:08</td></tr>
+<tr><td>5</td><td>Chain a counting pipeline, stage by stage</td><td><code>grep | cut -d: -f1 | sort | uniq -c</code></td><td>01:09</td></tr>
+<tr><td>6</td><td>Read your own line of the user manifest</td><td><code>grep $USER /etc/passwd</code> · <code>cut -d: -f7</code></td><td>01:09–10</td></tr>
+</tbody>
+</table>
+<p>Skill 5 is the boss fight — and the same pipeline is waiting on the phase-gate at 7:15.</p>
+
+<h2>Rules of the station</h2>
+<ul>
+<li>Don't enter <code>~/uplink-hunt</code> before the hunt starts.</li>
+<li>The <code>.machinery</code> bay is sealed — snooping voids your completion code.</li>
+<li>Coach with words only. No web searches.</li>
+<li>Zero <code>rm -r</code> and zero sudo in this game.</li>
+<li>Wrecked something? <code>bash setup.sh --reset</code>. Machinery quiet? <code>bash power.sh</code>.</li>
+</ul>
+
+<div class="callout lab"><span class="label">🧪 Submit.</span>
+Screenshot the victory banner (completion code) and post it in Zoom chat — both crew members. Then sit lesson 01:11. Finish labs 01:07–11 in D2L by Sunday.</div>
+
+</body>
+</html>

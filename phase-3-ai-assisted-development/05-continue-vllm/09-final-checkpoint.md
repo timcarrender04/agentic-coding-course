@@ -2,7 +2,7 @@
 
 **Time:** ~20 min — **no instructor help.**
 
-Build a small feature using the full local stack: Continue.dev + local Ollama, against the FastAPI repo, shipped through a Gitea PR (Module 04 workflow).
+Build a small feature using the full stack: Continue.dev + the college vLLM endpoint, against the FastAPI repo, shipped through a GitHub PR (Module 04 workflow).
 
 ---
 
@@ -10,7 +10,7 @@ Build a small feature using the full local stack: Continue.dev + local Ollama, a
 
 Add a **`GET /items/search?q=<query>`** route that returns all items whose `name` contains the query string (case-insensitive).
 
-You decide how to use the AI — chat, autocomplete, inline edit, or agent mode. The point is to use the local stack to ship a real feature.
+You decide how to use the AI — chat, autocomplete, inline edit, or agent mode. The point is to use the college stack to ship a real feature.
 
 ---
 
@@ -21,7 +21,7 @@ You decide how to use the AI — chat, autocomplete, inline edit, or agent mode.
 - Return a list of `ItemOut`.
 - An empty query (`q=` or missing) returns all items (or a 400 — your call, justify it in the PR).
 - Test it with curl from the terminal **and** from `/docs`.
-- Ship it through a feature branch + PR + merge on Gitea.
+- Ship it through a feature branch + PR + merge on GitHub.
 
 ---
 
@@ -47,13 +47,13 @@ curl -s "http://localhost:8000/items/search?q=apple" | python3 -m json.tool
 
 **4.** Open `/docs` and try the route from Swagger UI.
 
-**5.** Commit, push, open a PR on Gitea, leave at least one self-review comment, merge, delete the branch.
+**5.** Commit, push, open a PR on GitHub, leave at least one self-review comment, merge, delete the branch.
 
 ```bash
 git add routers/items.py
 git commit -m "Add /items/search route"
 git push -u origin add-item-search
-# then PR + merge in the Gitea web UI
+# then PR + merge in the GitHub web UI
 git switch main
 git pull
 git branch -d add-item-search
@@ -90,9 +90,9 @@ Should return one item (the apple), not the banana.
 ## What to submit
 
 A screenshot showing **all of these** in one image:
-1. Cursor with the new code visible in `routers/items.py` and the Continue chat panel showing the prompt you used.
+1. VS Code with the new code visible in `routers/items.py` and the Continue chat panel showing the prompt you used.
 2. A terminal with the search curl returning matching items.
-3. The Gitea PR page showing your PR as **Merged**.
+3. The GitHub PR page showing your PR as **Merged**.
 
 ---
 
@@ -101,9 +101,9 @@ A screenshot showing **all of these** in one image:
 You pass this module if:
 
 - [ ] The search endpoint behaves as specified.
-- [ ] You used Continue.dev (chat / inline edit / agent mode — any combination) and the local Ollama model to build it.
-- [ ] The PR was opened, reviewed (one comment minimum), and merged on Gitea.
-- [ ] You did **not** sign in to Cursor's paid AI service.
+- [ ] You used Continue.dev (chat / inline edit / agent mode — any combination) and the college vLLM models to build it.
+- [ ] The PR was opened, reviewed (one comment minimum), and merged on GitHub.
+- [ ] You did **not** sign in to a paid cloud AI service — the free VS Code + Continue.dev + college endpoint stack did the whole job.
 
 Then:
 ```bash

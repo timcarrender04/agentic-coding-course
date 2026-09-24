@@ -26,7 +26,7 @@ docker ps -a --filter name=fastapi-app -q | xargs -r docker rm -f
 touch docker-compose.yml
 ```
 
-**3.** Open it in Cursor.
+**3.** Open it in VS Code.
 
 **4.** Type the top-level structure. Compose YAML is indentation-sensitive (2 spaces, no tabs).
 ```yaml

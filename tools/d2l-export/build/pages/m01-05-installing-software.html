@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubuntu Terminal Foundations — Installing Software</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Install and verify the Docker prerequisite packages (curl, wget, git, htop, tree, ca-certificates, gnupg) using <code>sudo apt install</code>.</div>
+<h1>Lesson 05: Installing Software</h1>
+<p><strong>By the end, you will have installed all the prerequisite packages needed for Docker (in Module 02).</strong></p>
+<p>⏱ ~10 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> Confirm.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-username</code></pre>
+<p><strong>3.</strong> Always update the package list before installing anything.</p>
+<pre><code class="language-bash">sudo apt update</code></pre>
+<p>(Wait for it to finish.)</p>
+<p><strong>4.</strong> Install curl — a tool for making HTTP requests from the terminal.</p>
+<pre><code class="language-bash">sudo apt install -y curl</code></pre>
+<pre class="output"><code class="output">Reading package lists... Done
+...
+curl is already the newest version (x.x.x).</code></pre>
+<p>(If already installed, apt will tell you. That's fine — type the command anyway.)</p>
+<p><strong>5.</strong> Verify curl is installed.</p>
+<pre><code class="language-bash">curl --version</code></pre>
+<pre class="output"><code class="output">curl 7.81.0 (x86_64-pc-linux-gnu) ...</code></pre>
+<p>(Version number will vary.)</p>
+<p><strong>6.</strong> Install wget — another download tool, used by many install scripts.</p>
+<pre><code class="language-bash">sudo apt install -y wget</code></pre>
+<p><strong>7.</strong> Verify wget.</p>
+<pre><code class="language-bash">wget --version | head -n 1</code></pre>
+<pre class="output"><code class="output">GNU Wget 1.21.2 built on linux-gnu.</code></pre>
+<p><strong>8.</strong> Install git — version control, needed for many Docker workflows.</p>
+<pre><code class="language-bash">sudo apt install -y git</code></pre>
+<p><strong>9.</strong> Verify git.</p>
+<pre><code class="language-bash">git --version</code></pre>
+<pre class="output"><code class="output">git version 2.34.1</code></pre>
+<p><strong>10.</strong> Install htop — a better process viewer than top.</p>
+<pre><code class="language-bash">sudo apt install -y htop</code></pre>
+<p><strong>11.</strong> Verify htop works (press q to quit immediately).</p>
+<pre><code class="language-bash">htop</code></pre>
+<p>(You'll see a colorful process viewer. <strong>Press q to quit.</strong>)</p>
+<p><strong>12.</strong> Install tree — shows directory structures visually.</p>
+<pre><code class="language-bash">sudo apt install -y tree</code></pre>
+<p><strong>13.</strong> Try tree on your course directory.</p>
+<pre><code class="language-bash">tree ~/docker-course/</code></pre>
+<pre class="output"><code class="output">/home/your-username/docker-course/
+├── notes
+│   ├── file1.txt
+│   ├── notes.txt
+│   └── renamed.txt
+├── practice
+│   ├── file1.txt
+│   └── file2.txt
+└── projects
+    └── web
+        └── app</code></pre>
+<p><strong>14.</strong> Install ca-certificates — needed for secure HTTPS connections (Docker install requires this).</p>
+<pre><code class="language-bash">sudo apt install -y ca-certificates</code></pre>
+<p><strong>15.</strong> Install gnupg — handles encryption keys (Docker's GPG key needs this).</p>
+<pre><code class="language-bash">sudo apt install -y gnupg</code></pre>
+<p><strong>16.</strong> Install them all in one line — this is how you'll often see it in tutorials. Type it out.</p>
+<pre><code class="language-bash">sudo apt install -y curl wget git htop tree ca-certificates gnupg</code></pre>
+<pre class="output"><code class="output">Reading package lists... Done
+...
+0 newly installed, 0 to remove...</code></pre>
+<p>(Everything should already be installed. This is practice for combining packages in one command.)</p>
+<p><strong>17.</strong> Record what you installed in your notes.</p>
+<pre><code class="language-bash">echo &quot;Installed: curl, wget, git, htop, tree, ca-certificates, gnupg&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<p><strong>18.</strong> Verify your note was added.</p>
+<pre><code class="language-bash">tail -n 1 ~/docker-course/notes/notes.txt</code></pre>
+<pre class="output"><code class="output">Installed: curl, wget, git, htop, tree, ca-certificates, gnupg</code></pre>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">curl --version | head -n 1</code></pre>
+<p>You should see a curl version number.</p>
+<pre><code class="language-bash">git --version</code></pre>
+<p>You should see a git version number.</p>
+<pre><code class="language-bash">tree --version</code></pre>
+<p>You should see a tree version number.</p>
+<pre><code class="language-bash">which wget</code></pre>
+<p>You should see <code>/usr/bin/wget</code>.</p>
+<pre><code class="language-bash">dpkg -l | grep gnupg</code></pre>
+<p>You should see gnupg in the list.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Install the seven prerequisite packages (curl, wget, git, htop, tree, ca-certificates, gnupg) and verify each one answers.</p>
+<p><strong>Task:</strong> Install each package by working through the drills — type every command even if apt says it's already installed. Then run the five Checkpoint commands in one terminal.</p>
+<p><strong>Submit:</strong> One screenshot (or pasted transcript) of the five Checkpoint commands and their output: <code>curl --version | head -n 1</code>, <code>git --version</code>, <code>tree --version</code>, <code>which wget</code>, <code>dpkg -l | grep gnupg</code>.</p>
+<p><strong>Pass criteria:</strong> (version numbers vary by machine — any version string passes)</p>
+<ul><li>[ ] <code>curl --version | head -n 1</code> prints a curl version line.</li><li>[ ] <code>git --version</code> prints a git version line.</li><li>[ ] <code>tree --version</code> prints a tree version line.</li><li>[ ] <code>which wget</code> prints <code>/usr/bin/wget</code>.</li><li>[ ] <code>dpkg -l | grep gnupg</code> shows gnupg in the installed list.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m01-06-permissions-drills.html">06-permissions-drills.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m01-06-permissions-drills.html">06-permissions-drills.md</a> — Understand and change file permissions</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

@@ -42,10 +42,10 @@ docker logs final | tail -n 3
 ```
 Expected: at least one line mentioning `GET /`.
 
-**7.** Open Cursor's Docker sidebar (whale icon in the activity bar). Confirm `final` is listed under **CONTAINERS** with a green/running indicator.
+**7.** Open VS Code's Docker sidebar (whale icon in the activity bar). Confirm `final` is listed under **CONTAINERS** with a green/running indicator.
 
 **8.** Take a screenshot showing, in one image:
-   - Cursor's Docker sidebar with the `final` container visible and running.
+   - VS Code's Docker sidebar with the `final` container visible and running.
    - Your integrated terminal with the output of `docker ps --filter name=final`.
 
 **9.** Clean up.
@@ -58,20 +58,27 @@ docker stop final && docker rm final
 echo "Module 02 final checkpoint: passed $(date -Iseconds)" >> ~/docker-course/notes/notes.txt
 ```
 
-## What to submit
+## Lab
 
-Submit the screenshot from step 8 to the instructor.
+**This is the Module 02 phase-gate lab — passing it completes Phase 1.**
 
-## Self-grade
+**Objective:** Prove, unaided, that you can run, verify, inspect, and clean up a Docker container end to end.
 
-You pass this module if:
+**Task:** Work the ten test steps above in order, alone — no instructor, no neighbor. Re-read earlier lessons if you forget a command.
+
+**Submit:** The one screenshot from step 8: VS Code's Docker sidebar showing the `final` container running **and** your integrated terminal showing the output of `docker ps --filter name=final`.
+
+**Pass criteria:**
 
 - [ ] All commands ran without errors (no `permission denied`, no `command not found`).
 - [ ] Step 5 returned `Welcome to nginx`.
-- [ ] Your screenshot clearly shows `final` running in Cursor's Docker sidebar.
+- [ ] Your screenshot clearly shows `final` running in VS Code's Docker sidebar.
+- [ ] The same screenshot shows `docker ps --filter name=final` in the terminal with status `Up`.
 
 If any of those failed, redo the relevant lesson and try again.
 
+**Unlocks:** Phase 2 — Module 03 FastAPI (phase gate)
+
 ## What's next
 
-Module 03 is **Git and GitHub** (sessions 5 and 6 in the schedule). Docker stays installed — you'll keep using it across the rest of the course. Most later modules run things in containers.
+Module 03 is **FastAPI** — Phase 2 begins, and you'll build and containerize a real API. Docker stays installed — you'll keep using it across the rest of the course. Most later modules run things in containers.

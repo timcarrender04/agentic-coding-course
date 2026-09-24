@@ -25,7 +25,7 @@ cd ~/docker-course/fastapi-app
 touch Dockerfile
 ```
 
-**3.** Open `Dockerfile` in Cursor.
+**3.** Open `Dockerfile` in VS Code.
 
 **4.** Type the base image line. We use the `slim` variant of Python 3.12 — small but enough.
 ```dockerfile
@@ -155,7 +155,7 @@ docker logs fastapi-app
 ```
 You should see the uvicorn startup banner and entries for each request you've made.
 
-**25.** Make a code change to confirm the container is **isolated** from your local files. In Cursor, change `main.py`'s `read_root` return to `{"hello": "from-host"}`. Save.
+**25.** Make a code change to confirm the container is **isolated** from your local files. In VS Code, change `main.py`'s `read_root` return to `{"hello": "from-host"}`. Save.
 
 **26.** Curl the container.
 ```bash

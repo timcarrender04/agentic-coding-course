@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HeroUI Frontend — Extend with Continue.dev</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Use Continue.dev agent mode on a git feature branch to add a Delete button with a confirmation modal, reviewing every proposed diff and recognizing when to abort a failing agent loop.</div>
+<h1>Lesson 06: Extend with Continue.dev</h1>
+<p><strong>By the end, you will have used Continue.dev's agent mode to add a Delete button to each item Card, with a confirmation step — both frontend and backend changes.</strong></p>
+<p>⏱ ~20 minutes</p>
+<blockquote><p>Module 05 drilled the agentic loop on the FastAPI backend. Today: same loop on the frontend, plus a small backend tweak. Two repos in play, same model, same workflow.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Make sure both stacks are up.</p>
+<pre><code class="language-bash">docker compose -f ~/docker-course/fastapi-app/docker-compose.yml ps</code></pre>
+<p>Both <code>api</code> and <code>db</code> should be Up.</p>
+<pre><code class="language-bash">ps aux | grep -v grep | grep &quot;next dev&quot; | head -n 1</code></pre>
+<p>Should show your <code>next dev</code> process.</p>
+<p>If either is down, bring it up.</p>
+<hr />
+<h2>Step 1: branch the frontend</h2>
+<p><strong>2.</strong> Create a feature branch in the frontend repo.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-frontend
+git switch -c add-delete-button</code></pre>
+<hr />
+<h2>Step 2: ask Continue.dev for the change</h2>
+<p><strong>3.</strong> Open the Continue side bar. Switch to <strong>Agent</strong> mode.</p>
+<p><strong>4.</strong> In VS Code, open <code>app/page.tsx</code> so it's the visible file.</p>
+<p><strong>5.</strong> In Continue, type:</p>
+<pre class="output"><code class="output">@file:app/page.tsx
+
+I want to add a Delete button to each item Card. When clicked, it should:
+1. Show a HeroUI confirmation Modal asking &quot;Delete &lt;item name&gt;?&quot;
+2. On confirm, DELETE http://localhost:8000/items/&lt;id&gt;
+3. On success, reload the items list
+4. On error, show an inline error message
+
+Show me the changes before applying.</code></pre>
+<p>Send.</p>
+<p><strong>6.</strong> The agent should propose changes — likely involving:</p>
+<ul><li>Adding HeroUI's <code>Modal</code>, <code>ModalContent</code>, <code>ModalHeader</code>, <code>ModalBody</code>, <code>ModalFooter</code> to imports.</li><li>Adding a <code>useDisclosure</code> for the modal.</li><li>Adding state for the item being deleted.</li><li>Adding a delete handler.</li><li>Adding the Button to each Card with an <code>onPress</code>.</li></ul>
+<p><strong>7.</strong> <strong>Read every diff.</strong> Confirm the approach before approving.</p>
+<p><strong>8.</strong> Approve the proposed changes one at a time.</p>
+<hr />
+<h2>Step 3: verify it works</h2>
+<p><strong>9.</strong> Save (the agent should have already saved). Refresh the browser.</p>
+<p><strong>10.</strong> Each item Card should now have a Delete button.</p>
+<p><strong>11.</strong> Click Delete on an item. A modal should appear asking for confirmation.</p>
+<p><strong>12.</strong> Click Confirm. The modal closes; the list reloads; the item is gone.</p>
+<p><strong>13.</strong> Confirm in the database:</p>
+<pre><code class="language-bash">docker compose -f ~/docker-course/fastapi-app/docker-compose.yml exec db \
+  psql -U postgres -d appdb -c &quot;SELECT count(*) FROM items;&quot;</code></pre>
+<p>Count went down by 1.</p>
+<hr />
+<h2>Step 4: feel a real failure mode</h2>
+<p><strong>14.</strong> Now ask the agent for a tricky thing. In Continue (still in agent mode), type:</p>
+<pre class="output"><code class="output">Add an &quot;Undo&quot; button that appears for 5 seconds after a delete, allowing the user to restore the deleted item. Use a Toast pattern.</code></pre>
+<p><strong>15.</strong> This is harder. The model might:</p>
+<ul><li>Try to use a <code>Toast</code> component that doesn't exist in HeroUI's exports.</li><li>Try to call a backend route that doesn't exist (we don't have an &quot;undelete&quot; endpoint).</li><li>Loop trying to make it work.</li></ul>
+<p><strong>16.</strong> <strong>Watch carefully.</strong> If the agent goes off the rails:</p>
+<ul><li><strong>Reject</strong> the broken proposal.</li><li>In the chat, push back: <code>HeroUI doesn't have a Toast component. Use a Snackbar or an inline-alert pattern instead. And there's no undelete endpoint — for now, re-POST the item using the data we have on the client.</code></li><li>Let it try again.</li></ul>
+<p><strong>17.</strong> If it gets stuck in a loop, abandon the approach: stop the agent, revert any half-made changes (<code>git checkout app/page.tsx</code>), and move on. <strong>Knowing when to give up on the agent is a skill.</strong></p>
+<hr />
+<h2>Step 5: commit</h2>
+<p><strong>18.</strong> If the Delete button works (skip the Undo bit if it didn't pan out), commit.</p>
+<pre><code class="language-bash">git add app/page.tsx
+git commit -m &quot;Add Delete button with confirmation modal&quot;</code></pre>
+<p><strong>19.</strong> Push the branch.</p>
+<pre><code class="language-bash"># Assumes you set up a frontend repo on GitHub earlier; if not, skip the push for now
+git remote -v</code></pre>
+<p>If you have an <code>origin</code> set, <code>git push -u origin add-delete-button</code> and open a PR on GitHub (Module 04 lesson 10 workflow). If not, just merge locally:</p>
+<pre><code class="language-bash">git switch main
+git merge add-delete-button
+git branch -d add-delete-button</code></pre>
+<p><strong>20.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Continue.dev agent: added Delete button + confirmation modal&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Read every diff.</strong> The 7B model is good but not infallible — especially on a UI library it may not have seen extensively in training. It will sometimes import components that don't exist or use props that aren't in the current HeroUI version.</li><li><strong>Both stacks must be running.</strong> If the agent calls a backend endpoint and gets a connection-refused, it might &quot;fix&quot; the wrong thing. Make sure FastAPI is up before agent mode.</li><li><strong>Branch first, agent second.</strong> Always <code>git switch -c agent-&lt;task&gt;</code> before letting the agent loose. Easy revert if the result is junk.</li><li><strong>Knowing when to abort.</strong> A small model in a loop is a small model in a loop. Three failed attempts on the same task → abort, simplify the request, or do it manually with <code>Ctrl+I</code>.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<p>In the browser:</p>
+<ul><li>Each item Card has a Delete button.</li><li>Clicking Delete opens a confirmation modal.</li><li>Confirming actually removes the item from the list and the database.</li></ul>
+<pre><code class="language-bash">grep -E &quot;Delete|onPress.*delete&quot; app/page.tsx | head -n 3</code></pre>
+<p>Should show a Delete button or handler.</p>
+<pre><code class="language-bash">git log --oneline -1</code></pre>
+<p>Should show your &quot;Add Delete button&quot; commit.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m06-07-final-checkpoint.html">07-final-checkpoint.md</a> — Ship a feature end-to-end</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

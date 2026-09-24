@@ -1,6 +1,6 @@
 # Module 01: Ubuntu Terminal Foundations
 
-See [`../COURSE-SCHEDULE.md`](../COURSE-SCHEDULE.md) for the full 8-week, 16-session calendar. This module is taught across **sessions 2 and 3** (the second half of session 2 and most of session 3).
+See [`../COURSE-SCHEDULE.md`](../../docs/COURSE-SCHEDULE.md) for the full 8-week, 16-session calendar. This module is taught across **sessions 2 and 3** (the second half of session 2 and most of session 3).
 
 This module builds your terminal muscle memory through typing drills. Every command is typed by you — no copy-paste, no skimming. By the end, your Ubuntu environment will be fully configured and ready for Module 02: Docker Installation.
 

@@ -21,7 +21,7 @@ cd ~/docker-course/fastapi-app && source .venv/bin/activate
 ```
 (Skip if you already see `(.venv)` in your prompt.)
 
-**2.** Open `main.py` in Cursor.
+**2.** Open `main.py` in VS Code.
 
 **3.** Add a new route below the hello-world one. Type:
 ```python

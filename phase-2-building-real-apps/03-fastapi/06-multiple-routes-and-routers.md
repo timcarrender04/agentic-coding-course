@@ -43,7 +43,7 @@ __init__.py
 touch routers/items.py
 ```
 
-**6.** Open `routers/items.py` in Cursor.
+**6.** Open `routers/items.py` in VS Code.
 
 **7.** Type the imports:
 ```python

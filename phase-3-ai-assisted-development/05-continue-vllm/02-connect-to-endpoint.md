@@ -1,16 +1,16 @@
-# Lesson 02: Run Ollama with Docker Compose
+# Lesson 02: Connect to the Endpoint
 
-**By the end, you will have the official Ollama container running with GPU access, listening on port 11434.**
+**By the end, you will have queried the shared vLLM endpoint's `/v1/models` route with the shared key and confirmed both Llama models appear in the list.**
 
 ⏱ ~15 minutes of typing
 
-> **Ollama** serves local LLMs over HTTP. We run it with **Docker Compose** (same Docker you used in Module 02) so every student gets the same setup — no host `install.sh`, no systemd vs WSL differences. Continue.dev still talks to `http://localhost:11434`.
+> The endpoint speaks the **OpenAI-compatible** API. Before we wire up the editor, we prove the connection by hand with `curl` — list the models the server is serving, using the shared base URL and key. If `curl` can see the models, Continue.dev will too.
 
 ```instructor
-Say: "Ollama serves local LLMs over HTTP. We run it in Docker Compose so every student gets the same setup — no host installs, no WSL/systemd differences."
-Mention: "If `docker compose up` fails with 'could not select device driver', they're missing the NVIDIA Container Toolkit. Host `nvidia-smi` working does NOT prove Docker can see the GPU. Two separate things."
-Pause: After `docker compose up -d`, before they test. Run `docker compose logs ollama --tail 50` together — confirm it sees the GPU and is listening on 11434.
-Say: "You're done when `curl -s http://localhost:11434` prints 'Ollama is running'. That single line is the proof."
+Say: "The endpoint is OpenAI-compatible, so we can talk to it with plain curl before involving the editor. If curl lists the models, Continue will connect. If curl can't, no config in the world will fix Continue."
+Mention: "Two failure shapes: connection refused/000 means network (Tailscale/LAN) — send them back to lesson 01. A 401 means the key is wrong or missing — check the Authorization header and the shared key value."
+Pause: After `/v1/models` returns JSON. Read the `data[].id` values together — confirm they see the 8B and (if online) the 70B model ids. Those exact ids go into the config in lesson 04.
+Say: "You're done when `curl .../v1/models` prints a JSON list containing meta-llama/Llama-3.1-8B-Instruct. That single response is the proof the connection works."
 ```
 
 ---
@@ -20,116 +20,90 @@ Say: "You're done when `curl -s http://localhost:11434` prints 'Ollama is runnin
 deactivate 2>/dev/null
 ```
 
-**2.** Confirm Docker works.
+**2.** Set the endpoint and shared key as shell variables so the rest of the lesson is copy-paste. (Substitute the Tailscale IP for `gpu.college.local` if that's what your instructor gave you.)
 ```bash
-docker compose version
+export VLLM_BASE=http://gpu.college.local:8000/v1
+export VLLM_KEY=sk-college-shared
 ```
 
-**3.** Create the Ollama stack directory.
+> If your instructor said **no key is required** on the campus network, you can leave `VLLM_KEY` set to anything — the server will ignore the `Authorization` header. Setting it does no harm.
 
-If you have this course repo cloned, copy the bundled compose file (adjust the source path to your clone):
+**3.** List the models the endpoint is serving.
 ```bash
-mkdir -p ~/docker-course/ollama
-cp ~/agentic-coding-course/05-local-gpu-continue/ollama/docker-compose.yml ~/docker-course/ollama/
+curl -s "$VLLM_BASE/models" -H "Authorization: Bearer $VLLM_KEY" | python3 -m json.tool
 ```
 
-If you do not have the repo path handy, create `~/docker-course/ollama/docker-compose.yml` with exactly:
-
-```yaml
-services:
-  ollama:
-    image: ollama/ollama:latest
-    container_name: ollama
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
-    restart: unless-stopped
-    gpus: all
-
-volumes:
-  ollama_data:
-```
-
-**4.** Start Ollama.
-```bash
-cd ~/docker-course/ollama
-docker compose up -d
-```
-
-If this fails with errors about **GPU**, **nvidia**, or **could not select device**, install the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html), restart Docker (`sudo systemctl restart docker` on native Linux — on WSL follow NVIDIA’s WSL notes), then run `docker compose up -d` again.
-
-**5.** Confirm the container is running.
-```bash
-docker compose ps
-```
-You should see `ollama` with state `running` (or `Up`).
-
-**6.** Confirm Ollama responds on port 11434.
-```bash
-curl -s http://localhost:11434
-```
-```
-Ollama is running
-```
-
-**7.** List models (empty until lesson 03).
-```bash
-curl -s http://localhost:11434/api/tags | python3 -m json.tool
-```
-```
+**4.** You should see an OpenAI-style response — an `object: "list"` with a `data` array of model records:
+```json
 {
-    "models": []
+    "object": "list",
+    "data": [
+        {
+            "id": "meta-llama/Llama-3.1-8B-Instruct",
+            "object": "model",
+            "owned_by": "vllm"
+        },
+        {
+            "id": "meta-llama/Llama-3.3-70B-Instruct",
+            "object": "model",
+            "owned_by": "vllm"
+        }
+    ]
 }
 ```
 
-**8.** Check logs — especially that the server sees CUDA, not CPU-only.
-```bash
-docker compose logs ollama --tail 30
-```
-Look for lines mentioning **cuda** or **CUDA**. If logs suggest **cpu**-only inference and you expected GPU, re-check the NVIDIA Container Toolkit (see the note under step 4) and lesson 01 (driver).
+**5.** Read the `id` fields — these are the **exact** model ids you'll put in your Continue config in lesson 04:
+   - `meta-llama/Llama-3.1-8B-Instruct` — the **autocomplete** model (live now).
+   - `meta-llama/Llama-3.3-70B-Instruct` — the **chat / edit / agent** model.
 
-**9.** Log it.
+> The 70B is **coming online** (tensor-parallel across both A6000s). If it isn't in the list yet, you'll still see the 8B — that's enough to continue. Ask the instructor whether the 70B is up before lesson 05.
+
+**6.** Pull just the ids out, to be sure (no eyeballing the whole blob):
 ```bash
-echo "Ollama stack: Docker Compose at ~/docker-course/ollama (image ollama/ollama:latest)" >> ~/docker-course/notes/notes.txt
+curl -s "$VLLM_BASE/models" -H "Authorization: Bearer $VLLM_KEY" \
+  | python3 -c "import sys,json; [print(m['id']) for m in json.load(sys.stdin)['data']]"
+```
+```
+meta-llama/Llama-3.1-8B-Instruct
+meta-llama/Llama-3.3-70B-Instruct
+```
+
+**7.** Log it.
+```bash
+echo "vLLM endpoint connected: $VLLM_BASE (models: $(curl -s "$VLLM_BASE/models" -H "Authorization: Bearer $VLLM_KEY" | python3 -c "import sys,json; print(', '.join(m['id'] for m in json.load(sys.stdin)['data']))"))" >> ~/docker-course/notes/notes.txt
 ```
 
 ---
 
 ## ⚠️ Watch out
 
-- **`gpus: all`** requires Docker with GPU support (NVIDIA Container Toolkit on Linux / WSL). Without it, `docker compose up` may error or Ollama falls back to CPU (slow).
-- **Port 11434** must stay free. If something else binds it, change the left side of `"11434:11434"` in the compose file (and set the same port in Continue’s `apiBase` in lesson 04).
-- **Models live in the Docker volume** `ollama_data` (not `~/.ollama` on the host). Removing the volume deletes all pulled models: `docker compose down -v`.
-- **Remote / split setup:** Ollama on machine A, IDE on machine B — publish port `11434` on A’s firewall, set Continue’s `apiBase` to `http://<A’s IP>:11434`. Lesson 04 mentions SSH; with Compose on the remote host, keep `apiBase: http://localhost:11434` when Cursor is attached via Remote-SSH to that host.
+- **`000` / connection refused / timeout** — you can't reach the box. This is a **network** problem, not a key problem. Confirm you're on the campus LAN or Tailscale (lesson 01), then retry.
+- **`401 Unauthorized`** — the server wants the shared key and yours is wrong or missing. Check the `Authorization: Bearer $VLLM_KEY` header and confirm `VLLM_KEY` matches the value your instructor gave you (`sk-college-shared` by default).
+- **`404` on `/models`** — you probably dropped the `/v1` from the base URL. The path is `http://gpu.college.local:8000/v1/models`.
+- **Empty `data` array** — the server is up but no model is loaded yet (the 70B may still be warming up). The 8B should always be present; if even it is missing, ask the instructor.
+- **Trailing slashes.** `$VLLM_BASE` should end in `/v1` with **no** trailing slash, so `$VLLM_BASE/models` becomes `.../v1/models`.
 
 ---
 
-## Day-to-day commands
+## Handy commands
 
-| Task | Command (from `~/docker-course/ollama`) |
-|------|----------------------------------------|
-| Start | `docker compose up -d` |
-| Stop | `docker compose down` |
-| Logs | `docker compose logs -f ollama` |
-| Ollama CLI | `docker compose exec ollama ollama <subcommand>` |
+| Task | Command |
+|------|---------|
+| List models | `curl -s "$VLLM_BASE/models" -H "Authorization: Bearer $VLLM_KEY"` |
+| Just the ids | pipe the above through the `json` one-liner in step 6 |
+| Check reachability only | `curl -s -o /dev/null -w "%{http_code}\n" "$VLLM_BASE/models"` |
 
 ---
 
 ## Checkpoint
 
 ```bash
-cd ~/docker-course/ollama && docker compose ps
+curl -s "$VLLM_BASE/models" -H "Authorization: Bearer $VLLM_KEY" | grep -q "Llama-3.1-8B-Instruct" && echo "OK: endpoint serving models"
 ```
-Should list service `ollama` as **Up** or **running**.
+Should print `OK: endpoint serving models`.
 
-```bash
-curl -s http://localhost:11434
-```
-Should print `Ollama is running`.
-
-In lesson 03 you will load a model and watch `nvidia-smi` on the host spike — that confirms GPU use even if container logs are quiet.
+In lesson 03 you will send an actual chat completion to the 70B model and see it generate — this lesson just proves the connection and lists what's available.
 
 ---
 
-**Next up:** [03-pull-and-test-models.md](03-pull-and-test-models.md) — Pull the coding model and the autocomplete model
+**Next up:** [03-explore-the-models.md](03-explore-the-models.md) — Send a test chat completion to the 70B model

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HeroUI Frontend — Init the HeroUI App</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Scaffold a Next.js + HeroUI starter project with <code>npx heroui-cli@latest init</code>, install its dependencies, and run the dev server so the starter page loads on port 3000.</div>
+<h1>Lesson 02: Init the HeroUI App</h1>
+<p><strong>By the end, you will have a Next.js + HeroUI starter project at <code>~/docker-course/fastapi-frontend/</code> with all dependencies installed and a dev server running on port 3000.</strong></p>
+<p>⏱ ~15 minutes of typing + waiting for <code>npm install</code></p>
+<blockquote><p><strong>HeroUI</strong> (formerly NextUI) is a React component library: prebuilt buttons, inputs, cards, modals — all themed and accessible. Pairs cleanly with Next.js + Tailwind. Their CLI scaffolds a starter that has everything wired up.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Move into the course directory.</p>
+<pre><code class="language-bash">cd ~/docker-course</code></pre>
+<p><strong>2.</strong> Confirm it's there.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-user/docker-course</code></pre>
+<p><strong>3.</strong> Run the HeroUI CLI to scaffold a new app. This downloads the CLI on the fly via npx (no global install needed).</p>
+<pre><code class="language-bash">npx heroui-cli@latest init</code></pre>
+<p><strong>4.</strong> The CLI prompts you. Answer:</p>
+<ul><li><strong>Project name:</strong> <code>fastapi-frontend</code></li><li><strong>Template:</strong> pick the <strong>Next.js</strong> option (or &quot;App&quot; — the simplest one).</li><li><strong>Package manager:</strong> <strong>npm</strong>.</li><li><strong>Install dependencies now:</strong> <strong>Yes</strong>.</li></ul>
+<p><strong>5.</strong> The CLI creates the directory and runs <code>npm install</code>. This takes 1–3 minutes (~150 MB of dependencies). Let it finish.</p>
+<p><strong>6.</strong> Move into the new project.</p>
+<pre><code class="language-bash">cd fastapi-frontend</code></pre>
+<p><strong>7.</strong> Look at what got created.</p>
+<pre><code class="language-bash">ls -la</code></pre>
+<p>You should see:</p>
+<pre class="output"><code class="output">.eslintrc.json
+.gitignore
+README.md
+app/                    (Next.js App Router pages live here)
+components/             (your custom components)
+config/
+node_modules/           (DON'T look inside — 50,000+ files)
+package.json
+package-lock.json
+public/
+styles/
+tailwind.config.js
+tsconfig.json</code></pre>
+<p><strong>8.</strong> Read <code>package.json</code> to see what's installed.</p>
+<pre><code class="language-bash">cat package.json | python3 -m json.tool | head -n 30</code></pre>
+<p>You'll see <code>next</code>, <code>react</code>, <code>@heroui/react</code>, <code>tailwindcss</code>, <code>framer-motion</code> (HeroUI's animation peer dep) and friends.</p>
+<p><strong>9.</strong> Start the dev server.</p>
+<pre><code class="language-bash">npm run dev</code></pre>
+<p>You should see:</p>
+<pre class="output"><code class="output">&gt; next dev
+
+  ▲ Next.js 14.x.x
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+ ✓ Ready in 1.2s</code></pre>
+<p><strong>10.</strong> <strong>Leave that terminal running.</strong> Open a <strong>second</strong> integrated terminal in VS Code.</p>
+<p><strong>11.</strong> Open <code>http://localhost:3000</code> in your browser.</p>
+<ul><li><strong>WSL students:</strong> Windows browser, <code>http://localhost:3000</code>.</li><li><strong>SSH students:</strong> VS Code's &quot;Ports&quot; tab should auto-forward 3000. Click the globe icon.</li></ul>
+<p><strong>12.</strong> You should see a HeroUI starter page — usually something like a &quot;Welcome to HeroUI&quot; landing page with example components.</p>
+<hr />
+<h2>Manual fallback (if the CLI fails)</h2>
+<p>If <code>heroui-cli</code> fails for any reason, do this manually:</p>
+<p><strong>Manual A.</strong> Create a Next.js app:</p>
+<pre><code class="language-bash">cd ~/docker-course
+npx create-next-app@latest fastapi-frontend --typescript --tailwind --app --eslint --src-dir=false --import-alias='@/*'
+cd fastapi-frontend</code></pre>
+<p><strong>Manual B.</strong> Install HeroUI:</p>
+<pre><code class="language-bash">npm install @heroui/react framer-motion</code></pre>
+<p><strong>Manual C.</strong> Configure Tailwind for HeroUI. Open <code>tailwind.config.js</code> and replace the <code>content</code> array and add the plugin per https://heroui.com/docs/guide/installation. (The CLI did this automatically; here you do it by hand.)</p>
+<p><strong>Manual D.</strong> Wrap your app with <code>HeroUIProvider</code>. Open <code>app/layout.tsx</code> (or <code>app/providers.tsx</code> if using a separate file) and wrap <code>{children}</code> in <code>&lt;HeroUIProvider&gt;</code>.</p>
+<p>The CLI path is faster — only fall back to manual if necessary.</p>
+<hr />
+<p><strong>13.</strong> Back in the dev terminal, you should see Next.js compile messages every time you save a file. Leave it running.</p>
+<p><strong>14.</strong> Initialize a git repo for the frontend (it's a separate repo from your FastAPI backend).</p>
+<pre><code class="language-bash">git init
+git add .
+git commit -m &quot;Initial commit: HeroUI Next.js starter&quot;</code></pre>
+<p><strong>15.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;HeroUI app initialized at ~/docker-course/fastapi-frontend&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong><code>node_modules/</code> is huge.</strong> Never commit it — the CLI's <code>.gitignore</code> already excludes it. Confirm: <code>grep node_modules .gitignore</code>.</li><li><strong>Port 3000 in use.</strong> If you already have something on 3000, Next.js will pick 3001 automatically. Watch the URL it prints.</li><li><strong>Don't run <code>npm install</code> from the home directory.</strong> Always from the project directory (<code>~/docker-course/fastapi-frontend/</code>). Otherwise you create a <code>node_modules/</code> in the wrong place.</li><li><strong>The CLI version pins matter.</strong> HeroUI is moving fast — major versions change props/imports. The starter will pin a compatible set; don't manually upgrade individual packages mid-module.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-frontend &amp;&amp; ls package.json</code></pre>
+<p>Should print <code>package.json</code>.</p>
+<pre><code class="language-bash">grep -q '&quot;@heroui/react&quot;' ~/docker-course/fastapi-frontend/package.json &amp;&amp; echo &quot;OK: HeroUI installed&quot;</code></pre>
+<p>Should print <code>OK: HeroUI installed</code>.</p>
+<pre><code class="language-bash">curl -s http://localhost:3000 | head -c 200</code></pre>
+<p>Should print HTML (something starting with <code>&lt;!DOCTYPE html&gt;</code> or similar).</p>
+<p>In the browser, <code>http://localhost:3000</code> shows the HeroUI starter page.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m06-03-tour-and-first-component.html">03-tour-and-first-component.md</a> — Tour the app and add your first HeroUI component</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

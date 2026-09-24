@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubuntu Terminal Foundations — Sudo and System Updates</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Perform a full system update with <code>sudo apt update</code>, <code>sudo apt upgrade -y</code>, and <code>sudo apt autoremove -y</code>.</div>
+<h1>Lesson 04: Sudo and System Updates</h1>
+<p><strong>By the end, you will have run a full system update on your Ubuntu machine.</strong></p>
+<p>⏱ ~10 minutes of typing (plus wait time for downloads)</p>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> Confirm.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-username</code></pre>
+<p><strong>3.</strong> Confirm sudo works — you'll need it for every command in this lesson.</p>
+<pre><code class="language-bash">sudo whoami</code></pre>
+<pre class="output"><code class="output">root</code></pre>
+<p><strong>4.</strong> Update the package list — this downloads the latest list of available software.</p>
+<pre><code class="language-bash">sudo apt update</code></pre>
+<pre class="output"><code class="output">Hit:1 http://archive.ubuntu.com/ubuntu jammy InRelease
+Get:2 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [119 kB]
+...
+Reading package lists... Done
+Building dependency tree... Done
+X packages can be upgraded. Run 'apt list --upgradable' to see them.</code></pre>
+<p>(Output will vary. The last line tells you how many packages can be upgraded.)</p>
+<p><strong>5.</strong> See which packages have updates available.</p>
+<pre><code class="language-bash">sudo apt list --upgradable</code></pre>
+<pre class="output"><code class="output">Listing... Done
+package1/jammy-updates 1.2.3 amd64 [upgradable from: 1.2.2]
+...</code></pre>
+<p>(You may see many packages or none. Both are fine.)</p>
+<p><strong>6.</strong> Upgrade all packages — the -y flag auto-confirms.</p>
+<pre><code class="language-bash">sudo apt upgrade -y</code></pre>
+<pre class="output"><code class="output">Reading package lists... Done
+Building dependency tree... Done
+Calculating upgrade... Done
+The following packages will be upgraded:
+  ...
+X upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+...</code></pre>
+<p>(This may take a few minutes. Wait for it to finish.)</p>
+<p><strong>7.</strong> Run update again to confirm everything is current.</p>
+<pre><code class="language-bash">sudo apt update</code></pre>
+<pre class="output"><code class="output">...
+All packages are up to date.</code></pre>
+<p>(You should see &quot;All packages are up to date&quot; or &quot;0 packages can be upgraded.&quot;)</p>
+<p><strong>8.</strong> Clean up any packages that are no longer needed.</p>
+<pre><code class="language-bash">sudo apt autoremove -y</code></pre>
+<pre class="output"><code class="output">Reading package lists... Done
+Building dependency tree... Done
+0 to remove.</code></pre>
+<p>(Output will vary. This removes orphaned dependencies.)</p>
+<p><strong>9.</strong> Check that your course directory is still intact — updates don't touch your files, but it's a good habit to verify.</p>
+<pre><code class="language-bash">ls ~/docker-course/</code></pre>
+<pre class="output"><code class="output">notes  practice  projects</code></pre>
+<p><strong>10.</strong> Check your notes file is still there.</p>
+<pre><code class="language-bash">cat ~/docker-course/notes/notes.txt</code></pre>
+<p>(You should see all 9 lines from the previous lesson.)</p>
+<blockquote><p>⚠️ <strong>Don't do this:</strong> <code>sudo apt upgrade</code> without the <code>-y</code> flag during a scripted install — it will pause and wait for confirmation, which can hang an automated process. For interactive use (like right now), either way is fine.</p></blockquote>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">sudo apt update</code></pre>
+<p>You should see &quot;All packages are up to date&quot; or &quot;0 packages can be upgraded.&quot;</p>
+<pre><code class="language-bash">sudo whoami</code></pre>
+<p>You should see <code>root</code>.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<p>You should be in <code>/home/your-username</code>.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Run a full system update with <code>sudo apt update</code> and <code>sudo apt upgrade</code>, leaving the system with nothing left to upgrade.</p>
+<p><strong>Task:</strong> Work through the update drills — refresh the package list, upgrade everything, autoremove — then run the Checkpoint commands.</p>
+<p><strong>Submit:</strong> One screenshot (or pasted transcript) showing the tail end of a final <code>sudo apt update</code> run plus the output of <code>sudo whoami</code>.</p>
+<p><strong>Pass criteria:</strong> (verify the final state, not exact text — package counts and mirror lines differ on every machine)</p>
+<ul><li>[ ] <code>sudo apt update</code> ends with <code>All packages are up to date.</code> (or reports <code>0 packages can be upgraded</code>).</li><li>[ ] <code>sudo whoami</code> prints <code>root</code>.</li><li>[ ] No error lines in the output. (A <code>dpkg lock</code> error means another apt process was running — wait for it and re-run.)</li></ul>
+<p><strong>Unlocks:</strong> <a href="m01-05-installing-software.html">05-installing-software.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m01-05-installing-software.html">05-installing-software.md</a> — Install the packages we need</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

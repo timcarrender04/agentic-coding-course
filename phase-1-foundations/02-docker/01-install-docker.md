@@ -170,6 +170,24 @@ groups | grep docker
 ```
 You should see `docker` somewhere in the output.
 
+## Lab
+
+**Objective:** Install Docker Engine from the official Docker apt repository, start the daemon, and join the docker group so `docker` runs without `sudo`.
+
+**Task:** Work steps 1–21 in order — GPG key, apt repo, install, start the daemon (WSL users take the step 13 path), join the docker group, then log it.
+
+**Submit:** Paste the output of `docker --version`, `docker info | head -n 5`, `groups`, and `tail -n 1 ~/docker-course/notes/notes.txt` into D2L.
+
+**Pass criteria:**
+
+- [ ] `docker --version` prints a Docker version.
+- [ ] `docker info | head -n 5` ran without `sudo` and shows no "permission denied" error.
+- [ ] `groups` output includes `docker`.
+- [ ] The daemon is running: `sudo systemctl status docker` shows `Active: active (running)`, **or** (WSL) `sudo service docker start` succeeded and `docker info` works.
+- [ ] The notes line reads `Docker installed: Docker version ...`.
+
+**Unlocks:** [02-hello-world.md](02-hello-world.md)
+
 ---
 
 **Next up:** [02-hello-world.md](02-hello-world.md) — Run your first container

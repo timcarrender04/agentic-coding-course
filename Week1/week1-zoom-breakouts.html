@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic Coding — Week 1 Zoom Breakouts · Temple College × ChiefOS</title>
+<link rel="stylesheet" href="../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+    --wash-warm: #FDF3E3;
+    --green: #1f7a33;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    min-height: 100%;
+    background:
+      radial-gradient(ellipse 80% 50% at 10% 0%, rgba(245,168,62,0.12), transparent 55%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(19,28,38,0.06), transparent 50%),
+      #fff;
+  }
+  body {
+    font-family: 'Barlow', 'DejaVu Sans', Arial, sans-serif;
+    color: var(--ink);
+    padding: clamp(16px, 2.5vw, 36px) clamp(20px, 3.5vw, 48px) 28px;
+  }
+
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 18px;
+  }
+  .brandbar img.tc { height: clamp(32px, 4vw, 44px); }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .brandbar .collab .x {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar img.chief { height: clamp(22px, 3vw, 30px); }
+
+  .hero { margin-bottom: 18px; }
+  .kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 4px;
+  }
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 4.2vw, 3.1rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--navy);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+  }
+  .sub {
+    margin-top: 6px;
+    font-size: clamp(1rem, 1.6vw, 1.2rem);
+    color: var(--ink-soft);
+    max-width: 52rem;
+  }
+  .meta {
+    display: inline-block;
+    margin-top: 12px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: clamp(0.85rem, 1.3vw, 1rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 3px;
+  }
+  .meta span { color: var(--orange); }
+
+  h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--navy);
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 12px;
+  }
+  h2::after {
+    content: "";
+    flex: 1;
+    height: 3px;
+    background: var(--orange);
+    border-radius: 2px;
+  }
+
+  .rooms {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 1100px) {
+    .rooms { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .rooms { grid-template-columns: 1fr; }
+  }
+
+  .room {
+    border: 1px solid var(--line);
+    border-top: 5px solid var(--orange);
+    border-radius: 10px;
+    background: var(--wash);
+    padding: 16px 16px 18px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .room.d { border-top-color: var(--green); background: #f0fbf1; }
+  .room .letter {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2.4rem, 4vw, 3.2rem);
+    font-weight: 800;
+    color: var(--navy);
+    line-height: 1;
+  }
+  .room .name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin: 4px 0 8px;
+  }
+  .room .who {
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+    flex: 1;
+  }
+  .room .labs {
+    display: inline-block;
+    align-self: flex-start;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 3px;
+  }
+  .room.d .labs { background: var(--green); }
+
+  .timing {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 800px) {
+    .timing { grid-template-columns: 1fr; }
+  }
+  .time-card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    background: #fff;
+  }
+  .time-card .clock {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+    color: var(--orange-deep);
+    text-transform: uppercase;
+  }
+  .time-card .mode {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--navy);
+    text-transform: uppercase;
+    margin: 2px 0 4px;
+  }
+  .time-card p {
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+    color: var(--ink-soft);
+  }
+
+  .chat {
+    margin-top: 8px;
+    background: var(--navy);
+    color: #e8edf2;
+    border-radius: 10px;
+    padding: 16px 18px 18px;
+  }
+  .chat .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 8px;
+  }
+  .chat pre {
+    font-family: 'DejaVu Sans Mono', 'Consolas', monospace;
+    font-size: clamp(0.82rem, 1.2vw, 0.95rem);
+    line-height: 1.45;
+    white-space: pre-wrap;
+    color: #fff;
+  }
+
+  .rules {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  @media (max-width: 800px) {
+    .rules { grid-template-columns: 1fr; }
+  }
+  .rule {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--orange);
+    border-radius: 8px;
+    padding: 12px 14px;
+    background: var(--wash-warm);
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+  }
+  .rule b { color: var(--navy); }
+
+  .foot {
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .foot b { color: var(--navy); }
+</style>
+</head>
+<body>
+
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Week 1 · Wednesday Lab Clinic</div>
+    <h1>Zoom Breakout Rooms</h1>
+    <p class="sub">Pick the room that matches where you’re stuck. One job per room. I’ll bounce between rooms — ping chat with your letter + error if you’re blocked.</p>
+    <div class="meta">Self-select &nbsp;<span>·</span>&nbsp; Return anytime &nbsp;<span>·</span>&nbsp; Back to main at 7:45</div>
+  </div>
+
+  <h2>Choose your room</h2>
+  <div class="rooms">
+    <div class="room">
+      <div class="letter">A</div>
+      <div class="name">Windows + WSL</div>
+      <p class="who">WSL install, reboot, green badge, <code style="font-family:monospace;font-size:0.9em;">uname -a</code></p>
+      <div class="labs">Lab 00:05</div>
+    </div>
+    <div class="room">
+      <div class="letter">B</div>
+      <div class="name">Catch-up / Install</div>
+      <p class="who">No VS Code yet, sign-in prompts, locked laptop, UI / terminal stuck</p>
+      <div class="labs">Labs 00:00–02</div>
+    </div>
+    <div class="room">
+      <div class="letter">C</div>
+      <div class="name">Extensions + Shots</div>
+      <p class="who">Terminal works — install Python + Docker, take screenshots. Mac/Linux start here.</p>
+      <div class="labs">Labs 00:03–04</div>
+    </div>
+    <div class="room d">
+      <div class="letter">D</div>
+      <div class="name">Ahead / Helpers</div>
+      <p class="who">Core done? Help neighbors in A/B, or wait for the countdown demo.</p>
+      <div class="labs">Buddy help</div>
+    </div>
+  </div>
+
+  <h2>Tonight’s timing</h2>
+  <div class="timing">
+    <div class="time-card">
+      <div class="clock">6:00 – 6:35</div>
+      <div class="mode">Main room</div>
+      <p>Attendance · OS check · VS Code · UI tour · <code style="font-family:monospace;">echo hello</code></p>
+    </div>
+    <div class="time-card">
+      <div class="clock">6:35 – 7:40</div>
+      <div class="mode">Breakouts</div>
+      <p>Extensions · WSL · catch-up. Move rooms if your stuck spot changes.</p>
+    </div>
+    <div class="time-card">
+      <div class="clock">7:40 – 7:50</div>
+      <div class="mode">Main room</div>
+      <p>Close · what “done” looks like · homework through Sunday</p>
+    </div>
+  </div>
+
+  <h2>Paste in Zoom chat</h2>
+  <div class="chat">
+    <div class="label">Broadcast / chat blurb</div>
+    <pre>BREAKOUTS OPEN — pick a room:
+A = Windows / WSL stuck
+B = Installing / catching up (00:00–02)
+C = Extensions + screenshots (00:03–04)
+D = Done with core — help neighbors
+
+I’ll bounce rooms. Ping me with your room letter + error if blocked.
+Back to main at 7:45.</pre>
+  </div>
+
+  <div class="rules">
+    <div class="rule"><b>One job per room.</b> Finished? Move to D or help in A/B — don’t sit idle.</div>
+    <div class="rule"><b>Docker “Failed to connect”</b> is correct tonight. Engine is Module 02.</div>
+  </div>
+
+  <div class="foot">
+    <span><b>Agentic Coding</b> · Temple College Workforce Development × ChiefOS</span>
+    <span>Module 00 · Labs 00:00–05</span>
+  </div>
+
+</body>
+</html>

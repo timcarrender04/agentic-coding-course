@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git and GitHub — Branches</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Create and switch branches with <code>git switch</code>, merge a feature branch into <code>main</code> via both a fast-forward and a true merge commit, and delete merged branches with <code>git branch -d</code>.</div>
+<h1>Lesson 05: Branches</h1>
+<p><strong>By the end, you will have created a feature branch, made commits on it, merged it back to <code>main</code>, and deleted it.</strong></p>
+<p>⏱ ~25 minutes of typing</p>
+<blockquote><p>A <strong>branch</strong> is a movable pointer to a commit. Switching branches updates your working tree to look like that commit. Branches are cheap, free, and the unit of &quot;work in progress.&quot;</p></blockquote>
+<hr />
+<p><strong>1.</strong> Confirm clean state.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+git status</code></pre>
+<p><strong>2.</strong> List existing branches.</p>
+<pre><code class="language-bash">git branch</code></pre>
+<pre class="output"><code class="output">* main</code></pre>
+<p>(The <code>*</code> is the current branch.)</p>
+<p><strong>3.</strong> Create a new branch called <code>add-health-route</code>.</p>
+<pre><code class="language-bash">git branch add-health-route</code></pre>
+<p>(No output = success.)</p>
+<p><strong>4.</strong> List branches again.</p>
+<pre><code class="language-bash">git branch</code></pre>
+<pre class="output"><code class="output">  add-health-route
+* main</code></pre>
+<p>(The branch exists, but you're still on <code>main</code>.)</p>
+<p><strong>5.</strong> Switch to the new branch.</p>
+<pre><code class="language-bash">git switch add-health-route</code></pre>
+<pre class="output"><code class="output">Switched to branch 'add-health-route'</code></pre>
+<p>(Older Git uses <code>git checkout &lt;branch&gt;</code> — both work.)</p>
+<p><strong>6.</strong> Confirm.</p>
+<pre><code class="language-bash">git branch</code></pre>
+<pre class="output"><code class="output">* add-health-route
+  main</code></pre>
+<p><strong>7.</strong> Look at the bottom-left of your VS Code window — it should now say <code>add-health-route</code> instead of <code>main</code>. VS Code reads <code>.git/HEAD</code> to show the current branch.</p>
+<p><strong>8.</strong> Quick shortcut: create + switch in one command. (We won't actually use this now — just know it exists.)</p>
+<pre><code class="language-bash"># git switch -c another-branch     # creates AND switches
+# git checkout -b another-branch   # older equivalent</code></pre>
+<p><strong>9.</strong> Now make a real change on this branch. Open <code>main.py</code> in VS Code. Above <code>app.include_router(items.router)</code>, add a <code>/health</code> route:</p>
+<pre><code class="language-python">
+
+@app.get(&quot;/health&quot;)
+def health():
+    return {&quot;status&quot;: &quot;ok&quot;}</code></pre>
+<p><strong>10.</strong> Save.</p>
+<p><strong>11.</strong> Status.</p>
+<pre><code class="language-bash">git status</code></pre>
+<p>You should see <code>main.py</code> modified.</p>
+<p><strong>12.</strong> Commit it.</p>
+<pre><code class="language-bash">git add main.py
+git commit -m &quot;Add /health route&quot;</code></pre>
+<p><strong>13.</strong> See the log on this branch.</p>
+<pre><code class="language-bash">git log --oneline -5</code></pre>
+<p>The new commit is on top, on <code>add-health-route</code>.</p>
+<p><strong>14.</strong> Now switch back to <code>main</code>.</p>
+<pre><code class="language-bash">git switch main</code></pre>
+<p><strong>15.</strong> Open <code>main.py</code> in VS Code. <strong>The <code>/health</code> route is gone.</strong> It only exists on the other branch. Switching branches changes the files on disk to match that branch's commit.</p>
+<p><strong>16.</strong> Confirm with the log.</p>
+<pre><code class="language-bash">git log --oneline -3</code></pre>
+<p>The &quot;Add /health route&quot; commit is missing — it's only on the other branch.</p>
+<p><strong>17.</strong> See <strong>all</strong> branches' commits in a graph.</p>
+<pre><code class="language-bash">git log --oneline --graph --all --decorate -10</code></pre>
+<p>You should see a graph where <code>add-health-route</code> has one extra commit beyond <code>main</code>.</p>
+<p><strong>18.</strong> Switch back to the feature branch.</p>
+<pre><code class="language-bash">git switch add-health-route</code></pre>
+<p><strong>19.</strong> Open <code>main.py</code>. The <code>/health</code> route is back. Branches keep their own state.</p>
+<p><strong>20.</strong> Make another commit on this branch. Edit <code>main.py</code> and add a docstring under the <code>health</code> function:</p>
+<pre><code class="language-python">    &quot;&quot;&quot;Liveness probe — returns 200 if the app is up.&quot;&quot;&quot;</code></pre>
+<p><strong>21.</strong> Save, stage, commit.</p>
+<pre><code class="language-bash">git commit -am &quot;Document /health route&quot;</code></pre>
+<p><strong>22.</strong> Look at the graph.</p>
+<pre><code class="language-bash">git log --oneline --graph --all --decorate -10</code></pre>
+<p>Two commits ahead of <code>main</code> now.</p>
+<p><strong>23.</strong> Now merge the feature branch back into <code>main</code>. First, switch to <code>main</code>.</p>
+<pre><code class="language-bash">git switch main</code></pre>
+<p><strong>24.</strong> Merge.</p>
+<pre><code class="language-bash">git merge add-health-route</code></pre>
+<pre class="output"><code class="output">Updating abc1234..def5678
+Fast-forward
+ main.py | 5 +++++
+ 1 file changed, 5 insertions(+)</code></pre>
+<p><strong>Read it.</strong> &quot;Fast-forward&quot; means <code>main</code> had no commits of its own since the branch diverged, so Git just moved the <code>main</code> pointer forward — no merge commit needed.</p>
+<p><strong>25.</strong> Confirm <code>main.py</code> now has the <code>/health</code> route.</p>
+<pre><code class="language-bash">grep -A 2 &quot;def health&quot; main.py</code></pre>
+<p><strong>26.</strong> History on <code>main</code>.</p>
+<pre><code class="language-bash">git log --oneline -5</code></pre>
+<p>The <code>/health</code> commits are now on <code>main</code>.</p>
+<p><strong>27.</strong> Delete the merged feature branch — its commits live on <code>main</code> now.</p>
+<pre><code class="language-bash">git branch -d add-health-route</code></pre>
+<pre class="output"><code class="output">Deleted branch add-health-route (was abcdef0).</code></pre>
+<p><strong>28.</strong> Confirm.</p>
+<pre><code class="language-bash">git branch</code></pre>
+<pre class="output"><code class="output">* main</code></pre>
+<p><strong>29.</strong> <strong>Now feel a non-fast-forward merge.</strong> Create a new branch, make a commit on it, but <strong>also</strong> make a commit on <code>main</code> in between. This forces Git to create a real merge commit.</p>
+<p><strong>30.</strong> Create + switch.</p>
+<pre><code class="language-bash">git switch -c rename-hello</code></pre>
+<p><strong>31.</strong> Edit <code>main.py</code>'s <code>read_root</code> to return <code>{&quot;hello&quot;: &quot;branched&quot;}</code>. Save, commit.</p>
+<pre><code class="language-bash">git commit -am &quot;Rename hello response to 'branched'&quot;</code></pre>
+<p><strong>32.</strong> Switch back to <code>main</code>.</p>
+<pre><code class="language-bash">git switch main</code></pre>
+<p><strong>33.</strong> Make a different change. Edit <code>NOTES.md</code> and add a line <code>Branch demo</code>. Save, commit.</p>
+<pre><code class="language-bash">git commit -am &quot;Note branch demo in NOTES.md&quot;</code></pre>
+<p><strong>34.</strong> Look at the graph — <code>main</code> and <code>rename-hello</code> have diverged.</p>
+<pre><code class="language-bash">git log --oneline --graph --all --decorate -10</code></pre>
+<p><strong>35.</strong> Merge — this will be a true merge commit.</p>
+<pre><code class="language-bash">git merge rename-hello -m &quot;Merge rename-hello into main&quot;</code></pre>
+<pre class="output"><code class="output">Merge made by the 'ort' strategy.
+ main.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)</code></pre>
+<p><strong>36.</strong> See the merge commit in the graph.</p>
+<pre><code class="language-bash">git log --oneline --graph --decorate -10</code></pre>
+<p>You should see the diamond shape: two parents converging on the merge commit.</p>
+<p><strong>37.</strong> Delete the merged branch.</p>
+<pre><code class="language-bash">git branch -d rename-hello</code></pre>
+<p><strong>38.</strong> Open <code>main.py</code> and confirm it now says <code>{&quot;hello&quot;: &quot;branched&quot;}</code>. Both changes (the rename and the note) are present.</p>
+<p><strong>39.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Branches: created, committed, merged (FF + true merge)&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Always <code>git status</code> and <code>git branch</code> before doing anything destructive.</strong> Knowing where you are prevents 95% of mistakes.</li><li><strong><code>git branch -d</code></strong> only deletes a fully merged branch (safe). <strong><code>git branch -D</code></strong> force-deletes any branch (loses unmerged work).</li><li><strong>You can't switch branches if you have uncommitted changes</strong> that would conflict. Either commit them, or <code>git stash</code> (covered briefly later).</li><li><strong><code>git switch</code> is newer and clearer than <code>git checkout</code>.</strong> Both work. The lessons use <code>switch</code> for branches and reserve <code>checkout</code> for older or specific patterns.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">git branch</code></pre>
+<p>Should show only <code>* main</code>.</p>
+<pre><code class="language-bash">git log --oneline --graph -8</code></pre>
+<p>Should show your merge commit (look for the asterisk graph showing two parents).</p>
+<pre><code class="language-bash">grep '&quot;branched&quot;' main.py</code></pre>
+<p>Should print the line with <code>branched</code>.</p>
+<pre><code class="language-bash">grep &quot;Branch demo&quot; NOTES.md</code></pre>
+<p>Should print the note.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m04-06-undoing-things.html">06-undoing-things.md</a> — When you mess up</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

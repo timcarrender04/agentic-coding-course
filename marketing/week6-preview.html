@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agentic Coding — Week 6 Preview · Temple College × ChiefOS</title>
+<link rel="stylesheet" href="../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --paper: #FFFFFF;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+    --wash-warm: #FDF3E3;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    font-family: 'Barlow', 'DejaVu Sans', Arial, sans-serif;
+    color: var(--ink);
+    font-size: 10.2pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: letter; margin: 0; }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.48in 0.6in 0.42in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: avoid; }
+  .page > * { flex-shrink: 0; }
+
+  .page-1 {
+    justify-content: space-between;
+    padding: 0.40in 0.58in 0.28in;
+  }
+  .page-1 .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .page-1 .stack > * { margin: 0 !important; }
+  .page-1 .brandbar {
+    margin: 0 !important;
+    padding-bottom: 6px;
+  }
+  .page-1 .brandbar img.tc { height: 38px; }
+  .page-1 .brandbar img.chief { height: 26px; }
+  .page-1 .hero h1 { font-size: 26pt; }
+  .page-1 .hero .phase-line {
+    font-size: 13.5pt;
+    margin-top: 3px;
+  }
+  .page-1 .hero .sub {
+    font-size: 9.8pt;
+    margin-top: 3px;
+  }
+  .page-1 .hero .meta {
+    margin-top: 6px;
+    padding: 4px 12px;
+    font-size: 9.5pt;
+  }
+  .page-1 .intro {
+    font-size: 9.1pt;
+    line-height: 1.4;
+  }
+  .page-1 h2 { font-size: 14.5pt; margin-bottom: 4px; }
+  .page-1 .section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .page-1 .pillars { margin-bottom: 0; }
+  .page-1 table.agenda { margin-bottom: 0; }
+  .page-1 .pillar {
+    padding: 5px 8px 6px;
+  }
+  .page-1 .pillar .num { font-size: 12pt; }
+  .page-1 .pillar h3 { font-size: 9.5pt; margin: 2px 0 1px; }
+  .page-1 .pillar p { font-size: 7.6pt; line-height: 1.3; }
+  .page-1 .twocol {
+    align-items: stretch;
+    gap: 8px;
+  }
+  .page-1 .card {
+    display: flex;
+    flex-direction: column;
+    padding: 7px 10px;
+    min-height: 100%;
+  }
+  .page-1 .card .label { margin-bottom: 3px; font-size: 9pt; }
+  .page-1 .card ul {
+    flex: 1;
+    font-size: 8.1pt;
+    line-height: 1.4;
+  }
+  .page-1 .card li { margin-bottom: 2px; }
+  .page-1 table.agenda th,
+  .page-1 table.agenda td {
+    padding: 3px 7px;
+    font-size: 8pt;
+  }
+  .page-1 table.agenda th { font-size: 8.5pt; }
+  .page-1 table.agenda td.t { font-size: 9pt; }
+  .page-1 .callout {
+    padding: 7px 11px;
+    font-size: 8.2pt;
+    line-height: 1.35;
+  }
+  .page-1 .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 0 0 auto;
+    margin-top: 0;
+    width: 100%;
+  }
+  .page-1 .stats { margin: 0; }
+  .page-1 .stats .stat { padding: 7px 4px 6px; }
+  .page-1 .stats .n { font-size: 15pt; }
+  .page-1 .stats .l {
+    margin-top: 3px;
+    font-size: 6.6pt;
+  }
+  .page-1 .pagefoot {
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 0;
+    padding-top: 6px;
+    font-size: 7.5pt;
+  }
+
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 12px;
+  }
+  .brandbar img.tc { height: 44px; }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brandbar .collab .x {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 8.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar img.chief { height: 30px; }
+
+  .pagefoot {
+    position: absolute;
+    left: 0.6in; right: 0.6in; bottom: 0.34in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 7px;
+    font-size: 8pt;
+    color: var(--ink-soft);
+  }
+  .pagefoot b { color: var(--navy); font-weight: 600; }
+
+  h1, h2, h3 {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    color: var(--navy);
+  }
+  h2 {
+    font-size: 16pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 8px;
+  }
+  h2::after { content: ""; flex: 1; height: 3px; background: var(--orange); border-radius: 2px; }
+  h3 { font-size: 12pt; font-weight: 700; margin-bottom: 2px; }
+  code {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 8pt;
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+
+  .hero { margin: 0 0 10px; }
+  .hero .kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10.5pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 2px;
+  }
+  .hero h1 {
+    font-size: 30pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.0;
+  }
+  .hero .phase-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+  .hero .sub {
+    font-size: 10.4pt;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+  .hero .meta {
+    display: inline-block;
+    margin-top: 8px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 3px;
+  }
+  .hero .meta span { color: var(--orange); }
+
+  .intro {
+    font-size: 9.6pt;
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+  .intro b { color: var(--navy); }
+
+  .pillars { display: flex; gap: 8px; margin-bottom: 12px; }
+  .pillar {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--orange);
+    border-radius: 6px;
+    padding: 8px 9px 9px;
+    background: var(--wash);
+  }
+  .pillar .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 13pt;
+    color: var(--orange-deep);
+    line-height: 1;
+  }
+  .pillar h3 { font-size: 10.2pt; text-transform: uppercase; letter-spacing: 0.03em; margin: 3px 0 2px; }
+  .pillar p { font-size: 8pt; color: var(--ink-soft); line-height: 1.35; margin-top: 0; }
+
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 10px 12px;
+    background: var(--wash);
+  }
+  .card.navy {
+    background: var(--navy);
+    color: #e8edf2;
+    border-color: var(--navy);
+  }
+  .card .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9.5pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 5px;
+  }
+  .card.navy .label { color: var(--orange); }
+  .card.navy code {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.3);
+    color: #fff;
+  }
+  .card ul { margin: 0 0 0 14px; font-size: 8.6pt; line-height: 1.5; }
+  .card.navy ul { color: #d5dde5; }
+  .card li { margin-bottom: 3px; }
+
+  table.agenda { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+  table.agenda th, table.agenda td {
+    border: 1px solid var(--line);
+    padding: 6px 8px;
+    font-size: 8.5pt;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 1.35;
+  }
+  table.agenda th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.agenda td.t {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10pt;
+    color: var(--navy);
+    width: 72px;
+    white-space: nowrap;
+    background: var(--wash);
+  }
+  table.agenda td.lab {
+    width: 118px;
+    font-weight: 600;
+    color: var(--navy-soft);
+  }
+  table.agenda tr.core td { background: #fff; }
+  table.agenda tr.stretch td { background: var(--wash-warm); }
+
+  .callout {
+    border-left: 4px solid var(--orange-deep);
+    background: var(--wash-warm);
+    border-radius: 0 6px 6px 0;
+    padding: 8px 12px;
+    font-size: 8.7pt;
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .callout b { color: var(--navy); }
+
+  .stats {
+    margin-top: 0;
+    margin-bottom: 0;
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--navy);
+    color: #fff;
+  }
+  .stats .stat {
+    flex: 1;
+    text-align: center;
+    padding: 12px 4px 11px;
+    border-right: 1px solid rgba(255,255,255,0.12);
+  }
+  .stats .stat:last-child { border-right: none; }
+  .stats .n {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17pt;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stats .l {
+    font-size: 7pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #cfd8e0;
+    margin-top: 4px;
+  }
+
+  .lab-block { margin-bottom: 9px; }
+  .lab-block .lab-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .lab-block .lab-head .badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 9.5pt;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: var(--navy);
+    color: #fff;
+    padding: 1px 8px;
+    border-radius: 3px;
+  }
+  .lab-block .lab-head .badge.warm {
+    background: var(--orange);
+    color: var(--navy);
+  }
+  .lab-block .lab-head h3 {
+    font-size: 11.5pt;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .lab-block .lab-head .time {
+    margin-left: auto;
+    font-size: 8.5pt;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+
+  table.labs { width: 100%; border-collapse: collapse; }
+  table.labs th, table.labs td {
+    border: 1px solid var(--line);
+    padding: 4px 7px;
+    font-size: 8pt;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.3;
+  }
+  table.labs th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8.8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.labs td.num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9pt;
+    color: var(--navy);
+    text-align: center;
+    width: 36px;
+    background: var(--wash);
+  }
+  table.labs td.title { width: 130px; font-weight: 600; color: var(--navy-soft); }
+  table.labs tr.stretch td { background: var(--wash-warm); }
+  table.labs tr.gate td { background: #EEF6F1; }
+
+  .outcome {
+    margin-top: auto;
+    margin-bottom: 28px;
+    background: var(--navy);
+    border-radius: 8px;
+    color: #fff;
+    padding: 11px 14px;
+  }
+  .outcome .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 3px;
+  }
+  .outcome p { font-size: 9.4pt; color: #e8edf2; line-height: 1.4; }
+  .outcome p b { color: #fff; }
+
+  .day-tag {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 8pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--orange);
+    color: var(--navy);
+    padding: 1px 7px;
+    border-radius: 3px;
+    margin-right: 4px;
+  }
+  .day-tag.wed {
+    background: var(--navy);
+    color: #fff;
+  }
+
+  .page-2 table.labs th,
+  .page-2 table.labs td { padding: 3px 6px; font-size: 7.6pt; }
+  .page-2 table.labs td.title { width: 118px; }
+  .page-2 table.agenda th,
+  .page-2 table.agenda td { padding: 3px 7px; font-size: 7.7pt; }
+  .page-2 table.agenda td.t { font-size: 8.5pt; width: 88px; }
+  .page-2 .callout { padding: 6px 10px; font-size: 8pt; margin-bottom: 10px; }
+  .page-2 .intro { font-size: 8.8pt; }
+  .page-2 h2 { font-size: 14.5pt; margin-bottom: 6px; }
+  .page-2 .outcome { margin-bottom: 32px; padding: 9px 12px; }
+  .page-2 .outcome p { font-size: 8.6pt; }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 — OVERVIEW ================= -->
+<div class="page page-1">
+  <div class="stack">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Week Preview · Learning Objectives</div>
+    <h1>Week 6 · Docker + Phase 1 Gate</h1>
+    <div class="phase-line">Module 02 · Images, Sidebar &amp; Checkpoint</div>
+    <div class="sub">We skipped last week’s Zoom — so tonight recaps Week 5 (install + first containers), then images vs containers, the Docker sidebar, and a walkthrough of the Phase 1 gate.</div>
+    <div class="meta">Mon Aug 24 + Wed Aug 26 &nbsp;<span>·</span>&nbsp; 6:00–8:00 PM &nbsp;<span>·</span>&nbsp; Zoom &nbsp;<span>·</span>&nbsp; Labs 02:00–06</div>
+  </div>
+
+  <p class="intro"><b>This week closes Phase 1.</b> Week 5 was Docker Engine, <code>hello-world</code>, and nginx on port 8080 (02:00–03). Tonight we catch that up live, then teach images vs containers and the VS Code Docker sidebar (02:04–05). Wednesday is the clinic plus the timed, no-help <b>Module 02 / Phase 1 gate</b> (02:06). Labs — not attendance — gate progress.</p>
+
+  <div class="section">
+  <h2>Tonight’s learning objectives</h2>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="num">02:01</div>
+      <h3>Install Engine</h3>
+      <p>Docker Engine from the official apt repo — not Desktop. Join the <code>docker</code> group; <code>newgrp</code> or re-login.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">02:02–03</div>
+      <h3>First containers</h3>
+      <p><code>docker run hello-world</code>, then nginx with <code>-d -p 8080:80</code>. Host 8080 → container 80.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">02:04</div>
+      <h3>Image vs container</h3>
+      <p>Recipe vs meal. <code>docker ps</code> vs <code>ps -a</code>. <code>rm</code> removes a container; <code>rmi</code> removes an image.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">02:05</div>
+      <h3>Docker sidebar</h3>
+      <p>Whale icon finally populated. Stop / remove / logs from the UI — same as the CLI.</p>
+    </div>
+  </div>
+  </div>
+
+  <div class="twocol">
+    <div class="card">
+      <div class="label">Week 5 recap (skipped Zoom)</div>
+      <ul>
+        <li><b>02:00</b> Setup check — Linux, sudo, notes file, Hub reachability</li>
+        <li><b>02:01</b> Install Engine from Docker’s apt repo; add yourself to <code>docker</code></li>
+        <li><b>02:02</b> First container — “Unable to find image locally” is <b>not</b> an error</li>
+        <li><b>02:03</b> nginx welcome page at <code>localhost:8080</code> (or Ports tab if SSH)</li>
+        <li>Uplink hunt (Week 4) was the network dress rehearsal this install rides on</li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <div class="label">Know before you type</div>
+      <ul>
+        <li>We want <b>Docker Engine</b> (Linux daemon), not Docker Desktop</li>
+        <li><code>permission denied … docker.sock</code> → log out / <code>newgrp docker</code></li>
+        <li>WSL: if <code>systemctl</code> fails, <code>sudo service docker start</code></li>
+        <li>Forgot <code>-d</code>? Terminal “hangs” — nginx is in the foreground. <b>Ctrl+C</b>, re-run</li>
+        <li>Wednesday’s gate = from memory, no copy-paste, no neighbor help</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+  <h2>Monday · instruction (Week 5 catch-up + Week 6)</h2>
+  <table class="agenda">
+    <thead>
+      <tr><th>Clock</th><th>Block</th><th>What we do live</th><th>Lab IDs</th></tr>
+    </thead>
+    <tbody>
+      <tr class="core">
+        <td class="t">6:00</td>
+        <td class="lab">Open + recap</td>
+        <td>Sign-in · Week 5 catch-up poll: who can <code>docker run</code>? · what Docker is (Engine, not Desktop)</td>
+        <td>—</td>
+      </tr>
+      <tr class="stretch">
+        <td class="t">6:20</td>
+        <td class="lab">Week 5 live</td>
+        <td>Install Engine if needed · <code>hello-world</code> · nginx <code>-d -p 8080:80</code> · browser / Ports / <code>curl</code></td>
+        <td>02:00–03</td>
+      </tr>
+      <tr class="core">
+        <td class="t">7:00</td>
+        <td class="lab">Images vs containers</td>
+        <td>Recipe vs meal · <code>docker images</code> · <code>ps</code> vs <code>ps -a</code> · <code>rm</code> vs <code>rmi</code> · cleanup</td>
+        <td>02:04</td>
+      </tr>
+      <tr class="core">
+        <td class="t">7:30</td>
+        <td class="lab">Sidebar + gate walk</td>
+        <td>Whale icon populated · stop/remove from UI · walk <b>02:06</b> shape (do not sit the gate tonight)</td>
+        <td>02:05–06</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="section">
+  <h2>Wednesday · lab clinic + Phase 1 gate</h2>
+  <table class="agenda">
+    <thead>
+      <tr><th>Clock</th><th>Block</th><th>What we do live</th><th>Lab IDs</th></tr>
+    </thead>
+    <tbody>
+      <tr class="core">
+        <td class="t">6:00</td>
+        <td class="lab">Clinic triage</td>
+        <td>Install leftovers · docker-group / <code>newgrp</code> · WSL <code>service docker start</code> · port-forward paths</td>
+        <td>02:00–05</td>
+      </tr>
+      <tr class="core">
+        <td class="t">6:40</td>
+        <td class="lab">Phase 1 gate</td>
+        <td>Timed, no-help run of <b>02:06</b> — nginx named <code>final</code> on 8080, curl, sidebar screenshot</td>
+        <td>02:06</td>
+      </tr>
+      <tr class="stretch">
+        <td class="t">7:30</td>
+        <td class="lab">Redo + catch-up</td>
+        <td>Miss a section? Re-open that lesson. Anyone still on install gets 1:1 help</td>
+        <td>02:06</td>
+      </tr>
+      <tr class="core">
+        <td class="t">7:50</td>
+        <td class="lab">Close</td>
+        <td>Gate screenshot in D2L · preview Phase 2 (FastAPI)</td>
+        <td>—</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="callout">
+    <b>If time is short tonight:</b> protect this order — Engine actually runs → nginx on 8080 → image vs container → gate walkthrough. Push the sidebar (02:05) and leftover install triage to Wednesday if install eats the first hour.
+  </div>
+  </div><!-- /.stack -->
+
+  <div class="bottom">
+  <div class="stats">
+    <div class="stat"><div class="n">W5</div><div class="l">Recap tonight</div></div>
+    <div class="stat"><div class="n">02:04</div><div class="l">Image vs container</div></div>
+    <div class="stat"><div class="n">02:06</div><div class="l">Phase 1 gate</div></div>
+    <div class="stat"><div class="n">P2</div><div class="l">Unlocks FastAPI</div></div>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Week 6 Preview · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 1 of 2</div>
+  </div>
+  </div><!-- /.bottom -->
+</div>
+
+<!-- ================= PAGE 2 — LAB DETAIL ================= -->
+<div class="page page-2">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <h2>Learning objectives — what “done” looks like</h2>
+  <p class="intro" style="margin-bottom:10px">Each row is one D2L learning object. Orange tags = Week 5 catch-up we do live tonight. Do them <b>in order</b> — the Phase 1 gate assumes Engine, hello-world, nginx, and image vs container are warm.</p>
+
+  <div class="lab-block">
+    <div class="lab-head">
+      <span class="badge">Core</span>
+      <h3>Module 02 · Docker</h3>
+      <span class="time">Mon catch-up + instruction · Wed gate</span>
+    </div>
+    <table class="labs">
+      <thead>
+        <tr><th>#</th><th>Lab</th><th>Learning objective</th><th>Pass / screenshot</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">02:00</td>
+          <td class="title">Setup Check</td>
+          <td><span class="day-tag">W5</span>Confirm Linux, sudo, <code>curl</code>/<code>gpg</code>, and Module 01 notes before install.</td>
+          <td>Paste checkpoint: <code>sudo whoami && which curl gpg && ls ~/docker-course/notes/notes.txt</code></td>
+        </tr>
+        <tr>
+          <td class="num">02:01</td>
+          <td class="title">Install Docker Engine</td>
+          <td><span class="day-tag">W5</span>Install Engine from Docker’s apt repo; add yourself to the <code>docker</code> group.</td>
+          <td><code>docker --version</code> · <code>docker info</code> · <code>groups</code> shows docker · notes line</td>
+        </tr>
+        <tr>
+          <td class="num">02:02</td>
+          <td class="title">First Container</td>
+          <td><span class="day-tag">W5</span>Run <code>docker run hello-world</code> and explain pull → run → exit (pull line is not an error).</td>
+          <td><code>docker images | grep hello-world</code> · <code>docker ps -a | grep hello-world</code></td>
+        </tr>
+        <tr>
+          <td class="num">02:03</td>
+          <td class="title">Running nginx</td>
+          <td><span class="day-tag">W5</span>Run nginx detached, map <b>8080→80</b>, reach the welcome page (browser, Ports tab, or <code>curl</code>).</td>
+          <td>Screenshot of nginx page + <code>docker ps -a --filter name=web</code></td>
+        </tr>
+        <tr>
+          <td class="num">02:04</td>
+          <td class="title">Images vs Containers</td>
+          <td><span class="day-tag">Mon</span>Tell them apart; <code>ps</code> vs <code>ps -a</code>; clean up with <code>docker rm</code> and <code>docker rmi</code>.</td>
+          <td>Checkpoint: <code>docker images | grep nginx</code> · <code>docker ps -a</code> · run/stop/rm <code>test</code></td>
+        </tr>
+        <tr>
+          <td class="num">02:05</td>
+          <td class="title">Docker Sidebar</td>
+          <td><span class="day-tag">Mon</span>See CONTAINERS + IMAGES in the whale sidebar; stop/remove from the right-click menu.</td>
+          <td>Screenshot: <code>sidebar-demo</code> running + <code>nginx</code> under IMAGES</td>
+        </tr>
+        <tr class="gate">
+          <td class="num">02:06</td>
+          <td class="title">Final Checkpoint</td>
+          <td><span class="day-tag wed">Wed</span><b>Phase 1 gate.</b> From memory: nginx named <code>final</code> on 8080, <code>curl</code> welcome, sidebar + <code>docker ps</code> in one screenshot.</td>
+          <td>One screenshot: sidebar shows <code>final</code> Up + terminal <code>docker ps --filter name=final</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Stuck-spot cheat sheet</h2>
+  <table class="agenda" style="margin-bottom:12px">
+    <thead>
+      <tr><th>Moment</th><th>What fails</th><th>Fix line</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="t">install</td>
+        <td>GPG / apt-repo step “did nothing”</td>
+        <td>Don’t skip steps. Confirm <code>which gpg</code> before the dearmor; Hub must be reachable</td>
+      </tr>
+      <tr>
+        <td class="t">docker.sock</td>
+        <td><code>permission denied while trying to connect to the Docker daemon socket</code></td>
+        <td>You are not in the group yet in <b>this</b> shell — <code>newgrp docker</code> or log out / back in</td>
+      </tr>
+      <tr>
+        <td class="t">WSL start</td>
+        <td><code>systemctl</code>: “System has not been booted with systemd”</td>
+        <td><code>sudo service docker start</code> — add it to <code>~/.bashrc</code> so it survives new terminals</td>
+      </tr>
+      <tr>
+        <td class="t">hello-world</td>
+        <td>“Unable to find image … locally”</td>
+        <td><b>Not an error.</b> Docker is pulling from Hub. Second run is instant (cached)</td>
+      </tr>
+      <tr>
+        <td class="t">nginx hang</td>
+        <td>Terminal never comes back after <code>docker run nginx</code></td>
+        <td>Forgot <code>-d</code>. <b>Ctrl+C</b>, then <code>docker run -d -p 8080:80 nginx</code></td>
+      </tr>
+      <tr>
+        <td class="t">8080</td>
+        <td>Browser can’t load the page</td>
+        <td>WSL: Windows browser at localhost:8080. SSH: VS Code <b>Ports</b> tab. Anyone: <code>curl localhost:8080</code></td>
+      </tr>
+      <tr>
+        <td class="t">ps empty</td>
+        <td>“My container disappeared”</td>
+        <td><code>docker ps</code> = running only. Stopped containers live in <code>docker ps -a</code></td>
+      </tr>
+      <tr>
+        <td class="t">rm / rmi</td>
+        <td>Can’t delete the image</td>
+        <td>Stop + <code>docker rm</code> the container first, then <code>docker rmi</code> the image</td>
+      </tr>
+      <tr>
+        <td class="t">sidebar</td>
+        <td>Still empty / Failed to connect</td>
+        <td>Wrong environment — bottom-left must say <b>WSL: Ubuntu</b> or <b>SSH: …</b> (same place Engine lives)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <b>After Wednesday → Sunday:</b> labs <b>02:00–06</b> submitted in D2L (gate included). Minimum comfort: Engine runs without sudo, nginx on 8080, you can explain image vs container, and the gate screenshot is in. <b>Next:</b> Phase 2 — FastAPI.
+  </div>
+
+  <div class="outcome">
+    <div class="label">Links · questions</div>
+    <p>
+      <b>Class sign-in:</b> tktechventure.com/agentic-coding/sign-in &nbsp;·&nbsp;
+      <b>D2L:</b> templejc.desire2learn.com &nbsp;·&nbsp;
+      <b>Course site:</b> tktechventure.com/agentic-coding<br>
+      Stuck on D2L? Helpdesk@Templejc.edu · 254-298-8450 &nbsp;·&nbsp;
+      Course questions: <b>contact@tktechventure.com</b>
+    </p>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Week 6 Preview · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 2 of 2</div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VS Code Walkthrough — The Integrated Terminal</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Open the integrated terminal, run <code>echo</code> commands at the prompt, and distinguish typing into the terminal from typing into the editor.</div>
+<h1>Lesson 02: The Integrated Terminal</h1>
+<p><strong>Time:</strong> ~10 min</p>
+<h2>What is a terminal, again?</h2>
+<p>A <strong>terminal</strong> is a program where you type a command, press Enter, and the computer runs that command and prints text back at you. That is the entire interface — text in, text out.</p>
+<p>You already have a terminal on your computer:</p>
+<ul><li><strong>Windows:</strong> &quot;Command Prompt&quot; or &quot;PowerShell&quot; or &quot;Windows Terminal.&quot;</li><li><strong>Mac:</strong> &quot;Terminal&quot; (in Applications → Utilities).</li><li><strong>Linux:</strong> &quot;Terminal&quot; or &quot;Console&quot; (varies by distro).</li></ul>
+<p>VS Code has a terminal <strong>built into</strong> its window. That's the <strong>integrated terminal</strong>. It's the same kind of program as the ones above — same commands, same output — just embedded inside the IDE so you don't have to alt-tab to a separate window.</p>
+<h2>Why this matters</h2>
+<p>Almost every later module of this course assumes you have a terminal open. <strong>Module 01 is 2.5 hours of typing commands into this terminal.</strong> Today, all you need to know is how to open it and how to type into it.</p>
+<blockquote><p>We are deliberately <strong>not</strong> teaching you commands like <code>ls</code>, <code>cd</code>, <code>pwd</code>, etc. in this lesson. That's all of Module 01. Today is just &quot;where is the terminal and what does it look like.&quot;</p></blockquote>
+<h2>Demo: open the integrated terminal</h2>
+<p>Three ways to open it. Pick whichever you remember:</p>
+<ol><li>Keyboard shortcut: **`<code> Ctrl+</code> `<code>** — that's Ctrl + backtick. The backtick is usually on the same key as the tilde (</code>~`), top-left of the keyboard, just under Esc.</li><li>Menu: <strong>View → Terminal</strong>.</li><li>Command palette: <code>Ctrl+Shift+P</code> → type &quot;Toggle Terminal&quot; → Enter.</li></ol>
+<p>The terminal opens in a panel at the bottom of the editor. You'll see a <strong>prompt</strong> — something that looks like <code>user@host:~$</code> on Linux/Mac or <code>PS C:\Users\You&gt;</code> on Windows. The prompt is the terminal saying &quot;I'm ready, type a command.&quot;</p>
+<h2>Editor vs terminal: don't mix them up</h2>
+<p>This is the single most common beginner mistake.</p>
+<ul><li>The <strong>editor</strong> is the big area in the middle. When you type there, you're typing <strong>into a file</strong>. Nothing runs.</li><li>The <strong>terminal</strong> is the panel at the bottom. When you type there and press Enter, the computer <strong>runs your command</strong>.</li></ul>
+<p>If you type a command into the editor, the editor will just store the text in a file and nothing will happen. If you type a sentence into the terminal, the terminal will try to run it as a command and complain that it doesn't exist.</p>
+<p><strong>Always look at where your blinking cursor is before typing.</strong></p>
+<h2>Try it yourself</h2>
+<ol><li>Open the integrated terminal (any of the three ways above).</li><li>Click inside the terminal panel — you should see the cursor blinking next to the prompt.</li><li>Type exactly this and press Enter:</li></ol>
+<p>   ``<code>    echo hello    </code>``</p>
+<p>   You should see <code>hello</code> printed on the next line, then a fresh prompt.</p>
+<ol><li>Now type your own name:</li></ol>
+<p>   ``<code>    echo your-name-here    </code>``</p>
+<p>   (Replace <code>your-name-here</code> with your actual name. No quotes needed.)</p>
+<ol><li>Close the terminal with `<code> Ctrl+</code> `` and reopen it. The terminal pane comes back — the previous output is still there.</li></ol>
+<h2>Checkpoint</h2>
+<p>You're done when:</p>
+<ul><li>[ ] You opened the integrated terminal at least once.</li><li>[ ] You ran <code>echo hello</code> and saw <code>hello</code> printed back.</li><li>[ ] You ran <code>echo</code> with your own name and it worked.</li><li>[ ] You can explain the difference between typing into the editor and typing into the terminal.</li></ul>
+<p>You don't need to memorize any commands today. That's tomorrow's problem (Module 01).</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Open the integrated terminal and run your first commands in it.</p>
+<p><strong>Task:</strong> Work through this lesson — open the integrated terminal (`<code> Ctrl+</code> `<code>, View → Terminal, or the command palette), then run </code>echo hello<code> and </code>echo` with your own name.</p>
+<p><strong>Submit:</strong> One screenshot of your VS Code window with the terminal panel showing both <code>echo</code> commands and their output.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] The terminal panel is visible at the bottom of the VS Code window (not a separate app).</li><li>[ ] <code>echo hello</code> and its <code>hello</code> output are visible.</li><li>[ ] <code>echo</code> with your own name and its output are visible.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m00-03-extensions-overview.html">03-extensions-overview.md</a></p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

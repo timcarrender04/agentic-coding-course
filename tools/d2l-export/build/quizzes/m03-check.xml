@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd">
+  <assessment ident="quiz_m03" title="Module 03 Check on Learning — FastAPI from Scratch">
+    <qtimetadata>
+      <qtimetadatafield>
+        <fieldlabel>cc_profile</fieldlabel>
+        <fieldentry>cc.exam.v0p1</fieldentry>
+      </qtimetadatafield>
+      <qtimetadatafield>
+        <fieldlabel>qmd_scoretype</fieldlabel>
+        <fieldentry>Percentage</fieldentry>
+      </qtimetadatafield>
+    </qtimetadata>
+    <section ident="quiz_m03_root">
+
+    <item ident="quiz_m03_q1" title="Question 1">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;You run &lt;code&gt;python -c &amp;quot;import main&amp;quot;&lt;/code&gt; and get &lt;code&gt;ModuleNotFoundError: No module named 'fastapi'&lt;/code&gt;. According to the lessons, what is the most likely cause?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m03_q1_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m03_q1_a0">
+              <material><mattext texttype="text/html">FastAPI must be reinstalled with &lt;code&gt;sudo pip install fastapi&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q1_a1">
+              <material><mattext texttype="text/html">The virtual environment is not activated in this terminal — &lt;code&gt;(.venv)&lt;/code&gt; is missing from the prompt</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q1_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;main.py&lt;/code&gt; is missing the &lt;code&gt;app = FastAPI()&lt;/code&gt; line</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q1_a3">
+              <material><mattext texttype="text/html">Uvicorn is not running yet</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m03_q1_resp">quiz_m03_q1_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m03_q1_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m03_q1_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lessons call a forgotten &lt;code&gt;source .venv/bin/activate&lt;/code&gt; the number-one mistake of the module, and this error is its telltale symptom.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m03_q2" title="Question 2">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;In the command &lt;code&gt;uvicorn main:app --reload&lt;/code&gt;, what do &lt;code&gt;main&lt;/code&gt; and &lt;code&gt;app&lt;/code&gt; refer to?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m03_q2_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m03_q2_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;main&lt;/code&gt; is the project directory and &lt;code&gt;app&lt;/code&gt; is the Dockerfile stage to run</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q2_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;main&lt;/code&gt; is the entry function and &lt;code&gt;app&lt;/code&gt; is the value it returns</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q2_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;main&lt;/code&gt; is the Python file (without &lt;code&gt;.py&lt;/code&gt;) and &lt;code&gt;app&lt;/code&gt; is the FastAPI instance variable inside it</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q2_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;main&lt;/code&gt; is the git branch and &lt;code&gt;app&lt;/code&gt; is the name given to the process</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m03_q2_resp">quiz_m03_q2_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m03_q2_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m03_q2_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson explains that &lt;code&gt;main&lt;/code&gt; names the module file and &lt;code&gt;app&lt;/code&gt; names the FastAPI object, so renaming the file to &lt;code&gt;app.py&lt;/code&gt; would change the command to &lt;code&gt;uvicorn app:app --reload&lt;/code&gt;.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m03_q3" title="Question 3">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;A route is declared as &lt;code&gt;def read_item(item_id: int)&lt;/code&gt;. What happens when a client requests &lt;code&gt;/items/banana&lt;/code&gt;?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m03_q3_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m03_q3_a0">
+              <material><mattext texttype="text/html">200 OK with &lt;code&gt;{&amp;quot;item_id&amp;quot;: &amp;quot;banana&amp;quot;}&lt;/code&gt; returned as a string</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q3_a1">
+              <material><mattext texttype="text/html">404 Not Found because the path does not match any route</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q3_a2">
+              <material><mattext texttype="text/html">500 Internal Server Error from the failed type conversion</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q3_a3">
+              <material><mattext texttype="text/html">422 Unprocessable Entity with a validation error naming the failing field</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m03_q3_resp">quiz_m03_q3_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m03_q3_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m03_q3_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;FastAPI reads the &lt;code&gt;int&lt;/code&gt; type hint and automatically rejects non-integer input with a 422 whose body says which field failed and why.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m03_q4" title="Question 4">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;A curl POST to &lt;code&gt;/items&lt;/code&gt; with a correct-looking JSON payload keeps failing with a &lt;code&gt;json_invalid&lt;/code&gt; error. Per the lesson, what is the most common cause?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m03_q4_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m03_q4_a0">
+              <material><mattext texttype="text/html">The &lt;code&gt;-H &amp;quot;Content-Type: application/json&amp;quot;&lt;/code&gt; header is missing from the request</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q4_a1">
+              <material><mattext texttype="text/html">The URL was not quoted, so the shell consumed the &lt;code&gt;?&lt;/code&gt; character</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q4_a2">
+              <material><mattext texttype="text/html">The &lt;code&gt;-X POST&lt;/code&gt; flag must come after the &lt;code&gt;-d&lt;/code&gt; flag</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q4_a3">
+              <material><mattext texttype="text/html">Uvicorn must be restarted after every POST request</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m03_q4_resp">quiz_m03_q4_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m03_q4_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m03_q4_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson demonstrates that omitting the &lt;code&gt;Content-Type: application/json&lt;/code&gt; header prevents FastAPI from parsing the body and calls it the top cause of unexplained errors on POST.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m03_q5" title="Question 5">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;A router is created with &lt;code&gt;APIRouter(prefix=&amp;quot;/items&amp;quot;, tags=[&amp;quot;items&amp;quot;])&lt;/code&gt;. How should you declare the route that lists items at the path &lt;code&gt;/items&lt;/code&gt;?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m03_q5_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m03_q5_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;@app.get(&amp;quot;/items&amp;quot;)&lt;/code&gt; inside the router file</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q5_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;@router.get(&amp;quot;/items&amp;quot;)&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q5_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;@router.get(&amp;quot;&amp;quot;)&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q5_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;@router.get(&amp;quot;/list&amp;quot;)&lt;/code&gt;</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m03_q5_resp">quiz_m03_q5_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m03_q5_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m03_q5_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The prefix is already applied by the router, so &lt;code&gt;@router.get(&amp;quot;&amp;quot;)&lt;/code&gt; maps to &lt;code&gt;/items&lt;/code&gt;, while &lt;code&gt;@router.get(&amp;quot;/items&amp;quot;)&lt;/code&gt; would wrongly produce &lt;code&gt;/items/items&lt;/code&gt;.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m03_q6" title="Question 6">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;The &lt;code&gt;get_current_user&lt;/code&gt; dependency requires an &lt;code&gt;X-Token&lt;/code&gt; header. What does the protected route return when the header is present but has the wrong value?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m03_q6_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m03_q6_a0">
+              <material><mattext texttype="text/html">422, because the header failed Pydantic validation</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q6_a1">
+              <material><mattext texttype="text/html">401, because the dependency raises &lt;code&gt;HTTPException(status_code=401)&lt;/code&gt; for an invalid token</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q6_a2">
+              <material><mattext texttype="text/html">403, because the user lacks permission for the resource</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q6_a3">
+              <material><mattext texttype="text/html">404, because protected routes are hidden without authentication</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m03_q6_resp">quiz_m03_q6_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m03_q6_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m03_q6_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson distinguishes 422 (header missing, rejected by framework-level validation) from 401 (header present but wrong, raised by the dependency's &lt;code&gt;HTTPException&lt;/code&gt;).&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m03_q7" title="Question 7">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Why must the Dockerfile's &lt;code&gt;CMD&lt;/code&gt; run uvicorn with &lt;code&gt;--host 0.0.0.0&lt;/code&gt;?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m03_q7_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m03_q7_a0">
+              <material><mattext texttype="text/html">It enables hot-reload inside the container</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q7_a1">
+              <material><mattext texttype="text/html">It tells Docker which port to publish on the host</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q7_a2">
+              <material><mattext texttype="text/html">It runs uvicorn with elevated privileges so it can open port 8000</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q7_a3">
+              <material><mattext texttype="text/html">It makes uvicorn listen beyond the container's loopback so &lt;code&gt;docker run -p&lt;/code&gt; traffic from the host can reach it</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m03_q7_resp">quiz_m03_q7_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m03_q7_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m03_q7_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson calls this the most common Dockerfile mistake: without &lt;code&gt;--host 0.0.0.0&lt;/code&gt;, uvicorn binds only to the container's loopback and curl from the host gets a connection reset despite the port mapping.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m03_q8" title="Question 8">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;In the Compose stack, what hostname should the FastAPI container use in its connection string to reach Postgres?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m03_q8_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m03_q8_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;db&lt;/code&gt;, the service name defined in &lt;code&gt;docker-compose.yml&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q8_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;localhost&lt;/code&gt;, since both containers run on the same machine</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q8_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;postgres&lt;/code&gt;, the name of the Docker image</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q8_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;127.0.0.1:5432&lt;/code&gt;, the port mapped to the host</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m03_q8_resp">quiz_m03_q8_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m03_q8_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m03_q8_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;Inside the Compose network, containers reach each other by service name, so the connection string is &lt;code&gt;postgresql://postgres:devpass@db:5432/appdb&lt;/code&gt; — typing &lt;code&gt;localhost&lt;/code&gt; is called the number-one connection-string mistake.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m03_q9" title="Question 9">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;In the SQLAlchemy create pattern &lt;code&gt;db.add(db_item)&lt;/code&gt;, &lt;code&gt;db.commit()&lt;/code&gt;, &lt;code&gt;db.refresh(db_item)&lt;/code&gt;, what does the &lt;code&gt;db.refresh&lt;/code&gt; call do?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m03_q9_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m03_q9_a0">
+              <material><mattext texttype="text/html">It re-runs the pending SQL statements in case the commit failed</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q9_a1">
+              <material><mattext texttype="text/html">It clears the session cache so the next request starts clean</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q9_a2">
+              <material><mattext texttype="text/html">It reloads database-generated values like the auto-increment &lt;code&gt;id&lt;/code&gt; back onto the object</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q9_a3">
+              <material><mattext texttype="text/html">It creates the table if it does not exist yet</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m03_q9_resp">quiz_m03_q9_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m03_q9_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m03_q9_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson warns that skipping &lt;code&gt;db.refresh(db_item)&lt;/code&gt; leaves the response with &lt;code&gt;id: null&lt;/code&gt; because the auto-generated id is only loaded back from the database by the refresh.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m03_q10" title="Question 10">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;The lesson adds a check that rejects items with &lt;code&gt;price &amp;lt;= 0&lt;/code&gt; using a 400 response. Why 400 rather than 422?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m03_q10_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m03_q10_a0">
+              <material><mattext texttype="text/html">400 signals a violation of your own business rules, while FastAPI reserves 422 for Pydantic's structural validation errors</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q10_a1">
+              <material><mattext texttype="text/html">422 is deprecated in FastAPI and 400 is its replacement</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q10_a2">
+              <material><mattext texttype="text/html">400 makes FastAPI automatically roll back the database transaction</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m03_q10_a3">
+              <material><mattext texttype="text/html">422 responses cannot include a custom &lt;code&gt;detail&lt;/code&gt; message</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m03_q10_resp">quiz_m03_q10_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m03_q10_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m03_q10_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson states that validation errors are always 422 (raised automatically by Pydantic), while 400 Bad Request is for business-rule violations you enforce in your own route code.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+    </section>
+  </assessment>
+</questestinterop>

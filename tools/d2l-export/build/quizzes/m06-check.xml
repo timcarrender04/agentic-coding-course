@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd">
+  <assessment ident="quiz_m06" title="Module 06 Check on Learning — HeroUI Frontend">
+    <qtimetadata>
+      <qtimetadatafield>
+        <fieldlabel>cc_profile</fieldlabel>
+        <fieldentry>cc.exam.v0p1</fieldentry>
+      </qtimetadatafield>
+      <qtimetadatafield>
+        <fieldlabel>qmd_scoretype</fieldlabel>
+        <fieldentry>Percentage</fieldentry>
+      </qtimetadatafield>
+    </qtimetadata>
+    <section ident="quiz_m06_root">
+
+    <item ident="quiz_m06_q1" title="Question 1">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;After a successful nvm installation, running &lt;code&gt;which nvm&lt;/code&gt; prints nothing. Why is that expected?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m06_q1_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m06_q1_a0">
+              <material><mattext texttype="text/html">The installation failed and must be re-run with sudo</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q1_a1">
+              <material><mattext texttype="text/html">nvm only becomes visible after you reboot the machine</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q1_a2">
+              <material><mattext texttype="text/html">nvm is a shell function sourced from &lt;code&gt;~/.bashrc&lt;/code&gt;, not a binary, so you verify it with &lt;code&gt;command -v nvm&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q1_a3">
+              <material><mattext texttype="text/html">The &lt;code&gt;which&lt;/code&gt; command is not available in bash</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m06_q1_resp">quiz_m06_q1_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m06_q1_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m06_q1_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;nvm is loaded into the shell as a function from &lt;code&gt;~/.bashrc&lt;/code&gt;, so &lt;code&gt;which&lt;/code&gt; finds no binary; &lt;code&gt;command -v nvm&lt;/code&gt; is the correct check.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m06_q2" title="Question 2">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Which command does the module use to scaffold the Next.js + HeroUI starter project?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m06_q2_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m06_q2_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;npx heroui-cli@latest init&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q2_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;npm install -g @heroui/react &amp;amp;&amp;amp; heroui init&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q2_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;npx create-next-app --heroui&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q2_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;docker run heroui/starter&lt;/code&gt;</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m06_q2_resp">quiz_m06_q2_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m06_q2_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m06_q2_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson runs the HeroUI CLI on the fly with npx, avoiding any global install, and answers its prompts to create the project.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m06_q3" title="Question 3">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;You add &lt;code&gt;useState&lt;/code&gt; to a page in the &lt;code&gt;app/&lt;/code&gt; directory and the browser shows an error saying the hook only works in a Client Component. What is the fix taught in the module?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m06_q3_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m06_q3_a0">
+              <material><mattext texttype="text/html">Restart the dev server with &lt;code&gt;npm run dev&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q3_a1">
+              <material><mattext texttype="text/html">Move the hook into &lt;code&gt;app/layout.tsx&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q3_a2">
+              <material><mattext texttype="text/html">Downgrade to an older version of Next.js</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q3_a3">
+              <material><mattext texttype="text/html">Add &lt;code&gt;&amp;quot;use client&amp;quot;;&lt;/code&gt; as the very first line of the file</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m06_q3_resp">quiz_m06_q3_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m06_q3_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m06_q3_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;Pages in &lt;code&gt;app/&lt;/code&gt; default to server components, so any component using hooks must opt in with the &lt;code&gt;&amp;quot;use client&amp;quot;&lt;/code&gt; directive at the top of the file.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m06_q4" title="Question 4">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Which prop do HeroUI's &lt;code&gt;Input&lt;/code&gt; and &lt;code&gt;Checkbox&lt;/code&gt; components use to hand you the new value directly, per the lessons?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m06_q4_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m06_q4_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;onChange&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q4_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;onValueChange&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q4_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;onInput&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q4_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;setValue&lt;/code&gt;</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m06_q4_resp">quiz_m06_q4_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m06_q4_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m06_q4_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;HeroUI's idiomatic prop is &lt;code&gt;onValueChange&lt;/code&gt;, which passes the value itself rather than a DOM event like &lt;code&gt;onChange&lt;/code&gt; does.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m06_q5" title="Question 5">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;The page at &lt;code&gt;http://localhost:3000&lt;/code&gt; fails to fetch &lt;code&gt;http://localhost:8000/items&lt;/code&gt; and the browser console says the request was blocked by CORS policy. What fixes this in the course setup?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m06_q5_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m06_q5_a0">
+              <material><mattext texttype="text/html">Change the fetch call to use &lt;code&gt;mode: &amp;quot;no-cors&amp;quot;&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q5_a1">
+              <material><mattext texttype="text/html">Serve the frontend from port 8000 instead</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q5_a2">
+              <material><mattext texttype="text/html">Add &lt;code&gt;CORSMiddleware&lt;/code&gt; to the FastAPI app with &lt;code&gt;allow_origins=[&amp;quot;http://localhost:3000&amp;quot;]&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q5_a3">
+              <material><mattext texttype="text/html">Add an &lt;code&gt;Access-Control-Allow-Origin&lt;/code&gt; header to the fetch request in React</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m06_q5_resp">quiz_m06_q5_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m06_q5_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m06_q5_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;CORS is granted by the server, so the fix is adding FastAPI's &lt;code&gt;CORSMiddleware&lt;/code&gt; configured to allow the frontend's origin.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m06_q6" title="Question 6">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Why does &lt;code&gt;curl http://localhost:8000/items&lt;/code&gt; succeed even while the browser fetch from the frontend is blocked by CORS?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m06_q6_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m06_q6_a0">
+              <material><mattext texttype="text/html">CORS is enforced by browsers, so curl and server-side code are not affected</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q6_a1">
+              <material><mattext texttype="text/html">curl automatically includes the required Origin headers</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q6_a2">
+              <material><mattext texttype="text/html">The API whitelists curl's User-Agent by default</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q6_a3">
+              <material><mattext texttype="text/html">curl bypasses CORS by using HTTP/2</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m06_q6_resp">quiz_m06_q6_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m06_q6_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m06_q6_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;CORS is a browser security mechanism; tools like curl never enforce it, which is why the same endpoint works from the terminal.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m06_q7" title="Question 7">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;In the create-item form, why does the submit handler send &lt;code&gt;Number(price)&lt;/code&gt; instead of &lt;code&gt;price&lt;/code&gt; in the POST body?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m06_q7_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m06_q7_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;Number()&lt;/code&gt; validates that the price is positive</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q7_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;JSON.stringify&lt;/code&gt; cannot serialize strings</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q7_a2">
+              <material><mattext texttype="text/html">FastAPI would round string prices incorrectly</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q7_a3">
+              <material><mattext texttype="text/html">The Input's value is a string, and the API expects &lt;code&gt;price&lt;/code&gt; as a number</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m06_q7_resp">quiz_m06_q7_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m06_q7_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m06_q7_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;Form input values are always strings, so the code converts the price to a number before sending it to match what the API expects.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m06_q8" title="Question 8">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;After the form's POST succeeds, what must the handler do so the new item appears in the list without reloading the page?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m06_q8_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m06_q8_a0">
+              <material><mattext texttype="text/html">Call &lt;code&gt;window.location.reload()&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q8_a1">
+              <material><mattext texttype="text/html">Clear the form and re-fetch the items list, e.g. &lt;code&gt;await loadItems()&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q8_a2">
+              <material><mattext texttype="text/html">Nothing — React re-renders automatically after any fetch</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q8_a3">
+              <material><mattext texttype="text/html">Restart the Next.js dev server</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m06_q8_resp">quiz_m06_q8_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m06_q8_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m06_q8_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson stresses re-fetching the list state after a successful POST; otherwise the new item only shows up on the next manual refresh.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m06_q9" title="Question 9">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Before letting Continue.dev's agent mode change the frontend, what does the module tell you to do first?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m06_q9_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m06_q9_a0">
+              <material><mattext texttype="text/html">Create a git feature branch so a bad result is easy to revert</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q9_a1">
+              <material><mattext texttype="text/html">Delete &lt;code&gt;node_modules&lt;/code&gt; so the agent runs faster</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q9_a2">
+              <material><mattext texttype="text/html">Stop the FastAPI backend so the agent cannot call it</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q9_a3">
+              <material><mattext texttype="text/html">Switch Continue.dev to autocomplete mode</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m06_q9_resp">quiz_m06_q9_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m06_q9_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m06_q9_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The rule is branch first, agent second: working on a feature branch means junk output can be discarded with a simple revert.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m06_q10" title="Question 10">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;How does the final checkpoint's search box filter the items list?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m06_q10_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m06_q10_a0">
+              <material><mattext texttype="text/html">It calls a new FastAPI &lt;code&gt;/items/search&lt;/code&gt; endpoint</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q10_a1">
+              <material><mattext texttype="text/html">It runs a SQL LIKE query through a new backend route</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q10_a2">
+              <material><mattext texttype="text/html">It filters the already-fetched items in the browser by name, case-insensitively</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m06_q10_a3">
+              <material><mattext texttype="text/html">It re-renders the page on the server for every keystroke</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m06_q10_resp">quiz_m06_q10_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m06_q10_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m06_q10_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The checkpoint explicitly requires a client-side filter with case-insensitive matching on the item name, with no new backend route.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+    </section>
+  </assessment>
+</questestinterop>

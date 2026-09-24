@@ -1,25 +1,34 @@
-# Continue agent config — remote Ollama (Tailscale-friendly IP)
-# Use in IDE: Continue sidebar → agent/config picker → point at this file, or merge into ~/.continue/config.yaml
-# Docs: https://docs.continue.dev/customize/model-providers/top-level/ollama
+# Continue agent config — shared college vLLM endpoint (OpenAI-compatible)
+# The endpoint runs vLLM on the shared server (2x NVIDIA RTX A6000, tensor-parallel).
+# Use in IDE: Continue sidebar -> agent/config picker -> point at this file, or merge into ~/.continue/config.yaml
+# Docs: https://docs.continue.dev/customize/model-providers/top-level/openai
+#
+# apiBase points at the shared endpoint (campus network / Tailscale). A single shared key
+# is used for the whole cohort; on the open campus network apiKey may be omitted.
 
-name: Remote Ollama Coder
+name: College Coder (vLLM)
 version: 1.0.0
 schema: v1
 
 models:
-  - name: Qwen 2.5 Coder 7B (100.68.103.54)
-    provider: ollama
-    model: qwen2.5-coder:7b
-    apiBase: http://100.68.103.54:11434
+  # Chat / edit / agent -> Llama 3.3 70B, tensor-parallel across both A6000s.
+  # (Coming online; use the 8B only as a fallback if the 70B service is down.)
+  - name: Llama 3.3 70B (chat/edit/agent)
+    provider: openai
+    model: meta-llama/Llama-3.3-70B-Instruct
+    apiBase: http://gpu.college.local:8000/v1
+    apiKey: sk-college-shared
     roles:
       - chat
       - edit
       - apply
 
-  - name: Qwen 2.5 Coder 1.5B Base (autocomplete)
-    provider: ollama
-    model: qwen2.5-coder:1.5b-base
-    apiBase: http://100.68.103.54:11434
+  # Autocomplete only -> Llama 3.1 8B (fast, low-latency ghost text). Live now.
+  - name: Llama 3.1 8B (autocomplete)
+    provider: openai
+    model: meta-llama/Llama-3.1-8B-Instruct
+    apiBase: http://gpu.college.local:8000/v1
+    apiKey: sk-college-shared
     roles:
       - autocomplete
 

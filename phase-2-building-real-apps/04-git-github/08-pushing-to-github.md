@@ -1,36 +1,44 @@
-# Lesson 08: Pushing to Gitea
+# Lesson 08: Pushing to GitHub
 
-**By the end, your local FastAPI repo is mirrored on Gitea, and you've made a commit on each side and synced them.**
+**By the end, your local FastAPI repo is mirrored in a public repo on GitHub, and you've made a commit on each side and synced them.**
 
 ⏱ ~15 minutes of typing + clicking
 
 ```instructor
-Say: "We push the local FastAPI repo to Gitea, then commit on each side and sync. After today they own the local-remote round trip."
+Say: "We push the local FastAPI repo to a public repo on GitHub, then commit on each side and sync. After today they own the local-remote round trip."
 Mention: "First push of a new branch needs `git push -u origin <branch>`. Without `-u`, Git complains 'no upstream branch.' Drill the `-u` once."
-Pause: After the first successful `git push`. Have them refresh the Gitea web UI and see the commits land. Browser side and CLI side must match — that's the loop.
-Say: "You're done when their repo is on Gitea AND a commit made locally appears in the web UI after `git push`."
+Mention: "Anyone whose Module 03 project is broken: point them at the fallback box after Step 1 — they create their own copy from the `course-items-api` template instead of debugging in class."
+Pause: After the first successful `git push`. Have them refresh the GitHub repo page and see the commits land. Browser side and CLI side must match — that's the loop.
+Say: "You're done when their repo is public on GitHub AND a commit made locally appears in the web UI after `git push`."
 ```
 
 ---
 
-## Step 1: create the empty repo on Gitea
+## Step 1: create the empty repo on GitHub
 
-**1.** In your browser, go to your Gitea instance. Click the **"+" icon** in the top-right → **New Repository**.
+**1.** In your browser, go to github.com. Click the **"+" icon** in the top-right → **New repository**.
 
 **2.** Fill in:
    - **Owner:** your username.
-   - **Repository Name:** `fastapi-app` (matches your local folder name).
-   - **Visibility:** keep it the default the instructor specifies (probably "Private" or "Internal").
-   - **Initialize Repository:** **leave UNCHECKED.** We're pushing an existing local repo — initializing on the server would create a conflict.
+   - **Repository name:** `fastapi-app` (matches your local folder name).
+   - **Visibility:** **Public.** Your classmates will browse and clone each other's repos in lessons 09–10 — that's the point.
+   - **Initialize this repository:** leave **everything unchecked** — no README, no `.gitignore`, no license. We're pushing an existing local repo — initializing on the server would create a conflict.
 
-**3.** Click **Create Repository**.
+**3.** Click **Create repository**.
 
-**4.** Gitea drops you on the empty repo page with instructions like:
+**4.** GitHub drops you on the quick-setup page. Find the section **"…or push an existing repository from the command line"**:
 ```
-git remote add origin git@<gitea-host>:<your-username>/fastapi-app.git
+git remote add origin git@github.com:<username>/fastapi-app.git
+git branch -M main
 git push -u origin main
 ```
-Copy the SSH URL — the `git@<gitea-host>:<your-username>/fastapi-app.git` line. (Use the **SSH** tab, not HTTPS.)
+Make sure the **SSH** tab is selected (not HTTPS) — the URL must start with `git@github.com:`.
+
+> **Fallback — Module 03 project broken or missing?** Don't rebuild it in class. Open the instructor's template repo at `github.com/<INSTRUCTOR-GITHUB-USERNAME>/course-items-api`, click **Use this template → Create a new repository**, name it `fastapi-app`, keep it **Public**, then clone it:
+> ```bash
+> git clone git@github.com:<username>/fastapi-app.git ~/docker-course/fastapi-app
+> ```
+> Cloning sets up `origin` for you, so skip Steps 2 and 3 below and continue at **Step 4: round-trip a commit**.
 
 ---
 
@@ -47,19 +55,19 @@ git remote
 ```
 (No output.)
 
-**7.** Add the Gitea repo as the `origin` remote.
+**7.** Add the GitHub repo as the `origin` remote.
 ```bash
-git remote add origin git@<gitea-host>:<your-username>/fastapi-app.git
+git remote add origin git@github.com:<username>/fastapi-app.git
 ```
-(Substitute the real values from step 4.)
+(Substitute your real username from step 4.)
 
 **8.** Confirm.
 ```bash
 git remote -v
 ```
 ```
-origin  git@<gitea-host>:<your-username>/fastapi-app.git (fetch)
-origin  git@<gitea-host>:<your-username>/fastapi-app.git (push)
+origin  git@github.com:<username>/fastapi-app.git (fetch)
+origin  git@github.com:<username>/fastapi-app.git (push)
 ```
 
 ---
@@ -75,22 +83,22 @@ You should see:
 Enumerating objects: ... done.
 Counting objects: 100% done.
 ...
-To <gitea-host>:<your-username>/fastapi-app.git
+To github.com:<username>/fastapi-app.git
  * [new branch]      main -> main
 branch 'main' set up to track 'origin/main'.
 ```
 
-**10.** Refresh the Gitea repo page in your browser. **Your code is there.** All your files, all your commits, all your branches' commits that ended up on `main`.
+**10.** Refresh the GitHub repo page in your browser. **Your code is there.** All your files, all your commits, all your branches' commits that ended up on `main`.
 
-**11.** Click on a few files to confirm. Click "Commits" to see your history.
+**11.** Click on a few files to confirm. Click the **"N commits"** link (top-right of the file list, with a clock icon) to see your history.
 
 ---
 
 ## Step 4: round-trip a commit
 
-**12.** Make a change locally. Edit `NOTES.md` and add `Pushed to Gitea today`. Save.
+**12.** Make a change locally. Edit `NOTES.md` and add `Pushed to GitHub today`. Save.
 ```bash
-git commit -am "Note Gitea push"
+git commit -am "Note GitHub push"
 ```
 
 **13.** Push.
@@ -99,25 +107,25 @@ git push
 ```
 (No `-u` this time — `main` already tracks `origin/main`.)
 ```
-To <gitea-host>:<your-username>/fastapi-app.git
+To github.com:<username>/fastapi-app.git
    abc1234..def5678  main -> main
 ```
 
-**14.** Refresh Gitea. The new commit is at the top of the history.
+**14.** Refresh GitHub. The new commit is at the top of the history. Click the commit message to see its diff rendered in the browser — green added lines, red removed lines, same as `git show`.
 
 ---
 
-## Step 5: edit on Gitea, pull locally
+## Step 5: edit on GitHub, pull locally
 
-**15.** On Gitea, navigate to `NOTES.md`. Click the **pencil/edit icon** at the top-right of the file view.
+**15.** On GitHub, navigate to `NOTES.md`. Click the **pencil/edit icon** at the top-right of the file view.
 
-**16.** Add a line at the bottom: `Edited via Gitea web UI`.
+**16.** Add a line at the bottom: `Edited via GitHub web UI`.
 
-**17.** Scroll down. Set the commit message to `Edit NOTES via web` and click **Commit Changes** (it'll commit straight to `main` for now — we'll do PRs in lesson 10).
+**17.** Click **Commit changes...** (green button, top-right). Set the commit message to `Edit NOTES via web`, keep **Commit directly to the `main` branch** selected, and click **Commit changes** (we'll do PRs in lesson 10).
 
 **18.** Refresh the commits page — you should see the new commit.
 
-**19.** Back in the terminal. **Don't edit anything locally.** Pull from Gitea.
+**19.** Back in the terminal. **Don't edit anything locally.** Pull from GitHub.
 ```bash
 git pull
 ```
@@ -130,7 +138,7 @@ Fast-forward
  1 file changed, 1 insertion(+)
 ```
 
-**20.** Open `NOTES.md` in Cursor. The line `Edited via Gitea web UI` should now be there.
+**20.** Open `NOTES.md` in VS Code. The line `Edited via GitHub web UI` should now be there.
 
 **21.** Confirm with log.
 ```bash
@@ -146,23 +154,24 @@ git log --oneline -3
 git remote get-url origin
 ```
 ```
-git@<gitea-host>:<your-username>/fastapi-app.git
+git@github.com:<username>/fastapi-app.git
 ```
 **SSH form** — used for pushes/pulls without typing a password (your SSH key authenticates).
 
-**23.** The HTTPS form would look like `https://<gitea-host>/<your-username>/fastapi-app.git`. That requires entering a username + password (or a personal access token) on every push. SSH is simpler once set up — that's why we're using it.
+**23.** The HTTPS form would look like `https://github.com/<username>/fastapi-app.git`. GitHub doesn't accept your account password for HTTPS pushes — you'd need a personal access token. SSH is simpler once set up — that's why we're using it.
 
 **24.** Log it.
 ```bash
-echo "Gitea repo + first push: $(git remote get-url origin)" >> ~/docker-course/notes/notes.txt
+echo "GitHub repo + first push: $(git remote get-url origin)" >> ~/docker-course/notes/notes.txt
 ```
 
 ---
 
 ## ⚠️ Watch out
 
+- **Your repo is public.** Anyone on the internet can read it. That's fine for course exercises — but never commit secrets. Your `.env` is in `.gitignore` from lesson 02 for exactly this reason. Check `git status` before every push.
 - **"failed to push some refs"** means the remote has commits you don't have. Run `git pull` first, resolve any conflicts (lesson 09), then push again.
-- **Don't initialize the Gitea repo with a README** if you have an existing local repo. The histories won't match and you'll get rejected pushes.
+- **Don't initialize the GitHub repo with a README** if you have an existing local repo. The histories won't match and you'll get rejected pushes.
 - **`-u` is only needed the first time** for a new branch. After that, `git push` knows where to go.
 - **The remote name `origin` is convention, not magic.** You could call it anything. `origin` is what most tools assume.
 
@@ -173,14 +182,14 @@ echo "Gitea repo + first push: $(git remote get-url origin)" >> ~/docker-course/
 ```bash
 git remote -v
 ```
-Should show `origin` with a Gitea SSH URL.
+Should show `origin` with a `git@github.com:` SSH URL.
 
 ```bash
 git push --dry-run
 ```
 Should print `Everything up-to-date` (or what would be pushed).
 
-In the Gitea web UI, your repo's commit count should match `git log --oneline | wc -l` locally.
+On GitHub, the **"N commits"** count on your repo page should match `git log --oneline | wc -l` locally.
 
 ---
 

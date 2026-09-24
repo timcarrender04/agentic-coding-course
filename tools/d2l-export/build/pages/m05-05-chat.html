@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Continue.dev on the Shared vLLM Endpoint — Chat</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Use the <code>@file</code>, <code>@codebase</code>, <code>@diff</code>, and <code>@terminal</code> context providers to bring real repository context into Continue chat and get grounded answers about your FastAPI code.</div>
+<h1>Lesson 05: Chat</h1>
+<p><strong>By the end, you will have used <code>@file</code>, <code>@codebase</code>, <code>@diff</code>, and <code>@terminal</code> to bring real context from your FastAPI repo into a chat.</strong></p>
+<p>⏱ ~20 minutes of typing + reading</p>
+<blockquote><p>Plain &quot;explain this&quot; chat is fine, but the magic is <strong>context</strong>. Continue's <code>@</code> providers pull files, diffs, terminal output, and whole codebases into the prompt before the model sees it.</p></blockquote>
+<hr />
+<p><strong>1.</strong> In VS Code, open the FastAPI project.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app</code></pre>
+<p>Then <code>File → Open Folder…</code> and pick <code>~/docker-course/fastapi-app</code>.</p>
+<p><strong>2.</strong> Open the Continue side bar (Continue icon in the activity bar). Confirm the model picker shows <strong>Llama 3.3 70B (chat/edit/agent)</strong>.</p>
+<hr />
+<h2>Drill 1: a vanilla question</h2>
+<p><strong>3.</strong> In the chat box, type:</p>
+<pre class="output"><code class="output">Explain what FastAPI's @app.post decorator does and how it differs from @app.get.</code></pre>
+<p>Send. Read the response. Note the latency — first token in a few seconds, then a stream.</p>
+<hr />
+<h2>Drill 2: ask about a specific file</h2>
+<p><strong>4.</strong> Type <code>@</code> in the chat box. A picker appears. Type <code>file</code> and select <strong>File</strong>.</p>
+<p><strong>5.</strong> A file-picker opens. Pick <code>main.py</code> from your repo.</p>
+<p><strong>6.</strong> After the <code>@main.py</code> chip appears in the input, type:</p>
+<pre class="output"><code class="output">Walk me through what main.py does, line by line.</code></pre>
+<p>Send.</p>
+<p><strong>7.</strong> Read the response. The model now has the actual contents of <code>main.py</code> and references real lines. <strong>This is what beats googling — the model sees your code.</strong></p>
+<hr />
+<h2>Drill 3: ask about a router</h2>
+<p><strong>8.</strong> New chat (click the <code>+</code> icon at the top of the Continue panel — fresh context).</p>
+<p><strong>9.</strong> Reference <code>routers/items.py</code>:</p>
+<pre class="output"><code class="output">@routers/items.py
+What HTTP methods does this router expose, and what does each one do?</code></pre>
+<p>Send. Read.</p>
+<hr />
+<h2>Drill 4: <code>@codebase</code> — full repo context</h2>
+<p><strong>10.</strong> New chat.</p>
+<p><strong>11.</strong> Type:</p>
+<pre class="output"><code class="output">@codebase
+Where in this project does the database connection get created? Reference the file and line if possible.</code></pre>
+<p>Send.</p>
+<p><strong>12.</strong> <code>@codebase</code> triggers Continue to <strong>embed and search</strong> your whole repo (it builds an index in the background; the first use after opening a folder takes a few seconds). The model gets the most relevant chunks, then answers.</p>
+<p><strong>13.</strong> Read the answer. It should mention <code>database.py</code> and the <code>engine = create_engine(...)</code> line.</p>
+<hr />
+<h2>Drill 5: <code>@diff</code> — what's changed since the last commit</h2>
+<p><strong>14.</strong> Make a small uncommitted change. Open <code>main.py</code> and add a single comment at the top:</p>
+<pre><code class="language-python"># This is a Module 05 chat-context test</code></pre>
+<p><strong>15.</strong> Save. <strong>Don't commit.</strong></p>
+<p><strong>16.</strong> New chat in Continue.</p>
+<pre class="output"><code class="output">@diff
+Summarize the change I'm about to commit.</code></pre>
+<p><strong>17.</strong> The model receives the <code>git diff</code> output and summarizes. Useful for writing commit messages.</p>
+<p><strong>18.</strong> Undo the change before moving on (<code>Ctrl+Z</code>, save).</p>
+<hr />
+<h2>Drill 6: <code>@terminal</code> — pull recent terminal output</h2>
+<p><strong>19.</strong> In VS Code's terminal, run:</p>
+<pre><code class="language-bash">docker compose up -d 2&gt;&amp;1 | head -n 5</code></pre>
+<p><strong>20.</strong> New Continue chat.</p>
+<pre class="output"><code class="output">@terminal
+What did Docker Compose just do?</code></pre>
+<p><strong>21.</strong> The model sees your terminal scrollback and explains. Useful for &quot;what does this error mean.&quot;</p>
+<p><strong>22.</strong> Force an error to feel this in anger:</p>
+<pre><code class="language-bash">docker run --not-a-real-flag</code></pre>
+<p><strong>23.</strong> New chat.</p>
+<pre class="output"><code class="output">@terminal
+What's wrong with the last command I ran?</code></pre>
+<p>Read the answer — it should explain the flag is invalid and suggest <code>docker run --help</code>.</p>
+<hr />
+<h2>Drill 7: combine providers</h2>
+<p><strong>24.</strong> New chat.</p>
+<pre class="output"><code class="output">@file:routers/items.py @file:routers/users.py
+The items router has a class for input/output Pydantic models. The users router has a similar pattern. Compare the two and tell me whether they're consistent.</code></pre>
+<p><strong>25.</strong> The model gets both files in context and compares. This is faster than reading both yourself.</p>
+<hr />
+<h2>Drill 8: ask for a code suggestion (don't apply yet)</h2>
+<p><strong>26.</strong> New chat.</p>
+<pre class="output"><code class="output">@file:routers/items.py
+Write a `PUT /items/{item_id}` route that updates an existing item. Return 404 if not found. Use the same pattern as `delete_item`.</code></pre>
+<p><strong>27.</strong> The model proposes code. Read it carefully — does it look like the existing patterns? Does it use the same <code>models</code>, <code>db</code>, <code>HTTPException</code>?</p>
+<p><strong>28.</strong> <strong>Don't click &quot;Apply&quot; yet</strong> — we'll cover apply/edit in lesson 07. For now, just read the suggestion and verify it looks reasonable. Keep it open for lesson 07.</p>
+<hr />
+<p><strong>29.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Chat drilled: @file, @codebase, @diff, @terminal&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Context is finite.</strong> Llama 3.3 70B has a large context window, but it's still finite — and the endpoint is shared, so smaller prompts run faster. <code>@codebase</code> on a huge repo can still lose detail. Use <code>@file</code> for surgical questions, <code>@codebase</code> only when you're searching.</li><li><strong>The model can be wrong.</strong> It will sometimes invent function names or APIs. Read the response, don't trust blindly. If you're going to apply changes (lesson 07), read the diff first.</li><li><strong>New chat for new topics.</strong> Continue keeps conversation memory in the chat session. Switching topics? <code>+</code> icon for a fresh chat. Stale context confuses the model.</li><li><strong>Don't paste secrets.</strong> Anything you put in the chat goes into the model's prompt. With the college endpoint that prompt goes to a shared campus server (not a third-party cloud) — but get the hygiene habit anyway.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<p>In Continue, you have:</p>
+<ul><li>[ ] Sent a chat message and received a response.</li><li>[ ] Used <code>@file</code> to bring a specific file into context.</li><li>[ ] Used <code>@codebase</code> to ask a search-flavored question.</li><li>[ ] Used <code>@diff</code> to summarize uncommitted changes.</li><li>[ ] Used <code>@terminal</code> to ask about recent terminal output.</li></ul>
+<hr />
+<p><strong>Next up:</strong> <a href="m05-06-autocomplete.html">06-autocomplete.md</a> — Tab-completing as you type</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

@@ -1,13 +1,79 @@
+# =============================================================================
+# SERVER-SIDE REFERENCE — DO NOT RUN THIS AS A STUDENT.
+# =============================================================================
+# This is the configuration the COLLEGE runs on the shared inference server
+# (2x NVIDIA RTX A6000, ~96 GB aggregate VRAM). It is included here only so you
+# can see how the endpoint you connect to in this module is served. Students do
+# NOT run a model locally — you point VS Code + Continue.dev at the shared URL
+# (http://gpu.college.local:8000/v1). There is nothing for you to `docker
+# compose up` here.
+#
+# vLLM exposes an OpenAI-compatible API. Two models are served:
+#   - Llama 3.3 70B Instruct  -> chat / edit / agent  (tensor-parallel, TP=2)
+#   - Llama 3.1 8B Instruct   -> autocomplete only
+# Each runs as its own vLLM service on its own port; a reverse proxy (not shown)
+# fronts them at the single base URL :8000/v1 so clients select by model name.
+# =============================================================================
+
 services:
-  ollama:
-    image: ollama/ollama:latest
-    container_name: ollama
+  # ---- Chat / edit / agent model: Llama 3.3 70B, split across BOTH A6000s ----
+  llama-70b:
+    image: vllm/vllm-openai:latest
+    container_name: vllm-llama-70b
+    command:
+      - "--model=meta-llama/Llama-3.3-70B-Instruct"
+      # 70B does not fit on a single 48 GB A6000; shard it across both cards.
+      - "--tensor-parallel-size=2"
+      # A quantized variant (e.g. AWQ or FP8) is needed to fit ~96 GB with KV
+      # cache headroom. Point --model at the quantized repo and set the method,
+      # e.g.:  --model=<org>/Llama-3.3-70B-Instruct-AWQ  --quantization=awq
+      - "--served-model-name=meta-llama/Llama-3.3-70B-Instruct"
+      - "--host=0.0.0.0"
+      - "--port=8000"
+      # Shared key clients send as `Authorization: Bearer sk-college-shared`.
+      - "--api-key=sk-college-shared"
     ports:
-      - "11434:11434"
+      - "8000:8000"
     volumes:
-      - ollama_data:/root/.ollama
+      - hf_cache:/root/.cache/huggingface
+    environment:
+      # Meta gates the Llama weights; a HF token with access is required to pull.
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
+    ipc: host           # vLLM needs a large shared-memory segment for TP.
     restart: unless-stopped
-    gpus: all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all          # both A6000s -> tensor-parallel-size 2
+              capabilities: [gpu]
+
+  # ---- Autocomplete model: Llama 3.1 8B, fits comfortably on one card --------
+  llama-8b:
+    image: vllm/vllm-openai:latest
+    container_name: vllm-llama-8b
+    command:
+      - "--model=meta-llama/Llama-3.1-8B-Instruct"
+      - "--served-model-name=meta-llama/Llama-3.1-8B-Instruct"
+      - "--host=0.0.0.0"
+      - "--port=8001"
+      - "--api-key=sk-college-shared"
+    ports:
+      - "8001:8001"
+    volumes:
+      - hf_cache:/root/.cache/huggingface
+    environment:
+      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
+    ipc: host
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
 
 volumes:
-  ollama_data:
+  hf_cache:

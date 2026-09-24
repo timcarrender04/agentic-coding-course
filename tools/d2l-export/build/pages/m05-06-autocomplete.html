@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Continue.dev on the Shared vLLM Endpoint — Autocomplete</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Write a working <code>PUT /items/{item_id}</code> route using tab autocomplete, reading each ghost-text suggestion before accepting with Tab, refining by typing, or dismissing with Esc.</div>
+<h1>Lesson 06: Autocomplete</h1>
+<p><strong>By the end, you will have used tab autocomplete to write a real route in your FastAPI app.</strong></p>
+<p>⏱ ~15 minutes of typing</p>
+<blockquote><p>Autocomplete is the most-used Continue feature. As you type, the small 8B model predicts what comes next as <strong>ghost text</strong>. Tab to accept, keep typing to refine, Esc to dismiss.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Make sure your FastAPI repo is open in VS Code and the venv is <strong>not</strong> active in your terminal (autocomplete works regardless — keeping the prompt clean).</p>
+<p><strong>2.</strong> Open <code>routers/items.py</code>.</p>
+<p><strong>3.</strong> Find the <code>delete_item</code> function. Position your caret at the end of that function's last line.</p>
+<hr />
+<h2>Drill 1: complete a route</h2>
+<p><strong>4.</strong> Press Enter twice to start a new function. Type:</p>
+<pre><code class="language-python">
+
+@router.put(&quot;/{item_id}&quot;, response_model=ItemOut)</code></pre>
+<p><strong>5.</strong> Press Enter. Pause. Ghost text should appear suggesting a function signature.</p>
+<p><strong>6.</strong> Read the suggestion before pressing Tab. Does it look like:</p>
+<pre><code class="language-python">def update_item(item_id: int, item: ItemIn, db: Session = Depends(get_db)):</code></pre>
+<p>or something close? If yes, <strong>Tab</strong> to accept.</p>
+<p><strong>7.</strong> Press Enter. The model should now suggest the body — query, 404 check, mutation, commit, return.</p>
+<p><strong>8.</strong> Read each suggestion before accepting. Tab if it looks right; keep typing if you want to override.</p>
+<p><strong>9.</strong> End of the function — your file should have something like:</p>
+<pre><code class="language-python">@router.put(&quot;/{item_id}&quot;, response_model=ItemOut)
+def update_item(item_id: int, item: ItemIn, db: Session = Depends(get_db)):
+    db_item = db.query(models.Item).filter(models.Item.id == item_id).first()
+    if db_item is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=&quot;Item not found&quot;)
+    for key, value in item.model_dump().items():
+        setattr(db_item, key, value)
+    db.commit()
+    db.refresh(db_item)
+    return db_item</code></pre>
+<p>(Yours may differ in details — that's fine. Read it for correctness.)</p>
+<p><strong>10.</strong> Save.</p>
+<hr />
+<h2>Drill 2: feel partial vs full accept</h2>
+<p><strong>11.</strong> In the same file, position at the bottom and start typing a docstring for <code>update_item</code>:</p>
+<pre><code class="language-python">&quot;&quot;&quot;</code></pre>
+<p><strong>12.</strong> Ghost text appears with a full docstring. <strong>You can accept just the next word</strong> with <code>Ctrl+→</code> (or <code>Cmd+→</code> on Mac) — that walks the suggestion one word at a time.</p>
+<p><strong>13.</strong> Try it: Tab once for the full suggestion, or <code>Ctrl+→</code> repeatedly for word-by-word.</p>
+<p><strong>14.</strong> Esc to dismiss the rest if you don't want it.</p>
+<hr />
+<h2>Drill 3: refusing a bad suggestion</h2>
+<p><strong>15.</strong> Position the caret on a new line at the bottom of <code>routers/items.py</code>. Type:</p>
+<pre><code class="language-python">def supercalifragilisticexpialidocious(</code></pre>
+<p><strong>16.</strong> The autocomplete model will try to suggest something — likely garbage given the made-up name. Read the suggestion. <strong>Do not accept.</strong> Hit Esc.</p>
+<p><strong>17.</strong> Delete the line you typed.</p>
+<p><strong>18.</strong> <strong>Lesson:</strong> the model is a tool, not an oracle. Reading every suggestion before Tab is the habit.</p>
+<hr />
+<h2>Drill 4: completing a test</h2>
+<p><strong>19.</strong> Test your new route by curling it. First start the stack.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+docker compose up -d
+sleep 3</code></pre>
+<p><strong>20.</strong> Create an item to update.</p>
+<pre><code class="language-bash">curl -s -X POST http://localhost:8000/items \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;:&quot;Original&quot;,&quot;price&quot;:1.0}' | python3 -m json.tool</code></pre>
+<p>Note the <code>id</code> in the response.</p>
+<p><strong>21.</strong> PUT to update it (substitute your id):</p>
+<pre><code class="language-bash">curl -s -X PUT http://localhost:8000/items/&lt;id&gt; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{&quot;name&quot;:&quot;Updated&quot;,&quot;price&quot;:2.0}' | python3 -m json.tool</code></pre>
+<p><strong>22.</strong> Read the response — <code>name</code> and <code>price</code> should be the new values, <code>id</code> unchanged.</p>
+<hr />
+<h2>Drill 5: turn it off when you don't want it</h2>
+<p><strong>23.</strong> Sometimes ghost text is distracting. Open the command palette (<code>Ctrl+Shift+P</code>) and run <strong>&quot;Continue: Toggle Autocomplete Enabled&quot;</strong>.</p>
+<p><strong>24.</strong> Ghost text now stops appearing. Re-run the same command to turn it back on.</p>
+<hr />
+<h2>Drill 6: commit your new code</h2>
+<p><strong>25.</strong> This is real work — commit it.</p>
+<pre><code class="language-bash">git switch -c add-update-item-route
+git add routers/items.py
+git commit -m &quot;Add PUT /items/{item_id} update route&quot;</code></pre>
+<p><strong>26.</strong> We won't push this branch yet — Module 04's PR drill is sufficient for now. Switch back to <code>main</code> and clean up:</p>
+<pre><code class="language-bash">git switch main
+git merge add-update-item-route
+git branch -d add-update-item-route</code></pre>
+<p><strong>27.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Autocomplete used to write PUT /items route&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Read every suggestion before Tab.</strong> The 8B model is fast but limited. It will sometimes invent module names, miss imports, or hallucinate field names. Tab is a commitment.</li><li><strong>Latency varies with file size.</strong> Long files mean more context prefix to process — completions can take 1–2 seconds on big files. Patience.</li><li><strong>Imports.</strong> The autocomplete model often won't add <code>import</code> lines for symbols it uses. You'll fix imports manually or via Continue chat.</li><li><strong>Ghost text only appears at the caret.</strong> It won't suggest in the middle of an existing line — only when you stop typing in a position where new code makes sense.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">grep -A 1 &quot;@router.put&quot; routers/items.py</code></pre>
+<p>Should show your new PUT route decorator.</p>
+<pre><code class="language-bash">docker compose up -d &amp;&amp; sleep 3 &amp;&amp; curl -s -X POST http://localhost:8000/items -H &quot;Content-Type: application/json&quot; -d '{&quot;name&quot;:&quot;T&quot;,&quot;price&quot;:1}' | python3 -m json.tool</code></pre>
+<p>Should return a created item.</p>
+<pre><code class="language-bash">git log --oneline -1</code></pre>
+<p>Should show your &quot;Add PUT /items/{item_id}&quot; commit.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m05-07-inline-edit.html">07-inline-edit.md</a> — Tell the model to edit highlighted code</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

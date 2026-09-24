@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubuntu Terminal Foundations — Networking Drills</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Diagnose network readiness for Docker Hub using <code>ip a</code>, <code>ping</code>, <code>curl</code>, <code>ss -tuln</code>, and <code>dig</code>.</div>
+<h1>Lesson 07: Networking Drills</h1>
+<p><strong>By the end, you will have confirmed your network is ready to pull Docker images.</strong></p>
+<p>⏱ ~10 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> Confirm.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-username</code></pre>
+<p><strong>3.</strong> View your network interfaces and IP addresses.</p>
+<pre><code class="language-bash">ip a</code></pre>
+<pre class="output"><code class="output">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; ...
+    inet 127.0.0.1/8 scope host lo
+2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; ...
+    inet 192.168.x.x/24 ...</code></pre>
+<p>(Output will vary. Look for an <code>inet</code> address on your main interface — that's your local IP.)</p>
+<p><strong>4.</strong> Ping Google's DNS to confirm basic internet connectivity.</p>
+<pre><code class="language-bash">ping -c 3 8.8.8.8</code></pre>
+<pre class="output"><code class="output">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.3 ms
+...
+3 packets transmitted, 3 received, 0% packet loss</code></pre>
+<p><strong>5.</strong> Ping a domain name to confirm DNS works.</p>
+<pre><code class="language-bash">ping -c 3 google.com</code></pre>
+<pre class="output"><code class="output">PING google.com (142.250.x.x) 56(84) bytes of data.
+...
+3 packets transmitted, 3 received, 0% packet loss</code></pre>
+<p><strong>6.</strong> Ping Docker Hub's domain — this is where we'll pull images from.</p>
+<pre><code class="language-bash">ping -c 3 hub.docker.com</code></pre>
+<p>(You should get 0% packet loss. If this fails, your network may block Docker Hub.)</p>
+<p><strong>7.</strong> Use curl to check HTTP headers from a website.</p>
+<pre><code class="language-bash">curl -I https://www.google.com</code></pre>
+<pre class="output"><code class="output">HTTP/2 200
+content-type: text/html; charset=ISO-8859-1
+...</code></pre>
+<p>(Look for <code>HTTP/2 200</code> — that means the request succeeded.)</p>
+<p><strong>8.</strong> Find your public IP address.</p>
+<pre><code class="language-bash">curl ifconfig.me</code></pre>
+<pre class="output"><code class="output">203.0.113.x</code></pre>
+<p>(This shows your public-facing IP. It will differ from your local IP.)</p>
+<p><strong>9.</strong> Add a newline after the IP (curl doesn't always add one).</p>
+<pre><code class="language-bash">echo &quot;&quot;</code></pre>
+<p><strong>10.</strong> Check what ports are currently listening on your machine.</p>
+<pre><code class="language-bash">ss -tuln</code></pre>
+<pre class="output"><code class="output">Netid  State   Recv-Q  Send-Q   Local Address:Port   Peer Address:Port
+tcp    LISTEN  0       128      0.0.0.0:22            0.0.0.0:*</code></pre>
+<p>(You should see at least port 22 for SSH. After Docker is installed, you'll see more ports here.)</p>
+<p><strong>11.</strong> Install dnsutils if dig isn't available yet.</p>
+<pre><code class="language-bash">sudo apt install -y dnsutils</code></pre>
+<p><strong>12.</strong> Look up DNS records for Docker Hub.</p>
+<pre><code class="language-bash">dig hub.docker.com</code></pre>
+<pre class="output"><code class="output">;; ANSWER SECTION:
+hub.docker.com.    300    IN    A    x.x.x.x
+...
+;; Query time: X msec</code></pre>
+<p>(This confirms your system can resolve DNS names — critical for pulling Docker images.)</p>
+<p><strong>13.</strong> Look up just the short answer.</p>
+<pre><code class="language-bash">dig +short hub.docker.com</code></pre>
+<pre class="output"><code class="output">x.x.x.x</code></pre>
+<p><strong>14.</strong> Test a curl download — this is how Docker's install script works.</p>
+<pre><code class="language-bash">curl -fsSL https://www.google.com &gt; /dev/null &amp;&amp; echo &quot;Download OK&quot;</code></pre>
+<pre class="output"><code class="output">Download OK</code></pre>
+<p>(The -fsSL flags: f=fail silently, s=silent, S=show errors, L=follow redirects.)</p>
+<p><strong>15.</strong> Log your network status in your notes.</p>
+<pre><code class="language-bash">echo &quot;Network check passed: $(date)&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<p><strong>16.</strong> Verify.</p>
+<pre><code class="language-bash">tail -n 1 ~/docker-course/notes/notes.txt</code></pre>
+<pre class="output"><code class="output">Network check passed: Mon Jan  1 12:00:00 UTC 2024</code></pre>
+<p>(Date will differ.)</p>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">ping -c 1 8.8.8.8</code></pre>
+<p>You should see <code>1 packets transmitted, 1 received, 0% packet loss</code>.</p>
+<pre><code class="language-bash">curl -I https://hub.docker.com 2&gt;/dev/null | head -n 1</code></pre>
+<p>You should see an HTTP status code (200 or 301).</p>
+<pre><code class="language-bash">dig +short google.com</code></pre>
+<p>You should see one or more IP addresses.</p>
+<pre><code class="language-bash">ss -tuln | head -n 5</code></pre>
+<p>You should see a table of listening ports.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Confirm your network can reach the internet, resolve DNS names, and speak HTTP — including to Docker Hub.</p>
+<p><strong>Task:</strong> Work through the networking drills (ping, curl, dig, ss), then run the four Checkpoint commands in one terminal.</p>
+<p><strong>Submit:</strong> One screenshot (or pasted transcript) of the four Checkpoint commands and their output: <code>ping -c 1 8.8.8.8</code>, <code>curl -I https://hub.docker.com 2&gt;/dev/null | head -n 1</code>, <code>dig +short google.com</code>, <code>ss -tuln | head -n 5</code>.</p>
+<p><strong>Pass criteria:</strong> (network output is non-deterministic — verify the final state, never exact text. On campus/corporate networks <code>curl ifconfig.me</code> may show a proxy IP and some hosts may be filtered; any successful response counts.)</p>
+<ul><li>[ ] <code>ping -c 1 8.8.8.8</code> shows <code>0% packet loss</code>.</li><li>[ ] The <code>curl -I</code> check prints an HTTP status line (<code>HTTP/2 200</code>, a <code>301</code>, or similar — any status line back from the server is a successful response).</li><li>[ ] <code>dig +short google.com</code> returns at least one IP address.</li><li>[ ] <code>ss -tuln | head -n 5</code> shows the listening-ports table.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m01-08-processes-and-services.html">08-processes-and-services.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m01-08-processes-and-services.html">08-processes-and-services.md</a> — Inspect what's running</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

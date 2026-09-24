@@ -25,7 +25,7 @@ cd ~/docker-course/fastapi-app && source .venv/bin/activate
 touch dependencies.py
 ```
 
-**3.** Open it in Cursor.
+**3.** Open it in VS Code.
 
 **4.** Type the imports:
 ```python

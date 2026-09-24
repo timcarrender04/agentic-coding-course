@@ -194,6 +194,22 @@ grep docker /etc/group
 ```
 This should return nothing (docker group doesn't exist yet — it will after Module 02).
 
+## Lab
+
+**Objective:** Read users and groups with `id` and `groups`, and rehearse the `usermod -aG` command you'll need for Docker.
+
+**Task:** Work through the drills. One command is SUPPOSED to fail: `sudo usermod -aG docker $USER` errors because the docker group doesn't exist until Docker is installed in Module 02. The error is the expected result — capture it, don't fix it.
+
+**Submit:** One screenshot (or pasted transcript) showing three things: the output of `id`, the `sudo usermod -aG docker $USER` command with its error `usermod: group 'docker' does not exist`, and `grep docker /etc/group` returning nothing.
+
+**Pass criteria:**
+
+- [ ] `id` shows your uid, gid, and a groups list that includes `sudo`.
+- [ ] The submission includes the exact error `usermod: group 'docker' does not exist` — this failure is proof of the expected state, not a mistake.
+- [ ] `grep docker /etc/group` returns no output (the docker group must NOT exist yet).
+
+**Unlocks:** [11-final-checkpoint.md](11-final-checkpoint.md)
+
 ---
 
 **Next up:** [11-final-checkpoint.md](11-final-checkpoint.md) — Prove you're ready for Docker

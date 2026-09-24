@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VS Code Walkthrough — Connecting over SSH</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Connect VS Code to an instructor-provided remote host with the Remote - SSH extension, open a remote folder, and confirm the session by running <code>hostname</code> and <code>whoami</code>.</div>
+<h1>Lesson 06: Connecting over SSH</h1>
+<p><strong>Time:</strong> ~20 min</p>
+<h2>What is SSH?</h2>
+<p><strong>SSH</strong> stands for <strong>Secure Shell</strong>. It is the standard way to connect to and control a remote computer over the network. You sit at your laptop, run an SSH command, type a password (or use a key), and you get a terminal on the remote computer — as if you were sitting in front of it.</p>
+<p>The VS Code <strong>Remote - SSH</strong> extension takes this one step further: not only do you get a remote terminal, you also get the editor working on the remote files. You edit a file in VS Code, the file lives on the remote, and you can run it in a remote terminal — all without leaving your local VS Code window.</p>
+<h2>Before you start</h2>
+<p>Your instructor will give you the exact connection details for today:</p>
+<ul><li><strong>Host:</strong> <code>&lt;INSTRUCTOR-PROVIDED&gt;</code> — e.g. <code>ec2-12-34-56-78.compute.amazonaws.com</code></li><li><strong>User:</strong> <code>&lt;INSTRUCTOR-PROVIDED&gt;</code> — e.g. <code>student</code></li><li><strong>Auth:</strong> either a <strong>password</strong> or an <strong>SSH key file</strong> the instructor sent you.</li></ul>
+<p>Write these down before you go further.</p>
+<h2>Step 1: install the Remote - SSH extension</h2>
+<p>Remote support isn't built into VS Code — it comes from an extension you install yourself.</p>
+<ol><li>Open the extensions side bar (<code>Ctrl+Shift+X</code>).</li><li>Search for <strong>Remote - SSH</strong>.</li><li>Publisher: <strong>Microsoft</strong>, id <code>ms-vscode-remote.remote-ssh</code>.</li><li>Click <strong>Install</strong>.</li></ol>
+<h2>Step 2 (key auth only): place your key file</h2>
+<p>If your instructor gave you a <strong>password</strong>, skip this step.</p>
+<p>If they gave you a <strong>key file</strong> (a small file usually named like <code>student_key</code> or <code>id_ed25519</code> with no extension):</p>
+<ol><li>Save the file to:</li></ol>
+<ul><li><strong>Windows:</strong> <code>C:\Users\&lt;You&gt;\.ssh\</code> — create the <code>.ssh</code> folder if it doesn't exist.</li><li><strong>Mac/Linux:</strong> <code>~/.ssh/</code></li></ul>
+<ol><li><strong>Mac/Linux only:</strong> in a terminal, run:</li></ol>
+<p>   ``<code>    chmod 600 ~/.ssh/&lt;your-key-filename&gt;    </code>``    This locks down the file's permissions so SSH will accept it. SSH refuses keys that anyone else can read.</p>
+<ol><li><strong>Windows:</strong> if Windows complains about permissions later, right-click the key file → Properties → Security → Advanced → &quot;Disable inheritance&quot; → &quot;Remove all&quot; → then add yourself with Read access only.</li></ol>
+<h2>Step 3: connect</h2>
+<ol><li>In VS Code, click the <strong>bottom-left corner</strong> button (the <code>&gt;&lt;</code> angle brackets) — same place as the WSL button.</li><li>From the dropdown choose <strong>&quot;Connect to Host…&quot;</strong> (or &quot;Remote-SSH: Connect to Host…&quot;).</li><li>Choose <strong>&quot;Add New SSH Host…&quot;</strong>.</li><li>Type the SSH command exactly as your instructor gave it. For password auth:</li></ol>
+<p>   ``<code>    ssh student@ec2-12-34-56-78.compute.amazonaws.com    </code>`<code>    For key auth:    </code>`<code>    ssh -i ~/.ssh/student_key student@ec2-12-34-56-78.compute.amazonaws.com    </code>``    (Substitute the real values your instructor gave you.)</p>
+<ol><li>Press Enter.</li><li>VS Code asks where to save the SSH config. Pick the first option (your user <code>~/.ssh/config</code>).</li><li>Click the bottom-left button again → &quot;Connect to Host…&quot; → your new host should be in the list. Click it.</li></ol>
+<h2>Step 4: trust and authenticate</h2>
+<p>The first time you connect to a new host, two things happen:</p>
+<ol><li>A prompt appears: <strong>&quot;The authenticity of host ... can't be established. Are you sure you want to continue connecting (yes/no/[fingerprint])?&quot;</strong> Type <strong><code>yes</code></strong> and press Enter. (Pressing Enter alone without typing yes does nothing — the question doesn't have a default.)</li><li>If you used password auth, a password prompt appears. Type the password (it won't show on screen) and press Enter.</li></ol>
+<p>VS Code's bottom-left now reads <strong>&quot;SSH: &lt;hostname&gt;&quot;</strong> on green. You are connected.</p>
+<h2>Step 5: open a folder on the remote</h2>
+<ol><li><strong>File → Open Folder…</strong></li><li>The path bar shows paths on the <strong>remote</strong> machine, not your laptop. Navigate to your home directory there (something like <code>/home/student/</code>).</li><li>Click <strong>OK</strong>.</li></ol>
+<h2>Step 6: confirm the terminal is on the remote</h2>
+<ol><li>Open the integrated terminal (`<code> Ctrl+</code> ``).</li><li>The prompt should look like:</li></ol>
+<p>   ``<code>    student@ec2-12-34-56-78:~$    </code>``    That hostname is the <strong>remote</strong> machine, not your laptop.</p>
+<ol><li>Run:</li></ol>
+<p>   ``<code>    hostname    </code>``    The output should be the remote's hostname.</p>
+<ol><li>Run:</li></ol>
+<p>   ``<code>    whoami    </code>`<code>    The output should be the username your instructor gave you (e.g. </code>student`).</p>
+<p>If both are correct: every command you run in this terminal runs on the remote. Every file you save in this VS Code window saves to the remote. Your laptop is now a thin client.</p>
+<h2>Disconnecting</h2>
+<p>Click the bottom-left <strong>&quot;SSH: ...&quot;</strong> button → <strong>&quot;Close Remote Connection&quot;</strong>. VS Code reloads back to your local environment. The remote keeps running; you just stopped talking to it.</p>
+<h2>Checkpoint</h2>
+<p>You're done when:</p>
+<ul><li>[ ] You installed the <strong>Remote - SSH</strong> extension by <strong>Microsoft</strong>.</li><li>[ ] You added the instructor-provided host as an SSH target.</li><li>[ ] The bottom-left of your VS Code window shows <strong>&quot;SSH: &lt;hostname&gt;&quot;</strong> on green.</li><li>[ ] You opened a folder on the remote machine.</li><li>[ ] You ran <code>hostname</code> and <code>whoami</code> in the integrated terminal and the output matches the remote.</li></ul>
+<p>If you get a <code>Permission denied (publickey)</code> error, your key isn't being used or its permissions are wrong — flag the instructor.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Connect VS Code to a remote machine over SSH and prove your terminal is running there.</p>
+<p><strong>Task:</strong> Work through this lesson against the college's shared server — host <code>&lt;INSTRUCTOR-PROVIDED&gt;</code>, user <code>&lt;INSTRUCTOR-PROVIDED&gt;</code> — install the Remote - SSH extension, connect, open a remote folder, and run <code>hostname</code> and <code>whoami</code> in the integrated terminal.</p>
+<p><strong>Submit:</strong> One screenshot of your VS Code window showing the green <strong>&quot;SSH: &lt;hostname&gt;&quot;</strong> indicator in the bottom-left and the output of <code>hostname</code> and <code>whoami</code> in the integrated terminal.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] The bottom-left indicator shows &quot;SSH: &lt;hostname&gt;&quot; on green.</li><li>[ ] The <code>hostname</code> output matches the instructor-provided host, not your laptop.</li><li>[ ] The <code>whoami</code> output is the instructor-provided username.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m00-07-final-checkpoint.html">07-final-checkpoint.md</a></p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

@@ -1,171 +1,99 @@
-# Lesson 01: Verify Your GPU
+# Lesson 01: The Inference Endpoint
 
-**By the end, you will have run `nvidia-smi` from inside your dev environment and seen your GPU listed with VRAM and driver version.**
+**By the end, you will understand the shared inference endpoint the college runs — the hardware, the serving stack, the two models it hosts, and their roles — and you'll have confirmed your machine can reach it over the network.**
 
-⏱ ~15 minutes of typing
+⏱ ~15 minutes of reading + one connectivity check
 
-> Local LLMs need a GPU. Today we just confirm the GPU is visible to the OS and that you have a CUDA-capable driver. We don't install CUDA toolkits — Ollama bundles what it needs.
+> You are **not** running a model on your laptop. The college hosts **one shared inference server** on the campus network. Every student's editor points at the same box. Today we learn what that box is and confirm you can reach it. We install and configure nothing locally beyond the editor.
 
 ```instructor
-Say: "Local LLMs need a GPU. Today we confirm the GPU is visible to the OS and the driver is current. We are NOT installing CUDA toolkits — Ollama bundles what it needs."
-Mention: "WSL students: a missing or empty `nvidia-smi` usually means the WINDOWS-side NVIDIA driver is old. `wsl --update` from PowerShell plus a current driver fixes 90% of cases."
-Pause: After they run `nvidia-smi`. Walk through the output together — driver version, CUDA version, free VRAM. They'll need to recognize VRAM in lesson 03 when picking a model.
-Say: "You're done when `nvidia-smi` lists their GPU AND prints free VRAM. If a student has no GPU, pair them with someone who does."
+Say: "Nobody is running a model on their laptop this year. The college runs ONE shared server. Everyone's editor talks to the same endpoint over the campus network. Today is: what is that box, and can you reach it."
+Mention: "This replaces the old 'each of you needs a GPU' setup. No nvidia-smi, no per-student VRAM math. If a student can't reach the URL, it's a network problem (Tailscale/LAN), not a driver problem."
+Pause: After they run the reachability check. If it returns 000 or times out, it's network — check they're on the campus LAN or Tailscale, not a home connection.
+Say: "You're done when they can describe the two models and their roles AND the reachability check returns an HTTP status (200 or 401 — both mean the box answered)."
 ```
 
 ---
 
-## Three paths
+## The box
 
-Pick the one matching your setup:
+- **One shared server**, hosted by the college. You connect to it over the campus network (LAN or Tailscale). It is **not** a per-student local GPU, and it is not something you install.
+- **Hardware:** 2× **NVIDIA RTX A6000** — 48 GB VRAM each, **~96 GB aggregate**.
+- **Serving software:** **vLLM**, exposing an **OpenAI-compatible** HTTP API. The two A6000s run **tensor-parallel** (`--tensor-parallel-size 2`) so a single large model can be split across both cards.
+- **Auth:** a **single shared API key** (`sk-college-shared`), or no key at all on the campus network. There are no per-student tokens to request — everyone uses the same endpoint.
 
-- **Path A — Native Ubuntu** (your laptop runs Linux directly)
-- **Path B — WSL2** (Windows + Ubuntu through WSL)
-- **Path C — SSH to a course-provided GPU host**
+### The endpoint URL
 
-Steps below are labelled — only run the ones for your path.
+```
+http://gpu.college.local:8000/v1
+```
+
+Some teams may instead see a Tailscale IP for the same box, e.g.:
+
+```
+http://100.68.103.54:8000/v1
+```
+
+Both point at the same server. Use whichever your instructor gives you. The `/v1` suffix is the OpenAI-compatible API path — the same shape the OpenAI SDK and Continue.dev expect.
 
 ---
 
-**1.** **All paths.** Try it first.
-```bash
-nvidia-smi
-```
+## The two models
 
-If you see a table starting with `+---...---+` and listing your GPU (e.g. `NVIDIA GeForce RTX 4070`), VRAM, and driver version — **skip to step 9 (the checkpoint).** You're done with this lesson.
+The endpoint serves **two** Llama models, each with a distinct job:
 
-If you see `nvidia-smi: command not found` or the command hangs, continue with your path.
+| Role in Continue | Model | vLLM model id | Status |
+|---|---|---|---|
+| **Autocomplete only** (tab / ghost-text) | **Llama 3.1 8B Instruct** | `meta-llama/Llama-3.1-8B-Instruct` | **live now** |
+| **Chat, inline edit, agent** (everything else) | **Llama 3.3 70B Instruct** | `meta-llama/Llama-3.3-70B-Instruct` | **coming online** — tensor-parallel across both A6000s (quantized, e.g. AWQ/FP8, to fit ~96 GB) |
 
----
+**Two models, two roles.** Big models (70B) are smart but slower — perfect for chat, edits, and agent work where you wait a couple of seconds for a good answer. Small models (8B) are fast — perfect for tab autocomplete where you need a suggestion in milliseconds. You'll wire both into Continue in lesson 04, selecting each by name.
 
-## Path A — Native Ubuntu
-
-**2A.** Check whether the kernel sees an NVIDIA card.
-```bash
-lspci | grep -i nvidia
-```
-You should see something like `NVIDIA Corporation GA106 [GeForce RTX 3060]`. If you see nothing, the card isn't detected by the OS — stop and ask the instructor.
-
-**3A.** List recommended drivers.
-```bash
-ubuntu-drivers devices
-```
-You'll see a list with one marked `recommended`.
-
-**4A.** Auto-install the recommended driver.
-```bash
-sudo ubuntu-drivers autoinstall
-```
-(Takes a few minutes.)
-
-**5A.** Reboot.
-```bash
-sudo reboot
-```
-Reconnect after reboot.
-
-**6A.** Verify.
-```bash
-nvidia-smi
-```
-
-**Skip to step 9.**
+> **Why Llama?** Both are Meta's **Llama** models: US-origin and permissively licensed, which satisfies the course policy of **no China-origin models**. (An earlier draft config used a China-origin model in violation of that policy — Llama fixes it.) You don't choose model sizes by your own VRAM anymore; the shared box already hosts the right ones.
 
 ---
 
-## Path B — WSL2
+## Confirm you can reach it
 
-**2B.** From inside your WSL terminal, try `nvidia-smi` again. If it works now, skip to step 9.
+You don't need the model list yet (that's lesson 02) — just prove the box answers.
 
-**3B.** If it still fails, the issue is on the **Windows** side, not Linux.
-   - Open Windows PowerShell (not WSL).
-   - Run:
-     ```powershell
-     wsl --update
-     ```
-     to make sure WSL itself is current.
-   - Make sure you have the **latest NVIDIA driver for Windows** — go to https://www.nvidia.com/Download/index.aspx and install the Game Ready or Studio driver for your card. (CUDA-on-WSL is built into the driver since 2022.)
-
-**4B.** Restart WSL completely from PowerShell:
-```powershell
-wsl --shutdown
-```
-Then re-open your WSL terminal.
-
-**5B.** Verify inside WSL.
+**1.** From your dev environment's integrated terminal, ping the API path and print only the HTTP status code:
 ```bash
-nvidia-smi
+curl -s -o /dev/null -w "%{http_code}\n" http://gpu.college.local:8000/v1/models
 ```
+(If your instructor gave you the Tailscale IP instead, substitute it for `gpu.college.local`.)
 
-**Skip to step 9.**
+**2.** Read the result:
+   - **`200`** — the box answered and no key is required. 
+   - **`401`** — the box answered but wants the shared key. **This still means success for this lesson** — you reached the server. You'll supply the key in lesson 02.
+   - **`000` or a hang** — you did **not** reach the server. You're likely off the campus network. Connect to the LAN / start Tailscale, then retry. If it still fails, ask the instructor — they own the box.
 
----
-
-## Path C — SSH to a GPU host
-
-**2C.** Confirm you're connected to the GPU host. Cursor's bottom-left should show `SSH: <hostname>`.
-
-**3C.** Run on the remote.
+**3.** Log it.
 ```bash
-nvidia-smi
-```
-
-**4C.** If it fails, the host doesn't have a GPU or driver. **Ask the instructor** — they own the host.
-
----
-
-## All paths
-
-**9.** Read your `nvidia-smi` output. Specifically note:
-   - **GPU name** (e.g. `GeForce RTX 4070`)
-   - **Driver Version** (top-right of the output, e.g. `535.183.01`)
-   - **CUDA Version** the driver supports (e.g. `12.4`)
-   - **Memory-Usage** column — total VRAM (e.g. `12288MiB`)
-
-**10.** Save your VRAM number — you'll use it in lesson 03 to pick a model size.
-```bash
-nvidia-smi --query-gpu=memory.total --format=csv,noheader
-```
-```
-12288 MiB
-```
-
-**11.** Sanity-check that the driver can run a tiny CUDA workload.
-```bash
-nvidia-smi -L
-```
-```
-GPU 0: NVIDIA GeForce RTX 4070 (UUID: GPU-...)
-```
-
-**12.** Log it.
-```bash
-echo "GPU verified: $(nvidia-smi --query-gpu=name --format=csv,noheader), $(nvidia-smi --query-gpu=memory.total --format=csv,noheader)" >> ~/docker-course/notes/notes.txt
+echo "Inference endpoint reachable: http://gpu.college.local:8000/v1 ($(date -Iseconds))" >> ~/docker-course/notes/notes.txt
 ```
 
 ---
 
 ## ⚠️ Watch out
 
-- **Don't install `nvidia-cuda-toolkit` from apt.** Lesson 02 runs Ollama in Docker; the image bundles what it needs. Installing the apt CUDA toolkit can downgrade your driver and break things.
-- **Docker needs GPU access too.** For lesson 02, the Docker daemon must pass your NVIDIA GPU into containers (NVIDIA Container Toolkit). Host `nvidia-smi` alone is not enough.
-- **WSL: never install Linux NVIDIA drivers inside WSL.** The driver lives on the Windows side. Inside WSL you only need the userspace tooling, which CUDA-on-WSL provides automatically.
-- **Multiple GPUs:** if you have more than one, `nvidia-smi` shows them all. Ollama will use GPU 0 by default.
+- **Nothing to install here.** No CUDA, no drivers, no `nvidia-smi`, no local GPU. If you find yourself installing an inference engine on your laptop, stop — you've misread the module. The server is already running.
+- **It's a network dependency now.** The endpoint has to be reachable. Off-campus? You need Tailscale (or the VPN your instructor specifies). A `000` status is a network problem, not a model problem.
+- **Plain HTTP.** The URL is `http://…`, not `https://` — it's an internal campus service. That's expected.
+- **The 70B may be "coming online."** If chat/edit later report the 70B isn't available yet, the 8B autocomplete model is still live. Confirm current status with your instructor.
+- **Shared box, shared load.** Everyone in the cohort hits the same server. If responses feel slow during a busy lab, that's contention, not a broken setup.
 
 ---
 
 ## Checkpoint
 
 ```bash
-nvidia-smi --query-gpu=name,memory.total --format=csv
+curl -s -o /dev/null -w "%{http_code}\n" http://gpu.college.local:8000/v1/models
 ```
-Should print one row with your GPU's name and VRAM in MiB.
+Should print an HTTP status code (`200` or `401` — both mean the server answered). A `000` or a timeout means you can't reach the box; fix your network before lesson 02.
 
-```bash
-nvidia-smi 2>&1 | grep -q "Driver Version" && echo "OK"
-```
-Should print `OK`.
+You should also be able to state, without looking: which model does **autocomplete** (Llama 3.1 8B) and which does **chat/edit/agent** (Llama 3.3 70B).
 
 ---
 
-**Next up:** [02-install-ollama.md](02-install-ollama.md) — Run Ollama with Docker Compose
+**Next up:** [02-connect-to-endpoint.md](02-connect-to-endpoint.md) — curl the shared endpoint and confirm the model list

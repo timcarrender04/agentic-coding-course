@@ -1,19 +1,19 @@
 # Lesson 00: Prerequisites Check
 
-**By the end, you will have confirmed every piece of Modules 00–04 still works.**
+**By the end, you will have confirmed every piece of Modules 00–04 still works, and that VS Code plus the Continue.dev extension are ready.**
 
 ⏱ ~5 minutes
 
 ```instructor
-Say: "Quick check that everything from Modules 00-04 still works. We're about to add a local LLM stack on top — anything broken now will compound."
-Mention: "Most importantly: Compose works without sudo, your FastAPI repo still hot-reloads, and you can SSH-push to Gitea. Any of those failing means we fix it before pulling models."
+Say: "Quick check that everything from Modules 00-04 still works. We're about to point the editor at the college's shared AI endpoint — anything broken now will compound."
+Mention: "Most importantly: Compose works without sudo, your FastAPI repo still hot-reloads, and you can SSH-push to GitHub. Any of those failing means we fix it before we connect to the endpoint."
 Pause: After all checks pass. Anyone failing — pair them with a working neighbor and have them follow along while you investigate.
-Say: "You're done when every command in this file passes. We do not start lesson 01 until everyone is at this checkpoint."
+Say: "You're done when every command in this file passes AND VS Code + Continue.dev are installed. We do not start lesson 01 until everyone is at this checkpoint."
 ```
 
 ---
 
-**1.** Open Cursor connected to your dev environment (WSL or SSH from Module 00). Open the integrated terminal.
+**1.** Open VS Code connected to your dev environment (WSL or SSH from Module 00). Open the integrated terminal.
 
 **2.** Quick fire — confirm each Module's deliverable.
 
@@ -35,7 +35,7 @@ ls ~/docker-course/fastapi-app/main.py
 ```bash
 git -C ~/docker-course/fastapi-app remote -v
 ```
-(Module 04 — should print your Gitea origin URL.)
+(Module 04 — should print your GitHub origin URL.)
 
 **3.** Confirm the FastAPI stack still starts.
 ```bash
@@ -51,7 +51,9 @@ You should see `{"hello": "fastapi"}` (or whatever you renamed it to).
 docker compose down
 ```
 
-**5.** Log it.
+**5.** Confirm the Continue.dev extension is installed in VS Code. Open the extensions side bar (`Ctrl+Shift+X`), search for **Continue**, and confirm the extension published by **Continue** (id `continue.continue`) shows as installed. If it isn't, click **Install** now — lesson 04 configures it. (If you don't see it yet, don't worry; installing it here just saves a step later.)
+
+**6.** Log it.
 ```bash
 echo "Module 05 prereq check: passed $(date -Iseconds)" >> ~/docker-course/notes/notes.txt
 ```
@@ -60,7 +62,7 @@ echo "Module 05 prereq check: passed $(date -Iseconds)" >> ~/docker-course/notes
 
 ## ⚠️ Watch out
 
-- If any Module check fails, do not push forward. Local-LLM debugging is hard enough without other modules being broken. Fix the upstream module first.
+- If any Module check fails, do not push forward. Wiring the editor to a remote AI endpoint is hard enough without other modules being broken. Fix the upstream module first.
 
 ---
 
@@ -73,4 +75,4 @@ Should print three things, no errors.
 
 ---
 
-**Next up:** [01-verify-gpu.md](01-verify-gpu.md) — Make sure your GPU is visible
+**Next up:** [01-the-inference-endpoint.md](01-the-inference-endpoint.md) — Understand the shared inference endpoint

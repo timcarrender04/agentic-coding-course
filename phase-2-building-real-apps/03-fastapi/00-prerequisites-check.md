@@ -13,7 +13,7 @@ Say: "You're done when every command in this file passes. If it doesn't, fix it 
 
 ---
 
-**1.** Open Cursor connected to your Ubuntu environment (WSL or SSH from Module 00). Open the integrated terminal.
+**1.** Open VS Code connected to your Ubuntu environment (WSL or SSH from Module 00). Open the integrated terminal.
 
 **2.** Confirm Python 3 is installed.
 ```bash

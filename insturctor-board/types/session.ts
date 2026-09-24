@@ -5,6 +5,8 @@ export type SessionState = {
   timerEndsAt: number | null;
   timerPausedRemainingMs: number | null;
   broadcastOn: boolean;
+  /** When false, student/projector lesson code blocks hide copy UI and use select-none. */
+  copyEnabled: boolean;
   updatedAt: number;
 };
 
@@ -16,4 +18,5 @@ export type SessionAction =
   | { type: "timerPause" }
   | { type: "timerResume" }
   | { type: "timerReset" }
-  | { type: "broadcast"; on: boolean };
+  | { type: "broadcast"; on: boolean }
+  | { type: "copyEnabled"; on: boolean };

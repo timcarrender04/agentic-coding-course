@@ -3,7 +3,7 @@
 **Time:** ~20 min
 
 ```instructor
-Say: "SSH gives you a terminal on a remote computer. The Cursor extension goes further — your editor opens remote files too, like the remote is your laptop."
+Say: "SSH gives you a terminal on a remote computer. The VS Code extension goes further — your editor opens remote files too, like the remote is your laptop."
 Mention: "When the prompt asks 'Are you sure you want to continue connecting (yes/no/[fingerprint])?' they MUST type `yes`. Pressing Enter alone does nothing — there's no default."
 Pause: After everyone connects — remind them every terminal they open from now on is on the remote. Otherwise they'll wonder later why their local files vanished.
 Say: "You're done when the bottom-left shows SSH: hostname on green AND `hostname` / `whoami` in the terminal print the remote's values, not your laptop's."
@@ -13,7 +13,7 @@ Say: "You're done when the bottom-left shows SSH: hostname on green AND `hostnam
 
 **SSH** stands for **Secure Shell**. It is the standard way to connect to and control a remote computer over the network. You sit at your laptop, run an SSH command, type a password (or use a key), and you get a terminal on the remote computer — as if you were sitting in front of it.
 
-The Cursor **Remote - SSH** extension takes this one step further: not only do you get a remote terminal, you also get the editor working on the remote files. You edit a file in Cursor, the file lives on the remote, and you can run it in a remote terminal — all without leaving your local Cursor window.
+The VS Code **Remote - SSH** extension takes this one step further: not only do you get a remote terminal, you also get the editor working on the remote files. You edit a file in VS Code, the file lives on the remote, and you can run it in a remote terminal — all without leaving your local VS Code window.
 
 ## Before you start
 
@@ -26,6 +26,8 @@ Your instructor will give you the exact connection details for today:
 Write these down before you go further.
 
 ## Step 1: install the Remote - SSH extension
+
+Remote support isn't built into VS Code — it comes from an extension you install yourself.
 
 1. Open the extensions side bar (`Ctrl+Shift+X`).
 2. Search for **Remote - SSH**.
@@ -50,7 +52,7 @@ If they gave you a **key file** (a small file usually named like `student_key` o
 
 ## Step 3: connect
 
-1. In Cursor, click the **bottom-left corner** button (the `><` angle brackets) — same place as the WSL button.
+1. In VS Code, click the **bottom-left corner** button (the `><` angle brackets) — same place as the WSL button.
 2. From the dropdown choose **"Connect to Host…"** (or "Remote-SSH: Connect to Host…").
 3. Choose **"Add New SSH Host…"**.
 4. Type the SSH command exactly as your instructor gave it. For password auth:
@@ -63,7 +65,7 @@ If they gave you a **key file** (a small file usually named like `student_key` o
    ```
    (Substitute the real values your instructor gave you.)
 5. Press Enter.
-6. Cursor asks where to save the SSH config. Pick the first option (your user `~/.ssh/config`).
+6. VS Code asks where to save the SSH config. Pick the first option (your user `~/.ssh/config`).
 7. Click the bottom-left button again → "Connect to Host…" → your new host should be in the list. Click it.
 
 ## Step 4: trust and authenticate
@@ -73,7 +75,7 @@ The first time you connect to a new host, two things happen:
 1. A prompt appears: **"The authenticity of host ... can't be established. Are you sure you want to continue connecting (yes/no/[fingerprint])?"** Type **`yes`** and press Enter. (Pressing Enter alone without typing yes does nothing — the question doesn't have a default.)
 2. If you used password auth, a password prompt appears. Type the password (it won't show on screen) and press Enter.
 
-Cursor's bottom-left now reads **"SSH: <hostname>"** on green. You are connected.
+VS Code's bottom-left now reads **"SSH: <hostname>"** on green. You are connected.
 
 ## Step 5: open a folder on the remote
 
@@ -100,11 +102,11 @@ Cursor's bottom-left now reads **"SSH: <hostname>"** on green. You are connected
    ```
    The output should be the username your instructor gave you (e.g. `student`).
 
-If both are correct: every command you run in this terminal runs on the remote. Every file you save in this Cursor window saves to the remote. Your laptop is now a thin client.
+If both are correct: every command you run in this terminal runs on the remote. Every file you save in this VS Code window saves to the remote. Your laptop is now a thin client.
 
 ## Disconnecting
 
-Click the bottom-left **"SSH: ..."** button → **"Close Remote Connection"**. Cursor reloads back to your local environment. The remote keeps running; you just stopped talking to it.
+Click the bottom-left **"SSH: ..."** button → **"Close Remote Connection"**. VS Code reloads back to your local environment. The remote keeps running; you just stopped talking to it.
 
 ## Checkpoint
 
@@ -112,8 +114,24 @@ You're done when:
 
 - [ ] You installed the **Remote - SSH** extension by **Microsoft**.
 - [ ] You added the instructor-provided host as an SSH target.
-- [ ] The bottom-left of your Cursor window shows **"SSH: <hostname>"** on green.
+- [ ] The bottom-left of your VS Code window shows **"SSH: <hostname>"** on green.
 - [ ] You opened a folder on the remote machine.
 - [ ] You ran `hostname` and `whoami` in the integrated terminal and the output matches the remote.
 
 If you get a `Permission denied (publickey)` error, your key isn't being used or its permissions are wrong — flag the instructor.
+
+## Lab
+
+**Objective:** Connect VS Code to a remote machine over SSH and prove your terminal is running there.
+
+**Task:** Work through this lesson against the college's shared server — host `<INSTRUCTOR-PROVIDED>`, user `<INSTRUCTOR-PROVIDED>` — install the Remote - SSH extension, connect, open a remote folder, and run `hostname` and `whoami` in the integrated terminal.
+
+**Submit:** One screenshot of your VS Code window showing the green **"SSH: <hostname>"** indicator in the bottom-left and the output of `hostname` and `whoami` in the integrated terminal.
+
+**Pass criteria:**
+
+- [ ] The bottom-left indicator shows "SSH: <hostname>" on green.
+- [ ] The `hostname` output matches the instructor-provided host, not your laptop.
+- [ ] The `whoami` output is the instructor-provided username.
+
+**Unlocks:** [07-final-checkpoint.md](07-final-checkpoint.md)

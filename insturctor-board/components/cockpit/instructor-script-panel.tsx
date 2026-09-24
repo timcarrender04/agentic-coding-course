@@ -53,7 +53,7 @@ export function InstructorScriptPanel({
     <div className="flex flex-col gap-3 min-h-0 shrink-0">
       <p className="text-label-caps text-[var(--color-secondary)] flex items-center gap-1.5">
         <Icon className="text-sm" name="speaker_notes" />
-        Read from (script)
+        Talking points
       </p>
 
       {hasPerStepScript ? (

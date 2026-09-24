@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agentic Coding — Week 1 Instructor Live Script · Temple College × ChiefOS</title>
+<link rel="stylesheet" href="../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --paper: #FFFFFF;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+    --wash-warm: #FDF3E3;
+    --say: #E8F3EC;
+    --say-border: #1f7a33;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    font-family: 'Barlow', 'DejaVu Sans', Arial, sans-serif;
+    color: var(--ink);
+    font-size: 9.4pt;
+    line-height: 1.42;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: letter; margin: 0; }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.42in 0.55in 0.55in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+  }
+  .page:last-child { page-break-after: avoid; }
+
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 10px;
+  }
+  .brandbar img.tc { height: 36px; }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brandbar .collab .x {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 8pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar img.chief { height: 24px; }
+
+  .pagefoot {
+    position: absolute;
+    left: 0.55in; right: 0.55in; bottom: 0.28in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 6px;
+    font-size: 7.5pt;
+    color: var(--ink-soft);
+  }
+  .pagefoot b { color: var(--navy); font-weight: 600; }
+
+  h1, h2, h3 {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    color: var(--navy);
+  }
+  h2 {
+    font-size: 13.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0 6px;
+  }
+  h2::after { content: ""; flex: 1; height: 2px; background: var(--orange); border-radius: 2px; }
+  h3 { font-size: 11pt; font-weight: 700; margin: 0 0 3px; }
+  code, .mono {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 7.8pt;
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+  pre {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 7.6pt;
+    line-height: 1.35;
+    background: var(--navy);
+    color: #e8edf2;
+    border-radius: 5px;
+    padding: 8px 10px;
+    margin: 5px 0 7px;
+    white-space: pre-wrap;
+  }
+  pre .c { color: #9ad0a8; }
+  ul { padding-left: 1.1em; margin: 2px 0 6px; }
+  li { margin-bottom: 2px; }
+  b { color: var(--navy); }
+
+  .hero { margin: 0 0 8px; }
+  .hero .kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 2px;
+  }
+  .hero h1 {
+    font-size: 24pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+  }
+  .hero .phase-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-top: 2px;
+  }
+  .hero .sub {
+    font-size: 9.5pt;
+    color: var(--ink-soft);
+    margin-top: 3px;
+  }
+  .hero .meta {
+    display: inline-block;
+    margin-top: 6px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 9.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 3px;
+  }
+  .hero .meta span { color: var(--orange); }
+
+  .intro {
+    font-size: 9pt;
+    margin-bottom: 8px;
+  }
+
+  .block {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--orange);
+    border-radius: 5px;
+    padding: 7px 9px 6px;
+    margin-bottom: 7px;
+    background: #fff;
+  }
+  .block.stretch {
+    border-left-color: var(--orange-deep);
+    background: var(--wash-warm);
+  }
+  .block .when {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10.5pt;
+    color: var(--navy);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .block .when .lab {
+    color: var(--orange-deep);
+    font-weight: 600;
+    margin-left: 6px;
+    font-size: 9.5pt;
+  }
+  .block .do-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 4px 0 2px;
+  }
+
+  .say {
+    background: var(--say);
+    border: 1px solid #c5e2cf;
+    border-left: 3px solid var(--say-border);
+    border-radius: 4px;
+    padding: 5px 8px;
+    margin: 4px 0 5px;
+    font-size: 8.6pt;
+    font-style: italic;
+    color: #163522;
+  }
+  .say::before {
+    content: "SAY — ";
+    font-style: normal;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    font-size: 8pt;
+    color: var(--say-border);
+  }
+
+  .twocol {
+    display: flex;
+    gap: 8px;
+    margin: 6px 0;
+  }
+  .twocol > * { flex: 1; }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 7px 9px;
+    background: var(--wash);
+  }
+  .card.navy {
+    background: var(--navy);
+    color: #e8edf2;
+    border-color: var(--navy);
+  }
+  .card.navy b, .card.navy h3 { color: #fff; }
+  .card .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 3px;
+  }
+  .card.navy .label { color: var(--orange); }
+
+  table.stuck {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.2pt;
+    margin: 4px 0 6px;
+  }
+  table.stuck th {
+    background: var(--navy);
+    color: #fff;
+    text-align: left;
+    padding: 4px 7px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9pt;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  table.stuck td {
+    border-bottom: 1px solid var(--line);
+    padding: 3px 7px;
+    vertical-align: top;
+  }
+  table.stuck td:first-child { font-weight: 600; color: var(--navy-soft); width: 28%; }
+
+  .why {
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--orange);
+    border-radius: 5px;
+    padding: 7px 9px;
+    margin-bottom: 6px;
+  }
+  .why h3 { margin-bottom: 3px; }
+  .why p { font-size: 8.5pt; margin-bottom: 4px; }
+  .tip {
+    background: var(--navy);
+    color: #e8edf2;
+    border-radius: 5px;
+    padding: 7px 10px;
+    font-size: 8.5pt;
+    margin-top: 6px;
+  }
+  .tip b { color: #fff; }
+  .tip .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Instructor Live Script</div>
+    <h1>Week 1 · Wednesday</h1>
+    <div class="phase-line">Module 00 Clinic + Cursor Countdown Demo</div>
+    <div class="sub">Follow this page-by-page while projecting. Students copy you. Core path = labs 00:00–04.</div>
+    <div class="meta">Wed &nbsp;<span>·</span>&nbsp; 6:00–8:00 PM &nbsp;<span>·</span>&nbsp; Zoom &nbsp;<span>·</span>&nbsp; Clinic, not lecture</div>
+  </div>
+
+  <p class="intro"><b>Tone:</b> Lab clinic. Screenshots stay local if D2L Dropbox isn’t ready. Define acronyms once (IDE, WSL, SSH). Mac = <b>Cmd</b> wherever Windows uses <b>Ctrl</b>.</p>
+
+  <div class="block">
+    <div class="when">6:00 — Open + check <span class="lab">Lab 00:00 · ~15 min</span></div>
+    <div class="say">Tonight is a lab clinic. We’re not covering new theory — we’re getting VS Code working on every laptop. Labs gate progress, not attendance. Sign in now: tktechventure.com/agentic-coding/sign-in.</div>
+    <div class="do-label">Do</div>
+    <ul>
+      <li>Attendance sign-in · OS check in chat (Windows / Mac / Ubuntu)</li>
+      <li>Catch-up: no VS Code → <code>code.visualstudio.com</code> → install → <b>Skip sign-in</b></li>
+    </ul>
+    <div class="say">An IDE is a text editor plus a terminal plus tools in one window. Not Google Docs — files live on your disk, and the terminal talks to your computer.</div>
+    <div class="do-label">Done looks like</div>
+    <p>Welcome tab + full-window screenshot.</p>
+  </div>
+
+  <div class="block">
+    <div class="when">6:15 — UI tour <span class="lab">Lab 00:01 · ~20 min</span></div>
+    <div class="say">Five regions — say them with me: Activity Bar, Side Bar, Editor, Panel/Terminal, Status Bar.</div>
+    <div class="do-label">Do live (students copy)</div>
+    <ul>
+      <li><b>File → Open Folder</b> → create <code>agentic-coding</code> (or any empty folder)</li>
+      <li>Command Palette: Windows <code>Ctrl+Shift+P</code> · Mac <code>Cmd+Shift+P</code></li>
+      <li>Settings → Font Size → <b>16</b></li>
+      <li>Pause: “Activity bar = icons on the left. Side bar = the panel that opens.”</li>
+    </ul>
+    <div class="do-label">Done looks like</div>
+    <p>Folder open + font size 16 in Settings.</p>
+  </div>
+
+  <div class="block">
+    <div class="when">6:35 — Terminal <span class="lab">Lab 00:02 · ~25 min</span></div>
+    <div class="say">Editor = where you write files. Terminal = where you run commands. If you type in the wrong place, nothing happens — click the bottom panel.</div>
+    <div class="do-label">Do</div>
+    <ul>
+      <li>Open terminal: <code>Ctrl+`</code> / <code>Cmd+`</code> or <b>View → Terminal</b></li>
+      <li>Run twice: <code>echo hello</code></li>
+      <li>Screenshot: both commands + output visible</li>
+    </ul>
+    <div class="say">We are not learning cd and ls tonight — that’s Module 01. Tonight: prove the terminal works.</div>
+  </div>
+
+  <div class="pagefoot">
+    <span><b>Agentic Coding</b> · Week 1 Instructor Live Script · Temple College × ChiefOS</span>
+    <span>Page 1 of 3</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 2 ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="when">7:00 — Extensions <span class="lab">Labs 00:03–04 · ~25 min</span></div>
+    <div class="say">Out of the box, VS Code doesn’t know Python. Extensions add powers. Install only what I say — random extensions break setups.</div>
+    <div class="do-label">Do</div>
+    <ul>
+      <li>Extensions (<code>Ctrl+Shift+X</code> / <code>Cmd+Shift+X</code>)</li>
+      <li>Install <b>Python</b> — publisher <b>Microsoft</b> only</li>
+      <li>Install <b>Docker</b> — publisher <b>Microsoft</b></li>
+      <li>Open the whale sidebar</li>
+    </ul>
+    <div class="say">Empty Docker sidebar or “Failed to connect” is <b>correct</b>. Docker Engine is Module 02. Tonight we only install the extension.</div>
+  </div>
+
+  <div class="block stretch">
+    <div class="when">7:25 — WSL clinic <span class="lab">Lab 00:05 · ~25 min</span></div>
+    <div class="twocol">
+      <div class="card">
+        <div class="label">Windows</div>
+        <ul>
+          <li>Install <b>WSL</b> extension (Microsoft)</li>
+          <li>Green bottom-left → <b>WSL: Ubuntu</b></li>
+          <li>Terminal: <code>uname -a</code> (should say Linux)</li>
+        </ul>
+      </div>
+      <div class="card navy">
+        <div class="label">Mac / Linux</div>
+        <p>You’re already on a real shell. Run <code>uname -a</code>. Buddy-help a Windows neighbor.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Stuck-spot cheat sheet</h2>
+  <table class="stuck">
+    <thead><tr><th>What fails</th><th>Fix line</th></tr></thead>
+    <tbody>
+      <tr><td>Sign-in / sync</td><td>Skip — optional. Never required for Phase 1.</td></tr>
+      <tr><td>Mac hitting Ctrl</td><td>Mac = Cmd tonight (<code>Cmd+Shift+P</code>).</td></tr>
+      <tr><td>Typing in editor</td><td>Click the bottom panel; or View → Terminal.</td></tr>
+      <tr><td>Docker “Failed to connect”</td><td>Correct — Engine is Module 02.</td></tr>
+      <tr><td>WSL password blank</td><td>Invisible typing — keep typing; reboot after install if needed.</td></tr>
+      <tr><td>10 random extensions</td><td>Only Python + Docker (+ WSL / Remote SSH). Continue.dev comes later.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="block">
+    <div class="when">7:50 — Close <span class="lab">~10 min</span></div>
+    <div class="say">Done for tonight = VS Code opens, terminal echoes, Python + Docker extensions installed, Windows on green WSL if you got that far. Through Sunday: finish remaining Module 00. Don’t stress Docker Engine or full terminal yet. Week 2 = remote connections + Module 00 gate.</div>
+  </div>
+
+  <div class="tip">
+    <div class="label">Timing tip</div>
+    If the clinic is behind, skip the Cursor demo on the next page and only show a pre-built countdown once. Core path stays <b>00:00–04</b>; Cursor / venv is gravy.
+  </div>
+
+  <div class="pagefoot">
+    <span><b>Agentic Coding</b> · Week 1 Instructor Live Script · Temple College × ChiefOS</span>
+    <span>Page 2 of 3</span>
+  </div>
+</div>
+
+<!-- ================= PAGE 3 ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero" style="margin-bottom:4px;">
+    <div class="kicker">Optional Stretch Demo</div>
+    <h1 style="font-size:18pt;">Cursor · Countdown + venv + pip</h1>
+    <div class="sub">Use after core labs, or as a 10–15 min preview. Say clearly: full venv labs land later (Module 03).</div>
+  </div>
+
+  <h2 style="margin-top:4px;">Why block — say before typing</h2>
+  <div class="twocol" style="margin:4px 0;">
+    <div class="why" style="padding:5px 7px;margin:0;">
+      <h3>Why a venv?</h3>
+      <p style="margin:0;">System Python is shared — global installs let Project A break Project B. A venv is a private toolbox for <b>this</b> project.</p>
+    </div>
+    <div class="why" style="padding:5px 7px;margin:0;">
+      <h3>Why requirements.txt + pip?</h3>
+      <p style="margin:0;"><code>requirements.txt</code> = shopping list. <code>pip install -r …</code> installs into <b>this</b> venv so any machine can rebuild it.</p>
+    </div>
+  </div>
+  <div class="why" style="margin:5px 0 6px;padding:5px 7px;">
+    <h3>Why Cursor here?</h3>
+    <p style="margin:0;">Same folder/terminal habits as VS Code. Tonight: folder → venv → install → run. AI help comes later.</p>
+  </div>
+
+  <h2>Demo project — build live</h2>
+  <div class="do-label" style="font-family:'Barlow Condensed',sans-serif;font-size:8pt;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);">1. Folder (prefer WSL Ubuntu on Windows)</div>
+<pre style="margin:3px 0 5px;padding:6px 9px;">mkdir -p ~/countdown-demo && cd ~/countdown-demo</pre>
+
+  <div class="twocol" style="align-items:flex-start;">
+    <div>
+      <div class="do-label" style="font-family:'Barlow Condensed',sans-serif;font-size:8pt;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);">requirements.txt</div>
+<pre style="margin:3px 0 5px;padding:6px 9px;">colorama==0.4.6</pre>
+    </div>
+    <div>
+      <div class="do-label" style="font-family:'Barlow Condensed',sans-serif;font-size:8pt;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);">countdown.py</div>
+<pre style="margin:3px 0 5px;padding:6px 9px;font-size:7pt;line-height:1.3;">import time
+from colorama import Fore, Style, init
+init(autoreset=True)
+
+def countdown(seconds: int) -> None:
+    print(Fore.CYAN + f"Countdown from {seconds}...")
+    for i in range(seconds, 0, -1):
+        print(Fore.YELLOW + str(i)); time.sleep(1)
+    print(Fore.GREEN + "Go!")
+
+if __name__ == "__main__":
+    countdown(5)</pre>
+    </div>
+  </div>
+
+  <div class="do-label" style="font-family:'Barlow Condensed',sans-serif;font-size:8pt;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);">2–4. Create venv · install · run</div>
+<pre style="margin:3px 0 4px;padding:6px 9px;">python3 -m venv .venv
+source .venv/bin/activate          <span class="c"># prompt shows (.venv)</span>
+pip install -r requirements.txt
+python countdown.py                <span class="c"># 5…4…3…2…1… Go!</span></pre>
+  <div class="say" style="margin:3px 0 4px;">colorama is not built into Python. Without venv + pip, <code>import colorama</code> fails — that’s the “why.”</div>
+
+  <div class="do-label" style="font-family:'Barlow Condensed',sans-serif;font-size:8pt;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-soft);">5. Optional 60-second proof</div>
+<pre style="margin:3px 0 4px;padding:6px 9px;">deactivate && python countdown.py   <span class="c"># often ImportError</span>
+source .venv/bin/activate && python countdown.py   <span class="c"># works</span></pre>
+  <div class="say" style="margin:3px 0 5px;">Same file. Different environment. That’s why we care about venv before real apps.</div>
+
+  <div class="tip" style="margin-top:4px;padding:6px 9px;">
+    <div class="label">Zoom / chat cheat sheet</div>
+    <code style="background:transparent;border:0;color:#fff;font-size:7.6pt;">cd ~/countdown-demo && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && python countdown.py</code><br>
+    Windows PowerShell activate: <code style="background:transparent;border:0;color:var(--orange);font-size:7.6pt;">.venv\Scripts\Activate.ps1</code>
+  </div>
+
+  <div class="pagefoot">
+    <span><b>Agentic Coding</b> · Week 1 Instructor Live Script · Temple College × ChiefOS</span>
+    <span>Page 3 of 3</span>
+  </div>
+</div>
+
+</body>
+</html>

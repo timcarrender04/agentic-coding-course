@@ -8,14 +8,14 @@
 
 ```instructor
 Say: "Inline edit is `Ctrl+I`. Select code, describe a change, the model proposes a diff. You accept or reject line by line — never blind."
-Mention: "On a 7B model, hallucinations are real. It will sometimes invent function names. Drill 'read every diff before accepting' — Continue gates each change anyway, but they need to actually look."
+Mention: "Even on the 70B, hallucinations are real. It will sometimes invent function names. Drill 'read every diff before accepting' — Continue gates each change anyway, but they need to actually look."
 Pause: After their first inline-edit diff appears. Walk through accept-individual-line vs accept-all. Show how to reject and iterate the prompt.
 Say: "You're done when they've used `Ctrl+I` to make a meaningful change to a route AND rejected at least one suggested diff because it was wrong."
 ```
 
 ---
 
-**1.** Open `routers/items.py` in Cursor.
+**1.** Open `routers/items.py` in VS Code.
 
 **2.** Confirm clean state.
 ```bash
@@ -181,7 +181,7 @@ echo "Inline edit drilled: rename, add validation, extract helper, write test" >
 - **Always read the diff.** Inline edit produces real changes to your file. Accept blindly and you'll spend an hour debugging "why does my route return 500." Habit: read every red and green line.
 - **Smaller selections = better edits.** Highlighting a whole 200-line file and saying "fix all the things" leads to chaos. Pick the smallest scope that contains the change you want.
 - **Imports get missed sometimes.** If the model adds a function call to a new module, it might not add the `import`. Run a syntax check or eyeball the imports.
-- **Use `Ctrl+Z` if you accepted by accident.** Continue's edits are normal Cursor undo entries — one undo reverts the whole change.
+- **Use `Ctrl+Z` if you accepted by accident.** Continue's edits are normal VS Code undo entries — one undo reverts the whole change.
 
 ---
 

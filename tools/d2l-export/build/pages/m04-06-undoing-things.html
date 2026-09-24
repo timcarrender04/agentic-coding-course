@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git and GitHub — Undoing Things</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Undo common mistakes by discarding edits with <code>git restore</code>, unstaging with <code>git restore --staged</code>, amending the last commit with <code>git commit --amend</code>, and removing a commit with <code>git reset</code>.</div>
+<h1>Lesson 06: Undoing Things</h1>
+<p><strong>By the end, you will know how to discard unsaved changes, unstage files, fix the last commit message, and (carefully) reset a commit.</strong></p>
+<p>⏱ ~20 minutes of typing</p>
+<blockquote><p>Almost every &quot;I broke Git&quot; panic is one of four problems. Each has a one-liner fix. Today: drill all four.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Confirm clean state.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+git status</code></pre>
+<hr />
+<h2>Case 1: Discard an unstaged edit</h2>
+<p><strong>2.</strong> Make a change you don't want to keep. Edit <code>main.py</code> — change <code>{&quot;hello&quot;: &quot;branched&quot;}</code> to <code>{&quot;hello&quot;: &quot;MISTAKE&quot;}</code>. Save.</p>
+<p><strong>3.</strong> Confirm Git sees it.</p>
+<pre><code class="language-bash">git diff</code></pre>
+<p>You should see the bad change.</p>
+<p><strong>4.</strong> Discard it. <code>git restore</code> reverts the working file to whatever's in the latest commit.</p>
+<pre><code class="language-bash">git restore main.py</code></pre>
+<p><strong>5.</strong> Confirm.</p>
+<pre><code class="language-bash">git diff</code></pre>
+<p>(No output — the change is gone.)</p>
+<p><strong>6.</strong> Open <code>main.py</code> in VS Code — should show <code>{&quot;hello&quot;: &quot;branched&quot;}</code> again.</p>
+<hr />
+<h2>Case 2: Unstage a file (you <code>git add</code>-ed by mistake)</h2>
+<p><strong>7.</strong> Make a change. Edit <code>NOTES.md</code> and add a line <code>oops</code>. Save.</p>
+<p><strong>8.</strong> Stage it.</p>
+<pre><code class="language-bash">git add NOTES.md</code></pre>
+<p><strong>9.</strong> Status.</p>
+<pre><code class="language-bash">git status</code></pre>
+<p>You should see <code>NOTES.md</code> under &quot;Changes to be committed.&quot;</p>
+<p><strong>10.</strong> Unstage it (the change stays in your working tree, just not staged).</p>
+<pre><code class="language-bash">git restore --staged NOTES.md</code></pre>
+<p><strong>11.</strong> Status.</p>
+<pre><code class="language-bash">git status</code></pre>
+<p><code>NOTES.md</code> should be back under &quot;Changes not staged.&quot;</p>
+<p><strong>12.</strong> Now also discard the working-tree change.</p>
+<pre><code class="language-bash">git restore NOTES.md</code></pre>
+<p><strong>13.</strong> Confirm clean.</p>
+<pre><code class="language-bash">git status</code></pre>
+<hr />
+<h2>Case 3: Fix the last commit message (or add a forgotten file)</h2>
+<p><strong>14.</strong> Make a real change worth committing. Edit <code>NOTES.md</code> to add <code>Undo drills</code>. Save.</p>
+<pre><code class="language-bash">git commit -am &quot;fixt typo&quot;</code></pre>
+<p>(Yes, the message is misspelled on purpose.)</p>
+<p><strong>15.</strong> Look at the bad message.</p>
+<pre><code class="language-bash">git log --oneline -1</code></pre>
+<pre class="output"><code class="output">abc1234 (HEAD -&gt; main) fixt typo</code></pre>
+<p><strong>16.</strong> Amend the message.</p>
+<pre><code class="language-bash">git commit --amend -m &quot;Note undo drills in NOTES.md&quot;</code></pre>
+<p><strong>17.</strong> Confirm.</p>
+<pre><code class="language-bash">git log --oneline -1</code></pre>
+<pre class="output"><code class="output">def5678 (HEAD -&gt; main) Note undo drills in NOTES.md</code></pre>
+<p><strong>Notice the hash changed.</strong> Amending creates a new commit replacing the old one. <strong>Don't amend commits you've already pushed</strong> — it rewrites history and confuses anyone who pulled the original.</p>
+<p><strong>18.</strong> You can also amend to add a forgotten file. Edit <code>NOTES.md</code> again, add <code>another line</code>. Save.</p>
+<pre><code class="language-bash">git add NOTES.md
+git commit --amend --no-edit</code></pre>
+<p>(<code>--no-edit</code> keeps the existing message unchanged.)</p>
+<p><strong>19.</strong> Confirm.</p>
+<pre><code class="language-bash">git log -1 --stat</code></pre>
+<p>The commit now contains both edits to <code>NOTES.md</code>.</p>
+<hr />
+<h2>Case 4: Undo the last commit entirely</h2>
+<p><strong>20.</strong> Make a commit you want to undo. Edit <code>NOTES.md</code> and add <code>BAD COMMIT</code>. Save.</p>
+<pre><code class="language-bash">git commit -am &quot;this commit shouldn't exist&quot;</code></pre>
+<p><strong>21.</strong> See it.</p>
+<pre><code class="language-bash">git log --oneline -3</code></pre>
+<p><strong>22.</strong> <strong>Option A: keep the changes, undo only the commit.</strong> This is <code>--mixed</code> (the default).</p>
+<pre><code class="language-bash">git reset HEAD~1</code></pre>
+<p>The commit is gone but the file change is still on disk, unstaged.</p>
+<p><strong>23.</strong> Confirm.</p>
+<pre><code class="language-bash">git status</code></pre>
+<p>You should see <code>NOTES.md</code> modified.</p>
+<pre><code class="language-bash">git log --oneline -3</code></pre>
+<p>The bad commit is gone.</p>
+<p><strong>24.</strong> Discard the working-tree change.</p>
+<pre><code class="language-bash">git restore NOTES.md</code></pre>
+<hr />
+<h2>⚠️⚠️ Case 5: <code>git reset --hard</code> (the dangerous one)</h2>
+<p><strong>25.</strong> This is the only Git command in this module that <strong>loses uncommitted work</strong>. Read carefully.</p>
+<p><strong>26.</strong> Make changes you'd want to keep. Edit <code>NOTES.md</code> to add <code>something important</code>. Save. <strong>Don't commit.</strong></p>
+<p><strong>27.</strong> Suppose you got confused and ran (in real life) the wrong command. Here's what <code>--hard</code> does:</p>
+<pre><code class="language-bash">git reset --hard HEAD</code></pre>
+<pre class="output"><code class="output">HEAD is now at &lt;hash&gt; Note undo drills in NOTES.md</code></pre>
+<p><strong>28.</strong> Open <code>NOTES.md</code>. <strong><code>something important</code> is gone.</strong> <code>--hard</code> blew it away to match the latest commit.</p>
+<p><strong>29.</strong> <strong>Rule of thumb:</strong></p>
+<ul><li><code>git restore &lt;file&gt;</code> — discard one file's working-tree changes (safe, clear scope)</li><li><code>git reset HEAD~1</code> — undo last commit, keep changes (safe-ish)</li><li><code>git reset --hard HEAD~1</code> — undo last commit AND lose the changes (<strong>only use when you mean it</strong>)</li></ul>
+<p><strong>30.</strong> Some courses teach <code>git reflog</code> as a safety net for <code>--hard</code> mistakes. We won't drill it today — just know it exists. If you ever do <code>git reset --hard</code> on something important, <code>git reflog</code> may show the old commit hash so you can recover.</p>
+<hr />
+<h2>Recap drill</h2>
+<p><strong>31.</strong> Make a clean commit to leave the repo tidy. Edit <code>NOTES.md</code> to add a line <code>End of lesson 6 ✅</code> (or just <code>End of lesson 6</code>). Save.</p>
+<pre><code class="language-bash">git commit -am &quot;Mark end of lesson 6&quot;</code></pre>
+<p><strong>32.</strong> Confirm clean.</p>
+<pre><code class="language-bash">git status &amp;&amp; git log --oneline -3</code></pre>
+<p><strong>33.</strong> Log.</p>
+<pre><code class="language-bash">echo &quot;Undo cycle drilled: restore, --staged, --amend, reset&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong><code>git restore &lt;file&gt;</code></strong> uses the same name as <code>git restore --staged &lt;file&gt;</code> — the <code>--staged</code> flag is what changes its meaning. Read the flag, not just the command.</li><li><strong><code>git reset</code> defaults to <code>--mixed</code></strong> (keep changes, unstage). <code>--soft</code> keeps changes staged. <code>--hard</code> discards changes. <strong>Always type the flag explicitly so you know what you're getting.</strong></li><li><strong>Never amend or reset commits you've pushed</strong> to a remote. It rewrites history and forces a <code>--force</code> push, which is hostile to anyone else who pulled the original.</li><li><code>git reflog</code> is the rescue tool for &quot;I lost a commit.&quot; Mention it when a student panics, walk them through it.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">git status</code></pre>
+<p>Should say <code>nothing to commit, working tree clean</code>.</p>
+<pre><code class="language-bash">git log --oneline | head -n 1</code></pre>
+<p>Should show your &quot;Mark end of lesson 6&quot; commit.</p>
+<pre><code class="language-bash">grep &quot;End of lesson 6&quot; NOTES.md</code></pre>
+<p>Should match.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m04-07-github-account-and-ssh.html">07-github-account-and-ssh.md</a> — Connect to your GitHub account</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

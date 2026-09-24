@@ -7,7 +7,6 @@ import type { Module } from "@/types/curriculum";
 import type { SessionState } from "@/types/session";
 
 import { useSession } from "@/lib/use-session";
-import { BroadcastToggle } from "@/components/cockpit/broadcast-toggle";
 import { Icon } from "@/components/cockpit/icon";
 import { LessonControls } from "@/components/cockpit/lesson-controls";
 import { LessonView } from "@/components/cockpit/lesson-view";
@@ -67,31 +66,28 @@ export function InstructorCockpit({
             className="text-lg font-bold text-[var(--color-primary-soft)] font-display"
             href="/"
           >
-            Instructor Board
+            Notes
           </Link>
           <span className="h-4 w-px bg-slate-500" />
-          <span className="text-slate-300 text-sm">
+          <span className="flex items-center gap-1.5 text-slate-300 text-sm">
+            {activeModule?.icon && (
+              <Icon className="text-base" name={activeModule.icon} />
+            )}
             {activeModule?.id} {activeModule?.title} · Lesson{" "}
             {activeLesson.id}
           </span>
         </div>
         <div className="flex items-center gap-3">
-          <BroadcastToggle on={state.broadcastOn} />
+          <span className="hidden sm:inline text-xs text-slate-400">
+            Don&rsquo;t share this window
+          </span>
           <Link
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm border border-slate-500 text-xs hover:bg-indigo-800 transition-colors"
             href="/projector"
             target="_blank"
           >
             <Icon className="text-sm" name="cast" />
-            Open projector
-          </Link>
-          <Link
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm border border-slate-500 text-xs hover:bg-indigo-800 transition-colors"
-            href="/student"
-            target="_blank"
-          >
-            <Icon className="text-sm" name="groups" />
-            Student view
+            Open Present
           </Link>
         </div>
       </header>
@@ -105,7 +101,11 @@ export function InstructorCockpit({
         />
 
         <main className="flex-[3] p-8 overflow-y-auto border-r-2 border-[var(--color-panel-edge)]">
-          <LessonView lesson={activeLesson} state={state} />
+          <LessonView
+            ignoreSessionCopySetting
+            lesson={activeLesson}
+            state={state}
+          />
           <div className="mt-8">
             <LessonControls
               next={neighbors.next}
@@ -138,7 +138,8 @@ export function InstructorCockpit({
           {activeModule?.instructorNotes ? (
             <div>
               <details className="bg-[var(--color-panel)] border border-[var(--color-panel-edge)] rounded-sm">
-                <summary className="cursor-pointer p-3 text-sm font-bold list-none [&::-webkit-details-marker]:hidden">
+                <summary className="cursor-pointer p-3 text-sm font-bold list-none flex items-center gap-2 [&::-webkit-details-marker]:hidden">
+                  <Icon className="text-base opacity-70" name="menu_book" />
                   Module reference (INSTRUCTOR-NOTES.md)
                 </summary>
                 <div className="p-3 pt-0 text-xs leading-relaxed whitespace-pre-line text-[var(--color-ink-soft)] max-h-72 overflow-y-auto">
@@ -164,12 +165,6 @@ export function InstructorCockpit({
                   ←
                 </kbd>{" "}
                 previous step
-              </li>
-              <li>
-                <kbd className="font-code px-1.5 py-0.5 bg-[var(--color-ink)] text-[var(--color-panel)] rounded-sm text-[10px]">
-                  B
-                </kbd>{" "}
-                toggle broadcast
               </li>
             </ul>
           </div>

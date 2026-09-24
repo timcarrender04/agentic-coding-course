@@ -53,9 +53,10 @@ export function SyllabusRail({
                     }
                   >
                     <div className="flex items-center gap-3 px-3 py-2.5">
-                      <span className="text-base" aria-hidden>
-                        {m.emoji ?? "•"}
-                      </span>
+                      <Icon
+                        className="text-base"
+                        name={m.icon ?? "circle"}
+                      />
                       <span
                         className={`text-xs ${isActive ? "font-bold text-white" : "text-slate-300"}`}
                       >
@@ -65,9 +66,10 @@ export function SyllabusRail({
                   </button>
                 ) : (
                   <div className="flex items-center gap-3 px-3 py-2.5">
-                    <span className="text-base" aria-hidden>
-                      {m.emoji ?? "•"}
-                    </span>
+                    <Icon
+                      className="text-base"
+                      name={m.icon ?? "circle"}
+                    />
                     <span
                       className={`text-xs ${isActive ? "font-bold text-white" : "text-slate-300"}`}
                     >
@@ -88,7 +90,7 @@ export function SyllabusRail({
                           }`}
                         >
                           {isLessonActive && (
-                            <span className="w-1 h-1 bg-white rounded-full" />
+                            <Icon className="text-sm" name="play_arrow" />
                           )}
                           Lesson {l.id} — {l.title}
                         </span>

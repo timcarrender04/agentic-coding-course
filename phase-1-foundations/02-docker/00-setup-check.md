@@ -13,7 +13,7 @@ Say: "You're done when every command in this file runs without errors. If anythi
 
 ---
 
-**1.** Open Cursor and connect to your Ubuntu environment (WSL or SSH from Module 00).
+**1.** Open VS Code and connect to your Ubuntu environment (WSL or SSH from Module 00).
 
 **2.** Open the integrated terminal (`` Ctrl+` ``).
 
@@ -78,6 +78,23 @@ Look at the "Avail" column — it should be at least 2G.
 sudo whoami && which curl gpg && ls ~/docker-course/notes/notes.txt
 ```
 You should see `root`, two `/usr/bin/...` lines, and the path to your notes file.
+
+## Lab
+
+**Objective:** Confirm your environment is ready for the Docker install — Linux, sudo, Module 01's tools and notes file, network access to Docker Hub, and free disk.
+
+**Task:** Work through the nine checks in this lesson, top to bottom. Fix anything that fails before moving on — don't install onto a broken base.
+
+**Submit:** Paste the output of the Checkpoint command — `sudo whoami && which curl gpg && ls ~/docker-course/notes/notes.txt` — into D2L.
+
+**Pass criteria:**
+
+- [ ] Output shows `root`.
+- [ ] Output shows `/usr/bin/curl` and `/usr/bin/gpg`.
+- [ ] Output shows the path to `~/docker-course/notes/notes.txt` with no "No such file" error.
+- [ ] `which docker` (step 7) printed nothing — Docker is not installed yet.
+
+**Unlocks:** [01-install-docker.md](01-install-docker.md)
 
 ---
 

@@ -213,6 +213,23 @@ tail -n 1 ~/docker-course/notes/notes.txt
 ```
 You should see: `Line 9: edited with nano`
 
+## Lab
+
+**Objective:** Create, read, and edit files from the terminal with `echo`, `cat`, `head`, `tail`, `less`, and `nano`.
+
+**Task:** Work through the drills to build the nine-line `notes.txt`, including the final line added and saved inside nano. Then run the four Checkpoint commands in one terminal.
+
+**Submit:** One screenshot (or pasted transcript) of the four Checkpoint commands and their output: `cat ~/docker-course/notes/notes.txt`, `wc -l ~/docker-course/notes/notes.txt`, `head -n 1 ~/docker-course/notes/notes.txt`, `tail -n 1 ~/docker-course/notes/notes.txt`.
+
+**Pass criteria:**
+
+- [ ] `cat` shows all 9 lines of the file.
+- [ ] `wc -l` reports `9`.
+- [ ] `head -n 1` prints `This is my first note`.
+- [ ] `tail -n 1` prints `Line 9: edited with nano` — proof you saved from nano.
+
+**Unlocks:** [04-sudo-and-updates.md](04-sudo-and-updates.md)
+
 ---
 
 **Next up:** [04-sudo-and-updates.md](04-sudo-and-updates.md) -- System updates with sudo

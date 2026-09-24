@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubuntu Terminal Foundations — Making Things</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Create the ~/docker-course working directory and practice creating, copying, moving, renaming, and deleting files and directories with <code>mkdir</code>, <code>touch</code>, <code>cp</code>, <code>mv</code>, and <code>rm</code>.</div>
+<h1>Lesson 02: Making Things</h1>
+<p>By the end, you will have created the ~/docker-course/ working directory you'll use for the rest of the module.</p>
+<p>Estimated time: ~15 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> Confirm you are in your home directory.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-username</code></pre>
+<p><strong>3.</strong> Create the working directory for this course.</p>
+<pre><code class="language-bash">mkdir docker-course</code></pre>
+<p><strong>4.</strong> Confirm it exists.</p>
+<pre><code class="language-bash">ls</code></pre>
+<p>(You should see <code>docker-course</code> in the list.)</p>
+<p><strong>5.</strong> Move into it.</p>
+<pre><code class="language-bash">cd docker-course</code></pre>
+<p><strong>6.</strong> Confirm you are inside the new directory.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-username/docker-course</code></pre>
+<p><strong>7.</strong> Create a subdirectory for practice files.</p>
+<pre><code class="language-bash">mkdir practice</code></pre>
+<p><strong>8.</strong> Create another subdirectory.</p>
+<pre><code class="language-bash">mkdir notes</code></pre>
+<p><strong>9.</strong> List to see both.</p>
+<pre><code class="language-bash">ls</code></pre>
+<pre class="output"><code class="output">notes  practice</code></pre>
+<p><strong>10.</strong> Try creating a nested directory path in one command.</p>
+<pre><code class="language-bash">mkdir -p projects/web/app</code></pre>
+<p><strong>11.</strong> Confirm the full path was created.</p>
+<pre><code class="language-bash">ls -la projects/web/</code></pre>
+<pre class="output"><code class="output">total 12
+drwxrwxr-x 3 your-user your-user 4096 ... .
+drwxrwxr-x 3 your-user your-user 4096 ... ..
+drwxrwxr-x 2 your-user your-user 4096 ... app</code></pre>
+<p><strong>12.</strong> See the whole tree structure (using ls -R since tree may not be installed yet).</p>
+<pre><code class="language-bash">ls -R</code></pre>
+<pre class="output"><code class="output">.:
+notes  practice  projects
+
+./notes:
+
+./practice:
+
+./projects:
+web
+
+./projects/web:
+app
+
+./projects/web/app:</code></pre>
+<p><strong>13.</strong> Create an empty file using touch.</p>
+<pre><code class="language-bash">touch practice/file1.txt</code></pre>
+<p><strong>14.</strong> Confirm it exists.</p>
+<pre><code class="language-bash">ls practice/</code></pre>
+<pre class="output"><code class="output">file1.txt</code></pre>
+<p><strong>15.</strong> Create a few more files.</p>
+<pre><code class="language-bash">touch practice/file2.txt</code></pre>
+<pre><code class="language-bash">touch practice/file3.txt</code></pre>
+<p><strong>16.</strong> List them with details.</p>
+<pre><code class="language-bash">ls -la practice/</code></pre>
+<p>(You should see file1.txt, file2.txt, and file3.txt — all with 0 bytes.)</p>
+<p><strong>17.</strong> Copy a file.</p>
+<pre><code class="language-bash">cp practice/file1.txt practice/file1-backup.txt</code></pre>
+<p><strong>18.</strong> Confirm the copy was created.</p>
+<pre><code class="language-bash">ls practice/</code></pre>
+<pre class="output"><code class="output">file1-backup.txt  file1.txt  file2.txt  file3.txt</code></pre>
+<p><strong>19.</strong> Copy a file into a different directory.</p>
+<pre><code class="language-bash">cp practice/file1.txt notes/</code></pre>
+<p><strong>20.</strong> Confirm the file landed in notes.</p>
+<pre><code class="language-bash">ls notes/</code></pre>
+<pre class="output"><code class="output">file1.txt</code></pre>
+<p><strong>21.</strong> Rename a file using mv.</p>
+<pre><code class="language-bash">mv practice/file3.txt practice/renamed.txt</code></pre>
+<p><strong>22.</strong> Confirm — file3.txt is gone, renamed.txt is there.</p>
+<pre><code class="language-bash">ls practice/</code></pre>
+<pre class="output"><code class="output">file1-backup.txt  file1.txt  file2.txt  renamed.txt</code></pre>
+<p><strong>23.</strong> Move a file to a different directory.</p>
+<pre><code class="language-bash">mv practice/renamed.txt notes/</code></pre>
+<p><strong>24.</strong> Confirm the file moved from practice to notes.</p>
+<pre><code class="language-bash">ls notes/</code></pre>
+<pre class="output"><code class="output">file1.txt  renamed.txt</code></pre>
+<pre><code class="language-bash">ls practice/</code></pre>
+<pre class="output"><code class="output">file1-backup.txt  file1.txt  file2.txt</code></pre>
+<p><strong>25.</strong> Remove a single file.</p>
+<pre><code class="language-bash">rm practice/file1-backup.txt</code></pre>
+<p><strong>26.</strong> Confirm it's gone.</p>
+<pre><code class="language-bash">ls practice/</code></pre>
+<pre class="output"><code class="output">file1.txt  file2.txt</code></pre>
+<blockquote><p>:warning: <strong>Don't do this:</strong> <code>rm -rf /</code> or <code>rm -rf ~</code> — this would delete your entire system or home directory. Always double-check the path before running rm.</p></blockquote>
+<p><strong>27.</strong> Create a temporary directory to practice deleting.</p>
+<pre><code class="language-bash">mkdir practice/temp-dir</code></pre>
+<p><strong>28.</strong> Put a file in it.</p>
+<pre><code class="language-bash">touch practice/temp-dir/throwaway.txt</code></pre>
+<p><strong>29.</strong> Try removing the directory with plain rm — this will fail.</p>
+<pre><code class="language-bash">rm practice/temp-dir</code></pre>
+<pre class="output"><code class="output">rm: cannot remove 'practice/temp-dir': Is a directory</code></pre>
+<p><strong>30.</strong> Remove the directory and its contents with rm -r.</p>
+<pre><code class="language-bash">rm -r practice/temp-dir</code></pre>
+<blockquote><p>:warning: <strong>Don't do this:</strong> Never run <code>rm -r</code> on a directory without first checking what's inside it with <code>ls</code>. One wrong path and you lose files permanently.</p></blockquote>
+<p><strong>31.</strong> Confirm it's gone.</p>
+<pre><code class="language-bash">ls practice/</code></pre>
+<pre class="output"><code class="output">file1.txt  file2.txt</code></pre>
+<p><strong>32.</strong> Run mkdir -p on a path that already exists — it won't error.</p>
+<pre><code class="language-bash">mkdir -p practice</code></pre>
+<p>(No output, no error. That's why -p is safe to use.)</p>
+<p><strong>33.</strong> Go home and confirm your docker-course structure.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<pre><code class="language-bash">ls -R docker-course/</code></pre>
+<pre class="output"><code class="output">docker-course/:
+notes  practice  projects
+
+docker-course/notes:
+file1.txt  renamed.txt
+
+docker-course/practice:
+file1.txt  file2.txt
+
+docker-course/projects:
+web
+
+docker-course/projects/web:
+app
+
+docker-course/projects/web/app:</code></pre>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">ls ~/docker-course/</code></pre>
+<p>You should see: <code>notes  practice  projects</code></p>
+<pre><code class="language-bash">ls ~/docker-course/practice/</code></pre>
+<p>You should see: <code>file1.txt  file2.txt</code></p>
+<pre><code class="language-bash">ls ~/docker-course/notes/</code></pre>
+<p>You should see: <code>file1.txt  renamed.txt</code></p>
+<pre><code class="language-bash">ls ~/docker-course/projects/web/app/</code></pre>
+<p>Should show an empty directory (no error).</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Build the <code>~/docker-course/</code> working directory and manage files with <code>mkdir</code>, <code>touch</code>, <code>cp</code>, <code>mv</code>, and <code>rm</code>.</p>
+<p><strong>Task:</strong> Work through the 33 drills in this lesson — the directory structure they leave behind is the artifact. Then run the four Checkpoint commands in one terminal.</p>
+<p><strong>Submit:</strong> One screenshot (or pasted transcript) of the four Checkpoint commands and their output: <code>ls ~/docker-course/</code>, <code>ls ~/docker-course/practice/</code>, <code>ls ~/docker-course/notes/</code>, <code>ls ~/docker-course/projects/web/app/</code>.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] <code>ls ~/docker-course/</code> shows <code>notes  practice  projects</code>.</li><li>[ ] <code>ls ~/docker-course/practice/</code> shows <code>file1.txt  file2.txt</code>.</li><li>[ ] <code>ls ~/docker-course/notes/</code> shows <code>file1.txt  renamed.txt</code>.</li><li>[ ] <code>ls ~/docker-course/projects/web/app/</code> returns with no error (empty directory).</li></ul>
+<p><strong>Unlocks:</strong> <a href="m01-03-looking-inside-files.html">03-looking-inside-files.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m01-03-looking-inside-files.html">03-looking-inside-files.md</a> — Read and edit files</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

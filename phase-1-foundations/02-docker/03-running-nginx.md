@@ -10,7 +10,7 @@
 Say: "Real web server in a container. We'll run nginx and load it from a browser — no install, no config files, just one command."
 Mention: "The `-d` (detached) flag is easy to forget. Without it the terminal hangs and they think Docker is broken. It's not — nginx is in the foreground. Have them Ctrl+C and re-run with `-d`."
 Pause: After `docker run`. Draw the port mapping on the whiteboard — `-p 8080:80` means host 8080 → container 80. Students confuse which side is which every time.
-Show: For SSH students, point at Cursor's Ports tab — the forwarded port shows up automatically. WSL students hit `localhost:8080` from their Windows browser directly.
+Show: For SSH students, point at VS Code's Ports tab — the forwarded port shows up automatically. WSL students hit `localhost:8080` from their Windows browser directly.
 Say: "You're done when the nginx welcome page loads in a browser AND `docker ps` shows a running nginx container."
 ```
 
@@ -79,7 +79,7 @@ You should see nginx's welcome HTML.
 
 **8.** **Now from your browser.**
    - **WSL students:** open your Windows browser, go to `http://localhost:8080`. You should see the nginx welcome page.
-   - **SSH students:** Cursor's Remote-SSH automatically forwards ports. Look at the bottom panel of Cursor — there should be a **"Ports"** tab. Click it. Port 8080 should be listed (or click "Forward a Port"). Click the globe icon next to it to open it in your local browser.
+   - **SSH students:** the VS Code Remote — SSH extension automatically forwards ports. Look at the bottom panel of VS Code — there should be a **"Ports"** tab. Click it. Port 8080 should be listed (or click "Forward a Port"). Click the globe icon next to it to open it in your local browser.
    - **Native Linux students:** open your browser, go to `http://localhost:8080`.
 
 **9.** See the nginx logs (what requests it has received).
@@ -176,6 +176,23 @@ docker images | grep nginx
 You should see the nginx image.
 
 You should also have seen the **nginx welcome page in your browser at http://localhost:8080** at some point during this lesson.
+
+## Lab
+
+**Objective:** Run nginx in a container — detached, port-mapped, named — and reach it from a browser.
+
+**Task:** Work steps 1–21 — pull the nginx image, run it as `web` on port 8080, hit it with `curl` and your browser, read the logs, get a shell inside with `docker exec`, then log it.
+
+**Submit:** A screenshot of the nginx welcome page in a browser — **any of the three paths counts:** your Windows browser at localhost:8080 (WSL), the VS Code **Ports** tab's globe icon (SSH), or your local browser (native Linux) — plus a paste of `docker ps -a --filter name=web`, `docker images | grep nginx`, and `tail ~/docker-course/notes/notes.txt` into D2L.
+
+**Pass criteria:**
+
+- [ ] Screenshot shows "Welcome to nginx!" served from port 8080 (whichever browser path your setup uses).
+- [ ] `docker ps -a --filter name=web` shows the `web` container (stopped is fine — you stopped it in step 20).
+- [ ] `docker images | grep nginx` shows the nginx image.
+- [ ] The notes tail includes `Ran nginx container 'web' on port 8080`.
+
+**Unlocks:** [04-images-and-containers.md](04-images-and-containers.md)
 
 ---
 

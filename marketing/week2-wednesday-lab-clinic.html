@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agentic Coding — Week 2 You Are Here · Temple College × ChiefOS</title>
+<link rel="stylesheet" href="../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --paper: #FFFFFF;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+    --wash-warm: #FDF3E3;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    font-family: 'Barlow', 'DejaVu Sans', Arial, sans-serif;
+    color: var(--ink);
+    font-size: 10.2pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: letter; margin: 0; }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.38in 0.56in 0.38in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: avoid; }
+  .page > * { flex-shrink: 0; }
+
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 8px;
+  }
+  .brandbar img.tc { height: 36px; }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brandbar .collab .x {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 8.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar img.chief { height: 25px; }
+
+  .pagefoot {
+    position: absolute;
+    left: 0.56in; right: 0.56in; bottom: 0.28in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 6px;
+    font-size: 8pt;
+    color: var(--ink-soft);
+  }
+  .pagefoot b { color: var(--navy); font-weight: 600; }
+
+  h1, h2, h3 {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    color: var(--navy);
+  }
+  h2 {
+    font-size: 13.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 5px;
+  }
+  h2::after { content: ""; flex: 1; height: 3px; background: var(--orange); border-radius: 2px; }
+  code {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 8pt;
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+
+  .hero { margin: 0 0 6px; }
+  .hero .kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10.5pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 2px;
+  }
+  .hero h1 {
+    font-size: 26pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+  }
+  .hero .phase-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+  .hero .sub {
+    font-size: 9.6pt;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .hero .meta {
+    display: inline-block;
+    margin-top: 5px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 9.4pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 3px;
+  }
+  .hero .meta span { color: var(--orange); }
+
+  .intro {
+    font-size: 8.8pt;
+    line-height: 1.4;
+    margin-bottom: 7px;
+  }
+  .intro b { color: var(--navy); }
+
+  .pillars { display: flex; gap: 8px; margin-bottom: 7px; }
+  .pillar {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--orange);
+    border-radius: 6px;
+    padding: 6px 8px 7px;
+    background: var(--wash);
+  }
+  .pillar .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 11pt;
+    color: var(--orange-deep);
+    line-height: 1;
+  }
+  .pillar h3 { font-size: 10pt; text-transform: uppercase; letter-spacing: 0.03em; margin: 2px 0 2px; }
+  .pillar p { font-size: 7.7pt; color: var(--ink-soft); line-height: 1.32; margin-top: 0; }
+
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 7px; }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 7px 10px;
+    background: var(--wash);
+  }
+  .card.navy {
+    background: var(--navy);
+    color: #e8edf2;
+    border-color: var(--navy);
+  }
+  .card .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9.2pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 3px;
+  }
+  .card.navy .label { color: var(--orange); }
+  .card ul { margin: 0 0 0 14px; font-size: 7.8pt; line-height: 1.38; }
+  .card.navy ul { color: #d5dde5; }
+  .card li { margin-bottom: 2px; }
+  .card code { font-size: 7.4pt; }
+
+  table.agenda { width: 100%; border-collapse: collapse; margin-bottom: 7px; }
+  table.agenda th, table.agenda td {
+    border: 1px solid var(--line);
+    padding: 3px 6px;
+    font-size: 7.8pt;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 1.32;
+  }
+  table.agenda th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8.6pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.agenda td.t {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9pt;
+    color: var(--navy);
+    width: 52px;
+    white-space: nowrap;
+    background: var(--wash);
+  }
+  table.agenda td.lab {
+    width: 78px;
+    font-weight: 600;
+    color: var(--navy-soft);
+  }
+  table.stuck td.t { width: 78px; }
+
+  .callout {
+    border-left: 4px solid var(--orange-deep);
+    background: var(--wash-warm);
+    border-radius: 0 6px 6px 0;
+    padding: 6px 10px;
+    font-size: 8pt;
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+  .callout b { color: var(--navy); }
+  .callout.red {
+    border-left-color: #B3402A;
+    background: #FBEAE6;
+  }
+
+  .stats {
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--navy);
+    color: #fff;
+    margin-top: auto;
+    margin-bottom: 28px;
+  }
+  .stats .stat {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px 7px;
+    border-right: 1px solid rgba(255,255,255,0.12);
+  }
+  .stats .stat:last-child { border-right: none; }
+  .stats .n {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14pt;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stats .l {
+    font-size: 6.6pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #cfd8e0;
+    margin-top: 3px;
+  }
+
+  table.labs { width: 100%; border-collapse: collapse; margin-bottom: 7px; }
+  table.labs th, table.labs td {
+    border: 1px solid var(--line);
+    padding: 3px 5px;
+    font-size: 7.4pt;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.3;
+  }
+  table.labs th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8.2pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  table.labs td.num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 8pt;
+    color: var(--navy);
+    width: 78px;
+    background: var(--wash);
+    white-space: nowrap;
+  }
+  table.labs td.word {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-weight: 700;
+    font-size: 7.6pt;
+    color: var(--orange-deep);
+    width: 58px;
+    white-space: nowrap;
+  }
+
+  .outcome {
+    background: var(--navy);
+    border-radius: 8px;
+    color: #fff;
+    padding: 8px 12px;
+    margin-top: auto;
+    margin-bottom: 28px;
+  }
+  .outcome .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 2px;
+  }
+  .outcome p { font-size: 8pt; color: #e8edf2; line-height: 1.38; }
+  .outcome p b { color: #fff; }
+  .outcome code {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.3);
+    color: #fff;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 — STUDENTS ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Week 2 · Wednesday Activity</div>
+    <h1>You Are Here</h1>
+    <div class="phase-line">One download · the whole crew walks it</div>
+    <div class="sub">The directory signs fell off. WSL or Mac. Prove where you are.</div>
+    <div class="meta">Wed &nbsp;<span>·</span>&nbsp; 6:00–8:00 PM &nbsp;<span>·</span>&nbsp; Zoom &nbsp;<span>·</span>&nbsp; Crews of 3</div>
+  </div>
+
+  <p class="intro"><b>Tonight is one lab, done as a group.</b> Everyone downloads the same <code>setup.sh</code>, builds the building on their own machine, and a crew of three walks it together. Six floors, then you say what the machine will print before it prints it, then a banner. A floor counts only when <b>all three</b> have its fragment. <b>WSL and Mac both work. SSH is not part of tonight.</b> The only commands inside are <code>pwd</code>, <code>ls</code>, <code>ls -la</code>, <code>cd</code>, <code>cd -</code>, <code>hostname</code>, <code>whoami</code>, and <code>uname</code>.</p>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="num">1 file</div>
+      <h3>Download</h3>
+      <p>D2L live lab, or the file in Zoom chat. <code>bash setup.sh</code> as yourself. Never sudo.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">×3</div>
+      <h3>Own keyboard</h3>
+      <p>Driver types. Navigator reads the floor aloud. Scribe tracks fragments. Rotate every floor.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">Banner</div>
+      <h3>All three</h3>
+      <p>Screenshot <code>bash ~/you-are-here/banner.sh</code> from every machine into Zoom chat.</p>
+    </div>
+  </div>
+
+  <div class="twocol">
+    <div class="card">
+      <div class="label">Before 6:00 — build, don't explore</div>
+      <ul>
+        <li>Download <code>setup.sh</code></li>
+        <li><code>bash setup.sh</code> in Ubuntu (WSL) or Mac Terminal</li>
+        <li>Check: <code>ls ~/you-are-here</code> shows the floors</li>
+        <li>Stop there. <code>cat README.txt</code> waits for the clock</li>
+        <li>Wrecked it later? <code>bash setup.sh --reset</code></li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <div class="label">How a crew of 3 clears a floor</div>
+      <ul>
+        <li>Cameras on. Think out loud. Words only — never type on someone else's machine</li>
+        <li>Scribe posts in main chat: <code>CREW 2 — floor 4 (3/3)</code></li>
+        <li>Floors stay shut until all three finish <code>join.sh</code> and type each other's badges</li>
+        <li>Finished early? Coach the other two until their banners match</li>
+        <li><b>3 hint tokens</b> for the night. First hint is always: read the floor again</li>
+        <li>Winner: first crew with <b>three banners</b> in chat. Tiebreaker: fewest hints</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Tonight</h2>
+  <table class="agenda">
+    <thead>
+      <tr><th>Clock</th><th>Block</th><th>What we do live</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="t">6:00</td>
+        <td class="lab">Build</td>
+        <td>Sign-in · name crews of 3 · ✓ in chat when <code>ls ~/you-are-here</code> works · rescue anyone still in Windows Command Prompt</td>
+      </tr>
+      <tr>
+        <td class="t">6:15</td>
+        <td class="lab">Launch</td>
+        <td>Say <b>WSL</b> or <b>Mac</b> · <code>bash ~/you-are-here/join.sh</code> on all three machines · seats 1, 2, 3 · read hostname, whoami, and badge across the crew · then start</td>
+      </tr>
+      <tr>
+        <td class="t">6:25</td>
+        <td class="lab">The walk</td>
+        <td>About 60 minutes in breakouts · six floors · the building tells you the next command · instructor floats</td>
+      </tr>
+      <tr>
+        <td class="t">7:25</td>
+        <td class="lab">Debrief</td>
+        <td>Banners up · one crew teaches the wrong door · one teaches <code>cd -</code> · one walks the five-stop route out loud</td>
+      </tr>
+      <tr>
+        <td class="t">7:45</td>
+        <td class="lab">Close</td>
+        <td>Module 00 gate still due in D2L by Sunday · SSH only if you still owe 00:06 · Week 3 is sudo and permissions</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <b>Participation:</b> the banner screenshot, from every machine. <b>Still the real gate:</b> one D2L screenshot with a green WSL or SSH badge plus <code>whoami</code> and <code>pwd</code>. Tonight's building does not replace that. No sudo in this lab.
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">1</div><div class="l">File to download</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">Per crew</div></div>
+    <div class="stat"><div class="n">6</div><div class="l">Floors</div></div>
+    <div class="stat"><div class="n">Banner</div><div class="l">All three machines</div></div>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Week 2 You Are Here · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 1 of 2</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 2 — INSTRUCTOR ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="callout red">
+    <b>Instructor page — do not screen-share.</b> Page 1 is safe to show. This page is the answer key. The building already tells students the next command; don't read the fragments out loud.
+  </div>
+
+  <h2>Answer key</h2>
+  <table class="labs">
+    <thead>
+      <tr><th>Floor</th><th>What they actually do</th><th>Word</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="num">Roll call</td>
+        <td><code>bash ~/you-are-here/join.sh</code>. Same crew name on all three. Seats 1, 2, 3. Each reads hostname, whoami, and badge. The others type what they heard. A solo machine cannot invent a second seat. <code>--redo</code> if the crew name was wrong.</td>
+        <td class="word">lock</td>
+      </tr>
+      <tr>
+        <td class="num">1 · Wrong Door</td>
+        <td><code>cd windows-side</code> · <code>cat Users/Documents/EMPTY.txt</code> · <code>bash look.sh</code> · <code>cd ..</code> · <code>bash stamp.sh</code>. Lesson: files didn't vanish; <code>/mnt</code> is the Windows drive; Mac home is <code>/Users</code>.</td>
+        <td class="word">HERE</td>
+      </tr>
+      <tr>
+        <td class="num">2 · Home Button</td>
+        <td>Bare <code>cd</code> (no path, no tilde). <code>bash ~/you-are-here/home-button/stamp.sh</code> only passes when <code>pwd</code> is <code>$HOME</code>.</td>
+        <td class="word">BARE</td>
+      </tr>
+      <tr>
+        <td class="num">3 · Dotfile</td>
+        <td><code>ls -la</code> · <code>cat ~/.you-are-here</code> · <code>bash ~/you-are-here/dotfile/stamp.sh .bashrc</code> (any real dotfile except the planted note). Mac: <code>.zshrc</code> or <code>.zsh_history</code>.</td>
+        <td class="word">DOT</td>
+      </tr>
+      <tr>
+        <td class="num">4 · Stairs</td>
+        <td>From the stairs, same terminal: <code>cd /tmp</code> · <code>bash drop.sh</code> · <code>cd -</code> · <code>bash stamp.sh</code>. Crew enforces "don't retype the path." Mac <code>/private/tmp</code> counts.</td>
+        <td class="word">HOP</td>
+      </tr>
+      <tr>
+        <td class="num">5 · Route</td>
+        <td><code>bash scout.sh</code> at home → <code>/etc</code> → <code>/usr</code> → home → <code>/</code>, in that order. Scout prints the next stop.</td>
+        <td class="word">ROUTE</td>
+      </tr>
+      <tr>
+        <td class="num">6 · Callback</td>
+        <td>Seat 1's card is only <code>/etc</code>, seat 2 only <code>/usr</code>, seat 3 only <code>/var</code>. They read their own path aloud. Everyone still types all three, with bare <code>cd</code> and <code>home.sh</code> between calls.</td>
+        <td class="word">BACK</td>
+      </tr>
+      <tr>
+        <td class="num">Front desk</td>
+        <td><code>bash ~/you-are-here/predict.sh</code> — say <code>hostname</code>, <code>whoami</code>, <code>pwd</code>, <code>uname -a</code>, then Enter. Linux → say WSL. Darwin → say Mac.</td>
+        <td class="word">SAID</td>
+      </tr>
+      <tr>
+        <td class="num">Banner</td>
+        <td><code>bash ~/you-are-here/banner.sh</code> lists every fragment plus machine, user, and pwd. All three screenshots in chat.</td>
+        <td class="word">banner</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>When they get stuck</h2>
+  <table class="agenda stuck">
+    <thead>
+      <tr><th>They say</th><th>What to tell them</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="t">Badge</td>
+        <td>Crew ids differ, or they typed this machine. Have each seat re-read hostname, whoami, and badge. <code>bash ~/you-are-here/join.sh --redo</code> if the name was wrong.</td>
+      </tr>
+      <tr>
+        <td class="t">Windows</td>
+        <td>Setup refuses anything that isn't Linux or Darwin. Open the Ubuntu app, not Command Prompt.</td>
+      </tr>
+      <tr>
+        <td class="t">No note</td>
+        <td><code>ls</code> hides it. <code>ls -la</code> from home. The name contains <code>you-are-here</code>.</td>
+      </tr>
+      <tr>
+        <td class="t">Not home</td>
+        <td>They typed a path. Two letters: <code>cd</code>. Then run the stamp again.</td>
+      </tr>
+      <tr>
+        <td class="t">Stairs</td>
+        <td>Second terminal forgot the hop. One terminal: <code>cd /tmp</code>, then <code>cd -</code>. <code>/private/tmp</code> on a Mac is the same room.</td>
+      </tr>
+      <tr>
+        <td class="t">Route</td>
+        <td>Scout names the next stop and prints <code>pwd</code>. <code>bash scout.sh --reset</code> starts the five over.</td>
+      </tr>
+      <tr>
+        <td class="t">Callback</td>
+        <td>They marked two floors without coming home. <code>bash home.sh --reset</code>, then one call at a time.</td>
+      </tr>
+      <tr>
+        <td class="t">Mess</td>
+        <td><code>bash setup.sh --reset</code> deletes <code>~/you-are-here</code> and the hidden note, then rebuilds.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="outcome">
+    <div class="label">Before class · the one file</div>
+    <p>
+      Post <b>class-materials/you-are-here/setup.sh</b> on the D2L live lab (after 00:07) and drop a copy in Zoom chat.<br>
+      Dry-run: <code>bash setup.sh --reset</code>. Nothing asks for sudo. Nothing writes outside <code>~/you-are-here</code> except the one hidden note <code>~/.you-are-here</code>, and reset removes that too.<br>
+      Breakouts of 3. Mix a confident navigator with someone who is still unsure where <code>pwd</code> points.
+    </p>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Week 2 You Are Here · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 2 of 2</div>
+  </div>
+</div>
+
+</body>
+</html>

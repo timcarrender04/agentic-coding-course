@@ -1,0 +1,189 @@
+{
+  "module": "04",
+  "dir": "phase-2-building-real-apps/04-git-github",
+  "title": "Git and GitHub",
+  "moduleObjectives": [
+    "Configure Git globally with `user.name`, `user.email`, and `init.defaultBranch` set to `main`",
+    "Initialize a repository and manage changes through the status / add / commit cycle with descriptive commit messages",
+    "Inspect changes and history confidently using `git status`, `git diff`, and `git log` with their most useful flags",
+    "Create, switch, merge, and delete branches, distinguishing fast-forward merges from true merge commits",
+    "Recover from common mistakes using `git restore`, `git restore --staged`, `git commit --amend`, and `git reset`",
+    "Generate an ed25519 SSH key, register it with a GitHub account, and push a local repository to a GitHub remote",
+    "Clone a repository from GitHub, pull updates, and resolve a merge conflict by hand",
+    "Open a pull request on GitHub, review and respond to inline comments, and merge it back to `main`"
+  ],
+  "lessons": [
+    {
+      "file": "00-prerequisites-check.md",
+      "title": "Prerequisites Check",
+      "objective": "Verify that Git is installed and the Module 03 FastAPI project exists with no pre-existing `.git` directory."
+    },
+    {
+      "file": "01-git-config.md",
+      "title": "Configure Git",
+      "objective": "Configure Git globally with `user.name`, `user.email`, `init.defaultBranch=main`, and `pull.rebase=false`, then verify the settings stored in `~/.gitconfig`."
+    },
+    {
+      "file": "02-init-and-first-commit.md",
+      "title": "Init and First Commit",
+      "objective": "Initialize a Git repository in the FastAPI project, extend `.gitignore`, stage everything with `git add .`, and make a first commit on `main`."
+    },
+    {
+      "file": "03-status-add-commit.md",
+      "title": "The status / add / commit Cycle",
+      "objective": "Make a series of commits using the edit, `git status`, `git add`, `git commit` cycle, including selective staging and the `-am` shortcut's untracked-file limitation."
+    },
+    {
+      "file": "04-diff-and-log.md",
+      "title": "Diff and Log",
+      "objective": "Inspect unstaged, staged, and between-commit changes with `git diff` and read history with `git log` filters such as `--oneline`, `--graph`, `--author`, and `--grep`."
+    },
+    {
+      "file": "05-branches.md",
+      "title": "Branches",
+      "objective": "Create and switch branches with `git switch`, merge a feature branch into `main` via both a fast-forward and a true merge commit, and delete merged branches with `git branch -d`."
+    },
+    {
+      "file": "06-undoing-things.md",
+      "title": "Undoing Things",
+      "objective": "Undo common mistakes by discarding edits with `git restore`, unstaging with `git restore --staged`, amending the last commit with `git commit --amend`, and removing a commit with `git reset`."
+    },
+    {
+      "file": "07-github-account-and-ssh.md",
+      "title": "GitHub Account and SSH Key",
+      "objective": "Generate an ed25519 SSH key with `ssh-keygen`, register the public key in GitHub's settings, and verify passwordless authentication with `ssh -T`."
+    },
+    {
+      "file": "08-pushing-to-github.md",
+      "title": "Pushing to GitHub",
+      "objective": "Connect a local repository to a GitHub remote with `git remote add origin`, push it with `git push -u origin main`, and round-trip commits between the terminal and the web UI with `git push` and `git pull`."
+    },
+    {
+      "file": "09-cloning-and-pulling.md",
+      "title": "Cloning, Pulling, and Conflicts",
+      "objective": "Clone a repository from GitHub, sync changes between two working copies with `git pull`, and resolve a merge conflict by editing out the conflict markers, staging the file, and committing the merge."
+    },
+    {
+      "file": "10-pull-requests.md",
+      "title": "Pull Requests",
+      "objective": "Push a feature branch to GitHub, open a pull request, leave and respond to inline review comments, merge the PR with a merge commit, and sync the result to the local `main`."
+    },
+    {
+      "file": "11-final-checkpoint.md",
+      "title": "Final Checkpoint",
+      "objective": "Complete a full branch, commit, push, pull request, review, and merge cycle from memory and verify the new `/info` route works end to end."
+    }
+  ],
+  "quiz": [
+    {
+      "question": "Which command makes new repositories start on a `main` branch instead of `master`?",
+      "options": [
+        "`git config --global init.defaultBranch main`",
+        "`git config --global branch.default main`",
+        "`git branch --set-default main`",
+        "`git init --default-branch main --global`"
+      ],
+      "answer": 0,
+      "feedback": "Lesson 01 sets `init.defaultBranch` globally so every future `git init` starts on `main`."
+    },
+    {
+      "question": "You edited `main.py`, ran `git commit -m \"update\"`, and Git reported nothing was committed. What step did you skip?",
+      "options": [
+        "Running `git push` before committing",
+        "Staging the change with `git add main.py`",
+        "Re-running `git init` in the project",
+        "Setting `color.ui` to `auto` first"
+      ],
+      "answer": 1,
+      "feedback": "Changes must be staged with `git add` before `git commit` will include them — that is the core status / add / commit cycle."
+    },
+    {
+      "question": "You created a brand-new file `NOTES.md` and ran `git commit -am \"Add notes file\"`. What happens?",
+      "options": [
+        "The file is committed along with any tracked changes",
+        "The file is staged but the commit is aborted",
+        "Nothing is committed — `-am` only stages files Git already tracks, so untracked files are skipped",
+        "Git prompts you to confirm adding the new file"
+      ],
+      "answer": 2,
+      "feedback": "Lesson 03 demonstrates that `-am` silently ignores untracked files, which still need a plain `git add` first."
+    },
+    {
+      "question": "After running `git add routers/items.py`, plain `git diff` shows no output. Which command shows the staged change?",
+      "options": [
+        "`git diff --all`",
+        "`git log -p`",
+        "`git show HEAD`",
+        "`git diff --staged`"
+      ],
+      "answer": 3,
+      "feedback": "Plain `git diff` shows only unstaged working-tree changes; `git diff --staged` shows what is about to be committed."
+    },
+    {
+      "question": "When you merged `add-health-route` into `main`, Git reported \"Fast-forward\". What does that mean?",
+      "options": [
+        "`main` had no commits of its own since the branch diverged, so Git just moved the `main` pointer forward with no merge commit",
+        "Git squashed the branch's commits into a single new commit",
+        "Git created a merge commit with two parent commits",
+        "Git replayed the branch's commits on top of `main` one at a time"
+      ],
+      "answer": 0,
+      "feedback": "A fast-forward happens when `main` hasn't diverged, so Git can simply advance the branch pointer without creating a merge commit."
+    },
+    {
+      "question": "You made an edit to `main.py` that you don't want to keep, and it is not staged. Which command discards it?",
+      "options": [
+        "`git reset --soft HEAD`",
+        "`git restore main.py`",
+        "`git restore --staged main.py`",
+        "`git commit --amend --no-edit`"
+      ],
+      "answer": 1,
+      "feedback": "`git restore <file>` reverts a working-tree file to the version in the latest commit, which is the fix for an unwanted unstaged edit."
+    },
+    {
+      "question": "A `git pull` left `NOTES.md` with `<<<<<<<`, `=======`, and `>>>>>>>` markers. What is the correct way to finish the merge?",
+      "options": [
+        "Run `git merge --continue` and let Git pick a side automatically",
+        "Run `git push --force` so your version wins",
+        "Edit the file to the final content, delete all the markers, then `git add NOTES.md` and `git commit`",
+        "Delete `NOTES.md` and run `git pull` again"
+      ],
+      "answer": 2,
+      "feedback": "Lesson 09 has you hand-edit the conflicted file, remove every marker, stage it with `git add`, and commit to conclude the merge."
+    },
+    {
+      "question": "When registering an SSH key with GitHub, what do you paste into Settings, SSH / GPG Keys?",
+      "options": [
+        "The contents of `~/.ssh/id_ed25519` (the private key)",
+        "The contents of `~/.ssh/known_hosts`",
+        "The contents of `~/.gitconfig`",
+        "The contents of `~/.ssh/id_ed25519.pub` (the public key)"
+      ],
+      "answer": 3,
+      "feedback": "Only the public `.pub` key is uploaded to GitHub; the private key never leaves your machine."
+    },
+    {
+      "question": "Why do the lessons use `git push -u origin main` for the first push of a branch?",
+      "options": [
+        "The `-u` sets the upstream tracking branch, so later pushes and pulls work with plain `git push` and `git pull`",
+        "The `-u` forces the push, overwriting any commits on the remote",
+        "The `-u` pushes every local branch at once",
+        "The `-u` uploads untracked files along with the commits"
+      ],
+      "answer": 0,
+      "feedback": "`-u` links the local branch to `origin/<branch>` so Git knows where to push and pull afterward without extra arguments."
+    },
+    {
+      "question": "Your `git push` is rejected with \"the remote contains work that you do not have locally.\" What do the lessons say to do?",
+      "options": [
+        "Run `git push --force` to overwrite the remote",
+        "Delete the GitHub repository and create it again",
+        "Run `git reset --hard` and redo your changes",
+        "Run `git pull` first, resolve any conflicts, then push again"
+      ],
+      "answer": 3,
+      "feedback": "The rejected push means the remote is ahead of you, so you pull (and resolve any conflicts) before pushing — never force-push over teammates' work."
+    }
+  ]
+}

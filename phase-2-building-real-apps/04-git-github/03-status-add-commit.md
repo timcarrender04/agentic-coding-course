@@ -22,7 +22,7 @@ git status
 ```
 Should say `nothing to commit, working tree clean`.
 
-**2.** Make a tiny change. Open `main.py` in Cursor and change the hello-world response from `{"hello": "fastapi"}` to `{"hello": "git"}`. Save.
+**2.** Make a tiny change. Open `main.py` in VS Code and change the hello-world response from `{"hello": "fastapi"}` to `{"hello": "git"}`. Save.
 
 **3.** Run status.
 ```bash

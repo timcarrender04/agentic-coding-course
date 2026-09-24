@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd">
+  <assessment ident="quiz_m00" title="Module 00 Check on Learning — VS Code Walkthrough">
+    <qtimetadata>
+      <qtimetadatafield>
+        <fieldlabel>cc_profile</fieldlabel>
+        <fieldentry>cc.exam.v0p1</fieldentry>
+      </qtimetadatafield>
+      <qtimetadatafield>
+        <fieldlabel>qmd_scoretype</fieldlabel>
+        <fieldentry>Percentage</fieldentry>
+      </qtimetadatafield>
+    </qtimetadata>
+    <section ident="quiz_m00_root">
+
+    <item ident="quiz_m00_q1" title="Question 1">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;According to the lessons, what makes VS Code an IDE rather than just an editor?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m00_q1_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m00_q1_a0">
+              <material><mattext texttype="text/html">It requires you to sign in to a Microsoft account before use</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q1_a1">
+              <material><mattext texttype="text/html">It can only be used for writing code, not plain text</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q1_a2">
+              <material><mattext texttype="text/html">It combines an editor, a terminal, and other development tools in one window</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q1_a3">
+              <material><mattext texttype="text/html">It includes a built-in AI assistant out of the box</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m00_q1_resp">quiz_m00_q1_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m00_q1_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m00_q1_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;An IDE (Integrated Development Environment) bolts an editor, a terminal, and other tools together in one window so you don't have to switch between separate programs.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m00_q2" title="Question 2">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Which keyboard shortcut opens the VS Code command palette?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m00_q2_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m00_q2_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;Ctrl+Shift+P&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q2_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;Ctrl+,&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q2_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;Ctrl+Shift+X&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q2_a3">
+              <material><mattext texttype="text/html">Ctrl+backtick</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m00_q2_resp">quiz_m00_q2_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m00_q2_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m00_q2_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;&lt;code&gt;Ctrl+Shift+P&lt;/code&gt; (Cmd+Shift+P on Mac) opens the command palette, from which any VS Code command can be run by name.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m00_q3" title="Question 3">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;In the VS Code window, what important information appears in the bottom-left section of the status bar?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m00_q3_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m00_q3_a0">
+              <material><mattext texttype="text/html">The current file's word count</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q3_a1">
+              <material><mattext texttype="text/html">The list of installed extensions</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q3_a2">
+              <material><mattext texttype="text/html">The editor font size setting</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q3_a3">
+              <material><mattext texttype="text/html">Where VS Code is connected to, such as a WSL or SSH indicator</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m00_q3_resp">quiz_m00_q3_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m00_q3_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m00_q3_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The bottom-left of the status bar shows what environment VS Code is connected to, which is where the green 'WSL: Ubuntu' or 'SSH: hostname' indicator appears.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m00_q4" title="Question 4">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;You type &lt;code&gt;echo hello&lt;/code&gt; into the big middle area of the VS Code window and nothing runs. What went wrong?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m00_q4_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m00_q4_a0">
+              <material><mattext texttype="text/html">The command needs quotes around the word hello</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q4_a1">
+              <material><mattext texttype="text/html">You typed into the editor, which stores text in a file, instead of the terminal, which runs commands</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q4_a2">
+              <material><mattext texttype="text/html">The integrated terminal only works after Docker is installed</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q4_a3">
+              <material><mattext texttype="text/html">VS Code requires commands to be run from the command palette</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m00_q4_resp">quiz_m00_q4_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m00_q4_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m00_q4_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The editor stores what you type into a file and never runs it; commands must be typed at the prompt in the terminal panel at the bottom.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m00_q5" title="Question 5">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Before clicking Install on an extension in the marketplace, what should you always check?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m00_q5_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m00_q5_a0">
+              <material><mattext texttype="text/html">That the extension was updated within the last week</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q5_a1">
+              <material><mattext texttype="text/html">That the extension is smaller than 100 MB</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q5_a2">
+              <material><mattext texttype="text/html">The publisher shown under the extension name, since multiple extensions can share the same name</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q5_a3">
+              <material><mattext texttype="text/html">That the extension has screenshots on its details page</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m00_q5_resp">quiz_m00_q5_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m00_q5_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m00_q5_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;There are sometimes multiple extensions with the same name (like Python), so you must verify the publisher, such as Microsoft's &lt;code&gt;ms-python&lt;/code&gt;, before installing.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m00_q6" title="Question 6">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;After installing the Docker extension, its sidebar shows 'Failed to connect' or empty sections. Why?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m00_q6_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m00_q6_a0">
+              <material><mattext texttype="text/html">The extension was published by the wrong publisher and must be reinstalled</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q6_a1">
+              <material><mattext texttype="text/html">Docker itself is not installed yet; that happens in Module 02, so the extension has nothing to talk to</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q6_a2">
+              <material><mattext texttype="text/html">The sidebar only populates when VS Code is connected over SSH</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q6_a3">
+              <material><mattext texttype="text/html">The whale icon must be clicked twice to start the Docker service</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m00_q6_resp">quiz_m00_q6_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m00_q6_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m00_q6_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The extension is working correctly; Docker isn't installed until Module 02, so the sidebar has nothing to connect to and the empty state is expected.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m00_q7" title="Question 7">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;What is the correct way to install WSL if &lt;code&gt;wsl --status&lt;/code&gt; shows it is not installed?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m00_q7_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m00_q7_a0">
+              <material><mattext texttype="text/html">Run &lt;code&gt;wsl --install&lt;/code&gt; in PowerShell as administrator, then reboot the computer</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q7_a1">
+              <material><mattext texttype="text/html">Install the WSL extension in VS Code, which installs WSL automatically</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q7_a2">
+              <material><mattext texttype="text/html">Run &lt;code&gt;wsl --status --install&lt;/code&gt; in the VS Code integrated terminal</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q7_a3">
+              <material><mattext texttype="text/html">Download WSL from code.visualstudio.com and run the installer</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m00_q7_resp">quiz_m00_q7_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m00_q7_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m00_q7_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;WSL is installed by running &lt;code&gt;wsl --install&lt;/code&gt; in an administrator PowerShell, and the installation requires a reboot before Ubuntu finishes setting up.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m00_q8" title="Question 8">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;After connecting VS Code to WSL, which command confirms your integrated terminal is really running Linux?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m00_q8_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m00_q8_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;echo hello&lt;/code&gt;, which prints hello back</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q8_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;wsl --status&lt;/code&gt;, which prints the default distribution</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q8_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;pwd&lt;/code&gt;, which prints the current folder</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q8_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;uname -a&lt;/code&gt;, whose output mentions Linux</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m00_q8_resp">quiz_m00_q8_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m00_q8_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m00_q8_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson has you run &lt;code&gt;uname -a&lt;/code&gt; and check that the output mentions 'Linux' as proof that the terminal is inside WSL.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m00_q9" title="Question 9">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;When first connecting to a new SSH host, VS Code shows 'The authenticity of host ... can't be established. Are you sure you want to continue connecting (yes/no/[fingerprint])?' What must you do?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m00_q9_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m00_q9_a0">
+              <material><mattext texttype="text/html">Type &lt;code&gt;yes&lt;/code&gt; and press Enter, because pressing Enter alone does nothing</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q9_a1">
+              <material><mattext texttype="text/html">Press Enter to accept the default answer</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q9_a2">
+              <material><mattext texttype="text/html">Type the remote machine's password</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q9_a3">
+              <material><mattext texttype="text/html">Close the prompt and reconnect from the command palette</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m00_q9_resp">quiz_m00_q9_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m00_q9_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m00_q9_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The prompt has no default answer, so you must explicitly type &lt;code&gt;yes&lt;/code&gt; and press Enter; pressing Enter by itself does nothing.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m00_q10" title="Question 10">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;On Mac or Linux, why do you run &lt;code&gt;chmod 600&lt;/code&gt; on your SSH key file before connecting?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m00_q10_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m00_q10_a0">
+              <material><mattext texttype="text/html">It converts the key into a format VS Code can read</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q10_a1">
+              <material><mattext texttype="text/html">It registers the key with the Remote - SSH extension</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q10_a2">
+              <material><mattext texttype="text/html">SSH refuses to use keys that anyone else can read, so the permissions must be locked down</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m00_q10_a3">
+              <material><mattext texttype="text/html">It encrypts the key with your login password</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m00_q10_resp">quiz_m00_q10_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m00_q10_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m00_q10_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;&lt;code&gt;chmod 600&lt;/code&gt; locks down the key file's permissions so only you can read it, which SSH requires before it will accept the key.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+    </section>
+  </assessment>
+</questestinterop>

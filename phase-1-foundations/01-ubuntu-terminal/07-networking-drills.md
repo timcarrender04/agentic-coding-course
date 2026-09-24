@@ -172,6 +172,23 @@ ss -tuln | head -n 5
 ```
 You should see a table of listening ports.
 
+## Lab
+
+**Objective:** Confirm your network can reach the internet, resolve DNS names, and speak HTTP — including to Docker Hub.
+
+**Task:** Work through the networking drills (ping, curl, dig, ss), then run the four Checkpoint commands in one terminal.
+
+**Submit:** One screenshot (or pasted transcript) of the four Checkpoint commands and their output: `ping -c 1 8.8.8.8`, `curl -I https://hub.docker.com 2>/dev/null | head -n 1`, `dig +short google.com`, `ss -tuln | head -n 5`.
+
+**Pass criteria:** (network output is non-deterministic — verify the final state, never exact text. On campus/corporate networks `curl ifconfig.me` may show a proxy IP and some hosts may be filtered; any successful response counts.)
+
+- [ ] `ping -c 1 8.8.8.8` shows `0% packet loss`.
+- [ ] The `curl -I` check prints an HTTP status line (`HTTP/2 200`, a `301`, or similar — any status line back from the server is a successful response).
+- [ ] `dig +short google.com` returns at least one IP address.
+- [ ] `ss -tuln | head -n 5` shows the listening-ports table.
+
+**Unlocks:** [08-processes-and-services.md](08-processes-and-services.md)
+
 ---
 
 **Next up:** [08-processes-and-services.md](08-processes-and-services.md) — Inspect what's running

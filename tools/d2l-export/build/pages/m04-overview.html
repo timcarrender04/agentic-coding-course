@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 04 — Git and GitHub</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+
+<h1>Module 04 — Git and GitHub</h1>
+<div class="callout objective"><span class="label">🎯 What you'll be able to do after this module</span>
+<ul><li>Configure Git globally with <code>user.name</code>, <code>user.email</code>, and <code>init.defaultBranch</code> set to <code>main</code></li><li>Initialize a repository and manage changes through the status / add / commit cycle with descriptive commit messages</li><li>Inspect changes and history confidently using <code>git status</code>, <code>git diff</code>, and <code>git log</code> with their most useful flags</li><li>Create, switch, merge, and delete branches, distinguishing fast-forward merges from true merge commits</li><li>Recover from common mistakes using <code>git restore</code>, <code>git restore --staged</code>, <code>git commit --amend</code>, and <code>git reset</code></li><li>Generate an ed25519 SSH key, register it with a GitHub account, and push a local repository to a GitHub remote</li><li>Clone a repository from GitHub, pull updates, and resolve a merge conflict by hand</li><li>Open a pull request on GitHub, review and respond to inline comments, and merge it back to <code>main</code></li></ul></div>
+<h2>Lessons and objectives</h2>
+<table><thead><tr><th>#</th><th>Lesson</th><th>Learning objective</th></tr></thead><tbody><tr><td>00</td><td>Prerequisites Check</td><td>Verify that Git is installed and the Module 03 FastAPI project exists with no pre-existing <code>.git</code> directory.</td></tr><tr><td>01</td><td>Configure Git</td><td>Configure Git globally with <code>user.name</code>, <code>user.email</code>, <code>init.defaultBranch=main</code>, and <code>pull.rebase=false</code>, then verify the settings stored in <code>~/.gitconfig</code>.</td></tr><tr><td>02</td><td>Init and First Commit</td><td>Initialize a Git repository in the FastAPI project, extend <code>.gitignore</code>, stage everything with <code>git add .</code>, and make a first commit on <code>main</code>.</td></tr><tr><td>03</td><td>The status / add / commit Cycle</td><td>Make a series of commits using the edit, <code>git status</code>, <code>git add</code>, <code>git commit</code> cycle, including selective staging and the <code>-am</code> shortcut's untracked-file limitation.</td></tr><tr><td>04</td><td>Diff and Log</td><td>Inspect unstaged, staged, and between-commit changes with <code>git diff</code> and read history with <code>git log</code> filters such as <code>--oneline</code>, <code>--graph</code>, <code>--author</code>, and <code>--grep</code>.</td></tr><tr><td>05</td><td>Branches</td><td>Create and switch branches with <code>git switch</code>, merge a feature branch into <code>main</code> via both a fast-forward and a true merge commit, and delete merged branches with <code>git branch -d</code>.</td></tr><tr><td>06</td><td>Undoing Things</td><td>Undo common mistakes by discarding edits with <code>git restore</code>, unstaging with <code>git restore --staged</code>, amending the last commit with <code>git commit --amend</code>, and removing a commit with <code>git reset</code>.</td></tr><tr><td>07</td><td>GitHub Account and SSH Key</td><td>Generate an ed25519 SSH key with <code>ssh-keygen</code>, register the public key in GitHub's settings, and verify passwordless authentication with <code>ssh -T</code>.</td></tr><tr><td>08</td><td>Pushing to GitHub</td><td>Connect a local repository to a GitHub remote with <code>git remote add origin</code>, push it with <code>git push -u origin main</code>, and round-trip commits between the terminal and the web UI with <code>git push</code> and <code>git pull</code>.</td></tr><tr><td>09</td><td>Cloning, Pulling, and Conflicts</td><td>Clone a repository from GitHub, sync changes between two working copies with <code>git pull</code>, and resolve a merge conflict by editing out the conflict markers, staging the file, and committing the merge.</td></tr><tr><td>10</td><td>Pull Requests</td><td>Push a feature branch to GitHub, open a pull request, leave and respond to inline review comments, merge the PR with a merge commit, and sync the result to the local <code>main</code>.</td></tr><tr><td>11</td><td>Final Checkpoint</td><td>Complete a full branch, commit, push, pull request, review, and merge cycle from memory and verify the new <code>/info</code> route works end to end.</td></tr></tbody></table>
+<p class="meta">Each lesson is one learning object with a paired lab. Work in order — completing a lab unlocks the next lesson.
+The module ends with a <strong>Check on Learning</strong> quiz and a hands-on final checkpoint.</p>
+</body>
+</html>

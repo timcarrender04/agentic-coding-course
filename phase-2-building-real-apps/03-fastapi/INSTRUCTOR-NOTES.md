@@ -45,7 +45,7 @@
 - `model_config` vs `class Config` — same thing in v2. Lessons use v2 style.
 
 ### #7 — Tabs vs spaces in Python files
-- Mixing them throws `IndentationError`. Cursor defaults to spaces — confirm in the bottom-right status bar of the editor.
+- Mixing them throws `IndentationError`. VS Code defaults to spaces — confirm in the bottom-right status bar of the editor.
 
 ## Common Error Messages Cheat Sheet
 

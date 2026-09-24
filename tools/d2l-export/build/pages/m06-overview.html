@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Module 06 — HeroUI Frontend</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+
+<h1>Module 06 — HeroUI Frontend</h1>
+<div class="callout objective"><span class="label">🎯 What you'll be able to do after this module</span>
+<ul><li>Install Node.js with nvm and confirm <code>node</code>, <code>npm</code>, and <code>npx</code> resolve to nvm-managed paths</li><li>Initialize a HeroUI starter project with Next.js and Tailwind pre-configured and run its dev server with hot reload</li><li>Build interactive pages using HeroUI components such as <code>Button</code>, <code>Input</code>, <code>Card</code>, and <code>Checkbox</code>, applying the <code>&quot;use client&quot;</code> directive where hooks are used</li><li>Enable CORS in the FastAPI backend with <code>CORSMiddleware</code> so the browser-based frontend can call it</li><li>Fetch items from <code>http://localhost:8000/items</code> and render them as HeroUI Cards with loading, error, and empty states</li><li>Build a form that POSTs new items to the API and refreshes the displayed list inline without a page reload</li><li>Use Continue.dev chat, inline edit, and agent mode to extend the frontend, reviewing every proposed diff before accepting</li><li>Ship a frontend change through a branch, commit, and merge or GitHub PR workflow</li></ul></div>
+<h2>Lessons and objectives</h2>
+<table><thead><tr><th>#</th><th>Lesson</th><th>Learning objective</th></tr></thead><tbody><tr><td>00</td><td>Prerequisites Check</td><td>Verify that the FastAPI Compose stack, Continue.dev connection, and GitHub remote from earlier modules still work and that no conflicting system Node.js installation is present.</td></tr><tr><td>01</td><td>Install Node.js with nvm</td><td>Install nvm and the latest LTS release of Node.js, set it as the default, and confirm <code>node</code>, <code>npm</code>, and <code>npx</code> run from nvm-managed paths under your home directory.</td></tr><tr><td>02</td><td>Init the HeroUI App</td><td>Scaffold a Next.js + HeroUI starter project with <code>npx heroui-cli@latest init</code>, install its dependencies, and run the dev server so the starter page loads on port 3000.</td></tr><tr><td>03</td><td>Tour + First Component</td><td>Build an interactive homepage from HeroUI <code>Button</code>, <code>Card</code>, and <code>Input</code> components and explain when a Next.js page needs the <code>&quot;use client&quot;</code> directive to use React hooks.</td></tr><tr><td>04</td><td>CORS + Fetch Items</td><td>Add <code>CORSMiddleware</code> to the FastAPI backend and fetch the items list from the browser, rendering each item as a HeroUI Card with loading, error, and empty states.</td></tr><tr><td>05</td><td>Create-Item Form</td><td>Build a HeroUI form that POSTs new items to FastAPI, converts input strings to the types the API expects, surfaces server validation errors, and reloads the list inline on success.</td></tr><tr><td>06</td><td>Extend with Continue.dev</td><td>Use Continue.dev agent mode on a git feature branch to add a Delete button with a confirmation modal, reviewing every proposed diff and recognizing when to abort a failing agent loop.</td></tr><tr><td>07</td><td>Final Checkpoint</td><td>Ship a client-side, case-insensitive search filter for the items page end-to-end using Continue.dev, verify it in the browser, and commit and merge the change.</td></tr></tbody></table>
+<p class="meta">Each lesson is one learning object with a paired lab. Work in order — completing a lab unlocks the next lesson.
+The module ends with a <strong>Check on Learning</strong> quiz and a hands-on final checkpoint.</p>
+</body>
+</html>

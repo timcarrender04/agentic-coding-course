@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="man_agentic_coding_course"
+  xmlns="http://www.imsglobal.org/xsd/imsccv1p2/imscp_v1p1"
+  xmlns:lomimscc="http://ltsc.ieee.org/xsd/imsccv1p2/LOM/manifest"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/imsccv1p2/imscp_v1p1 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_imscp_v1p2_v1p0.xsd http://ltsc.ieee.org/xsd/imsccv1p2/LOM/manifest http://www.imsglobal.org/profile/cc/ccv1p2/LOM/ccv1p2_lommanifest_v1p0.xsd">
+  <metadata>
+    <schema>IMS Common Cartridge</schema>
+    <schemaversion>1.2.0</schemaversion>
+    <lomimscc:lom>
+      <lomimscc:general>
+        <lomimscc:title><lomimscc:string language="en-US">Agentic Coding Course</lomimscc:string></lomimscc:title>
+        <lomimscc:description><lomimscc:string language="en-US">Self-paced, 18-week course in three phases: developer foundations (VS Code, Linux terminal, Docker), building real apps (FastAPI, Git/GitHub), and AI-assisted development (Continue.dev against a hosted vLLM endpoint, HeroUI frontend).</lomimscc:string></lomimscc:description>
+      </lomimscc:general>
+    </lomimscc:lom>
+  </metadata>
+  <organizations>
+    <organization identifier="org_1" structure="rooted-hierarchy">
+      <item identifier="root">
+        <item identifier="it_orientation" identifierref="res_orientation">
+          <title>📖 Start here — how this course works</title>
+        </item>
+        <item identifier="it_objectives" identifierref="res_objectives">
+          <title>🎯 Course learning objectives</title>
+        </item>
+        <item identifier="it_phase1">
+          <title>Phase 1 — Foundations (Weeks 1–6 · Modules 00–02)</title>
+          <item identifier="it_week1">
+            <title>Week 1 — IDE concept, VS Code tour, terminal, extensions</title>
+            <item identifier="it_m00_overview" identifierref="res_m00_overview">
+              <title>Module 00 — VS Code Walkthrough: overview &amp; objectives</title>
+            </item>
+            <item identifier="it_m00_l00" identifierref="res_m00_l00">
+              <title>00.00 What is an IDE?</title>
+            </item>
+            <item identifier="it_m00_l01" identifierref="res_m00_l01">
+              <title>00.01 VS Code UI Tour</title>
+            </item>
+            <item identifier="it_m00_l02" identifierref="res_m00_l02">
+              <title>00.02 The Integrated Terminal</title>
+            </item>
+            <item identifier="it_m00_l03" identifierref="res_m00_l03">
+              <title>00.03 Extensions Overview</title>
+            </item>
+            <item identifier="it_m00_l04" identifierref="res_m00_l04">
+              <title>00.04 The Docker Extension</title>
+            </item>
+          </item>
+          <item identifier="it_week2">
+            <title>Week 2 — Remote dev (WSL/SSH), Module 00 checkpoint, first terminal drills</title>
+            <item identifier="it_m00_l05" identifierref="res_m00_l05">
+              <title>00.05 Connecting to WSL</title>
+            </item>
+            <item identifier="it_m00_l06" identifierref="res_m00_l06">
+              <title>00.06 Connecting over SSH</title>
+            </item>
+            <item identifier="it_m00_l07" identifierref="res_m00_l07">
+              <title>00.07 Final Checkpoint</title>
+            </item>
+            <item identifier="it_quiz_m00" identifierref="res_quiz_m00">
+              <title>✅ Module 00 Check on Learning</title>
+            </item>
+            <item identifier="it_m01_overview" identifierref="res_m01_overview">
+              <title>Module 01 — Ubuntu Terminal Foundations: overview &amp; objectives</title>
+            </item>
+            <item identifier="it_m01_l00" identifierref="res_m01_l00">
+              <title>01.00 Setup Check</title>
+            </item>
+            <item identifier="it_m01_l01" identifierref="res_m01_l01">
+              <title>01.01 Where Am I?</title>
+            </item>
+          </item>
+          <item identifier="it_week3">
+            <title>Week 3 — Making things, reading files, sudo &amp; apt, permissions — Escape Night</title>
+            <item identifier="it_m01_l02" identifierref="res_m01_l02">
+              <title>01.02 Making Things</title>
+            </item>
+            <item identifier="it_m01_l03" identifierref="res_m01_l03">
+              <title>01.03 Looking Inside Files</title>
+            </item>
+            <item identifier="it_m01_l04" identifierref="res_m01_l04">
+              <title>01.04 Sudo and System Updates</title>
+            </item>
+            <item identifier="it_m01_l05" identifierref="res_m01_l05">
+              <title>01.05 Installing Software</title>
+            </item>
+            <item identifier="it_m01_l06" identifierref="res_m01_l06">
+              <title>01.06 Permissions Drills</title>
+            </item>
+            <item identifier="it_live_escape" identifierref="res_live_escape">
+              <title>Live lab — Terminal Escape Night</title>
+            </item>
+          </item>
+          <item identifier="it_week4">
+            <title>Week 4 — Networking, processes, pipes &amp; grep, users — Uplink Hunt + Module 01 checkpoint</title>
+            <item identifier="it_m01_l07" identifierref="res_m01_l07">
+              <title>01.07 Networking Drills</title>
+            </item>
+            <item identifier="it_m01_l08" identifierref="res_m01_l08">
+              <title>01.08 Processes and Services</title>
+            </item>
+            <item identifier="it_m01_l09" identifierref="res_m01_l09">
+              <title>01.09 Pipes and Grep</title>
+            </item>
+            <item identifier="it_m01_l10" identifierref="res_m01_l10">
+              <title>01.10 User and Group Setup</title>
+            </item>
+            <item identifier="it_live_uplink" identifierref="res_live_uplink">
+              <title>Live lab — Operation Uplink</title>
+            </item>
+            <item identifier="it_m01_l11" identifierref="res_m01_l11">
+              <title>01.11 Final Checkpoint</title>
+            </item>
+            <item identifier="it_quiz_m01" identifierref="res_quiz_m01">
+              <title>✅ Module 01 Check on Learning</title>
+            </item>
+          </item>
+          <item identifier="it_week5">
+            <title>Week 5 — Docker setup check, install, hello-world, nginx</title>
+            <item identifier="it_m02_overview" identifierref="res_m02_overview">
+              <title>Module 02 — Docker Installation and First Containers: overview &amp; objectives</title>
+            </item>
+            <item identifier="it_m02_l00" identifierref="res_m02_l00">
+              <title>02.00 Setup Check</title>
+            </item>
+            <item identifier="it_m02_l01" identifierref="res_m02_l01">
+              <title>02.01 Install Docker Engine</title>
+            </item>
+            <item identifier="it_m02_l02" identifierref="res_m02_l02">
+              <title>02.02 Your First Container</title>
+            </item>
+            <item identifier="it_m02_l03" identifierref="res_m02_l03">
+              <title>02.03 Running a Real Image</title>
+            </item>
+          </item>
+          <item identifier="it_week6">
+            <title>Week 6 — Images &amp; containers, Docker sidebar — Module 02 checkpoint + roster lab</title>
+            <item identifier="it_m02_l04" identifierref="res_m02_l04">
+              <title>02.04 Images vs Containers</title>
+            </item>
+            <item identifier="it_m02_l05" identifierref="res_m02_l05">
+              <title>02.05 The VS Code Docker Sidebar</title>
+            </item>
+            <item identifier="it_m02_l06" identifierref="res_m02_l06">
+              <title>02.06 Final Checkpoint</title>
+            </item>
+            <item identifier="it_live_roster" identifierref="res_live_roster">
+              <title>Live lab — Docker signup roster</title>
+            </item>
+            <item identifier="it_quiz_m02" identifierref="res_quiz_m02">
+              <title>✅ Module 02 Check on Learning</title>
+            </item>
+          </item>
+        </item>
+        <item identifier="it_phase2">
+          <title>Phase 2 — Building Real Apps (Weeks 7–12 · Modules 03–04)</title>
+          <item identifier="it_week7">
+            <title>Week 7 — Python environment, FastAPI install, hello world, params</title>
+            <item identifier="it_m03_overview" identifierref="res_m03_overview">
+              <title>Module 03 — FastAPI from Scratch: overview &amp; objectives</title>
+            </item>
+            <item identifier="it_m03_l00" identifierref="res_m03_l00">
+              <title>03.00 Prerequisites Check</title>
+            </item>
+            <item identifier="it_m03_l01" identifierref="res_m03_l01">
+              <title>03.01 Python Virtual Environment</title>
+            </item>
+            <item identifier="it_m03_l02" identifierref="res_m03_l02">
+              <title>03.02 Installing FastAPI</title>
+            </item>
+            <item identifier="it_m03_l03" identifierref="res_m03_l03">
+              <title>03.03 Hello World</title>
+            </item>
+            <item identifier="it_m03_l04" identifierref="res_m03_l04">
+              <title>03.04 Path and Query Params</title>
+            </item>
+          </item>
+          <item identifier="it_week8">
+            <title>Week 8 — Pydantic request bodies, routers, dependencies, containerizing</title>
+            <item identifier="it_m03_l05" identifierref="res_m03_l05">
+              <title>03.05 Request Bodies with Pydantic</title>
+            </item>
+            <item identifier="it_m03_l06" identifierref="res_m03_l06">
+              <title>03.06 Multiple Routes and Routers</title>
+            </item>
+            <item identifier="it_m03_l07" identifierref="res_m03_l07">
+              <title>03.07 Dependencies and Injection</title>
+            </item>
+            <item identifier="it_m03_l08" identifierref="res_m03_l08">
+              <title>03.08 Containerizing FastAPI</title>
+            </item>
+          </item>
+          <item identifier="it_week9">
+            <title>Week 9 — Compose + Postgres, SQLAlchemy, error handling — Module 03 checkpoint</title>
+            <item identifier="it_m03_l09" identifierref="res_m03_l09">
+              <title>03.09 Docker Compose and Postgres</title>
+            </item>
+            <item identifier="it_m03_l10" identifierref="res_m03_l10">
+              <title>03.10 Database with SQLAlchemy</title>
+            </item>
+            <item identifier="it_m03_l11" identifierref="res_m03_l11">
+              <title>03.11 Error Handling and Status Codes</title>
+            </item>
+            <item identifier="it_m03_l12" identifierref="res_m03_l12">
+              <title>03.12 Final Checkpoint</title>
+            </item>
+            <item identifier="it_quiz_m03" identifierref="res_quiz_m03">
+              <title>✅ Module 03 Check on Learning</title>
+            </item>
+          </item>
+          <item identifier="it_week10">
+            <title>Week 10 — Git config, first commits, status, diff &amp; log</title>
+            <item identifier="it_m04_overview" identifierref="res_m04_overview">
+              <title>Module 04 — Git and GitHub: overview &amp; objectives</title>
+            </item>
+            <item identifier="it_m04_l00" identifierref="res_m04_l00">
+              <title>04.00 Prerequisites Check</title>
+            </item>
+            <item identifier="it_m04_l01" identifierref="res_m04_l01">
+              <title>04.01 Configure Git</title>
+            </item>
+            <item identifier="it_m04_l02" identifierref="res_m04_l02">
+              <title>04.02 Init and First Commit</title>
+            </item>
+            <item identifier="it_m04_l03" identifierref="res_m04_l03">
+              <title>04.03 The status / add / commit Cycle</title>
+            </item>
+            <item identifier="it_m04_l04" identifierref="res_m04_l04">
+              <title>04.04 Diff and Log</title>
+            </item>
+          </item>
+          <item identifier="it_week11">
+            <title>Week 11 — Branches, undoing things, GitHub + SSH, push, clone</title>
+            <item identifier="it_m04_l05" identifierref="res_m04_l05">
+              <title>04.05 Branches</title>
+            </item>
+            <item identifier="it_m04_l06" identifierref="res_m04_l06">
+              <title>04.06 Undoing Things</title>
+            </item>
+            <item identifier="it_m04_l07" identifierref="res_m04_l07">
+              <title>04.07 GitHub Account and SSH Key</title>
+            </item>
+            <item identifier="it_m04_l08" identifierref="res_m04_l08">
+              <title>04.08 Pushing to GitHub</title>
+            </item>
+            <item identifier="it_m04_l09" identifierref="res_m04_l09">
+              <title>04.09 Cloning, Pulling, and Conflicts</title>
+            </item>
+          </item>
+          <item identifier="it_week12">
+            <title>Week 12 — Pull requests — Module 04 checkpoint</title>
+            <item identifier="it_m04_l10" identifierref="res_m04_l10">
+              <title>04.10 Pull Requests</title>
+            </item>
+            <item identifier="it_m04_l11" identifierref="res_m04_l11">
+              <title>04.11 Final Checkpoint</title>
+            </item>
+            <item identifier="it_quiz_m04" identifierref="res_quiz_m04">
+              <title>✅ Module 04 Check on Learning</title>
+            </item>
+          </item>
+        </item>
+        <item identifier="it_phase3">
+          <title>Phase 3 — AI-Assisted Development (Weeks 13–18 · Modules 05–06 + Capstone)</title>
+          <item identifier="it_week13">
+            <title>Week 13 — Hosted vLLM endpoint: prerequisites, token, connect, models</title>
+            <item identifier="it_m05_overview" identifierref="res_m05_overview">
+              <title>Module 05 — Continue.dev on the Shared vLLM Endpoint: overview &amp; objectives</title>
+            </item>
+            <item identifier="it_m05_l00" identifierref="res_m05_l00">
+              <title>05.00 Prerequisites Check</title>
+            </item>
+            <item identifier="it_m05_l01" identifierref="res_m05_l01">
+              <title>05.01 The Inference Endpoint</title>
+            </item>
+            <item identifier="it_m05_l02" identifierref="res_m05_l02">
+              <title>05.02 Connect to the Endpoint</title>
+            </item>
+            <item identifier="it_m05_l03" identifierref="res_m05_l03">
+              <title>05.03 Explore the Models</title>
+            </item>
+          </item>
+          <item identifier="it_week14">
+            <title>Week 14 — Continue.dev: configure, chat, autocomplete</title>
+            <item identifier="it_m05_l04" identifierref="res_m05_l04">
+              <title>05.04 Install + Configure Continue.dev</title>
+            </item>
+            <item identifier="it_m05_l05" identifierref="res_m05_l05">
+              <title>05.05 Chat</title>
+            </item>
+            <item identifier="it_m05_l06" identifierref="res_m05_l06">
+              <title>05.06 Autocomplete</title>
+            </item>
+          </item>
+          <item identifier="it_week15">
+            <title>Week 15 — Inline edit, agent mode — Module 05 checkpoint</title>
+            <item identifier="it_m05_l07" identifierref="res_m05_l07">
+              <title>05.07 Inline Edit</title>
+            </item>
+            <item identifier="it_m05_l08" identifierref="res_m05_l08">
+              <title>05.08 Agent Mode</title>
+            </item>
+            <item identifier="it_m05_l09" identifierref="res_m05_l09">
+              <title>05.09 Final Checkpoint</title>
+            </item>
+            <item identifier="it_quiz_m05" identifierref="res_quiz_m05">
+              <title>✅ Module 05 Check on Learning</title>
+            </item>
+          </item>
+          <item identifier="it_week16">
+            <title>Week 16 — Node.js, HeroUI app init, tour &amp; first component</title>
+            <item identifier="it_m06_overview" identifierref="res_m06_overview">
+              <title>Module 06 — HeroUI Frontend: overview &amp; objectives</title>
+            </item>
+            <item identifier="it_m06_l00" identifierref="res_m06_l00">
+              <title>06.00 Prerequisites Check</title>
+            </item>
+            <item identifier="it_m06_l01" identifierref="res_m06_l01">
+              <title>06.01 Install Node.js with nvm</title>
+            </item>
+            <item identifier="it_m06_l02" identifierref="res_m06_l02">
+              <title>06.02 Init the HeroUI App</title>
+            </item>
+            <item identifier="it_m06_l03" identifierref="res_m06_l03">
+              <title>06.03 Tour + First Component</title>
+            </item>
+          </item>
+          <item identifier="it_week17">
+            <title>Week 17 — CORS + fetch, create-item form, extend with Continue — Module 06 checkpoint</title>
+            <item identifier="it_m06_l04" identifierref="res_m06_l04">
+              <title>06.04 CORS + Fetch Items</title>
+            </item>
+            <item identifier="it_m06_l05" identifierref="res_m06_l05">
+              <title>06.05 Create-Item Form</title>
+            </item>
+            <item identifier="it_m06_l06" identifierref="res_m06_l06">
+              <title>06.06 Extend with Continue.dev</title>
+            </item>
+            <item identifier="it_m06_l07" identifierref="res_m06_l07">
+              <title>06.07 Final Checkpoint</title>
+            </item>
+            <item identifier="it_quiz_m06" identifierref="res_quiz_m06">
+              <title>✅ Module 06 Check on Learning</title>
+            </item>
+          </item>
+          <item identifier="it_week18">
+            <title>Week 18 — Capstone — full-stack + AI assist, demo at the final Zoom</title>
+            <item identifier="it_capstone" identifierref="res_capstone">
+              <title>🏁 Capstone lab</title>
+            </item>
+          </item>
+        </item>
+      </item>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="res_orientation" type="webcontent" href="pages/orientation.html">
+      <file href="pages/orientation.html" />
+    </resource>
+    <resource identifier="res_objectives" type="webcontent" href="pages/course-objectives.html">
+      <file href="pages/course-objectives.html" />
+    </resource>
+    <resource identifier="res_capstone" type="webcontent" href="pages/capstone.html">
+      <file href="pages/capstone.html" />
+    </resource>
+    <resource identifier="res_live_escape" type="webcontent" href="pages/live-escape-night.html">
+      <file href="pages/live-escape-night.html" />
+      <file href="files/escape-night/setup.sh" />
+    </resource>
+    <resource identifier="res_live_uplink" type="webcontent" href="pages/live-uplink-hunt.html">
+      <file href="pages/live-uplink-hunt.html" />
+      <file href="files/uplink-hunt/setup.sh" />
+    </resource>
+    <resource identifier="res_live_roster" type="webcontent" href="pages/live-docker-roster.html">
+      <file href="pages/live-docker-roster.html" />
+      <file href="files/docker-roster-lab.zip" />
+    </resource>
+    <resource identifier="res_m00_overview" type="webcontent" href="pages/m00-overview.html">
+      <file href="pages/m00-overview.html" />
+    </resource>
+    <resource identifier="res_m00_l00" type="webcontent" href="pages/m00-00-what-is-an-ide.html">
+      <file href="pages/m00-00-what-is-an-ide.html" />
+    </resource>
+    <resource identifier="res_m00_l01" type="webcontent" href="pages/m00-01-vscode-tour.html">
+      <file href="pages/m00-01-vscode-tour.html" />
+    </resource>
+    <resource identifier="res_m00_l02" type="webcontent" href="pages/m00-02-integrated-terminal.html">
+      <file href="pages/m00-02-integrated-terminal.html" />
+    </resource>
+    <resource identifier="res_m00_l03" type="webcontent" href="pages/m00-03-extensions-overview.html">
+      <file href="pages/m00-03-extensions-overview.html" />
+    </resource>
+    <resource identifier="res_m00_l04" type="webcontent" href="pages/m00-04-docker-extension.html">
+      <file href="pages/m00-04-docker-extension.html" />
+    </resource>
+    <resource identifier="res_m00_l05" type="webcontent" href="pages/m00-05-wsl-connection.html">
+      <file href="pages/m00-05-wsl-connection.html" />
+    </resource>
+    <resource identifier="res_m00_l06" type="webcontent" href="pages/m00-06-ssh-remote.html">
+      <file href="pages/m00-06-ssh-remote.html" />
+    </resource>
+    <resource identifier="res_m00_l07" type="webcontent" href="pages/m00-07-final-checkpoint.html">
+      <file href="pages/m00-07-final-checkpoint.html" />
+    </resource>
+    <resource identifier="res_quiz_m00" type="imsqti_xmlv1p2/imscc_xmlv1p2/assessment">
+      <file href="quizzes/m00-check.xml" />
+    </resource>
+    <resource identifier="res_m01_overview" type="webcontent" href="pages/m01-overview.html">
+      <file href="pages/m01-overview.html" />
+    </resource>
+    <resource identifier="res_m01_l00" type="webcontent" href="pages/m01-00-setup-check.html">
+      <file href="pages/m01-00-setup-check.html" />
+    </resource>
+    <resource identifier="res_m01_l01" type="webcontent" href="pages/m01-01-where-am-i.html">
+      <file href="pages/m01-01-where-am-i.html" />
+    </resource>
+    <resource identifier="res_m01_l02" type="webcontent" href="pages/m01-02-making-things.html">
+      <file href="pages/m01-02-making-things.html" />
+    </resource>
+    <resource identifier="res_m01_l03" type="webcontent" href="pages/m01-03-looking-inside-files.html">
+      <file href="pages/m01-03-looking-inside-files.html" />
+    </resource>
+    <resource identifier="res_m01_l04" type="webcontent" href="pages/m01-04-sudo-and-updates.html">
+      <file href="pages/m01-04-sudo-and-updates.html" />
+    </resource>
+    <resource identifier="res_m01_l05" type="webcontent" href="pages/m01-05-installing-software.html">
+      <file href="pages/m01-05-installing-software.html" />
+    </resource>
+    <resource identifier="res_m01_l06" type="webcontent" href="pages/m01-06-permissions-drills.html">
+      <file href="pages/m01-06-permissions-drills.html" />
+    </resource>
+    <resource identifier="res_m01_l07" type="webcontent" href="pages/m01-07-networking-drills.html">
+      <file href="pages/m01-07-networking-drills.html" />
+    </resource>
+    <resource identifier="res_m01_l08" type="webcontent" href="pages/m01-08-processes-and-services.html">
+      <file href="pages/m01-08-processes-and-services.html" />
+    </resource>
+    <resource identifier="res_m01_l09" type="webcontent" href="pages/m01-09-pipes-and-grep.html">
+      <file href="pages/m01-09-pipes-and-grep.html" />
+    </resource>
+    <resource identifier="res_m01_l10" type="webcontent" href="pages/m01-10-user-and-group-setup.html">
+      <file href="pages/m01-10-user-and-group-setup.html" />
+    </resource>
+    <resource identifier="res_m01_l11" type="webcontent" href="pages/m01-11-final-checkpoint.html">
+      <file href="pages/m01-11-final-checkpoint.html" />
+    </resource>
+    <resource identifier="res_quiz_m01" type="imsqti_xmlv1p2/imscc_xmlv1p2/assessment">
+      <file href="quizzes/m01-check.xml" />
+    </resource>
+    <resource identifier="res_m02_overview" type="webcontent" href="pages/m02-overview.html">
+      <file href="pages/m02-overview.html" />
+    </resource>
+    <resource identifier="res_m02_l00" type="webcontent" href="pages/m02-00-setup-check.html">
+      <file href="pages/m02-00-setup-check.html" />
+    </resource>
+    <resource identifier="res_m02_l01" type="webcontent" href="pages/m02-01-install-docker.html">
+      <file href="pages/m02-01-install-docker.html" />
+    </resource>
+    <resource identifier="res_m02_l02" type="webcontent" href="pages/m02-02-hello-world.html">
+      <file href="pages/m02-02-hello-world.html" />
+    </resource>
+    <resource identifier="res_m02_l03" type="webcontent" href="pages/m02-03-running-nginx.html">
+      <file href="pages/m02-03-running-nginx.html" />
+    </resource>
+    <resource identifier="res_m02_l04" type="webcontent" href="pages/m02-04-images-and-containers.html">
+      <file href="pages/m02-04-images-and-containers.html" />
+    </resource>
+    <resource identifier="res_m02_l05" type="webcontent" href="pages/m02-05-vscode-docker-sidebar.html">
+      <file href="pages/m02-05-vscode-docker-sidebar.html" />
+    </resource>
+    <resource identifier="res_m02_l06" type="webcontent" href="pages/m02-06-final-checkpoint.html">
+      <file href="pages/m02-06-final-checkpoint.html" />
+    </resource>
+    <resource identifier="res_quiz_m02" type="imsqti_xmlv1p2/imscc_xmlv1p2/assessment">
+      <file href="quizzes/m02-check.xml" />
+    </resource>
+    <resource identifier="res_m03_overview" type="webcontent" href="pages/m03-overview.html">
+      <file href="pages/m03-overview.html" />
+    </resource>
+    <resource identifier="res_m03_l00" type="webcontent" href="pages/m03-00-prerequisites-check.html">
+      <file href="pages/m03-00-prerequisites-check.html" />
+    </resource>
+    <resource identifier="res_m03_l01" type="webcontent" href="pages/m03-01-python-environment.html">
+      <file href="pages/m03-01-python-environment.html" />
+    </resource>
+    <resource identifier="res_m03_l02" type="webcontent" href="pages/m03-02-installing-fastapi.html">
+      <file href="pages/m03-02-installing-fastapi.html" />
+    </resource>
+    <resource identifier="res_m03_l03" type="webcontent" href="pages/m03-03-hello-world.html">
+      <file href="pages/m03-03-hello-world.html" />
+    </resource>
+    <resource identifier="res_m03_l04" type="webcontent" href="pages/m03-04-path-and-query-params.html">
+      <file href="pages/m03-04-path-and-query-params.html" />
+    </resource>
+    <resource identifier="res_m03_l05" type="webcontent" href="pages/m03-05-request-bodies-with-pydantic.html">
+      <file href="pages/m03-05-request-bodies-with-pydantic.html" />
+    </resource>
+    <resource identifier="res_m03_l06" type="webcontent" href="pages/m03-06-multiple-routes-and-routers.html">
+      <file href="pages/m03-06-multiple-routes-and-routers.html" />
+    </resource>
+    <resource identifier="res_m03_l07" type="webcontent" href="pages/m03-07-dependencies-and-injection.html">
+      <file href="pages/m03-07-dependencies-and-injection.html" />
+    </resource>
+    <resource identifier="res_m03_l08" type="webcontent" href="pages/m03-08-containerizing-fastapi.html">
+      <file href="pages/m03-08-containerizing-fastapi.html" />
+    </resource>
+    <resource identifier="res_m03_l09" type="webcontent" href="pages/m03-09-docker-compose-and-postgres.html">
+      <file href="pages/m03-09-docker-compose-and-postgres.html" />
+    </resource>
+    <resource identifier="res_m03_l10" type="webcontent" href="pages/m03-10-database-with-sqlalchemy.html">
+      <file href="pages/m03-10-database-with-sqlalchemy.html" />
+    </resource>
+    <resource identifier="res_m03_l11" type="webcontent" href="pages/m03-11-error-handling-and-status-codes.html">
+      <file href="pages/m03-11-error-handling-and-status-codes.html" />
+    </resource>
+    <resource identifier="res_m03_l12" type="webcontent" href="pages/m03-12-final-checkpoint.html">
+      <file href="pages/m03-12-final-checkpoint.html" />
+    </resource>
+    <resource identifier="res_quiz_m03" type="imsqti_xmlv1p2/imscc_xmlv1p2/assessment">
+      <file href="quizzes/m03-check.xml" />
+    </resource>
+    <resource identifier="res_m04_overview" type="webcontent" href="pages/m04-overview.html">
+      <file href="pages/m04-overview.html" />
+    </resource>
+    <resource identifier="res_m04_l00" type="webcontent" href="pages/m04-00-prerequisites-check.html">
+      <file href="pages/m04-00-prerequisites-check.html" />
+    </resource>
+    <resource identifier="res_m04_l01" type="webcontent" href="pages/m04-01-git-config.html">
+      <file href="pages/m04-01-git-config.html" />
+    </resource>
+    <resource identifier="res_m04_l02" type="webcontent" href="pages/m04-02-init-and-first-commit.html">
+      <file href="pages/m04-02-init-and-first-commit.html" />
+    </resource>
+    <resource identifier="res_m04_l03" type="webcontent" href="pages/m04-03-status-add-commit.html">
+      <file href="pages/m04-03-status-add-commit.html" />
+    </resource>
+    <resource identifier="res_m04_l04" type="webcontent" href="pages/m04-04-diff-and-log.html">
+      <file href="pages/m04-04-diff-and-log.html" />
+    </resource>
+    <resource identifier="res_m04_l05" type="webcontent" href="pages/m04-05-branches.html">
+      <file href="pages/m04-05-branches.html" />
+    </resource>
+    <resource identifier="res_m04_l06" type="webcontent" href="pages/m04-06-undoing-things.html">
+      <file href="pages/m04-06-undoing-things.html" />
+    </resource>
+    <resource identifier="res_m04_l07" type="webcontent" href="pages/m04-07-github-account-and-ssh.html">
+      <file href="pages/m04-07-github-account-and-ssh.html" />
+    </resource>
+    <resource identifier="res_m04_l08" type="webcontent" href="pages/m04-08-pushing-to-github.html">
+      <file href="pages/m04-08-pushing-to-github.html" />
+    </resource>
+    <resource identifier="res_m04_l09" type="webcontent" href="pages/m04-09-cloning-and-pulling.html">
+      <file href="pages/m04-09-cloning-and-pulling.html" />
+    </resource>
+    <resource identifier="res_m04_l10" type="webcontent" href="pages/m04-10-pull-requests.html">
+      <file href="pages/m04-10-pull-requests.html" />
+    </resource>
+    <resource identifier="res_m04_l11" type="webcontent" href="pages/m04-11-final-checkpoint.html">
+      <file href="pages/m04-11-final-checkpoint.html" />
+    </resource>
+    <resource identifier="res_quiz_m04" type="imsqti_xmlv1p2/imscc_xmlv1p2/assessment">
+      <file href="quizzes/m04-check.xml" />
+    </resource>
+    <resource identifier="res_m05_overview" type="webcontent" href="pages/m05-overview.html">
+      <file href="pages/m05-overview.html" />
+    </resource>
+    <resource identifier="res_m05_l00" type="webcontent" href="pages/m05-00-prerequisites-check.html">
+      <file href="pages/m05-00-prerequisites-check.html" />
+    </resource>
+    <resource identifier="res_m05_l01" type="webcontent" href="pages/m05-01-the-inference-endpoint.html">
+      <file href="pages/m05-01-the-inference-endpoint.html" />
+    </resource>
+    <resource identifier="res_m05_l02" type="webcontent" href="pages/m05-02-connect-to-endpoint.html">
+      <file href="pages/m05-02-connect-to-endpoint.html" />
+    </resource>
+    <resource identifier="res_m05_l03" type="webcontent" href="pages/m05-03-explore-the-models.html">
+      <file href="pages/m05-03-explore-the-models.html" />
+    </resource>
+    <resource identifier="res_m05_l04" type="webcontent" href="pages/m05-04-install-and-configure-continue.html">
+      <file href="pages/m05-04-install-and-configure-continue.html" />
+    </resource>
+    <resource identifier="res_m05_l05" type="webcontent" href="pages/m05-05-chat.html">
+      <file href="pages/m05-05-chat.html" />
+    </resource>
+    <resource identifier="res_m05_l06" type="webcontent" href="pages/m05-06-autocomplete.html">
+      <file href="pages/m05-06-autocomplete.html" />
+    </resource>
+    <resource identifier="res_m05_l07" type="webcontent" href="pages/m05-07-inline-edit.html">
+      <file href="pages/m05-07-inline-edit.html" />
+    </resource>
+    <resource identifier="res_m05_l08" type="webcontent" href="pages/m05-08-agent-mode.html">
+      <file href="pages/m05-08-agent-mode.html" />
+    </resource>
+    <resource identifier="res_m05_l09" type="webcontent" href="pages/m05-09-final-checkpoint.html">
+      <file href="pages/m05-09-final-checkpoint.html" />
+    </resource>
+    <resource identifier="res_quiz_m05" type="imsqti_xmlv1p2/imscc_xmlv1p2/assessment">
+      <file href="quizzes/m05-check.xml" />
+    </resource>
+    <resource identifier="res_m06_overview" type="webcontent" href="pages/m06-overview.html">
+      <file href="pages/m06-overview.html" />
+    </resource>
+    <resource identifier="res_m06_l00" type="webcontent" href="pages/m06-00-prerequisites-check.html">
+      <file href="pages/m06-00-prerequisites-check.html" />
+    </resource>
+    <resource identifier="res_m06_l01" type="webcontent" href="pages/m06-01-install-nodejs.html">
+      <file href="pages/m06-01-install-nodejs.html" />
+    </resource>
+    <resource identifier="res_m06_l02" type="webcontent" href="pages/m06-02-init-heroui-app.html">
+      <file href="pages/m06-02-init-heroui-app.html" />
+    </resource>
+    <resource identifier="res_m06_l03" type="webcontent" href="pages/m06-03-tour-and-first-component.html">
+      <file href="pages/m06-03-tour-and-first-component.html" />
+    </resource>
+    <resource identifier="res_m06_l04" type="webcontent" href="pages/m06-04-cors-and-fetch-items.html">
+      <file href="pages/m06-04-cors-and-fetch-items.html" />
+    </resource>
+    <resource identifier="res_m06_l05" type="webcontent" href="pages/m06-05-create-item-form.html">
+      <file href="pages/m06-05-create-item-form.html" />
+    </resource>
+    <resource identifier="res_m06_l06" type="webcontent" href="pages/m06-06-extend-with-continue.html">
+      <file href="pages/m06-06-extend-with-continue.html" />
+    </resource>
+    <resource identifier="res_m06_l07" type="webcontent" href="pages/m06-07-final-checkpoint.html">
+      <file href="pages/m06-07-final-checkpoint.html" />
+    </resource>
+    <resource identifier="res_quiz_m06" type="imsqti_xmlv1p2/imscc_xmlv1p2/assessment">
+      <file href="quizzes/m06-check.xml" />
+    </resource>
+  </resources>
+</manifest>

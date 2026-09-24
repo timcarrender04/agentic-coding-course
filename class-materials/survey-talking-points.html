@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Survey Talking Points — Agentic Coding Kickoff</title>
+  <style>
+    @page {
+      size: letter;
+      margin: 0.65in 0.7in 0.7in 0.7in;
+      @bottom-left {
+        content: "Agentic Coding · Baseline Survey Talking Points";
+        font-size: 8pt;
+        color: #6c7a71;
+        font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+      }
+      @bottom-right {
+        content: "INSTRUCTOR ONLY · Page " counter(page);
+        font-size: 8pt;
+        color: #6c7a71;
+        font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+      color: #191c1e;
+      font-size: 10.5pt;
+      line-height: 1.45;
+      margin: 0;
+    }
+    .eyebrow {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #006c49;
+      margin: 0 0 6px;
+    }
+    h1 {
+      font-size: 22pt;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 4px;
+      line-height: 1.15;
+    }
+    .meta {
+      color: #6c7a71;
+      font-size: 9.5pt;
+      margin: 0 0 14px;
+    }
+    .banner {
+      background: #f2f4f6;
+      border-left: 4px solid #006c49;
+      padding: 10px 12px;
+      margin: 0 0 16px;
+      font-size: 10pt;
+    }
+    h2 {
+      font-size: 11pt;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #5654a8;
+      margin: 18px 0 8px;
+      padding-bottom: 3px;
+      border-bottom: 1px solid #e0e3e5;
+    }
+    h3 {
+      font-size: 10.5pt;
+      font-weight: 700;
+      margin: 12px 0 4px;
+    }
+    .clock {
+      display: inline-block;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 9pt;
+      background: #191c1e;
+      color: #fff;
+      padding: 1px 6px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .say {
+      margin: 6px 0 8px;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid #e0e3e5;
+    }
+    .say-label {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #006c49;
+      margin-bottom: 4px;
+    }
+    .do-watch {
+      display: table;
+      width: 100%;
+      margin: 8px 0 0;
+      border-collapse: collapse;
+    }
+    .do-watch > div {
+      display: table-cell;
+      width: 50%;
+      vertical-align: top;
+      padding: 8px 10px;
+      border: 1px solid #e0e3e5;
+      font-size: 9.5pt;
+    }
+    .do-watch > div + div { border-left: none; }
+    .do-watch .label {
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #6c7a71;
+      margin-bottom: 4px;
+    }
+    table.nums {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 4px;
+      font-size: 9.5pt;
+    }
+    table.nums th {
+      text-align: left;
+      font-size: 8pt;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #6c7a71;
+      border-bottom: 1px solid #e0e3e5;
+      padding: 4px 6px;
+    }
+    table.nums td {
+      padding: 5px 6px;
+      border-bottom: 1px solid #e0e3e5;
+      vertical-align: top;
+    }
+    table.nums td.num {
+      font-family: "Consolas", "Courier New", monospace;
+      font-weight: 700;
+      white-space: nowrap;
+      width: 3.2rem;
+    }
+    ul { margin: 4px 0 8px; padding-left: 1.1rem; }
+    li { margin: 3px 0; }
+    .dont {
+      background: #ffdad6;
+      border-left: 4px solid #ba1a1a;
+      padding: 8px 10px;
+      margin: 12px 0;
+      font-size: 9.5pt;
+    }
+    .close {
+      background: #e8f8f1;
+      border-left: 4px solid #006c49;
+      padding: 8px 10px;
+      margin: 12px 0 0;
+      font-size: 10pt;
+    }
+    .two-col {
+      display: table;
+      width: 100%;
+      margin-top: 6px;
+    }
+    .two-col > div {
+      display: table-cell;
+      width: 50%;
+      vertical-align: top;
+      padding-right: 12px;
+    }
+    .two-col > div + div { padding-right: 0; padding-left: 12px; }
+    .small { font-size: 9pt; color: #3c4a42; }
+    .page-break { page-break-before: always; }
+  </style>
+</head>
+<body>
+
+  <p class="eyebrow">Instructor run-of-show · Module 00 · Block A2</p>
+  <h1>Survey Talking Points</h1>
+  <p class="meta">
+    Open the room · ~3–5 minutes · Monday Kickoff · Jul 20, 2026<br />
+    Source: Agentic Coding Baseline Survey · 58 submissions · Aggregate only
+  </p>
+
+  <div class="banner">
+    <strong>How to use:</strong> Screen-share
+    <code>localhost:3000/class-materials</code> (Overview tab) while you talk.
+    Speak in cohort themes only — never individual scores or emails.
+    Fits inside Block A2 of the Monday Kickoff run-of-show.
+  </div>
+
+  <h2>Setup before you speak</h2>
+  <ul>
+    <li>Survey dashboard open: Overview tab visible to students</li>
+    <li>Chat ready for reactions (optional: “Which number surprised you?”)</li>
+    <li>Remember: scales are 1–5 self-ratings, not grades</li>
+  </ul>
+
+  <h2><span class="clock">6:02</span> A2 · Survey themes · 3–5 min</h2>
+
+  <h3>1 · Frame it (30 sec)</h3>
+  <div class="say">
+    <div class="say-label">Say</div>
+    Before class you took a short baseline — confidence, skill, and knowledge across coding, terminal, Git, Docker, debugging, reading code, and AI tools, plus whether you’ve built an app. That’s not a test. It tells me where to spend clinic time and how fast to move in Phase 1.
+  </div>
+
+  <h3>2 · Normalize the baseline (45 sec)</h3>
+  <div class="say">
+    <div class="say-label">Say</div>
+    Looking at 58 responses, the cohort average is about <strong>1.9 out of 5</strong> across confidence, skill, and knowledge. That means most of us are beginners — and that’s exactly who this course is built for. Phase 1 starts with foundations on purpose. If you’ve already shipped apps, early weeks may feel like review — stay for the structure and the AI path, or move fast through labs you know. If you’re newer, you’re in the right room.
+  </div>
+
+  <div class="do-watch">
+    <div>
+      <div class="label">Do</div>
+      Point to the four stats at the top of the dashboard: 58 · 1.9 · 2.0 · 1.9
+    </div>
+    <div>
+      <div class="label">Watch for</div>
+      Anyone looking embarrassed — reinforce “low starting number = correct starting line”
+    </div>
+  </div>
+
+  <h3>3 · Five numbers out loud (90 sec)</h3>
+  <div class="say">
+    <div class="say-label">Say</div>
+    Five numbers from your survey — I’ll say the finding, then what it means for how we teach:
+  </div>
+
+  <table class="nums">
+    <thead>
+      <tr>
+        <th>Finding</th>
+        <th>Number</th>
+        <th>Line you say next</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Not confident writing code at all</td>
+        <td class="num">50%</td>
+        <td>We assume zero. That is fine.</td>
+      </tr>
+      <tr>
+        <td>Not confident debugging</td>
+        <td class="num">57%</td>
+        <td>Debugging is a skill we practice every lab — with AI as a partner, not a black box.</td>
+      </tr>
+      <tr>
+        <td>Never built an application</td>
+        <td class="num">67%</td>
+        <td>Your first real app is a course outcome, not homework fluff.</td>
+      </tr>
+      <tr>
+        <td>No Docker experience / beginner</td>
+        <td class="num">64%</td>
+        <td>Containers come with the project — not as isolated theory.</td>
+      </tr>
+      <tr>
+        <td>No Git knowledge yet</td>
+        <td class="num">50%</td>
+        <td>Version control starts with tiny commits once the editor is working.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="page-break"></div>
+
+  <p class="eyebrow">Survey talking points · continued</p>
+  <h1 style="font-size:16pt; margin-bottom:10px;">Foothold, support, close</h1>
+
+  <h3>4 · Name the foothold (45 sec)</h3>
+  <div class="say">
+    <div class="say-label">Say</div>
+    You’re not starting from nothing. Terminal skill averages <strong>2.3</strong> — the strongest traditional skill. AI confidence and prompt/review skill both sit around <strong>2.2</strong>. So here’s the plan: we lean on prompting and reviewing AI output first, then we backfill reading code, Git, and Docker so you can trust what the tools produce. That’s agentic coding in one sentence — guide the agent, read the diff, fix what’s wrong.
+  </div>
+
+  <div class="two-col">
+    <div>
+      <h3 style="margin-top:0">Relative strengths</h3>
+      <ul class="small">
+        <li>Terminal / CLI — 2.3</li>
+        <li>AI tool confidence — 2.2</li>
+        <li>Prompt + review skill — 2.2</li>
+        <li>Learning new tools — 2.0</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-top:0">Close early</h3>
+      <ul class="small">
+        <li>Docker — 1.4</li>
+        <li>Debugging confidence — 1.6</li>
+        <li>Writing code — 1.7</li>
+        <li>Git — 1.7</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>5 · Tie to their goals (30 sec)</h3>
+  <div class="say">
+    <div class="say-label">Say</div>
+    In the open responses you asked for the same things: learn AI for coding and agentic workflows; build basic coding and real applications; apply skills to jobs, automation, and IT; and use AI for troubleshooting and secure apps. The curriculum is aimed at those goals — tonight we start with the editor and the terminal so you have a place to work.
+  </div>
+
+  <h3>6 · Bridge to the rest of Block A (15 sec)</h3>
+  <div class="say">
+    <div class="say-label">Say</div>
+    So: low baseline is expected, AI is our on-ramp, and the first app is coming. Next I’ll show how the course works and where everything lives in D2L — then we install VS Code together.
+  </div>
+
+  <div class="dont">
+    <strong>Do not:</strong> Screen-share the raw spreadsheet with emails · Call out individuals · Compare students to each other · Treat 1.9 as a verdict — treat it as the map for Phase 1.
+  </div>
+
+  <h2>Optional · if you have 2 extra minutes</h2>
+  <ul>
+    <li>Switch dashboard to <strong>By question</strong> → click <em>Debug confidence</em> or <em>Docker</em> so the bar chart sells the story visually</li>
+    <li>Switch to <strong>Built an app?</strong> — 67% / 24% / 9% is a clean visual for project-based learning</li>
+    <li>Chat poll: “Which of the five numbers felt most true for you?” (emoji reactions)</li>
+  </ul>
+
+  <h2>Support groups (for you — don’t list names)</h2>
+  <ul class="small">
+    <li><strong>Code/debug at 1–2:</strong> foundational labs + guided debugging in Wednesday clinic</li>
+    <li><strong>Docker or Git at 1:</strong> short intro before project milestones</li>
+    <li><strong>No app yet (67%):</strong> one end-to-end project path through Phase 1–2</li>
+    <li><strong>~9% shipped before:</strong> peer helpers / stretch pace — not the default speed</li>
+  </ul>
+
+  <div class="close">
+    <strong>Close on momentum:</strong> Students already want agentic workflows and real applications. The baseline is low on traditional engineering tools — that is the curriculum, not a judgment on the cohort.
+  </div>
+
+</body>
+</html>

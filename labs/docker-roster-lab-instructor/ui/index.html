@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Signup roster</title>
+  <link rel="stylesheet" href="/styles.css">
+  <!--
+    API CONTRACT (implemented in app.py — do not change the JS to dodge Docker)
+    GET  /api/signups
+         → JSON array: [{"name":"...","email":"..."}]
+    POST /api/signups
+         Content-Type: application/json
+         body: {"name":"...","email":"..."}
+         → 201 (or 200) + created object; 400 if name or email empty
+    Serve this directory as static files at / (index.html, styles.css, roster.js).
+  -->
+</head>
+<body>
+  <header>
+    <p class="kicker">Docker lab</p>
+    <h1>Signup roster</h1>
+    <p class="lede">Add a name and email. Rows come from Postgres through your API.</p>
+  </header>
+
+  <main>
+    <section class="card" aria-labelledby="form-heading">
+      <h2 id="form-heading">Sign up</h2>
+      <form id="signup-form">
+        <label>
+          Name
+          <input type="text" name="name" id="name" autocomplete="name" required>
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" id="email" autocomplete="email" required>
+        </label>
+        <button type="submit">Add to roster</button>
+      </form>
+      <p id="status" class="status" role="status"></p>
+    </section>
+
+    <section class="card" aria-labelledby="list-heading">
+      <h2 id="list-heading">Roster</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody id="roster-body">
+          <tr><td colspan="2">Loading…</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="/roster.js"></script>
+</body>
+</html>

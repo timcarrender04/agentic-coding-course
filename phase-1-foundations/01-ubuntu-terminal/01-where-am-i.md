@@ -287,6 +287,24 @@ cd ~ && pwd
 ```
 You should be in `/home/your-username`.
 
+## Lab
+
+**Objective:** Navigate the filesystem with `pwd`, `cd`, and `ls` — including `cd -`, `cd ~`, and bare `cd` — without hesitation.
+
+**Task:** Work through the 30 navigation drills in this lesson, then run the five Checkpoint commands in order in one terminal.
+
+**Submit:** One screenshot (or pasted transcript) of the five Checkpoint commands and their output: `pwd`, `cd /etc && pwd`, `cd - && pwd`, `cd / && ls`, `cd ~ && pwd`.
+
+**Pass criteria:**
+
+- [ ] The first `pwd` prints `/home/<your-username>`.
+- [ ] `cd /etc && pwd` prints `/etc`.
+- [ ] `cd - && pwd` prints your home directory again.
+- [ ] `cd / && ls` lists the root directories (`bin`, `boot`, `etc`, `home`, ...).
+- [ ] `cd ~ && pwd` prints `/home/<your-username>`.
+
+**Unlocks:** [02-making-things.md](02-making-things.md)
+
 ---
 
 **Next up:** [02-making-things.md](02-making-things.md) — Create files and directories

@@ -1,0 +1,46 @@
+Student share (preferred)
+=========================
+
+Public repo (no instructor files):
+
+  https://github.com/timcarrender04/docker-roster-lab
+
+Do not push this instructor folder there.
+
+
+Email zip (optional fallback)
+=============================
+
+Zip ONLY labs/docker-roster-lab/. Do not include this instructor folder.
+
+The student pack includes a working docker-compose.yml: API (web) +
+Postgres (db). Students run compose, not python.
+
+From the course repo:
+
+  cd /home/timca/agentic-coding-course/labs
+  zip -r docker-roster-lab.zip docker-roster-lab
+
+If the zip command is not installed:
+
+  python3 -c "
+  from pathlib import Path
+  import zipfile
+  src = Path('docker-roster-lab')
+  with zipfile.ZipFile('docker-roster-lab.zip', 'w', zipfile.ZIP_DEFLATED) as zf:
+      for p in sorted(src.rglob('*')):
+          if p.is_file():
+              zf.write(p, arcname=str(p))
+  "
+
+Confirm the zip listing before you attach:
+
+  unzip -l docker-roster-lab.zip
+  # or: python3 -c \"import zipfile; zipfile.ZipFile('docker-roster-lab.zip').printdir()\"
+
+You should see Dockerfile, docker-compose.yml (web + db), app.py (source
+for the web image), ui/, START.txt SPEC.txt RESEARCH.txt. You should NOT
+see this instructor folder.
+
+Email docker-roster-lab.zip. Students unzip and File → Open Folder on
+that directory.

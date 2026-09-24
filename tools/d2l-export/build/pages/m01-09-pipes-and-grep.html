@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubuntu Terminal Foundations — Pipes and Grep</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Chain commands together with pipes and search files using <code>grep</code> (including -v, -i, and -r), <code>wc -l</code>, <code>cut</code>, <code>sort</code>, and <code>uniq</code>.</div>
+<h1>Lesson 09: Pipes and Grep</h1>
+<p><strong>By the end, you will chain commands together with pipes and search through files with grep.</strong></p>
+<p>⏱ ~15 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> Confirm.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-username</code></pre>
+<p><strong>3.</strong> The pipe <code>|</code> sends one command's output into another command — start simple.</p>
+<pre><code class="language-bash">echo &quot;hello world&quot; | grep hello</code></pre>
+<pre class="output"><code class="output">hello world</code></pre>
+<p>(grep found &quot;hello&quot; in the input and printed the matching line.)</p>
+<p><strong>4.</strong> Search for lines that DON'T match.</p>
+<pre><code class="language-bash">echo &quot;hello world&quot; | grep -v hello</code></pre>
+<p>(No output — the only line contained &quot;hello&quot; and was excluded.)</p>
+<p><strong>5.</strong> Look at /etc/passwd — every user account is listed here.</p>
+<pre><code class="language-bash">cat /etc/passwd</code></pre>
+<p>(You'll see many lines. Each line is a user account.)</p>
+<p><strong>6.</strong> Search for your username in /etc/passwd.</p>
+<pre><code class="language-bash">grep $USER /etc/passwd</code></pre>
+<pre class="output"><code class="output">your-user:x:1000:1000:Your Name:/home/your-user:/bin/bash</code></pre>
+<p><strong>7.</strong> Search for &quot;root&quot; in /etc/passwd.</p>
+<pre><code class="language-bash">grep root /etc/passwd</code></pre>
+<pre class="output"><code class="output">root:x:0:0:root:/root:/bin/bash</code></pre>
+<p><strong>8.</strong> Count how many user accounts exist on the system.</p>
+<pre><code class="language-bash">wc -l /etc/passwd</code></pre>
+<pre class="output"><code class="output">32 /etc/passwd</code></pre>
+<p>(Number will vary.)</p>
+<p><strong>9.</strong> Same thing using a pipe.</p>
+<pre><code class="language-bash">cat /etc/passwd | wc -l</code></pre>
+<pre class="output"><code class="output">32</code></pre>
+<p><strong>10.</strong> Find all accounts that use /bin/bash as their shell.</p>
+<pre><code class="language-bash">grep &quot;/bin/bash&quot; /etc/passwd</code></pre>
+<p>(You should see your user and root at minimum.)</p>
+<p><strong>11.</strong> Count how many use bash.</p>
+<pre><code class="language-bash">grep &quot;/bin/bash&quot; /etc/passwd | wc -l</code></pre>
+<pre class="output"><code class="output">2</code></pre>
+<p>(Number will vary.)</p>
+<p><strong>12.</strong> Case-insensitive search — find &quot;ROOT&quot; regardless of case.</p>
+<pre><code class="language-bash">grep -i &quot;ROOT&quot; /etc/passwd</code></pre>
+<pre class="output"><code class="output">root:x:0:0:root:/root:/bin/bash</code></pre>
+<p><strong>13.</strong> Search your notes file.</p>
+<pre><code class="language-bash">grep &quot;learning&quot; ~/docker-course/notes/notes.txt</code></pre>
+<pre class="output"><code class="output">Line 3: learning cat
+Line 4: learning head
+Line 5: learning tail
+Line 6: learning less</code></pre>
+<p><strong>14.</strong> Count the matches.</p>
+<pre><code class="language-bash">grep &quot;learning&quot; ~/docker-course/notes/notes.txt | wc -l</code></pre>
+<pre class="output"><code class="output">4</code></pre>
+<p><strong>15.</strong> Search recursively through a directory with grep -r.</p>
+<pre><code class="language-bash">grep -r &quot;note&quot; ~/docker-course/notes/</code></pre>
+<p>(Shows every line containing &quot;note&quot; in every file in the notes directory.)</p>
+<p><strong>16.</strong> Use ls and pipe to grep to find specific files.</p>
+<pre><code class="language-bash">ls /etc | grep &quot;ssh&quot;</code></pre>
+<pre class="output"><code class="output">ssh</code></pre>
+<p>(Shows files/directories in /etc that contain &quot;ssh&quot; in the name.)</p>
+<p><strong>17.</strong> List all installed packages and search for curl.</p>
+<pre><code class="language-bash">dpkg -l | grep curl</code></pre>
+<pre class="output"><code class="output">ii  curl  7.81.0-1ubuntu1  amd64  command line tool for transferring data with URL syntax</code></pre>
+<p><strong>18.</strong> Count how many packages are installed.</p>
+<pre><code class="language-bash">dpkg -l | grep &quot;^ii&quot; | wc -l</code></pre>
+<pre class="output"><code class="output">Output will vary — you should see a number like 200-500.</code></pre>
+<p><strong>19.</strong> Sort the lines in your notes file alphabetically.</p>
+<pre><code class="language-bash">sort ~/docker-course/notes/notes.txt</code></pre>
+<p>(Lines will be in alphabetical order.)</p>
+<p><strong>20.</strong> Get unique shells used by system accounts.</p>
+<pre><code class="language-bash">cat /etc/passwd | cut -d: -f7 | sort | uniq</code></pre>
+<pre class="output"><code class="output">/bin/bash
+/bin/false
+/bin/sync
+/usr/sbin/nologin</code></pre>
+<p>(This chain: extracts the 7th field (shell), sorts them, then removes duplicates.)</p>
+<p><strong>21.</strong> Count how many accounts use each shell.</p>
+<pre><code class="language-bash">cat /etc/passwd | cut -d: -f7 | sort | uniq -c | sort -rn</code></pre>
+<pre class="output"><code class="output">     27 /usr/sbin/nologin
+      2 /bin/bash
+      1 /bin/sync
+      1 /bin/false</code></pre>
+<p>(Numbers will vary. This is a classic pipe chain: cut → sort → uniq -c → sort.)</p>
+<p><strong>22.</strong> Find lines in your notes containing &quot;check&quot; (case-insensitive).</p>
+<pre><code class="language-bash">grep -i &quot;check&quot; ~/docker-course/notes/notes.txt</code></pre>
+<p><strong>23.</strong> Pipe multiple commands — find your user, extract the home directory.</p>
+<pre><code class="language-bash">grep $USER /etc/passwd | cut -d: -f6</code></pre>
+<pre class="output"><code class="output">/home/your-username</code></pre>
+<p><strong>24.</strong> Log your progress.</p>
+<pre><code class="language-bash">echo &quot;Pipes and grep: done&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">grep $USER /etc/passwd</code></pre>
+<p>You should see your user's entry.</p>
+<pre><code class="language-bash">cat /etc/passwd | wc -l</code></pre>
+<p>You should see a number (total user accounts).</p>
+<pre><code class="language-bash">grep -r &quot;learning&quot; ~/docker-course/notes/</code></pre>
+<p>You should see lines containing &quot;learning&quot; from notes.txt.</p>
+<pre><code class="language-bash">dpkg -l | grep curl | wc -l</code></pre>
+<p>You should see at least <code>1</code>.</p>
+<pre><code class="language-bash">cat /etc/passwd | cut -d: -f7 | sort | uniq -c | sort -rn | head -n 3</code></pre>
+<p>You should see the top 3 most-used shells.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Chain commands together with pipes and search text with grep.</p>
+<p><strong>Task:</strong> Work through the pipe and grep drills, then run the five Checkpoint commands in one terminal.</p>
+<p><strong>Submit:</strong> One screenshot (or pasted transcript) of the five Checkpoint commands and their output: <code>grep $USER /etc/passwd</code>, <code>cat /etc/passwd | wc -l</code>, <code>grep -r &quot;learning&quot; ~/docker-course/notes/</code>, <code>dpkg -l | grep curl | wc -l</code>, <code>cat /etc/passwd | cut -d: -f7 | sort | uniq -c | sort -rn | head -n 3</code>.</p>
+<p><strong>Pass criteria:</strong> (account and package counts vary by machine — verify the shape of the output, not the numbers)</p>
+<ul><li>[ ] <code>grep $USER /etc/passwd</code> shows your account's line.</li><li>[ ] <code>cat /etc/passwd | wc -l</code> prints a number.</li><li>[ ] <code>grep -r &quot;learning&quot;</code> shows the &quot;learning&quot; lines from notes.txt.</li><li>[ ] <code>dpkg -l | grep curl | wc -l</code> prints at least <code>1</code>.</li><li>[ ] The <code>cut | sort | uniq -c | sort -rn</code> chain prints the top 3 shells with counts.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m01-10-user-and-group-setup.html">10-user-and-group-setup.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m01-10-user-and-group-setup.html">10-user-and-group-setup.md</a> — Users and groups</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

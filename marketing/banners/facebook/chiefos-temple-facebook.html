@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agentic Coding — Facebook Square Banner</title>
+  <!-- Facebook square post: 1080×1080 -->
+  <link rel="stylesheet" href="../../../public/branding/fonts/fonts.css" />
+  <style>
+    :root {
+      --navy: #131C26;
+      --orange: #F5A83E;
+      --orange-deep: #E87722;
+      --paper: #FFFFFF;
+      --ink: #1c2733;
+      --ink-soft: #4a5866;
+      --line: #E3E8ED;
+      --wash: #F6F8FA;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 1080px;
+      height: 1080px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      font-family: "Barlow", "DejaVu Sans", Arial, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      overflow: hidden;
+    }
+
+    .banner {
+      width: 1080px;
+      height: 1080px;
+      display: flex;
+      flex-direction: column;
+      padding: 40px 44px 36px;
+      background:
+        linear-gradient(135deg, rgba(245, 168, 62, 0.07) 0%, transparent 45%),
+        linear-gradient(180deg, var(--wash) 0%, var(--paper) 100%);
+      position: relative;
+    }
+
+    .banner::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--orange-deep), var(--orange), var(--orange-deep));
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 3px solid var(--orange);
+      margin-bottom: 20px;
+      flex-shrink: 0;
+    }
+
+    .top img.tc {
+      height: 72px;
+      width: auto;
+      display: block;
+    }
+
+    .partner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .partner-label {
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-align: right;
+      line-height: 1.25;
+    }
+
+    .partner-chip {
+      background: var(--navy);
+      padding: 6px 12px;
+      border-radius: 4px;
+    }
+
+    .partner-chip img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+
+    .hero {
+      flex-shrink: 0;
+      margin-bottom: 16px;
+    }
+
+    .hero-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .hero .kicker {
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--orange-deep);
+      margin-bottom: 4px;
+    }
+
+    .hero h1 {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 64px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 0.95;
+      color: var(--navy);
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .hero .meta {
+      display: inline-block;
+      background: var(--navy);
+      color: #fff;
+      font-family: "Barlow Condensed", sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .hero .meta.free {
+      background: var(--orange-deep);
+      color: var(--navy);
+    }
+
+    .hero .meta span {
+      color: var(--orange);
+    }
+
+    .hero .meta.free span {
+      color: var(--navy);
+      opacity: 0.7;
+    }
+
+    .phases-head {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .phases-head::after {
+      content: "";
+      flex: 1;
+      height: 3px;
+      background: var(--orange);
+      border-radius: 2px;
+    }
+
+    .pillars {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 28px 1fr 28px 1fr;
+      align-items: stretch;
+      min-height: 0;
+      margin-bottom: 14px;
+    }
+
+    .pillar {
+      background: var(--wash);
+      border: 2px solid var(--line);
+      border-radius: 10px;
+      padding: 16px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+
+    .pillar .num {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 52px;
+      font-weight: 800;
+      line-height: 0.9;
+      color: var(--orange-deep);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .pillar h3 {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+      text-align: center;
+      line-height: 1.05;
+      margin-bottom: 4px;
+    }
+
+    .pillar .weeks {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--orange-deep);
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .pillar ul {
+      list-style: none;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pillar li {
+      position: relative;
+      padding-left: 14px;
+      font-size: 14px;
+      line-height: 1.25;
+      color: var(--ink-soft);
+      font-weight: 500;
+    }
+
+    .pillar li::before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: var(--orange-deep);
+      font-size: 12px;
+    }
+
+    .pillar li strong {
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .pillar .gate {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--navy);
+      text-align: center;
+      background: rgba(245, 168, 62, 0.15);
+      border-radius: 4px;
+      padding: 8px 6px;
+    }
+
+    .flow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flow svg {
+      width: 20px;
+      height: 100%;
+    }
+
+    .collab {
+      font-size: 14px;
+      color: var(--ink-soft);
+      text-align: center;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+    }
+
+    .collab strong {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .cta {
+      background: var(--orange);
+      padding: 16px 28px;
+      border-radius: 8px;
+      text-align: center;
+      flex-shrink: 0;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cta .side {
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--navy);
+      opacity: 0.9;
+      line-height: 1.25;
+    }
+
+    .cta .side.right {
+      text-align: right;
+    }
+
+    .cta .center .label {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--navy);
+      opacity: 0.85;
+      margin-bottom: 2px;
+    }
+
+    .cta .center .url {
+      display: block;
+      font-family: "Barlow Condensed", sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--navy);
+      line-height: 1.05;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner" role="img" aria-label="Agentic Coding — three phase gates — sign up at tinyurl.com/TempleAgentic">
+    <header class="top">
+      <img class="tc" src="../../../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development" />
+      <div class="partner">
+        <span class="partner-label">In collaboration<br />with</span>
+        <div class="partner-chip">
+          <img src="../../../public/branding/chiefos-logo-dark-bg.svg" alt="ChiefOS" />
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-row">
+        <div>
+          <p class="kicker">Workforce Technology Program</p>
+          <h1>Agentic Coding</h1>
+        </div>
+        <div class="hero-badges">
+          <p class="meta free">Free <span>·</span> thanks to Meta</p>
+          <p class="meta">100% online <span>·</span> 18 weeks</p>
+        </div>
+      </div>
+    </section>
+
+    <p class="phases-head">Three phases · phase-gate labs</p>
+
+    <div class="pillars">
+      <article class="pillar">
+        <div class="num">1</div>
+        <h3>Foundations</h3>
+        <p class="weeks">Weeks 1–6</p>
+        <ul>
+          <li><strong>VS Code</strong> &amp; terminal</li>
+          <li><strong>Linux</strong> &amp; WSL/SSH</li>
+          <li><strong>Docker</strong> containers</li>
+        </ul>
+        <p class="gate">Phase gate → unlock Phase 2</p>
+      </article>
+
+      <div class="flow" aria-hidden="true">
+        <svg viewBox="0 0 24 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 60 H20" stroke="#E87722" stroke-width="2.5" fill="none" />
+          <path d="M14 50 L20 60 L14 70" stroke="#E87722" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+
+      <article class="pillar">
+        <div class="num">2</div>
+        <h3>Building Apps</h3>
+        <p class="weeks">Weeks 7–12</p>
+        <ul>
+          <li><strong>FastAPI</strong> backends</li>
+          <li><strong>Git &amp; GitHub</strong></li>
+          <li><strong>REST APIs</strong></li>
+        </ul>
+        <p class="gate">Phase gate → unlock Phase 3</p>
+      </article>
+
+      <div class="flow" aria-hidden="true">
+        <svg viewBox="0 0 24 120" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 60 H20" stroke="#E87722" stroke-width="2.5" fill="none" />
+          <path d="M14 50 L20 60 L14 70" stroke="#E87722" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+
+      <article class="pillar">
+        <div class="num">3</div>
+        <h3>AI-Assisted Dev</h3>
+        <p class="weeks">Weeks 13–18</p>
+        <ul>
+          <li><strong>Continue.dev</strong> + AI</li>
+          <li><strong>Next.js</strong> + HeroUI</li>
+          <li><strong>Capstone</strong> demo</li>
+        </ul>
+        <p class="gate">Final phase gate → graduate</p>
+      </article>
+    </div>
+
+    <p class="collab"><strong>Temple College Workforce Development</strong> × <strong>ChiefOS</strong> · Made possible by Meta</p>
+
+    <div class="cta">
+      <span class="side">Starts July 20</span>
+      <div class="center">
+        <span class="label">Sign up for the course</span>
+        <span class="url">tinyurl.com/TempleAgentic</span>
+      </div>
+      <span class="side right">Mon + Wed<br />6–8 PM CST · Zoom</span>
+    </div>
+  </div>
+</body>
+</html>

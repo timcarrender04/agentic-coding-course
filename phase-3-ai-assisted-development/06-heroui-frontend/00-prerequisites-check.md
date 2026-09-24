@@ -5,15 +5,15 @@
 ⏱ ~5 minutes
 
 ```instructor
-Say: "Quick check that Modules 03-05 still work — FastAPI Compose stack up, Continue.dev chatting with Ollama. The frontend can't run without those."
+Say: "Quick check that Modules 03-05 still work — FastAPI Compose stack up, Continue.dev chatting with the shared vLLM endpoint (Llama). The frontend can't run without those."
 Mention: "If they already have a system Node from `apt`, that conflicts with nvm. Use `which node` — if it points to `/usr/bin/`, uninstall the apt one before lesson 01."
 Pause: After every check passes. If FastAPI's `:8000` doesn't return JSON, fix the backend before installing Node — otherwise they have nothing to fetch later.
-Say: "You're done when curl on 8000 returns FastAPI JSON, Ollama responds on 11434, and `which node` is empty (no system Node)."
+Say: "You're done when curl on 8000 returns FastAPI JSON, the shared vLLM endpoint answers a Continue chat, and `which node` is empty (no system Node)."
 ```
 
 ---
 
-**1.** Open Cursor connected to your dev environment. Open the integrated terminal.
+**1.** Open VS Code connected to your dev environment. Open the integrated terminal.
 
 **2.** Confirm the FastAPI Compose stack still starts.
 ```bash
@@ -24,17 +24,17 @@ curl -s http://localhost:8000 | python3 -m json.tool
 ```
 You should see `{"hello":"fastapi"}` (or whatever you renamed it).
 
-**3.** Confirm Continue.dev is wired to local Ollama. Open the Continue side bar and send the message:
+**3.** Confirm Continue.dev is wired to the shared vLLM endpoint (Llama). Open the Continue side bar and send the message:
 ```
 Reply with the single word: ready
 ```
 You should get `ready` back within ~10 seconds. If not, see Module 05 lesson 04.
 
-**4.** Confirm Gitea is reachable.
+**4.** Confirm GitHub is reachable.
 ```bash
 git -C ~/docker-course/fastapi-app remote -v
 ```
-Should show your Gitea origin URL.
+Should show your GitHub origin URL.
 
 **5.** Check whether Node.js is already installed (we want to use **nvm** to manage versions cleanly — a system-installed Node can interfere).
 ```bash
@@ -55,7 +55,7 @@ echo "Module 06 prereq check: passed $(date -Iseconds)" >> ~/docker-course/notes
 ## ⚠️ Watch out
 
 - The FastAPI stack from Module 03 must be running for lesson 04 onward. Easiest: leave it up for the whole module.
-- The Ollama Compose stack from Module 05 should also be running so Continue.dev works.
+- The shared vLLM endpoint from Module 05 must be reachable so Continue.dev works.
 
 ---
 

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Docker Installation and First Containers — Install Docker Engine</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Install Docker Engine from the official Docker apt repository and add your user to the docker group so <code>docker info</code> works without sudo.</div>
+<h1>Lesson 01: Install Docker Engine</h1>
+<p><strong>By the end, you will have Docker Engine installed from the official Docker apt repository, and you will be in the docker group.</strong></p>
+<p>⏱ ~25 minutes of typing</p>
+<blockquote><p>We are installing <strong>Docker Engine</strong> (the Linux daemon) — not Docker Desktop. Docker Desktop is a separate Windows/Mac product. On Linux (including WSL), Docker Engine is what you want.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> Update the package list.</p>
+<pre><code class="language-bash">sudo apt update</code></pre>
+<p><strong>3.</strong> Add Docker's official GPG key. This proves the packages you download are really from Docker.</p>
+<pre><code class="language-bash">sudo install -m 0755 -d /etc/apt/keyrings</code></pre>
+<p><strong>4.</strong> Download the key.</p>
+<pre><code class="language-bash">sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc</code></pre>
+<p><strong>5.</strong> Make the key file readable by everyone.</p>
+<pre><code class="language-bash">sudo chmod a+r /etc/apt/keyrings/docker.asc</code></pre>
+<p><strong>6.</strong> Confirm the key is in place.</p>
+<pre><code class="language-bash">ls -la /etc/apt/keyrings/docker.asc</code></pre>
+<p>You should see the file.</p>
+<p><strong>7.</strong> Add the Docker apt repository to your sources list. This is one long command — type it carefully.</p>
+<pre><code class="language-bash">echo &quot;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release &amp;&amp; echo &quot;$VERSION_CODENAME&quot;) stable&quot; | sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null</code></pre>
+<p><strong>8.</strong> Confirm the repo file was created.</p>
+<pre><code class="language-bash">cat /etc/apt/sources.list.d/docker.list</code></pre>
+<pre class="output"><code class="output">deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu jammy stable</code></pre>
+<p>(Architecture and codename will vary.)</p>
+<p><strong>9.</strong> Update apt again — this time it'll see Docker's repo.</p>
+<pre><code class="language-bash">sudo apt update</code></pre>
+<p>You should see a line mentioning <code>download.docker.com</code>.</p>
+<p><strong>10.</strong> Install Docker Engine and the standard plugins.</p>
+<pre><code class="language-bash">sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</code></pre>
+<p>(This will take a minute or two.)</p>
+<p><strong>11.</strong> Confirm Docker is installed.</p>
+<pre><code class="language-bash">docker --version</code></pre>
+<pre class="output"><code class="output">Docker version 24.0.7, build afdd53b</code></pre>
+<p>(Version will vary.)</p>
+<p><strong>12.</strong> Confirm the Docker daemon is running. <strong>WSL users:</strong> if <code>systemctl</code> fails with &quot;System has not been booted with systemd,&quot; skip to step 13.</p>
+<pre><code class="language-bash">sudo systemctl status docker</code></pre>
+<p>You should see <code>Active: active (running)</code>. Press <code>q</code> to exit.</p>
+<p><strong>13.</strong> <strong>WSL only:</strong> start the Docker service the WSL way.</p>
+<pre><code class="language-bash">sudo service docker start</code></pre>
+<pre class="output"><code class="output"> * Starting Docker: docker</code></pre>
+<p><strong>14.</strong> Confirm the docker group now exists (Module 01 lesson 10 said it would after install).</p>
+<pre><code class="language-bash">grep docker /etc/group</code></pre>
+<pre class="output"><code class="output">docker:x:998:</code></pre>
+<p>(Number will vary. The group exists — that's the point.)</p>
+<p><strong>15.</strong> Add yourself to the docker group. <strong>This is the command you previewed in Module 01 lesson 10. Now it works.</strong></p>
+<pre><code class="language-bash">sudo usermod -aG docker $USER</code></pre>
+<p>(No output means success.)</p>
+<p><strong>16.</strong> Refresh your group membership in this shell without logging out.</p>
+<pre><code class="language-bash">newgrp docker</code></pre>
+<p><strong>17.</strong> Confirm you're in the docker group.</p>
+<pre><code class="language-bash">groups</code></pre>
+<pre class="output"><code class="output">your-user adm sudo docker</code></pre>
+<p>You should see <code>docker</code> in the list.</p>
+<p><strong>18.</strong> Test Docker without sudo.</p>
+<pre><code class="language-bash">docker info</code></pre>
+<p>You should see a long block of info about the Docker daemon. If you get &quot;permission denied while trying to connect to the Docker daemon socket,&quot; your group membership didn't refresh — log out and back in, or close and reopen the integrated terminal, then try again.</p>
+<p><strong>19.</strong> See where Docker is installed.</p>
+<pre><code class="language-bash">which docker</code></pre>
+<pre class="output"><code class="output">/usr/bin/docker</code></pre>
+<p><strong>20.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Docker installed: $(docker --version)&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<p><strong>21.</strong> Verify the note.</p>
+<pre><code class="language-bash">tail -n 1 ~/docker-course/notes/notes.txt</code></pre>
+<pre class="output"><code class="output">Docker installed: Docker version 24.0.7, build afdd53b</code></pre>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">docker --version</code></pre>
+<p>You should see a Docker version.</p>
+<pre><code class="language-bash">docker info | head -n 5</code></pre>
+<p>You should see info without <code>sudo</code> and without permission errors.</p>
+<pre><code class="language-bash">groups | grep docker</code></pre>
+<p>You should see <code>docker</code> somewhere in the output.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Install Docker Engine from the official Docker apt repository, start the daemon, and join the docker group so <code>docker</code> runs without <code>sudo</code>.</p>
+<p><strong>Task:</strong> Work steps 1–21 in order — GPG key, apt repo, install, start the daemon (WSL users take the step 13 path), join the docker group, then log it.</p>
+<p><strong>Submit:</strong> Paste the output of <code>docker --version</code>, <code>docker info | head -n 5</code>, <code>groups</code>, and <code>tail -n 1 ~/docker-course/notes/notes.txt</code> into D2L.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] <code>docker --version</code> prints a Docker version.</li><li>[ ] <code>docker info | head -n 5</code> ran without <code>sudo</code> and shows no &quot;permission denied&quot; error.</li><li>[ ] <code>groups</code> output includes <code>docker</code>.</li><li>[ ] The daemon is running: <code>sudo systemctl status docker</code> shows <code>Active: active (running)</code>, <strong>or</strong> (WSL) <code>sudo service docker start</code> succeeded and <code>docker info</code> works.</li><li>[ ] The notes line reads <code>Docker installed: Docker version ...</code>.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m02-02-hello-world.html">02-hello-world.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m02-02-hello-world.html">02-hello-world.md</a> — Run your first container</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

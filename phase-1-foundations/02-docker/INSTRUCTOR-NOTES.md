@@ -31,7 +31,7 @@
 ### Lesson 03: Running a Real Image
 - Port mapping is the new concept here. Draw it on a whiteboard: "host port 8080 → container port 80." Students confuse which side is which.
 - `docker run -d -p 8080:80 nginx` — the `-d` (detached) flag is easy to forget. If they leave it off, the terminal hangs and they think Docker is broken. It's not — nginx is running in the foreground. Have them Ctrl+C and re-run with `-d`.
-- "localhost:8080" — for SSH students, "localhost" is the **remote**, not their laptop. They need to either set up port forwarding via Cursor's Remote-SSH (which it does automatically — show them the "Ports" tab in the panel) or `curl localhost:8080` from the SSH terminal.
+- "localhost:8080" — for SSH students, "localhost" is the **remote**, not their laptop. They need to either set up port forwarding via the VS Code Remote — SSH extension (which forwards automatically — show them the "Ports" tab in the panel) or `curl localhost:8080` from the SSH terminal.
 - For WSL students, `localhost:8080` from their Windows browser usually works — WSL2 forwards localhost to the host. If it doesn't, `curl localhost:8080` from the WSL terminal will.
 
 ### Lesson 04: Images vs Containers
@@ -39,13 +39,13 @@
 - `docker ps` (running) vs `docker ps -a` (all, including stopped) is a major source of confusion. Students will run `docker ps`, see nothing, and think their container disappeared. Show both side by side.
 - `docker rm` (removes container) vs `docker rmi` (removes image) — different commands. They will mix them up. Both names start with "rm" — read them together.
 
-### Lesson 05: The Cursor Docker Sidebar
+### Lesson 05: The VS Code Docker Sidebar
 - This lesson is mostly "look at the thing." Don't over-engineer it. The win is that students see the sidebar from Module 00 lesson 04 finally populated.
 - Right-click context menus in the Docker sidebar are useful — show "Stop container" and "Remove container" via right-click instead of CLI, just to demonstrate the UI <-> CLI parity.
 
 ### Lesson 06: Final Checkpoint
 - No instructor help. Same rule as Module 01.
-- The checkpoint requires nginx running on a port and visible in the Cursor sidebar. Both pieces.
+- The checkpoint requires nginx running on a port and visible in the VS Code sidebar. Both pieces.
 
 ## Suggested Schedule (~2-hour session)
 
@@ -56,7 +56,7 @@
 | Break | — | 10 min |
 | First container + nginx | 02 + 03 | 25 min |
 | Images vs containers | 04 | 20 min |
-| Cursor sidebar | 05 | 10 min |
+| VS Code sidebar | 05 | 10 min |
 | Final checkpoint | 06 | 15 min |
 
 Total: 120 min. Tight but doable. If install drags on, push the final checkpoint to homework.

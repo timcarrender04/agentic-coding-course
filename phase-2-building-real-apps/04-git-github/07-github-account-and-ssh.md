@@ -1,39 +1,39 @@
-# Lesson 07: Gitea Account and SSH Key
+# Lesson 07: GitHub Account and SSH
 
-**By the end, you will have a Gitea account, an SSH key on your machine, and that key registered with Gitea so you can push without typing a password.**
+**By the end, you will have a free GitHub account, an SSH key on your machine, and that key registered with GitHub so you can push without typing a password.**
 
 ⏱ ~20 minutes of typing + clicking
 
-> **Gitea** is a self-hosted Git service. Your instructor runs an instance for the class. The web UI looks like a stripped-down GitHub — repos, issues, pull requests, the works.
+> **GitHub** is the largest Git host in the world — the same site most companies and open-source projects use. Your course repos will be **public**, on purpose: classmates can browse, clone, and review each other's work, exactly like real open source.
 
 ```instructor
-Say: "Gitea is a self-hosted Git service — looks like a stripped-down GitHub. I'm running an instance for the class; here's the URL."
-Mention: "If `ssh -T git@<gitea-host>` fails with 'Permission denied (publickey)', the public key didn't get added to Gitea or the wrong key is being offered. The success message is 'Hi <username>! You've successfully authenticated...'"
-Pause: After they upload the public key. Have every student run `ssh -T git@...` and read the success line back to you. If anyone's failing, fix it now — every later lesson assumes push works.
-Say: "You're done when `ssh -T git@<gitea-host>` greets them by username and they can browse to their account on the web UI."
+Say: "GitHub is where most of the world's code lives. You're making a free account, and your course repos will be public — that's deliberate, so you can browse and clone each other's work."
+Mention: "If `ssh -T git@github.com` fails with 'Permission denied (publickey)', the public key didn't get added to GitHub or the wrong key is being offered. The success message is 'Hi <username>! You've successfully authenticated...'"
+Pause: After they add the public key. Have every student run `ssh -T git@github.com` and read the success line back to you. If anyone's failing, fix it now — every later lesson assumes push works.
+Say: "You're done when `ssh -T git@github.com` greets them by username and the key shows up at github.com → Settings → SSH and GPG keys."
 ```
 
 ---
 
-## Step 1: log in to Gitea
+## Step 1: create your GitHub account
 
 **1.** Open your browser. Go to:
 ```
-<INSTRUCTOR-PROVIDED-GITEA-URL>
+https://github.com/signup
 ```
-(Your instructor will give you the exact URL.)
+(If you already have a GitHub account, sign in and skip to step 4.)
 
-**2.** Sign in with the credentials your instructor gave you. If self-registration is enabled, the instructor will tell you to "Sign up" instead.
+**2.** Use the **same email** you set in `git config --global user.email` (lesson 01). Mismatched emails create commits that don't link to your profile.
 
-**3.** Use the **same email** you set in `git config --global user.email` (lesson 01). Mismatched emails create commits that don't link to your profile.
+**3.** Pick a username carefully. It will be **public** — visible to classmates now and to future employers later. Something professional based on your name beats `xX_c0d3r_Xx`. Complete the email verification GitHub sends you.
 
-**4.** Once logged in, look at the top-right of the page — your username should appear. Click it → **Settings** → confirm your email matches.
+**4.** Once logged in, look at the top-right of the page — your avatar should appear. Click it → **Settings** → **Emails** → confirm your email matches the one from lesson 01.
 
 ---
 
 ## Step 2: generate an SSH key (if you don't have one)
 
-**5.** Back in Cursor's integrated terminal. Check whether you already have a key.
+**5.** Back in VS Code's integrated terminal. Check whether you already have a key.
 ```bash
 ls ~/.ssh/id_ed25519.pub 2>/dev/null
 ```
@@ -89,59 +89,61 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI... you@example.com
 
 ---
 
-## Step 4: register the key on Gitea
+## Step 4: register the key on GitHub
 
-**14.** In your browser, go to **Gitea → top-right avatar → Settings → SSH / GPG Keys**.
+**14.** In your browser, go to **github.com → top-right avatar → Settings → SSH and GPG keys**.
 
-**15.** Click **Add Key** (under "Manage SSH Keys").
+**15.** Click **New SSH key** (the green button).
 
 **16.** Fill in:
-   - **Key name:** something like `course-laptop`. (Just a label for you.)
-   - **Content:** paste the entire public key line from step 13.
+   - **Title:** something like `course-laptop`. (Just a label for you.)
+   - **Key type:** leave as **Authentication Key**.
+   - **Key:** paste the entire public key line from step 13.
 
-**17.** Click **Add Key**. The key should appear in the list.
+**17.** Click **Add SSH key**. GitHub may ask you to re-enter your password to confirm. The key should appear in the list.
 
 ---
 
 ## Step 5: test the SSH connection
 
-**18.** Test from the terminal. Replace `<gitea-host>` with just the hostname part of the URL (e.g. `gitea.example.com`, no `https://`).
+**18.** Test from the terminal.
 ```bash
-ssh -T git@<gitea-host>
+ssh -T git@github.com
 ```
 
 **19.** First time, you'll see:
 ```
-The authenticity of host '<gitea-host>' can't be established.
-ED25519 key fingerprint is SHA256:...
+The authenticity of host 'github.com (140.82.x.x)' can't be established.
+ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
 Are you sure you want to continue connecting (yes/no/[fingerprint])?
 ```
 Type `yes` and press Enter. (Don't just press Enter — there's no default.)
 
 **20.** Successful auth looks like:
 ```
-Hi <your-username>! You've successfully authenticated, but Gitea does not provide shell access.
+Hi <username>! You've successfully authenticated, but GitHub does not provide shell access.
 ```
-**That message means it worked.** Gitea won't give you a shell, but it confirmed your identity.
+**That message means it worked.** GitHub won't give you a shell, but it confirmed your identity.
 
 **21.** If instead you see `Permission denied (publickey)`:
    - Make sure you pasted the **public** key (`.pub` file), not the private one.
    - Make sure you pasted the **whole line**, including `ssh-ed25519` at the start and the email at the end.
-   - Run `ssh -vT git@<gitea-host>` to see verbose output.
+   - Check the private key's permissions (`chmod 600 ~/.ssh/id_ed25519` — SSH refuses keys that other users can read).
+   - Run `ssh -vT git@github.com` to see verbose output.
 
 **22.** Log it.
 ```bash
-echo "Gitea SSH auth: working ($(ssh -T git@<gitea-host> 2>&1 | head -n 1))" >> ~/docker-course/notes/notes.txt
+echo "GitHub SSH auth: working ($(ssh -T git@github.com 2>&1 | head -n 1))" >> ~/docker-course/notes/notes.txt
 ```
-(Replace `<gitea-host>` in the command above with your real one.)
 
 ---
 
 ## ⚠️ Watch out
 
-- **Public vs private key.** You paste the `.pub` file's contents into Gitea. Never paste the private key (`id_ed25519` without `.pub`). The private key stays on your machine forever.
-- **Some classroom networks block outbound port 22.** If `ssh -T` hangs, ask the instructor whether to use the alternate Gitea SSH port (sometimes 2222) or fall back to HTTPS pushes with a personal access token. The instructor will tell you the workaround.
-- **Email mismatch.** If your Gitea email doesn't match `git config --global user.email`, Gitea won't link your commits to your profile. Fix one or the other to match.
+- **Public vs private key.** You paste the `.pub` file's contents into GitHub. Never paste the private key (`id_ed25519` without `.pub`). The private key stays on your machine forever. If you accidentally pasted the private key anywhere, delete that key pair and generate a new one.
+- **Wrong key permissions.** If the private key is readable by anyone else (`-rw-r--r--`), SSH silently refuses to use it. `chmod 600 ~/.ssh/id_ed25519` fixes it.
+- **Some classroom networks block outbound port 22.** If `ssh -T` hangs, GitHub offers SSH over port 443: test with `ssh -T -p 443 git@ssh.github.com`. Ask the instructor before setting that up permanently.
+- **Email mismatch.** If your GitHub email doesn't match `git config --global user.email`, GitHub won't link your commits to your profile. Fix one or the other to match.
 
 ---
 
@@ -153,12 +155,12 @@ ls ~/.ssh/id_ed25519.pub
 Should print the path.
 
 ```bash
-ssh -T git@<gitea-host>
+ssh -T git@github.com
 ```
-Should print `Hi <username>! You've successfully authenticated...`.
+Should print `Hi <username>! You've successfully authenticated, but GitHub does not provide shell access.`
 
-In the Gitea web UI, your SSH key should appear at **Settings → SSH / GPG Keys** with the name you gave it.
+In the GitHub web UI, your SSH key should appear at **Settings → SSH and GPG keys** with the title you gave it.
 
 ---
 
-**Next up:** [08-pushing-to-gitea.md](08-pushing-to-gitea.md) — Push your repo to Gitea
+**Next up:** [08-pushing-to-github.md](08-pushing-to-github.md) — Push your repo to GitHub

@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questestinterop xmlns="http://www.imsglobal.org/xsd/ims_qtiasiv1p2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.imsglobal.org/xsd/ims_qtiasiv1p2 http://www.imsglobal.org/profile/cc/ccv1p2/ccv1p2_qtiasiv1p2p1_v1p0.xsd">
+  <assessment ident="quiz_m02" title="Module 02 Check on Learning — Docker Installation and First Containers">
+    <qtimetadata>
+      <qtimetadatafield>
+        <fieldlabel>cc_profile</fieldlabel>
+        <fieldentry>cc.exam.v0p1</fieldentry>
+      </qtimetadatafield>
+      <qtimetadatafield>
+        <fieldlabel>qmd_scoretype</fieldlabel>
+        <fieldentry>Percentage</fieldentry>
+      </qtimetadatafield>
+    </qtimetadata>
+    <section ident="quiz_m02_root">
+
+    <item ident="quiz_m02_q1" title="Question 1">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;During the setup check, you run &lt;code&gt;which docker&lt;/code&gt; before installing anything. What result tells you that you are ready to proceed?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m02_q1_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m02_q1_a0">
+              <material><mattext texttype="text/html">The path &lt;code&gt;/usr/bin/docker&lt;/code&gt; is printed</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q1_a1">
+              <material><mattext texttype="text/html">A Docker version string is printed</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q1_a2">
+              <material><mattext texttype="text/html">No output at all — Docker should not be installed yet</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q1_a3">
+              <material><mattext texttype="text/html">The message &lt;code&gt;Active: active (running)&lt;/code&gt;</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m02_q1_resp">quiz_m02_q1_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m02_q1_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m02_q1_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson expects no output from &lt;code&gt;which docker&lt;/code&gt;, because Docker is about to be installed and any existing installation needs to be flagged first.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m02_q2" title="Question 2">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;After running &lt;code&gt;sudo usermod -aG docker $USER&lt;/code&gt;, &lt;code&gt;docker info&lt;/code&gt; still fails with &amp;quot;permission denied while trying to connect to the Docker daemon socket&amp;quot;. What fixes this?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m02_q2_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m02_q2_a0">
+              <material><mattext texttype="text/html">Run &lt;code&gt;newgrp docker&lt;/code&gt; or log out and back in to refresh group membership</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q2_a1">
+              <material><mattext texttype="text/html">Reinstall Docker Engine with &lt;code&gt;sudo apt install --reinstall docker-ce&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q2_a2">
+              <material><mattext texttype="text/html">Run &lt;code&gt;sudo apt update&lt;/code&gt; and try again</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q2_a3">
+              <material><mattext texttype="text/html">Add the docker group to &lt;code&gt;/etc/apt/sources.list.d/docker.list&lt;/code&gt;</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m02_q2_resp">quiz_m02_q2_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m02_q2_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m02_q2_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;Group membership only takes effect in a new session, so the lesson has you run &lt;code&gt;newgrp docker&lt;/code&gt; or log out and back in before Docker works without sudo.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m02_q3" title="Question 3">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Why does the installation lesson download Docker's GPG key to &lt;code&gt;/etc/apt/keyrings/docker.asc&lt;/code&gt; before adding the apt repository?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m02_q3_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m02_q3_a0">
+              <material><mattext texttype="text/html">So you can log in to Docker Hub without a password</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q3_a1">
+              <material><mattext texttype="text/html">To prove the packages you download are really from Docker</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q3_a2">
+              <material><mattext texttype="text/html">To encrypt images that Docker pulls from the registry</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q3_a3">
+              <material><mattext texttype="text/html">So Docker commands can run without sudo</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m02_q3_resp">quiz_m02_q3_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m02_q3_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m02_q3_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson explains the GPG key proves the packages you download are genuinely from Docker.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m02_q4" title="Question 4">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;The first time you run &lt;code&gt;docker run hello-world&lt;/code&gt;, the output starts with &amp;quot;Unable to find image 'hello-world:latest' locally&amp;quot;. What does this line mean?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m02_q4_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m02_q4_a0">
+              <material><mattext texttype="text/html">The installation failed and Docker cannot find its own files</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q4_a1">
+              <material><mattext texttype="text/html">You typed the image name wrong and need to retry</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q4_a2">
+              <material><mattext texttype="text/html">The Docker daemon is not running and must be started</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q4_a3">
+              <material><mattext texttype="text/html">It is not an error — Docker did not have the image cached, so it pulled it from Docker Hub</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m02_q4_resp">quiz_m02_q4_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m02_q4_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m02_q4_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson stresses this line is not an error: Docker checked locally, found nothing, and pulled the image from Docker Hub before running it.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m02_q5" title="Question 5">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;You ran &lt;code&gt;docker run hello-world&lt;/code&gt; twice, but &lt;code&gt;docker ps&lt;/code&gt; shows nothing. Why?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m02_q5_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m02_q5_a0">
+              <material><mattext texttype="text/html">The containers were automatically deleted when they finished</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q5_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;docker ps&lt;/code&gt; only shows running containers, and the hello-world containers exited; &lt;code&gt;docker ps -a&lt;/code&gt; shows them</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q5_a2">
+              <material><mattext texttype="text/html">hello-world runs entirely in memory and never creates a container</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q5_a3">
+              <material><mattext texttype="text/html">You need sudo to see containers with &lt;code&gt;docker ps&lt;/code&gt;</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m02_q5_resp">quiz_m02_q5_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m02_q5_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m02_q5_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;By default &lt;code&gt;docker ps&lt;/code&gt; lists only running containers; the exited hello-world containers are still on disk and appear with &lt;code&gt;docker ps -a&lt;/code&gt;.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m02_q6" title="Question 6">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;In the command &lt;code&gt;docker run -d -p 8080:80 --name web nginx&lt;/code&gt;, what does &lt;code&gt;-p 8080:80&lt;/code&gt; do?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m02_q6_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m02_q6_a0">
+              <material><mattext texttype="text/html">Forwards port 8080 on your machine to port 80 inside the container</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q6_a1">
+              <material><mattext texttype="text/html">Forwards port 80 on your machine to port 8080 inside the container</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q6_a2">
+              <material><mattext texttype="text/html">Makes nginx listen on both ports 8080 and 80 inside the container</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q6_a3">
+              <material><mattext texttype="text/html">Limits the container to 8080 KB of memory on port 80</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m02_q6_resp">quiz_m02_q6_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m02_q6_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m02_q6_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson explains &lt;code&gt;-p 8080:80&lt;/code&gt; maps host port 8080 to container port 80, where nginx listens, so you reach it at localhost:8080.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m02_q7" title="Question 7">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;Which command opens an interactive shell inside the running container named &lt;code&gt;web&lt;/code&gt;?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m02_q7_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m02_q7_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;docker shell web&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q7_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;docker run -it web bash&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q7_a2">
+              <material><mattext texttype="text/html">&lt;code&gt;docker exec -it web bash&lt;/code&gt;</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q7_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;docker logs -f web&lt;/code&gt;</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m02_q7_resp">quiz_m02_q7_a2</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m02_q7_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m02_q7_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson uses &lt;code&gt;docker exec -it web bash&lt;/code&gt; to get a shell inside the running container; the prompt changes to root inside the container's filesystem.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m02_q8" title="Question 8">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;What is the difference between &lt;code&gt;docker rm&lt;/code&gt; and &lt;code&gt;docker rmi&lt;/code&gt;?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m02_q8_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m02_q8_a0">
+              <material><mattext texttype="text/html">&lt;code&gt;docker rm&lt;/code&gt; removes running containers; &lt;code&gt;docker rmi&lt;/code&gt; removes stopped ones</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q8_a1">
+              <material><mattext texttype="text/html">&lt;code&gt;docker rm&lt;/code&gt; removes an image; &lt;code&gt;docker rmi&lt;/code&gt; removes a container</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q8_a2">
+              <material><mattext texttype="text/html">They are aliases and do exactly the same thing</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q8_a3">
+              <material><mattext texttype="text/html">&lt;code&gt;docker rm&lt;/code&gt; removes a container; &lt;code&gt;docker rmi&lt;/code&gt; removes an image</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m02_q8_resp">quiz_m02_q8_a3</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m02_q8_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m02_q8_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;As the lesson's quick reference states, &lt;code&gt;docker rm &amp;lt;name&amp;gt;&lt;/code&gt; removes a stopped container while &lt;code&gt;docker rmi &amp;lt;image&amp;gt;&lt;/code&gt; removes an image.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m02_q9" title="Question 9">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;What does &lt;code&gt;docker container prune -f&lt;/code&gt; do?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m02_q9_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m02_q9_a0">
+              <material><mattext texttype="text/html">Stops all running containers</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q9_a1">
+              <material><mattext texttype="text/html">Removes all stopped containers in one step</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q9_a2">
+              <material><mattext texttype="text/html">Removes all images not used by any container</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q9_a3">
+              <material><mattext texttype="text/html">Removes both containers and their images</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m02_q9_resp">quiz_m02_q9_a1</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m02_q9_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m02_q9_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson introduces &lt;code&gt;docker container prune -f&lt;/code&gt; as the shortcut that removes all stopped containers at once; images require &lt;code&gt;docker image prune -a&lt;/code&gt;.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+
+    <item ident="quiz_m02_q10" title="Question 10">
+      <itemmetadata>
+        <qtimetadata>
+          <qtimetadatafield>
+            <fieldlabel>cc_profile</fieldlabel>
+            <fieldentry>cc.multiple_choice.v0p1</fieldentry>
+          </qtimetadatafield>
+        </qtimetadata>
+      </itemmetadata>
+      <presentation>
+        <material><mattext texttype="text/html">&lt;p&gt;According to the VS Code Docker sidebar lesson, which task is better done with the CLI than the sidebar?&lt;/p&gt;</mattext></material>
+        <response_lid ident="quiz_m02_q10_resp" rcardinality="Single">
+          <render_choice>
+            <response_label ident="quiz_m02_q10_a0">
+              <material><mattext texttype="text/html">Running a container with specific port mappings and a custom name</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q10_a1">
+              <material><mattext texttype="text/html">Seeing what is running right now at a glance</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q10_a2">
+              <material><mattext texttype="text/html">Inspecting a container's environment variables and mounts</mattext></material>
+            </response_label>
+            <response_label ident="quiz_m02_q10_a3">
+              <material><mattext texttype="text/html">Opening a container's logs in an editor tab</mattext></material>
+            </response_label>
+          </render_choice>
+        </response_lid>
+      </presentation>
+      <resprocessing>
+        <outcomes>
+          <decvar maxvalue="100" minvalue="0" varname="SCORE" vartype="Decimal" />
+        </outcomes>
+        <respcondition continue="No">
+          <conditionvar>
+            <varequal respident="quiz_m02_q10_resp">quiz_m02_q10_a0</varequal>
+          </conditionvar>
+          <setvar action="Set" varname="SCORE">100</setvar>
+          <displayfeedback feedbacktype="Response" linkrefid="quiz_m02_q10_fb" />
+        </respcondition>
+      </resprocessing>
+      <itemfeedback ident="quiz_m02_q10_fb">
+        <flow_mat><material><mattext texttype="text/html">&lt;p&gt;The lesson's comparison table says the sidebar's Run option loses control over flags like &lt;code&gt;-p&lt;/code&gt; and &lt;code&gt;--name&lt;/code&gt;, so running with specific port mappings is better in the CLI.&lt;/p&gt;</mattext></material></flow_mat>
+      </itemfeedback>
+    </item>
+    </section>
+  </assessment>
+</questestinterop>

@@ -119,6 +119,22 @@ docker ps -a | grep hello-world
 ```
 You should see at least one stopped hello-world container.
 
+## Lab
+
+**Objective:** Run your first container and explain what `docker run` actually did — pull, create, run, exit.
+
+**Task:** Work steps 1–10 — run `hello-world` twice, compare `docker ps` with `docker ps -a`, then log it.
+
+**Submit:** Paste the output of `docker images | grep hello-world`, `docker ps -a | grep hello-world`, and `tail ~/docker-course/notes/notes.txt` into D2L.
+
+**Pass criteria:**
+
+- [ ] The hello-world image is listed under `docker images`.
+- [ ] At least one hello-world container shows `Exited (0)` in `docker ps -a`.
+- [ ] The notes tail includes `First container: hello-world ran successfully`.
+
+**Unlocks:** [03-running-nginx.md](03-running-nginx.md)
+
 ---
 
 **Next up:** [03-running-nginx.md](03-running-nginx.md) — Run a real image

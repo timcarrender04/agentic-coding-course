@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubuntu Terminal Foundations — Permissions Drills</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Read permission strings and change file permissions and ownership using <code>chmod</code> in symbolic and numeric forms and <code>chown</code> with sudo.</div>
+<h1>Lesson 06: Permissions Drills</h1>
+<p><strong>By the end, you will be able to read, set, and change file permissions and ownership.</strong></p>
+<p>⏱ ~15 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Go to your practice directory.</p>
+<pre><code class="language-bash">cd ~/docker-course/practice</code></pre>
+<p><strong>2.</strong> Confirm.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-username/docker-course/practice</code></pre>
+<p><strong>3.</strong> Look at the current permissions of your files.</p>
+<pre><code class="language-bash">ls -la</code></pre>
+<pre class="output"><code class="output">total 8
+drwxrwxr-x 2 your-user your-user 4096 ... .
+drwxrwxr-x 5 your-user your-user 4096 ... ..
+-rw-rw-r-- 1 your-user your-user    0 ... file1.txt
+-rw-rw-r-- 1 your-user your-user    0 ... file2.txt</code></pre>
+<p>(Reading the permission string <code>-rw-rw-r--</code>:</p>
+<ul><li>Position 1: <code>-</code> = file, <code>d</code> = directory</li><li>Positions 2-4: owner permissions (rwx)</li><li>Positions 5-7: group permissions (rwx)</li><li>Positions 8-10: everyone else (rwx))</li></ul>
+<p><strong>4.</strong> Create a simple shell script.</p>
+<pre><code class="language-bash">echo '#!/bin/bash' &gt; hello.sh</code></pre>
+<p><strong>5.</strong> Add a command to the script.</p>
+<pre><code class="language-bash">echo 'echo &quot;Hello from my script!&quot;' &gt;&gt; hello.sh</code></pre>
+<p><strong>6.</strong> Check what's in the file.</p>
+<pre><code class="language-bash">cat hello.sh</code></pre>
+<pre class="output"><code class="output">#!/bin/bash
+echo &quot;Hello from my script!&quot;</code></pre>
+<p><strong>7.</strong> Look at its permissions.</p>
+<pre><code class="language-bash">ls -la hello.sh</code></pre>
+<pre class="output"><code class="output">-rw-rw-r-- 1 your-user your-user 42 ... hello.sh</code></pre>
+<p>(Notice: no <code>x</code> in the permissions -- the file is NOT executable yet.)</p>
+<p><strong>8.</strong> Try to run it -- this will fail.</p>
+<pre><code class="language-bash">./hello.sh</code></pre>
+<pre class="output"><code class="output">bash: ./hello.sh: Permission denied</code></pre>
+<p><strong>9.</strong> Make it executable with chmod +x.</p>
+<pre><code class="language-bash">chmod +x hello.sh</code></pre>
+<p><strong>10.</strong> Check the permissions again.</p>
+<pre><code class="language-bash">ls -la hello.sh</code></pre>
+<pre class="output"><code class="output">-rwxrwxr-x 1 your-user your-user 42 ... hello.sh</code></pre>
+<p>(Now you see <code>x</code> in the permissions.)</p>
+<p><strong>11.</strong> Run it.</p>
+<pre><code class="language-bash">./hello.sh</code></pre>
+<pre class="output"><code class="output">Hello from my script!</code></pre>
+<p><strong>12.</strong> Now practice setting permissions with numbers -- set to 644 (owner read/write, everyone else read-only).</p>
+<pre><code class="language-bash">chmod 644 hello.sh</code></pre>
+<p><strong>13.</strong> Check.</p>
+<pre><code class="language-bash">ls -la hello.sh</code></pre>
+<pre class="output"><code class="output">-rw-r--r-- 1 your-user your-user 42 ... hello.sh</code></pre>
+<p>(6 = rw-, 4 = r--, 4 = r--)</p>
+<p><strong>14.</strong> Try to run it -- it's no longer executable.</p>
+<pre><code class="language-bash">./hello.sh</code></pre>
+<pre class="output"><code class="output">bash: ./hello.sh: Permission denied</code></pre>
+<p><strong>15.</strong> Set it to 755 (owner full, everyone else read+execute).</p>
+<pre><code class="language-bash">chmod 755 hello.sh</code></pre>
+<p><strong>16.</strong> Check.</p>
+<pre><code class="language-bash">ls -la hello.sh</code></pre>
+<pre class="output"><code class="output">-rwxr-xr-x 1 your-user your-user 42 ... hello.sh</code></pre>
+<p>(7 = rwx, 5 = r-x, 5 = r-x)</p>
+<p><strong>17.</strong> Run it again to confirm.</p>
+<pre><code class="language-bash">./hello.sh</code></pre>
+<pre class="output"><code class="output">Hello from my script!</code></pre>
+<p><strong>18.</strong> Create another file to practice chown.</p>
+<pre><code class="language-bash">touch owned-by-me.txt</code></pre>
+<p><strong>19.</strong> Check the owner.</p>
+<pre><code class="language-bash">ls -la owned-by-me.txt</code></pre>
+<pre class="output"><code class="output">-rw-rw-r-- 1 your-user your-user 0 ... owned-by-me.txt</code></pre>
+<p><strong>20.</strong> Change the owner to root (requires sudo).</p>
+<pre><code class="language-bash">sudo chown root:root owned-by-me.txt</code></pre>
+<p><strong>21.</strong> Check ownership again.</p>
+<pre><code class="language-bash">ls -la owned-by-me.txt</code></pre>
+<pre class="output"><code class="output">-rw-rw-r-- 1 root root 0 ... owned-by-me.txt</code></pre>
+<p>(Now root owns this file.)</p>
+<p><strong>22.</strong> Change it back to yourself.</p>
+<pre><code class="language-bash">sudo chown $USER:$USER owned-by-me.txt</code></pre>
+<p><strong>23.</strong> Confirm.</p>
+<pre><code class="language-bash">ls -la owned-by-me.txt</code></pre>
+<pre class="output"><code class="output">-rw-rw-r-- 1 your-user your-user 0 ... owned-by-me.txt</code></pre>
+<p><strong>24.</strong> Look at permissions on a system file to practice reading.</p>
+<pre><code class="language-bash">ls -la /etc/passwd</code></pre>
+<pre class="output"><code class="output">-rw-r--r-- 1 root root 1847 ... /etc/passwd</code></pre>
+<p>(644 -- owner can read/write, everyone else can only read.)</p>
+<p><strong>25.</strong> Look at a directory's permissions.</p>
+<pre><code class="language-bash">ls -la /tmp</code></pre>
+<p>(Notice the <code>d</code> at the start -- it's a directory. Also notice the <code>t</code> at the end -- that's the sticky bit.)</p>
+<p><strong>26.</strong> Go home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<blockquote><p><strong>Warning:</strong> Don't do this: <code>chmod 777 /</code> or <code>chmod -R 777 ~</code> -- this gives everyone full access to everything. Never use 777 on a real server. It's a security disaster.</p></blockquote>
+<blockquote><p><strong>Warning:</strong> Don't do this: <code>sudo chown -R root:root ~</code> -- this would make root own your entire home directory and lock you out of your own files.</p></blockquote>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">ls -la ~/docker-course/practice/hello.sh</code></pre>
+<p>You should see <code>-rwxr-xr-x</code> (permissions 755).</p>
+<pre><code class="language-bash">~/docker-course/practice/hello.sh</code></pre>
+<p>You should see: <code>Hello from my script!</code></p>
+<pre><code class="language-bash">ls -la ~/docker-course/practice/owned-by-me.txt</code></pre>
+<p>Owner should be your username, not root.</p>
+<pre><code class="language-bash">stat -c &quot;%a&quot; ~/docker-course/practice/hello.sh</code></pre>
+<p>You should see: <code>755</code></p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Read, set, and change file permissions and ownership with <code>chmod</code> and <code>chown</code>.</p>
+<p><strong>Task:</strong> Work through the drills — build <code>hello.sh</code>, make it executable, cycle it through 644 and 755, and practice <code>chown</code> both directions. Then run the four Checkpoint commands in one terminal.</p>
+<p><strong>Submit:</strong> One screenshot (or pasted transcript) of the four Checkpoint commands and their output: <code>ls -la ~/docker-course/practice/hello.sh</code>, running <code>~/docker-course/practice/hello.sh</code>, <code>ls -la ~/docker-course/practice/owned-by-me.txt</code>, <code>stat -c &quot;%a&quot; ~/docker-course/practice/hello.sh</code>.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] <code>ls -la</code> on <code>hello.sh</code> shows <code>-rwxr-xr-x</code>.</li><li>[ ] Running the script prints <code>Hello from my script!</code>.</li><li>[ ] <code>owned-by-me.txt</code> is owned by your username, not root.</li><li>[ ] <code>stat -c &quot;%a&quot;</code> prints <code>755</code>.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m01-07-networking-drills.html">07-networking-drills.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m01-07-networking-drills.html">07-networking-drills.md</a> -- Test your network connectivity</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

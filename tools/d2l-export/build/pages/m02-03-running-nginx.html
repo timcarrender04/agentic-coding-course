@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Docker Installation and First Containers — Running a Real Image</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Run an nginx web server as a detached, port-mapped, named container, reach it from a browser, and inspect it with <code>docker logs</code> and <code>docker exec</code>.</div>
+<h1>Lesson 03: Running a Real Image</h1>
+<p><strong>By the end, you will have run a real web server in a container and reached it from a browser.</strong></p>
+<p>⏱ ~15 minutes of typing</p>
+<blockquote><p><strong>nginx</strong> (pronounced &quot;engine-x&quot;) is a popular web server. Today we'll run it in a container without installing it on our machine — that's the whole point of Docker.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Start from home.</p>
+<pre><code class="language-bash">cd ~</code></pre>
+<p><strong>2.</strong> Pull the nginx image first (without running it). This downloads the image and shows you the layers.</p>
+<pre><code class="language-bash">docker pull nginx</code></pre>
+<pre class="output"><code class="output">Using default tag: latest
+latest: Pulling from library/nginx
+...
+Status: Downloaded newer image for nginx:latest
+docker.io/library/nginx:latest</code></pre>
+<p><strong>3.</strong> See the image you just pulled.</p>
+<pre><code class="language-bash">docker images</code></pre>
+<p>You should see <code>nginx</code> listed alongside <code>hello-world</code>. Note the size — nginx is bigger (~140 MB).</p>
+<p><strong>4.</strong> Run nginx in <strong>detached</strong> mode (in the background) and map your machine's port 8080 to the container's port 80.</p>
+<pre><code class="language-bash">docker run -d -p 8080:80 --name web nginx</code></pre>
+<pre class="output"><code class="output">abc123def456...</code></pre>
+<p>(One long container ID printed. That's normal.)</p>
+<p><strong>5.</strong> Read that command. The flags mean:</p>
+<ul><li><code>-d</code> — <strong>detached.</strong> Run in the background. Without this, your terminal would be stuck showing nginx logs.</li><li><code>-p 8080:80</code> — <strong>port map.</strong> Forward port 8080 on <strong>your machine</strong> to port 80 <strong>inside the container.</strong> nginx listens on port 80 inside the container; you reach it on 8080 outside.</li><li><code>--name web</code> — give the container a friendly name (<code>web</code>) instead of the random one Docker would pick.</li><li><code>nginx</code> — the image to run.</li></ul>
+<p><strong>6.</strong> Confirm nginx is running.</p>
+<pre><code class="language-bash">docker ps</code></pre>
+<pre class="output"><code class="output">CONTAINER ID   IMAGE   COMMAND                  CREATED         STATUS         PORTS                  NAMES
+abc123...      nginx   &quot;/docker-entrypoint.…&quot;   10 seconds ago  Up 9 seconds   0.0.0.0:8080-&gt;80/tcp   web</code></pre>
+<p>You should see your <code>web</code> container with status <code>Up</code>.</p>
+<p><strong>7.</strong> Hit nginx from the same terminal.</p>
+<pre><code class="language-bash">curl -s http://localhost:8080 | head -n 10</code></pre>
+<pre class="output"><code class="output">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Welcome to nginx!&lt;/title&gt;
+...</code></pre>
+<p>You should see nginx's welcome HTML.</p>
+<p><strong>8.</strong> <strong>Now from your browser.</strong></p>
+<ul><li><strong>WSL students:</strong> open your Windows browser, go to <code>http://localhost:8080</code>. You should see the nginx welcome page.</li><li><strong>SSH students:</strong> the VS Code Remote — SSH extension automatically forwards ports. Look at the bottom panel of VS Code — there should be a <strong>&quot;Ports&quot;</strong> tab. Click it. Port 8080 should be listed (or click &quot;Forward a Port&quot;). Click the globe icon next to it to open it in your local browser.</li><li><strong>Native Linux students:</strong> open your browser, go to <code>http://localhost:8080</code>.</li></ul>
+<p><strong>9.</strong> See the nginx logs (what requests it has received).</p>
+<pre><code class="language-bash">docker logs web</code></pre>
+<p>You should see lines for each request, including your <code>curl</code> and your browser visit.</p>
+<p><strong>10.</strong> Tail the logs in real time. Open the page in your browser again — you'll see new lines appear.</p>
+<pre><code class="language-bash">docker logs -f web</code></pre>
+<p>Press <strong>Ctrl+C</strong> to stop tailing.</p>
+<p><strong>11.</strong> Get a shell <strong>inside</strong> the running container.</p>
+<pre><code class="language-bash">docker exec -it web bash</code></pre>
+<p>You're now inside the container. The prompt changes to <code>root@&lt;container-id&gt;:/#</code>.</p>
+<p><strong>12.</strong> Look around — this is a different filesystem from your host.</p>
+<pre><code class="language-bash">ls /</code></pre>
+<p>You'll see standard Linux directories, but it's nginx's container, not your machine.</p>
+<p><strong>13.</strong> See what nginx is serving.</p>
+<pre><code class="language-bash">ls /usr/share/nginx/html/</code></pre>
+<pre class="output"><code class="output">50x.html  index.html</code></pre>
+<p><strong>14.</strong> Exit the container shell.</p>
+<pre><code class="language-bash">exit</code></pre>
+<p>You're back on your host.</p>
+<p><strong>15.</strong> Stop the nginx container.</p>
+<pre><code class="language-bash">docker stop web</code></pre>
+<pre class="output"><code class="output">web</code></pre>
+<p><strong>16.</strong> Confirm it's stopped.</p>
+<pre><code class="language-bash">docker ps</code></pre>
+<p>The <code>web</code> container should be gone from this list (running containers only).</p>
+<p><strong>17.</strong> It's still there, just stopped.</p>
+<pre><code class="language-bash">docker ps -a</code></pre>
+<p>You should see <code>web</code> with status <code>Exited</code>.</p>
+<p><strong>18.</strong> Start it again — same container, same data.</p>
+<pre><code class="language-bash">docker start web</code></pre>
+<p><strong>19.</strong> Confirm it's running again and the port mapping is preserved.</p>
+<pre><code class="language-bash">docker ps
+curl -s http://localhost:8080 | head -n 4</code></pre>
+<p><strong>20.</strong> Stop it for now.</p>
+<pre><code class="language-bash">docker stop web</code></pre>
+<p><strong>21.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Ran nginx container 'web' on port 8080&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">docker ps -a --filter name=web</code></pre>
+<p>You should see your <code>web</code> container (likely stopped).</p>
+<pre><code class="language-bash">docker images | grep nginx</code></pre>
+<p>You should see the nginx image.</p>
+<p>You should also have seen the <strong>nginx welcome page in your browser at http://localhost:8080</strong> at some point during this lesson.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Run nginx in a container — detached, port-mapped, named — and reach it from a browser.</p>
+<p><strong>Task:</strong> Work steps 1–21 — pull the nginx image, run it as <code>web</code> on port 8080, hit it with <code>curl</code> and your browser, read the logs, get a shell inside with <code>docker exec</code>, then log it.</p>
+<p><strong>Submit:</strong> A screenshot of the nginx welcome page in a browser — <strong>any of the three paths counts:</strong> your Windows browser at localhost:8080 (WSL), the VS Code <strong>Ports</strong> tab's globe icon (SSH), or your local browser (native Linux) — plus a paste of <code>docker ps -a --filter name=web</code>, <code>docker images | grep nginx</code>, and <code>tail ~/docker-course/notes/notes.txt</code> into D2L.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] Screenshot shows &quot;Welcome to nginx!&quot; served from port 8080 (whichever browser path your setup uses).</li><li>[ ] <code>docker ps -a --filter name=web</code> shows the <code>web</code> container (stopped is fine — you stopped it in step 20).</li><li>[ ] <code>docker images | grep nginx</code> shows the nginx image.</li><li>[ ] The notes tail includes <code>Ran nginx container 'web' on port 8080</code>.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m02-04-images-and-containers.html">04-images-and-containers.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m02-04-images-and-containers.html">04-images-and-containers.md</a> — Tell images and containers apart, clean up after yourself</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

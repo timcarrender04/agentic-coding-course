@@ -1,0 +1,1 @@
+/home/timca/.cursor/projects/home-timca-agentic-coding-course/canvases/agentic-coding-survey.canvas.tsx

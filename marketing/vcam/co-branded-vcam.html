@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ChiefOS × Temple College — Virtual Camera Background</title>
+  <link rel="stylesheet" href="../../public/branding/fonts/fonts.css" />
+  <style>
+    :root {
+      --navy: #131C26;
+      --navy-mid: #1A2533;
+      --navy-soft: #223140;
+      --navy-lift: #2A3A4C;
+      --orange: #F5A83E;
+      --orange-deep: #E87722;
+      --paper: #FFFFFF;
+      --wash: #F6F8FA;
+      --ink: #1c2733;
+      --ink-soft: #4a5866;
+      --line: #E3E8ED;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: var(--navy);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: "Barlow", "DejaVu Sans", Arial, sans-serif;
+      color: var(--paper);
+    }
+
+    .stage {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 90% 70% at 50% 42%, #1e2c3c 0%, transparent 62%),
+        radial-gradient(ellipse 55% 45% at 82% 88%, rgba(232, 119, 34, 0.10) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 35% at 12% 90%, rgba(245, 168, 62, 0.06) 0%, transparent 65%),
+        linear-gradient(165deg, #101820 0%, var(--navy) 38%, #172230 72%, #0f161e 100%);
+    }
+
+    /* Soft edge vignette — keeps focus toward center for camera framing */
+    .vignette {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 68% 78% at 50% 46%, transparent 42%, rgba(8, 12, 18, 0.55) 100%);
+      pointer-events: none;
+    }
+
+    /* Subtle TC-inspired rising bars — watermark only, far from face zone */
+    .motif {
+      position: absolute;
+      right: 72px;
+      top: 120px;
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      opacity: 0.07;
+      transform: rotate(-2deg);
+    }
+
+    .motif span {
+      display: block;
+      width: 22px;
+      border-radius: 3px 3px 0 0;
+      background: var(--orange);
+    }
+
+    .motif span:nth-child(1) { height: 72px; background: var(--orange); }
+    .motif span:nth-child(2) { height: 118px; background: #8a96a3; }
+    .motif span:nth-child(3) { height: 168px; background: var(--orange); }
+
+    .motif-left {
+      left: 72px;
+      right: auto;
+      top: auto;
+      bottom: 280px;
+      opacity: 0.045;
+      transform: rotate(2deg) scaleX(-1);
+    }
+
+    /* Thin brand accent rail at top */
+    .top-rail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg,
+        var(--orange-deep) 0%,
+        var(--orange) 35%,
+        #f7c87a 50%,
+        var(--orange) 65%,
+        var(--orange-deep) 100%);
+    }
+
+    /* Center person safe zone marker (invisible in export — kept as layout guide only if needed)
+       Intentionally empty: ~720×780 centered. */
+
+    /* Bottom co-brand dock — white institutional left, navy partner right */
+    .dock {
+      position: absolute;
+      left: 64px;
+      right: 64px;
+      bottom: 52px;
+      height: 132px;
+      display: flex;
+      align-items: stretch;
+      border-radius: 8px;
+      box-shadow: 0 16px 44px rgba(0, 0, 0, 0.38);
+      overflow: hidden;
+    }
+
+    .dock::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--orange-deep);
+      z-index: 2;
+    }
+
+    .dock-side {
+      display: flex;
+      align-items: center;
+      padding: 0 44px;
+      min-width: 0;
+    }
+
+    .dock-side.tc {
+      flex: 1.15;
+      justify-content: flex-start;
+      background: #ffffff;
+    }
+
+    .dock-side.chief {
+      flex: 0.95;
+      justify-content: flex-end;
+      background: #0f1612;
+      border-left: 1px solid rgba(232, 119, 34, 0.28);
+    }
+
+    .dock-side img.tc {
+      height: 78px;
+      width: auto;
+      display: block;
+    }
+
+    .chief-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .partner-label {
+      font-family: "Barlow Condensed", "DejaVu Sans Condensed", sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1;
+    }
+
+    .chief-chip img.chief {
+      height: 48px;
+      width: auto;
+      display: block;
+    }
+
+    .dock-center {
+      width: 268px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+      background: #f7f9fb;
+      position: relative;
+      z-index: 1;
+    }
+
+    .dock-center .rule {
+      width: 32px;
+      height: 3px;
+      background: var(--orange-deep);
+      border-radius: 2px;
+    }
+
+    .dock-center .course {
+      font-family: "Barlow Condensed", "DejaVu Sans Condensed", sans-serif;
+      font-weight: 700;
+      font-size: 21px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .dock-center .sub {
+      font-family: "Barlow", sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+      color: var(--ink-soft);
+      text-align: center;
+      line-height: 1.3;
+      max-width: 210px;
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" role="img" aria-label="Co-branded virtual camera background: Temple College Workforce Development and ChiefOS">
+    <div class="top-rail"></div>
+    <div class="motif" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="motif motif-left" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="vignette"></div>
+
+    <footer class="dock">
+      <div class="dock-side tc">
+        <img
+          class="tc"
+          src="../../public/branding/tc-workforce-development-logo-md.png"
+          alt="Temple College Workforce Development"
+        />
+      </div>
+
+      <div class="dock-center">
+        <div class="rule"></div>
+        <p class="course">Agentic Coding</p>
+        <p class="sub">Temple College Workforce Development</p>
+      </div>
+
+      <div class="dock-side chief">
+        <div class="chief-chip">
+          <span class="partner-label">Presented with</span>
+          <img
+            class="chief"
+            src="../../public/branding/chiefos-logo-transparent.svg"
+            alt="ChiefOS"
+          />
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

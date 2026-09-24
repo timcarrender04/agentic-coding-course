@@ -230,6 +230,24 @@ cat /etc/passwd | cut -d: -f7 | sort | uniq -c | sort -rn | head -n 3
 ```
 You should see the top 3 most-used shells.
 
+## Lab
+
+**Objective:** Chain commands together with pipes and search text with grep.
+
+**Task:** Work through the pipe and grep drills, then run the five Checkpoint commands in one terminal.
+
+**Submit:** One screenshot (or pasted transcript) of the five Checkpoint commands and their output: `grep $USER /etc/passwd`, `cat /etc/passwd | wc -l`, `grep -r "learning" ~/docker-course/notes/`, `dpkg -l | grep curl | wc -l`, `cat /etc/passwd | cut -d: -f7 | sort | uniq -c | sort -rn | head -n 3`.
+
+**Pass criteria:** (account and package counts vary by machine — verify the shape of the output, not the numbers)
+
+- [ ] `grep $USER /etc/passwd` shows your account's line.
+- [ ] `cat /etc/passwd | wc -l` prints a number.
+- [ ] `grep -r "learning"` shows the "learning" lines from notes.txt.
+- [ ] `dpkg -l | grep curl | wc -l` prints at least `1`.
+- [ ] The `cut | sort | uniq -c | sort -rn` chain prints the top 3 shells with counts.
+
+**Unlocks:** [10-user-and-group-setup.md](10-user-and-group-setup.md)
+
 ---
 
 **Next up:** [10-user-and-group-setup.md](10-user-and-group-setup.md) — Users and groups

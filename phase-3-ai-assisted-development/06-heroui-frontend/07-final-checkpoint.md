@@ -37,11 +37,11 @@ git switch -c add-item-search
 - Clear the box — all items return.
 - Type something with no matches — see the "No items match" message.
 
-**4.** Commit, push, open a PR (or merge locally if no Gitea origin).
+**4.** Commit, push, open a PR (or merge locally if no GitHub origin).
 ```bash
 git add app/page.tsx
 git commit -m "Add client-side search filter for items"
-# git push -u origin add-item-search   # if you set up the frontend on Gitea
+# git push -u origin add-item-search   # if you set up the frontend on GitHub
 git switch main
 git merge add-item-search
 git branch -d add-item-search
@@ -85,10 +85,10 @@ A screenshot showing **all of these** in one image:
 
 You pass this module if:
 
-- [ ] You used **Continue.dev with the local Ollama model** to build the feature (chat, edit, or agent mode — any combination).
+- [ ] You used **Continue.dev with the shared vLLM endpoint (Llama)** to build the feature (chat, edit, or agent mode — any combination).
 - [ ] The search box behaves as specified.
-- [ ] The change was committed (and pushed/merged if you set up the frontend on Gitea).
-- [ ] You did **not** sign in to Cursor's paid AI service.
+- [ ] The change was committed (and pushed/merged if you set up the frontend on GitHub).
+- [ ] You relied on the **free** Continue.dev + shared vLLM stack — no paid cloud AI.
 
 ```bash
 echo "Module 06 final checkpoint: passed $(date -Iseconds)" >> ~/docker-course/notes/notes.txt
@@ -102,7 +102,7 @@ A real full-stack slice:
 
 - **Backend:** FastAPI + Postgres + SQLAlchemy in Docker Compose.
 - **Frontend:** Next.js + HeroUI + Tailwind talking to the backend over CORS.
-- **Tooling:** Cursor + Continue.dev + local Ollama for AI assistance, Gitea for version control.
+- **Tooling:** VS Code + Continue.dev + the shared vLLM endpoint (Llama) for AI assistance, GitHub for version control.
 - **Workflow:** branch → AI-assisted edit → diff review → commit → PR → merge.
 
 That's the shape of every real product team's setup, just smaller. Don't delete any of this — Modules 07 and 08 build on it.
@@ -111,4 +111,4 @@ That's the shape of every real product team's setup, just smaller. Don't delete 
 
 ## What's next
 
-Module 07 (sessions 13–14) introduces **agents and tool use** at the API level — building agents that call tools (including your FastAPI endpoints) using the same local Ollama model.
+Module 07 (sessions 13–14) introduces **agents and tool use** at the API level — building agents that call tools (including your FastAPI endpoints) using the same shared vLLM endpoint (Llama).

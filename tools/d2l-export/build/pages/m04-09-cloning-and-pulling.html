@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git and GitHub — Cloning, Pulling, and Conflicts</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Clone a repository from GitHub, sync changes between two working copies with <code>git pull</code>, and resolve a merge conflict by editing out the conflict markers, staging the file, and committing the merge.</div>
+<h1>Lesson 09: Cloning, Pulling, and Conflicts</h1>
+<p><strong>By the end, you will have cloned your repo to a second directory, made conflicting commits in both, resolved the conflict — and cloned a classmate's public repo.</strong></p>
+<p>⏱ ~20 minutes of typing</p>
+<blockquote><p>Cloning is how teammates get a copy of the repo. Pulling is how they keep it in sync. When two people change the same lines, you get a <strong>merge conflict</strong> — and you learn to read the markers in the file and pick a side.</p></blockquote>
+<hr />
+<h2>Part 1: clone</h2>
+<p><strong>1.</strong> Move out of the project to your course directory.</p>
+<pre><code class="language-bash">cd ~/docker-course</code></pre>
+<p><strong>2.</strong> Clone your own GitHub repo into a new directory called <code>fastapi-app-clone</code>.</p>
+<pre><code class="language-bash">git clone git@github.com:&lt;username&gt;/fastapi-app.git fastapi-app-clone</code></pre>
+<pre class="output"><code class="output">Cloning into 'fastapi-app-clone'...
+remote: Enumerating objects: ... done.
+Receiving objects: 100% done.</code></pre>
+<p><strong>3.</strong> Two folders now.</p>
+<pre><code class="language-bash">ls ~/docker-course/ | grep fastapi-app</code></pre>
+<pre class="output"><code class="output">fastapi-app
+fastapi-app-clone</code></pre>
+<p><strong>4.</strong> Look at the clone.</p>
+<pre><code class="language-bash">cd fastapi-app-clone
+git log --oneline -3</code></pre>
+<p>Same history as your original.</p>
+<p><strong>5.</strong> Confirm the remote was set automatically.</p>
+<pre><code class="language-bash">git remote -v</code></pre>
+<pre class="output"><code class="output">origin  git@github.com:&lt;username&gt;/fastapi-app.git (fetch)
+origin  git@github.com:&lt;username&gt;/fastapi-app.git (push)</code></pre>
+<p><strong>Cloning sets up <code>origin</code> for you.</strong> No <code>git remote add</code> needed.</p>
+<hr />
+<h2>Part 2: simulate a teammate</h2>
+<p><strong>6.</strong> Pretend the clone is your teammate. Make a change there. Edit <code>NOTES.md</code> (in <code>fastapi-app-clone</code>) and add a line at the bottom: <code>Teammate: hello from the clone</code>. Save.</p>
+<p><strong>7.</strong> Commit and push.</p>
+<pre><code class="language-bash">git commit -am &quot;Teammate adds hello note&quot;
+git push</code></pre>
+<p><strong>8.</strong> Now switch back to your original.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app</code></pre>
+<p><strong>9.</strong> Pull the teammate's change.</p>
+<pre><code class="language-bash">git pull</code></pre>
+<pre class="output"><code class="output">remote: Enumerating objects: ... done.
+...
+Updating ...
+Fast-forward
+ NOTES.md | 1 +
+ 1 file changed, 1 insertion(+)</code></pre>
+<p><strong>10.</strong> Confirm.</p>
+<pre><code class="language-bash">tail -n 3 NOTES.md</code></pre>
+<p>The teammate's line is now there.</p>
+<p><strong>11.</strong> This is the <strong>happy-path collaboration loop</strong>: edit, commit, push from one side; pull from the other.</p>
+<hr />
+<h2>Part 3: cause a conflict</h2>
+<p><strong>12.</strong> In your <strong>original</strong> (<code>~/docker-course/fastapi-app</code>), edit <code>NOTES.md</code> and change the <code>Teammate: hello from the clone</code> line to:</p>
+<pre class="output"><code class="output">Teammate (original wins): hello from the clone</code></pre>
+<p>Save. Commit:</p>
+<pre><code class="language-bash">git commit -am &quot;Edit teammate note from original&quot;</code></pre>
+<p><strong>13.</strong> <strong>Don't push yet.</strong> Switch to the clone:</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app-clone</code></pre>
+<p><strong>14.</strong> Edit the <strong>same line</strong> in <code>NOTES.md</code> to:</p>
+<pre class="output"><code class="output">Teammate (clone wins): hello from the clone</code></pre>
+<p>Save. Commit:</p>
+<pre><code class="language-bash">git commit -am &quot;Edit teammate note from clone&quot;</code></pre>
+<p><strong>15.</strong> Push from the clone.</p>
+<pre><code class="language-bash">git push</code></pre>
+<p>That works — the clone is ahead of the remote.</p>
+<p><strong>16.</strong> Now back in the original. Try to push.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+git push</code></pre>
+<pre class="output"><code class="output">To github.com:&lt;username&gt;/fastapi-app.git
+ ! [rejected]        main -&gt; main (fetch first)
+error: failed to push some refs to ...
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally.</code></pre>
+<p><strong>Read the error.</strong> The remote has the clone's commit, which your original doesn't have. Git won't let you overwrite it.</p>
+<p><strong>17.</strong> Pull first.</p>
+<pre><code class="language-bash">git pull</code></pre>
+<pre class="output"><code class="output">Auto-merging NOTES.md
+CONFLICT (content): Merge conflict in NOTES.md
+Automatic merge failed; fix conflicts and then commit the result.</code></pre>
+<p><strong>Conflict.</strong></p>
+<p><strong>18.</strong> Status.</p>
+<pre><code class="language-bash">git status</code></pre>
+<pre class="output"><code class="output">On branch main
+You have unmerged paths.
+  (fix conflicts and run &quot;git commit&quot;)
+  ...
+Unmerged paths:
+  (use &quot;git add &lt;file&gt;...&quot; to mark resolution)
+        both modified:   NOTES.md</code></pre>
+<hr />
+<h2>Part 4: resolve the conflict</h2>
+<p><strong>19.</strong> Open <code>NOTES.md</code> in VS Code. You'll see conflict markers like:</p>
+<pre class="output"><code class="output">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Teammate (original wins): hello from the clone
+=======
+Teammate (clone wins): hello from the clone
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; abc1234... (Edit teammate note from clone)</code></pre>
+<p><strong>20.</strong> Read it:</p>
+<ul><li>Everything between <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> and <code>=======</code> is <strong>your</strong> version (the original side).</li><li>Everything between <code>=======</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> is <strong>theirs</strong> (the clone's version).</li></ul>
+<p><strong>21.</strong> Pick a resolution. For this drill, hand-merge to one final line. Replace the entire conflict block with:</p>
+<pre class="output"><code class="output">Teammate (merged): hello from the clone</code></pre>
+<p><strong>22.</strong> Save. Confirm no markers remain.</p>
+<pre><code class="language-bash">grep -E &quot;^&lt;&lt;&lt;|^===|^&gt;&gt;&gt;&quot; NOTES.md</code></pre>
+<p>(No output = clean.)</p>
+<p><strong>23.</strong> Stage the resolved file.</p>
+<pre><code class="language-bash">git add NOTES.md</code></pre>
+<p><strong>24.</strong> Status.</p>
+<pre><code class="language-bash">git status</code></pre>
+<pre class="output"><code class="output">All conflicts fixed but you are still merging.
+  (use &quot;git commit&quot; to conclude merge)</code></pre>
+<p><strong>25.</strong> Commit the merge.</p>
+<pre><code class="language-bash">git commit</code></pre>
+<p>Git opens an editor with a default message like <code>Merge branch 'main' of github.com:&lt;username&gt;/fastapi-app</code>. Save and exit. (In nano: Ctrl+O Enter, then Ctrl+X.)</p>
+<p><strong>26.</strong> Push.</p>
+<pre><code class="language-bash">git push</code></pre>
+<p>Now succeeds.</p>
+<p><strong>27.</strong> Look at the graph.</p>
+<pre><code class="language-bash">git log --oneline --graph -5</code></pre>
+<p>You should see the diamond shape of the merge commit.</p>
+<p><strong>28.</strong> Pull on the clone to get the merge.</p>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app-clone
+git pull</code></pre>
+<p><strong>29.</strong> Confirm both directories agree.</p>
+<pre><code class="language-bash">diff ~/docker-course/fastapi-app/NOTES.md ~/docker-course/fastapi-app-clone/NOTES.md</code></pre>
+<p>(No output = identical.)</p>
+<hr />
+<h2>Part 5: clone a classmate's repo (cross-sharing)</h2>
+<p>Everyone's course repos are <strong>public</strong> — that's deliberate. You can read anyone's code; you can only push to your own.</p>
+<p><strong>30.</strong> Get a classmate's GitHub username (from the board or your instructor). Clone their repo over HTTPS — no SSH key is needed just to <strong>read</strong> a public repo.</p>
+<pre><code class="language-bash">cd ~/docker-course
+git clone https://github.com/&lt;classmate&gt;/fastapi-app.git classmate-fastapi-app</code></pre>
+<pre class="output"><code class="output">Cloning into 'classmate-fastapi-app'...
+remote: Enumerating objects: ... done.
+Receiving objects: 100% done.</code></pre>
+<p><strong>31.</strong> Browse it — their files, their history, their name as author.</p>
+<pre><code class="language-bash">cd classmate-fastapi-app
+ls
+git log --oneline -5
+git log -1 --format=&quot;%an &lt;%ae&gt;&quot;</code></pre>
+<p>Their commits, not yours. You just cloned a stranger's-eye view of a project — the same way you'd clone any open-source repo.</p>
+<p><strong>32.</strong> Now prove you can read but not write. Make a throwaway commit and try to push.</p>
+<pre><code class="language-bash">echo &quot;visitor note&quot; &gt;&gt; NOTES.md
+git commit -am &quot;Try pushing to a classmate's repo&quot;
+git push</code></pre>
+<p>If Git prompts <code>Username for 'https://github.com':</code>, that's already your answer — you have no write credentials for this repo. Press Ctrl+C. If your machine has GitHub credentials stored, you'll see the refusal directly:</p>
+<pre class="output"><code class="output">remote: Permission to &lt;classmate&gt;/fastapi-app.git denied to &lt;username&gt;.
+fatal: unable to access 'https://github.com/&lt;classmate&gt;/fastapi-app.git/': The requested URL returned error: 403</code></pre>
+<p><strong>Either way, read the outcome.</strong> Public means read-for-everyone, not write-for-everyone. Proposing changes to a repo you can't push to is what forks and pull requests are for — lesson 10.</p>
+<p><strong>33.</strong> Undo the throwaway commit (lesson 06's dangerous command, used on purpose — the commit is junk).</p>
+<pre><code class="language-bash">git reset --hard HEAD~1</code></pre>
+<p><strong>34.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Conflict resolved end-to-end; classmate repo cloned read-only&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Never commit a file with <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> markers.</strong> VS Code will highlight them in red. They're for <strong>you</strong> to resolve, not to commit.</li><li><strong><code>git status</code> during a merge</strong> is your friend. It tells you exactly which files still have unresolved conflicts.</li><li><strong><code>git merge --abort</code></strong> undoes a half-finished merge if you panic. You'll be back to where you started before <code>git pull</code>.</li><li><strong>The clone is independent.</strong> You committed in both directories — Git couldn't know one was &quot;the original&quot; and the other &quot;the copy.&quot; They're peers.</li><li><strong>Read is not write.</strong> Anyone can clone a public repo; only the owner (and invited collaborators) can push. Don't be alarmed by the 403 in Part 5 — it's GitHub working as designed.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">cd ~/docker-course/fastapi-app
+git status</code></pre>
+<p>Should be clean.</p>
+<pre><code class="language-bash">git log --oneline --graph -5</code></pre>
+<p>Should show your merge commit.</p>
+<pre><code class="language-bash">diff ~/docker-course/fastapi-app/NOTES.md ~/docker-course/fastapi-app-clone/NOTES.md</code></pre>
+<p>Should produce no output.</p>
+<pre><code class="language-bash">ls ~/docker-course/classmate-fastapi-app/main.py</code></pre>
+<p>Should print the path — your classmate's project, cloned locally.</p>
+<pre><code class="language-bash">cd ~/docker-course/classmate-fastapi-app &amp;&amp; git status</code></pre>
+<p>Should say <code>nothing to commit, working tree clean</code> (the throwaway commit is gone).</p>
+<p>On GitHub, your repo's commit history should show the merge commit at the top.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m04-10-pull-requests.html">10-pull-requests.md</a> — The team workflow</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

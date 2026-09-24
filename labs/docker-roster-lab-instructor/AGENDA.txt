@@ -1,0 +1,54 @@
+Live agenda — Docker signup roster (2 hours)
+============================================
+
+Pre-pull on classroom / shared net (before students arrive):
+
+  docker pull python:3.12-slim
+  docker pull postgres:16
+
+Share the public student repo (not this folder):
+
+  https://github.com/timcarrender04/docker-roster-lab
+
+Rules for the room
+------------------
+Teams of THREE. Named leader. Everyone clones and runs Compose.
+API + Postgres in containers only — no python/uvicorn on the host.
+Grok / LLM outside the IDE is allowed. RESEARCH.txt still needs doc URLs.
+
+Suggested roles (say them out loud at 6:00):
+  1. Docker — compose, logs, sidebar
+  2. Research — docs + optional Grok + RESEARCH.txt
+  3. Validate — curl, browser, psql
+
+
+Clock
+-----
+6:00  Main — Sign-in, form rooms of 3, name leader, assign roles.
+
+6:10  Breakouts — clone, Open Folder, sidebar, free 8080, read compose.
+
+6:25  Breakouts — RESEARCH.txt (docs/Hub; Grok in browser OK).
+
+6:45  Breakouts — docker compose up -d --build. Wait for db healthy.
+
+7:15  Breakouts — browser, curl API, compose exec psql, sidebar screenshot.
+
+7:45  Main — Leaders: 3/3 up?; one stuck spot.
+
+7:55  D2L: screenshot + RESEARCH.txt (three names).
+
+
+Leader checklist (all three machines)
+-------------------------------------
+[ ] did not run python/uvicorn on the host
+[ ] RESEARCH.txt filled with sources + three names
+[ ] docker compose ps: web Up, db healthy (each person)
+[ ] whale sidebar shows both
+[ ] browser row + matching psql SELECT
+[ ] knows down vs down -v
+
+
+Do not replace
+--------------
+02:06 nginx gate stays timed / no-help.

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Git and GitHub — Configure Git</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Configure Git globally with <code>user.name</code>, <code>user.email</code>, <code>init.defaultBranch=main</code>, and <code>pull.rebase=false</code>, then verify the settings stored in <code>~/.gitconfig</code>.</div>
+<h1>Lesson 01: Configure Git</h1>
+<p><strong>By the end, Git knows your name, your email, and that new repos should default to a <code>main</code> branch.</strong></p>
+<p>⏱ ~10 minutes of typing</p>
+<blockquote><p>Git stamps every commit with a name and email. If you don't set them up front, your first commit fails with a confusing error. Set them once, globally, and never think about it again.</p></blockquote>
+<hr />
+<p><strong>1.</strong> Set your name (this shows up on every commit).</p>
+<pre><code class="language-bash">git config --global user.name &quot;Your Name&quot;</code></pre>
+<p>(Replace <code>Your Name</code> with your actual name. Quotes matter if it has a space.)</p>
+<p><strong>2.</strong> Set your email. <strong>Use the same email you'll use for your GitHub account in lesson 07.</strong></p>
+<pre><code class="language-bash">git config --global user.email &quot;you@example.com&quot;</code></pre>
+<p><strong>3.</strong> Set the default branch name to <code>main</code> (some older Gits default to <code>master</code>).</p>
+<pre><code class="language-bash">git config --global init.defaultBranch main</code></pre>
+<p><strong>4.</strong> Make Git's output a bit more readable.</p>
+<pre><code class="language-bash">git config --global color.ui auto</code></pre>
+<p><strong>5.</strong> Configure how merges handle pull conflicts. The safe default for beginners is &quot;fail unless I say otherwise&quot; — set it explicitly.</p>
+<pre><code class="language-bash">git config --global pull.rebase false</code></pre>
+<p><strong>6.</strong> Read back what you set.</p>
+<pre><code class="language-bash">git config --global --list</code></pre>
+<p>You should see something like:</p>
+<pre class="output"><code class="output">user.name=Your Name
+user.email=you@example.com
+init.defaultbranch=main
+color.ui=auto
+pull.rebase=false</code></pre>
+<p><strong>7.</strong> Read just one value at a time — this pattern is useful when scripts need to know your config.</p>
+<pre><code class="language-bash">git config --global user.name</code></pre>
+<pre class="output"><code class="output">Your Name</code></pre>
+<p><strong>8.</strong> See where Git stores your global config.</p>
+<pre><code class="language-bash">ls -la ~/.gitconfig</code></pre>
+<p>You should see the file. It's plain text — you could edit it by hand, but <code>git config</code> is safer.</p>
+<p><strong>9.</strong> Take a peek inside.</p>
+<pre><code class="language-bash">cat ~/.gitconfig</code></pre>
+<pre class="output"><code class="output">[user]
+    name = Your Name
+    email = you@example.com
+[init]
+    defaultBranch = main
+[color]
+    ui = auto
+[pull]
+    rebase = false</code></pre>
+<p><strong>10.</strong> Log it.</p>
+<pre><code class="language-bash">echo &quot;Git configured: $(git config --global user.name) &lt;$(git config --global user.email)&gt;&quot; &gt;&gt; ~/docker-course/notes/notes.txt</code></pre>
+<hr />
+<h2>⚠️ Watch out</h2>
+<ul><li><strong>Use a real email</strong> that matches what you'll use on GitHub. Mismatched emails create commits that don't link to your GitHub profile.</li><li><code>--global</code> writes to <code>~/.gitconfig</code> and applies to every repo for your user. Without <code>--global</code>, the setting only applies to the current repo.</li><li>If you typo your name or email, just re-run the command — the new value overwrites the old.</li></ul>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">git config --global user.name &amp;&amp; git config --global user.email</code></pre>
+<p>Should print your name and email on two lines.</p>
+<pre><code class="language-bash">git config --global init.defaultBranch</code></pre>
+<p>Should print <code>main</code>.</p>
+<pre><code class="language-bash">test -f ~/.gitconfig &amp;&amp; echo &quot;OK&quot;</code></pre>
+<p>Should print <code>OK</code>.</p>
+<hr />
+<p><strong>Next up:</strong> <a href="m04-02-init-and-first-commit.html">02-init-and-first-commit.md</a> — Turn the FastAPI project into a Git repo</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

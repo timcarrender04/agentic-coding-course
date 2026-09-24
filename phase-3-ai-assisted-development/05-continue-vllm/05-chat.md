@@ -15,13 +15,13 @@ Say: "You're done when they've used all four providers in real questions about t
 
 ---
 
-**1.** In Cursor, open the FastAPI project.
+**1.** In VS Code, open the FastAPI project.
 ```bash
 cd ~/docker-course/fastapi-app
 ```
 Then `File → Open Folder…` and pick `~/docker-course/fastapi-app`.
 
-**2.** Open the Continue side bar (CN icon in the activity bar). Confirm the model picker shows **Qwen 2.5 Coder 7B**.
+**2.** Open the Continue side bar (Continue icon in the activity bar). Confirm the model picker shows **Llama 3.3 70B (chat/edit/agent)**.
 
 ---
 
@@ -104,7 +104,7 @@ Summarize the change I'm about to commit.
 
 ## Drill 6: `@terminal` — pull recent terminal output
 
-**19.** In Cursor's terminal, run:
+**19.** In VS Code's terminal, run:
 ```bash
 docker compose up -d 2>&1 | head -n 5
 ```
@@ -166,10 +166,10 @@ echo "Chat drilled: @file, @codebase, @diff, @terminal" >> ~/docker-course/notes
 
 ## ⚠️ Watch out
 
-- **Context is finite.** Qwen 2.5 Coder 7B has a 32k token context. `@codebase` on a huge repo will hit the cap and the model will lose detail. Use `@file` for surgical questions, `@codebase` only when you're searching.
+- **Context is finite.** Llama 3.3 70B has a large context window, but it's still finite — and the endpoint is shared, so smaller prompts run faster. `@codebase` on a huge repo can still lose detail. Use `@file` for surgical questions, `@codebase` only when you're searching.
 - **The model can be wrong.** It will sometimes invent function names or APIs. Read the response, don't trust blindly. If you're going to apply changes (lesson 07), read the diff first.
 - **New chat for new topics.** Continue keeps conversation memory in the chat session. Switching topics? `+` icon for a fresh chat. Stale context confuses the model.
-- **Don't paste secrets.** Anything you put in the chat goes into the model's prompt. With local Ollama, that prompt stays on your machine — but get the hygiene habit anyway.
+- **Don't paste secrets.** Anything you put in the chat goes into the model's prompt. With the college endpoint that prompt goes to a shared campus server (not a third-party cloud) — but get the hygiene habit anyway.
 
 ---
 

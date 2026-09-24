@@ -1,7 +1,9 @@
 # Agentic Coding Course — Schedule
 
-**Format:** 8 weeks × 2 sessions/week × 2 hours/session (6:00 PM – 8:00 PM)
-**Total class time:** 32 hours across 16 sessions
+> **Note:** The course now runs as the **hybrid, self-learning-first D2L delivery** described in [`COURSE-PHASES-D2L.md`](./COURSE-PHASES-D2L.md) — a 2–3 min video + lab per learning object, with two live blocks per week: **Monday (instruction) and Wednesday (lab clinic), 6:00–8:00 PM**. The operative calendar is that doc's **18-week pace (3 phases × 6 weeks — Phase 1 spans weeks 1–6)**, including a per-week Mon/Wed live-block calendar for Phase 1. This file's 8-week compression below is the **superseded original**; use its session tables only as source material when planning Monday instruction blocks.
+
+**Original format (superseded):** 8 weeks × 2 sessions/week × 2 hours/session
+**Operative format:** 18 weeks × 2 live blocks/week (Mon + Wed, 6:00 – 8:00 PM) · 72 hours of live support across 36 blocks
 
 ## Per-session shape (every session)
 
@@ -19,16 +21,16 @@ Effective instruction time per session: ~1h 30m. Plan content to that, not to th
 
 | Week | Session | Module | Title | Status |
 |---|---|---|---|---|
-| 1 | 1 | 00 | Cursor Walkthrough — IDE, UI, terminal, extensions | **authored** |
-| 1 | 2 | 00 + 01 | Cursor remote (WSL/SSH) + Terminal pt 1 | **authored** |
+| 1 | 1 | 00 | VS Code Walkthrough — IDE, UI, terminal, extensions | **authored** |
+| 1 | 2 | 00 + 01 | VS Code remote (WSL/SSH) + Terminal pt 1 | **authored** |
 | 2 | 3 | 01 | Terminal pt 2 + final checkpoint | **authored** |
 | 2 | 4 | 02 | Docker installation + first containers | **authored** |
 | 3 | 5 | 03 | FastAPI pt 1 — venv, install, hello world, params (lessons 00–04) | **authored** |
 | 3 | 6 | 03 | FastAPI pt 2 — Pydantic, routers, DI, Docker (lessons 05–08) | **authored** |
 | 4 | 7 | 03 | FastAPI pt 3 — Compose+Postgres, SQLAlchemy, errors, capstone (lessons 09–12) | **authored** |
 | 4 | 8 | 04 | Git pt 1 — config, commits, diff, log, branches, undo (lessons 00–06) | **authored** |
-| 5 | 9 | 04 | Git pt 2 — Gitea, SSH, push, clone, PRs (lessons 07–11) | **authored** |
-| 5 | 10 | 05 | Local GPU + Continue.dev pt 1 — Ollama (Docker Compose), model pull, Continue install/config (lessons 00–04) | **authored** |
+| 5 | 9 | 04 | Git pt 2 — GitHub, SSH, push, clone, PRs (lessons 07–11) | **authored** |
+| 5 | 10 | 05 | Continue.dev + shared vLLM pt 1 — meet the endpoint, connect, explore models, Continue install/config (lessons 00–04) | **authored** |
 | 6 | 11 | 05 | Local GPU + Continue.dev pt 2 — chat, autocomplete, edit, agent mode (lessons 05–09) | **authored** |
 | 6 | 12 | 06 | HeroUI frontend — Node, init app, fetch FastAPI, build with Continue (lessons 00–07) | **authored** |
 | 7 | 13 | 07 | Intro to agents — tool use concept | TBD |
@@ -43,13 +45,13 @@ Effective instruction time per session: ~1h 30m. Plan content to that, not to th
 
 ## Session 1 (Week 1, Session 1) — Module 00 part 1
 
-**Goal:** Cursor installed; UI, terminal, and extensions understood.
+**Goal:** VS Code installed; UI, terminal, and extensions understood.
 
 | Time | Lesson | Content |
 |---|---|---|
 | 6:00 – 6:10 | — | Welcome, course overview, set expectations |
-| 6:10 – 6:25 | 00-what-is-an-ide | IDE concept + install Cursor |
-| 6:25 – 6:40 | 01-cursor-tour | UI tour, command palette, settings |
+| 6:10 – 6:25 | 00-what-is-an-ide | IDE concept + install VS Code |
+| 6:25 – 6:40 | 01-vscode-tour | UI tour, command palette, settings |
 | 6:40 – 6:50 | 02-integrated-terminal | Open the terminal, editor vs terminal |
 | 6:50 – 7:00 | — | **Break** |
 | 7:00 – 7:15 | 03-extensions-overview | Marketplace, install Python extension |
@@ -65,7 +67,7 @@ Effective instruction time per session: ~1h 30m. Plan content to that, not to th
 
 | Time | Lesson | Content |
 |---|---|---|
-| 6:00 – 6:10 | — | Recap; verify everyone has Cursor + extensions from session 1 |
+| 6:00 – 6:10 | — | Recap; verify everyone has VS Code + extensions from session 1 |
 | 6:10 – 6:30 | 00 / 05-wsl-connection | Windows students: connect to WSL |
 | 6:30 – 6:50 | 00 / 06-ssh-remote | All students: connect to instructor SSH host |
 | 6:50 – 7:00 | 00 / 07-final-checkpoint | Module 00 self-test — submit screenshot |
@@ -102,23 +104,23 @@ These are a draft curriculum to fill the remaining ~26 hours. Revise before auth
 
 ### Module 04 — Python + AI-assisted scripting (2 sessions)
 - **S7:** `python3`, `pip`, `venv` vs `uv`, package installation, why isolation matters.
-- **S8:** Write a small script (e.g. parse a CSV, hit an API) using Cursor's tab-complete. First taste of AI assist.
+- **S8:** Write a small script (e.g. parse a CSV, hit an API) using Continue.dev tab-complete in VS Code. First taste of AI assist.
 
 ### Module 05 — Local GPU + Continue.dev (2 sessions)
-- **S10:** Run Ollama with Docker Compose, pull a coding model (Qwen 2.5 Coder 7B or similar), install Continue.dev in Cursor, point it at Ollama, verify chat works.
+- **S10:** Meet the shared vLLM endpoint (2× RTX A6000), install Continue.dev in VS Code, point it at the endpoint URL with the shared key, verify chat works.
 - **S11:** Chat / autocomplete / edit / agent mode in Continue. Drill them against the FastAPI repo from Module 03.
 
-> **Why this stack:** Cursor as IDE (free download, paid AI features skipped) + Continue.dev (free, OSS extension that works in Cursor since Cursor is a VS Code fork) + Ollama in Docker Compose (GPU via NVIDIA Container Toolkit) + a local NVIDIA GPU. No cloud costs, no usage limits, models stay on your machine.
+> **Why this stack:** VS Code as IDE (free) + Continue.dev (free, OSS extension) + a shared college **vLLM** endpoint (2× RTX A6000, OpenAI-compatible) serving Llama 3.1 8B (autocomplete) and Llama 3.3 70B (chat/edit/agent). No cloud costs, no per-seat AI fees, models stay on college hardware; students just point Continue at the shared endpoint.
 
 ### Module 06 — Reading & changing code with AI (1 session)
 - **S12:** Use Continue.dev to explore the FastAPI repo. `@` references, ask for explanations, refactor a function, ask the model to write a test, review what it produced.
 
 ### Module 07 — Agents & tool use (2 sessions)
-- **S13:** Concept: an LLM that can call tools. Show Claude/Cursor doing it. Why it changes everything.
+- **S13:** Concept: an LLM that can call tools. Show Claude / Continue agent mode doing it. Why it changes everything.
 - **S14:** Hands-on: call the Claude API, define a tool, watch the model decide to use it.
 
 ### Module 08 — MCP + Capstone (2 sessions)
-- **S15:** What MCP is. Connect Cursor to an existing MCP server. Write a tiny custom one.
+- **S15:** What MCP is. Connect VS Code (via Continue) to an existing MCP server. Write a tiny custom one.
 - **S16:** Capstone: each student builds a small agentic tool (script that uses Claude + a couple of tools) and demos it.
 
 ---
@@ -126,10 +128,10 @@ These are a draft curriculum to fill the remaining ~26 hours. Revise before auth
 ## Open decisions for the instructor
 
 - [ ] Confirm the curriculum draft above (or hand back a revised one) before I author Modules 02–08.
-- [ ] Pick the two weekdays (e.g. Tue/Thu) and a start date — fill them into the schedule.
+- [x] **Weekdays (decided 2026-07-10):** Monday + Wednesday, 6:00–8:00 PM (Mon = instruction block, Wed = lab clinic per the hybrid model). Start date still open.
 - [ ] Decide how the take-home final checkpoints are graded / submitted.
 - [ ] Pick the instructor SSH host(s) for sessions 2 onward (referenced in Module 00 lesson 06).
-- [ ] Decide whether to require a specific laptop spec / OS, or support BYO + WSL.
+- [x] **Machine prerequisite (decided):** require **Windows 10/11 + WSL2 (Ubuntu)** or **macOS**. No Chromebooks/tablets. Windows students may work over SSH into the internal server instead.
 
 ## Why this pacing works
 

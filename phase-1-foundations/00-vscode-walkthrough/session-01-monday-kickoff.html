@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Module 00 — Monday Kickoff Session (2 hours)</title>
+<link rel="stylesheet" href="../../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+    --wash-warm: #FDF3E3;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    font-family: 'Barlow', 'DejaVu Sans', Arial, sans-serif;
+    color: var(--ink);
+    font-size: 9.6pt;
+    line-height: 1.42;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: letter; margin: 0; }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.42in 0.52in 0.62in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: avoid; }
+  .page > * { flex-shrink: 0; }
+
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 14px;
+  }
+  .brandbar img.tc { height: 40px; }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brandbar .collab .x {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 8pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar img.chief { height: 28px; }
+
+  .pagefoot {
+    position: absolute;
+    left: 0.55in; right: 0.55in; bottom: 0.3in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 6px;
+    font-size: 7.5pt;
+    color: var(--ink-soft);
+  }
+  .pagefoot b { color: var(--navy); font-weight: 600; }
+  .pagefoot .badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+  }
+
+  h1, h2, h3, .disp {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    color: var(--navy);
+  }
+  h2 {
+    font-size: 15pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 8px;
+  }
+  h2::after { content: ""; flex: 1; height: 2.5px; background: var(--orange); border-radius: 2px; }
+  h3 { font-size: 11.5pt; font-weight: 700; margin-bottom: 3px; }
+
+  .hero { margin-bottom: 12px; }
+  .hero .kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10pt;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+  }
+  .hero h1 {
+    font-size: 32pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.98;
+    margin-top: 2px;
+  }
+  .hero .sub {
+    font-size: 11pt;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+  .hero .meta {
+    display: inline-block;
+    margin-top: 8px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 3px;
+  }
+  .hero .meta span { color: var(--orange); }
+
+  .goalbox {
+    border: 2.5px solid var(--orange);
+    border-radius: 7px;
+    background: var(--wash-warm);
+    padding: 10px 14px;
+    margin-bottom: 12px;
+  }
+  .goalbox .tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 9pt;
+    color: #fff;
+    background: var(--orange-deep);
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 4px;
+  }
+  .goalbox p { font-size: 9.4pt; margin-top: 3px; }
+  .goalbox b { color: var(--navy); }
+
+  table.agenda {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 12px;
+  }
+  table.agenda th, table.agenda td {
+    border: 1px solid var(--line);
+    padding: 5px 8px;
+    text-align: left;
+    font-size: 8.8pt;
+    vertical-align: top;
+  }
+  table.agenda th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 10pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  table.agenda td.t {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10pt;
+    color: var(--navy);
+    width: 88px;
+    background: var(--wash);
+    white-space: nowrap;
+  }
+  table.agenda tr.open td.t { background: var(--wash-warm); color: var(--orange-deep); }
+  table.agenda td b { color: var(--navy); }
+
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  .card {
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--orange);
+    border-radius: 5px;
+    padding: 8px 10px;
+    background: #fff;
+  }
+  .card.navy { border-left-color: var(--navy); background: var(--wash); }
+  .card .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 8.5pt;
+    letter-spacing: 0.1em;
+    color: var(--orange-deep);
+    text-transform: uppercase;
+  }
+  .card ul { margin: 4px 0 0 14px; }
+  .card li { font-size: 8.6pt; padding: 1px 0; }
+  .card p { font-size: 8.6pt; color: var(--ink-soft); margin-top: 3px; }
+  .card b { color: var(--navy); }
+
+  .block {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    margin-bottom: 6px;
+    overflow: hidden;
+  }
+  .block .head {
+    background: var(--navy);
+    color: #fff;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .block .head h3 {
+    color: #fff;
+    font-size: 11pt;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .block .head .time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10pt;
+    color: var(--orange);
+    white-space: nowrap;
+  }
+  .block .body { padding: 8px 10px; }
+  .say {
+    background: var(--wash);
+    border-left: 3px solid var(--orange);
+    padding: 6px 10px;
+    margin: 4px 0;
+    font-size: 8.8pt;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .say::before {
+    content: "SAY  ";
+    font-style: normal;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 8pt;
+    letter-spacing: 0.08em;
+    color: var(--orange-deep);
+  }
+  .cues {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 5px;
+  }
+  .cue {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 8.3pt;
+  }
+  .cue b {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--navy);
+    display: block;
+    margin-bottom: 1px;
+  }
+  .done {
+    margin-top: 5px;
+    background: var(--wash-warm);
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 8.5pt;
+  }
+  .done b { color: var(--orange-deep); }
+
+  ul.tight { margin: 3px 0 0 16px; }
+  ul.tight li { font-size: 8.6pt; padding: 1px 0; }
+  ul.tight b { color: var(--navy); }
+
+  .warn {
+    border-left: 4px solid var(--orange-deep);
+    background: var(--wash-warm);
+    border-radius: 0 5px 5px 0;
+    padding: 6px 10px;
+    font-size: 8.6pt;
+    margin: 6px 0;
+  }
+  .warn b { color: var(--navy); }
+
+  table.survey {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4px 0 8px;
+    font-size: 7.8pt;
+  }
+  table.survey th, table.survey td {
+    border: 1px solid var(--line);
+    padding: 3px 6px;
+    text-align: left;
+    vertical-align: top;
+  }
+  table.survey th {
+    background: var(--wash);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--navy);
+  }
+  table.survey td.n {
+    width: 22px;
+    font-weight: 700;
+    color: var(--orange-deep);
+    text-align: center;
+  }
+
+  .closebox {
+    margin-top: auto;
+    background: var(--navy);
+    border-radius: 7px;
+    color: #fff;
+    padding: 10px 14px;
+  }
+  .closebox .name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+  .closebox p { font-size: 8.8pt; color: #cfd8e0; margin-top: 3px; }
+  .closebox b { color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 — AGENDA ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Instructor run-of-show · Module 00 · Week 1</div>
+    <h1>Monday Kickoff</h1>
+    <div class="sub">2-hour live session — welcome, survey themes, D2L, then Module 00 lessons 00–02 (setup stretch: extensions).</div>
+    <div class="meta">Monday, July 20 &nbsp;<span>·</span>&nbsp; 6:00–8:00 PM &nbsp;<span>·</span>&nbsp; Zoom</div>
+  </div>
+
+  <div class="goalbox">
+    <div class="tag">Session outcome</div>
+    <p>Every student leaves with <b>D2L access confirmed</b>, <b>VS Code installed and open</b>, the <b>integrated terminal working</b>, and (if time) <b>Python + Docker extensions</b> installed. Windows students leave knowing <b>WSL is homework</b> — reboot at home, not in class.</p>
+  </div>
+
+  <h2>2-hour agenda</h2>
+  <table class="agenda">
+    <thead>
+      <tr><th>Clock</th><th>Block</th><th>What you do</th></tr>
+    </thead>
+    <tbody>
+      <tr class="open">
+        <td class="t">6:00–6:25</td>
+        <td><b>A · Open the room</b></td>
+        <td>Welcome · survey themes · how the course works · D2L tour · chat poll (Windows/Mac)</td>
+      </tr>
+      <tr>
+        <td class="t">6:25–6:55</td>
+        <td><b>B · Lessons 00–01</b></td>
+        <td>Editor vs terminal vs IDE · install VS Code · UI tour (activity bar, sidebar, command palette)</td>
+      </tr>
+      <tr>
+        <td class="t">6:55–7:00</td>
+        <td><b>Break</b></td>
+        <td>Stretch; help anyone still installing</td>
+      </tr>
+      <tr>
+        <td class="t">7:00–7:30</td>
+        <td><b>C · Lesson 02</b></td>
+        <td>Integrated terminal · <code>echo hello</code> · editor pane vs terminal pane</td>
+      </tr>
+      <tr>
+        <td class="t">7:30–7:50</td>
+        <td><b>D · Setup stretch</b></td>
+        <td>Extensions: Python + Docker (lessons 03–04) · “Docker empty = correct”</td>
+      </tr>
+      <tr>
+        <td class="t">7:50–8:00</td>
+        <td><b>E · Close</b></td>
+        <td>Homework · Wednesday clinic · Phase 1 note · Q&amp;A</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="twocol">
+    <div class="card navy">
+      <div class="label">Before you hit Start</div>
+      <ul>
+        <li>Zoom waiting room + link ready</li>
+        <li>Survey spreadsheet open (themes only)</li>
+        <li>D2L course open for screen share</li>
+        <li>code.visualstudio.com ready (Win + Mac)</li>
+        <li>Your VS Code already open as “done” reference</li>
+        <li>Chat prompt ready: Windows or Mac?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="label">Students should have</div>
+      <ul>
+        <li>Laptop + charger</li>
+        <li>Login password (installs will ask)</li>
+        <li>D2L login</li>
+        <li>Survey done if possible</li>
+        <li><b>Not required tonight:</b> WSL, GitHub, Docker Engine</li>
+      </ul>
+      <p style="margin-top:6px">Chromebook / tablet → chat now; we’ll find an option.</p>
+    </div>
+  </div>
+
+  <div class="warn">
+    <b>Scope for tonight:</b> Kickoff + Module 00 lessons <b>00–02</b> (required). Lessons <b>03–04</b> if time. <b>Do not</b> install WSL in class (reboot). WSL + SSH are <b>Week 2 Monday</b>. Final checkpoint is not tonight.
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Module 00 · Monday Kickoff</div>
+    <div class="badge">Instructor only</div>
+    <div>Page 1 of 4</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 2 — OPENING ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <h2>Block A · Open the room (6:00–6:25)</h2>
+
+  <div class="block">
+    <div class="head">
+      <h3>A1 · Welcome &amp; settle · ~2 min</h3>
+      <div class="time">6:00</div>
+    </div>
+    <div class="body">
+      <div class="say">Welcome in — I’m Tim Carrender. This is Agentic Coding, Temple College Workforce Development with ChiefOS. Mute if you’re not talking; put questions in chat or unmute. Drop in chat: Windows or Mac, and whether you’re already in D2L.</div>
+      <div class="cues">
+        <div class="cue"><b>Do</b> Start recording. Pin chat. Note Windows vs Mac counts.</div>
+        <div class="cue"><b>Watch for</b> Anyone with Chromebook / work-locked laptop — flag for follow-up.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="head">
+      <h3>A2 · Survey themes · ~3 min</h3>
+      <div class="time">6:02</div>
+    </div>
+    <div class="body">
+      <div class="say">Before class you took a short baseline — confidence, skill, and knowledge across coding, terminal, Git, Docker, debugging, reading code, and AI tools, plus whether you’ve built an app and what you want from the course. That’s not a test. It tells me where to spend clinic time.</div>
+      <div class="say">Most of this cohort is beginner to intermediate. Phase 1 starts with foundations on purpose. If you’ve already shipped apps, early weeks may feel like review — stay if you want the structure and the AI path; move fast through labs you know. If you’re newer, you’re in the right room.</div>
+      <div class="twocol" style="margin-top:5px">
+        <div class="card">
+          <div class="label">Scales 1–9 (1–5 each)</div>
+          <ul>
+            <li>Coding confidence</li>
+            <li>Terminal skill</li>
+            <li>Git knowledge</li>
+            <li>Debugging confidence</li>
+            <li>Docker skill</li>
+            <li>Reading code</li>
+            <li>AI coding confidence</li>
+            <li>AI prompt skill</li>
+            <li>Learning new tools</li>
+          </ul>
+        </div>
+        <div class="card navy">
+          <div class="label">Q10–11 · Experience &amp; goal</div>
+          <ul>
+            <li>Built an app? shipped / small / not yet / not sure</li>
+            <li>Open: what they want from the course</li>
+          </ul>
+          <p style="margin-top:5px"><b>Do not</b> screen-share individual scores. Speak in cohort themes only.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="head">
+      <h3>A3 · How the course works · ~5 min</h3>
+      <div class="time">6:05</div>
+    </div>
+    <div class="body">
+      <div class="say">Four things to remember. One: self-paced — you advance by finishing labs, not by sitting on Zoom. Two: every lesson has a short video, then a lab you submit in D2L. Three: live blocks are support — Monday instruction, Wednesday lab clinic, 6 to 8. Miss one? Recordings go in D2L. Four: three phases — Foundations, building real apps, then AI-assisted development on the college AI server. No ChatGPT subscription required. After Phase 1 there’s a break before Phase 2 — I’ll email the start date.</div>
+      <div class="cues">
+        <div class="cue"><b>Show</b> Optional: syllabus one-pager or D2L module list.</div>
+        <div class="cue"><b>Emphasize</b> Labs unlock next lessons. Attendance is not the gate.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="head">
+      <h3>A4 · D2L tour + tonight’s job · ~10 min</h3>
+      <div class="time">6:10</div>
+    </div>
+    <div class="body">
+      <div class="say">I’m screen-sharing D2L. This is where every video, lesson, and lab lives. Submitting a lab unlocks the next object. If you can’t see Agentic Coding right now, put your name in chat — don’t wait until Wednesday.</div>
+      <div class="cues">
+        <div class="cue"><b>Show</b> Course home → Module 00 · video → lesson → lab · recordings</div>
+        <div class="cue"><b>Done when</b> Logins confirmed in chat; blocked accounts noted</div>
+      </div>
+      <div class="done"><b>Bridge to Block B:</b> Tonight = intro + setup. Leave with VS Code open + terminal working. Windows: WSL is homework (reboot at home). Ready? Let’s install.</div>
+    </div>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Module 00 · Monday Kickoff</div>
+    <div class="badge">Instructor only</div>
+    <div>Page 2 of 4</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 3 — LESSONS 00–02 ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <h2>Block B · Lessons 00–01 (6:25–6:55)</h2>
+
+  <div class="block">
+    <div class="head">
+      <h3>00 · What is an IDE? · install VS Code</h3>
+      <div class="time">~15 min</div>
+    </div>
+    <div class="body">
+      <div class="say">Before we touch any code, three words: editor, terminal, IDE. By the end of this block VS Code is installed and open on your laptop.</div>
+      <ul class="tight">
+        <li><b>Editor</b> — type and save text (Notepad / TextEdit)</li>
+        <li><b>Terminal</b> — type commands, computer runs them (Command Prompt / Terminal app)</li>
+        <li><b>IDE</b> — editor + terminal + tools in one window. <b>VS Code is an IDE.</b></li>
+      </ul>
+      <div class="say">VS Code is free and won’t force you to sign in. If it offers “Sign in to sync settings,” skip it. Our AI comes later in Module 05 via Continue.dev — nothing to buy tonight.</div>
+      <div class="cues">
+        <div class="cue"><b>Show</b> Notepad → Terminal → your open VS Code, same task in all three.</div>
+        <div class="cue"><b>Do</b> Start downloads early (~100 MB). Talk while it installs.</div>
+      </div>
+      <ul class="tight" style="margin-top:5px">
+        <li>Browser → <b>code.visualstudio.com</b> → Download for your OS</li>
+        <li>Run installer · accept defaults · open VS Code</li>
+        <li>Mac: replace every <b>Ctrl</b> with <b>Cmd</b> for the rest of the night</li>
+      </ul>
+      <div class="done"><b>Done when:</b> VS Code welcome screen is open. Hands up if install fails — do not move on without them.</div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="head">
+      <h3>01 · VS Code UI tour</h3>
+      <div class="time">~15 min</div>
+    </div>
+    <div class="body">
+      <div class="say">Activity bar is the thin icon strip on the left edge. Sidebar is the panel that opens when you click an icon. Don’t mix the names.</div>
+      <ul class="tight">
+        <li>Activity bar · Explorer · editor tabs · status bar</li>
+        <li><b>Command palette</b> — Ctrl+Shift+P (Cmd+Shift+P on Mac). Drill it. If they remember one shortcut, this is it.</li>
+        <li>Settings: gear or palette → “settings”</li>
+      </ul>
+      <div class="warn"><b>Stuck spot:</b> Student’s UI looks different (theme/panels). Note it; don’t rebuild their layout in class.</div>
+      <div class="done"><b>Done when:</b> Student can open command palette on demand and point to activity bar vs sidebar.</div>
+    </div>
+  </div>
+
+  <div class="goalbox" style="margin-top:4px">
+    <div class="tag">6:55 · Break · 5 min</div>
+    <p>Help remaining installs. Remind Windows students: <b>no WSL reboot tonight</b>.</p>
+  </div>
+
+  <h2>Block C · Lesson 02 (7:00–7:30)</h2>
+
+  <div class="block">
+    <div class="head">
+      <h3>02 · Integrated terminal</h3>
+      <div class="time">~25–30 min</div>
+    </div>
+    <div class="body">
+      <div class="say">A terminal is where you type a command, press Enter, and get text back. VS Code’s integrated terminal is the same thing — embedded so you never alt-tab away.</div>
+      <ul class="tight">
+        <li>Open with <b>Ctrl+`</b> (backtick under Escape), or <b>View → Terminal</b>, or command palette</li>
+        <li>Click inside the terminal panel (not the editor)</li>
+        <li>Type <code>echo hello</code> → Enter → should print <code>hello</code></li>
+        <li>Again with their name · close · reopen · output still there</li>
+      </ul>
+      <div class="done"><b>Stuck / done:</b> No backtick → View → Terminal. Typing in editor → point at panes. <b>Don’t</b> teach <code>cd</code>/<code>ls</code> (Module 01). Done when <code>echo hello</code> prints in the terminal (D2L screenshot if required).</div>
+    </div>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Module 00 · Monday Kickoff</div>
+    <div class="badge">Instructor only</div>
+    <div>Page 3 of 4</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 4 — STRETCH + CLOSE ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <h2>Block D · Setup stretch · 03–04 (7:30–7:50)</h2>
+
+  <div class="block">
+    <div class="head">
+      <h3>03–04 · Extensions · Python + Docker</h3>
+      <div class="time">~20 min</div>
+    </div>
+    <div class="body">
+      <div class="say">Only install what I tell you. Marketplace is a candy store — don’t install ten things. Skip Continue.dev (Module 05).</div>
+      <ul class="tight">
+        <li>Extensions → install <b>Python</b> (<code>ms-python</code>) + <b>Docker</b> (<code>ms-azuretools</code>)</li>
+        <li>Docker sidebar failed/empty = <b>correct</b> (Engine is Module 02)</li>
+        <li>Marketplace blocked → note name; VSIX after class / Wednesday clinic</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Block E · Close (7:50–8:00)</h2>
+
+  <div class="block">
+    <div class="head">
+      <h3>Homework · Wednesday · Phase note</h3>
+      <div class="time">~10 min</div>
+    </div>
+    <div class="body">
+      <div class="say">Done for Monday when VS Code opens, terminal works, and extensions are in — or you have a clear next step. Wednesday = clinic; bring stuck labs and screenshots. Week 2 Monday = WSL + SSH + Module 00 checkpoint.</div>
+      <div class="twocol" style="margin-top:5px">
+        <div class="card">
+          <div class="label">Before Wednesday</div>
+          <ul>
+            <li>Finish VS Code / terminal / extensions</li>
+            <li>Submit labs 00–02 (03–04 if done)</li>
+            <li>Windows: <code>wsl --install</code> + reboot</li>
+            <li>Optional: GitHub account (week 10)</li>
+          </ul>
+        </div>
+        <div class="card navy">
+          <div class="label">Wednesday clinic</div>
+          <ul>
+            <li>Labs 00:00–04 stuck points</li>
+            <li>Marketplace / firewall</li>
+            <li>WSL install fallout</li>
+            <li>Catch-up installs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Cheat sheet · stuck spots</h2>
+  <table class="agenda">
+    <thead><tr><th>Moment</th><th>Failure</th><th>Fix line</th></tr></thead>
+    <tbody>
+      <tr><td class="t">Install</td><td>No admin / locked laptop</td><td>Chat now; alternate path later</td></tr>
+      <tr><td class="t">Sign-in</td><td>Sync settings prompt</td><td>“Skip — optional cloud sync”</td></tr>
+      <tr><td class="t">Palette</td><td>Mac hitting Ctrl</td><td>“Mac = Cmd tonight”</td></tr>
+      <tr><td class="t">Terminal</td><td>Typing in editor / no backtick</td><td>Point at panes; View → Terminal</td></tr>
+      <tr><td class="t">Docker</td><td>“Failed to connect”</td><td>“Correct — Engine is Module 02”</td></tr>
+      <tr><td class="t">Excited</td><td>10 random extensions</td><td>Only Python + Docker tonight</td></tr>
+    </tbody>
+  </table>
+
+  <div class="closebox">
+    <div class="name">Zoom · templejc-edu.zoom.us/j/85627136277</div>
+    <p>Meeting ID <b>856 2713 6277</b> · Survey <b>tktechventure.com/agentic-coding</b> · Contact <b>contact@tktechventure.com</b></p>
+    <p style="margin-top:3px">Tonight: <b>00 · 01 · 02</b> (+ <b>03 · 04</b> stretch). Deferred: <b>05 WSL · 06 SSH · 07 checkpoint</b> → Week 2.</p>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Module 00 · Monday Kickoff</div>
+    <div class="badge">Instructor only</div>
+    <div>Page 4 of 4</div>
+  </div>
+</div>
+
+</body>
+</html>

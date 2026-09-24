@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubuntu Terminal Foundations — Setup Check</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Verify that the Ubuntu environment is course-ready by checking the OS release, internet connectivity, DNS resolution, and sudo access.</div>
+<h1>Lesson 00: Setup Check</h1>
+<p>By the end, you will have confirmed that your Ubuntu environment is ready for this course.</p>
+<p><strong>Estimated time:</strong> ~5 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Check your Ubuntu version — this confirms you're on a supported release.</p>
+<pre><code class="language-bash">lsb_release -a</code></pre>
+<p>Expected output (version may differ):</p>
+<pre class="output"><code class="output">Distributor ID: Ubuntu
+Description:    Ubuntu 22.04.x LTS
+Release:        22.04
+Codename:       jammy</code></pre>
+<p>(You should see 22.04 or 24.04. Either is fine.)</p>
+<p><strong>2.</strong> Confirm you have internet access — every later step needs this.</p>
+<pre><code class="language-bash">ping -c 3 8.8.8.8</code></pre>
+<p>Expected output:</p>
+<pre class="output"><code class="output">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=12.3 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=117 time=11.8 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=117 time=12.1 ms
+
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss</code></pre>
+<p>(Times will differ. 0% packet loss is what matters.)</p>
+<p><strong>3.</strong> Confirm DNS resolution works — we'll need to download packages by name.</p>
+<pre><code class="language-bash">ping -c 3 google.com</code></pre>
+<p>Expected output:</p>
+<pre class="output"><code class="output">PING google.com (142.250.x.x) 56(84) bytes of data.
+64 bytes from ...: icmp_seq=1 ttl=117 time=12.3 ms
+...
+3 packets transmitted, 3 received, 0% packet loss</code></pre>
+<p>(The IP will vary. 0% packet loss is what matters.)</p>
+<p><strong>4.</strong> Confirm your user has sudo access — you'll need this for installing packages.</p>
+<pre><code class="language-bash">sudo whoami</code></pre>
+<p>Expected output:</p>
+<pre class="output"><code class="output">root</code></pre>
+<blockquote><p><strong>Warning:</strong> Be careful with <code>sudo</code>. It runs commands as the root user, which has unrestricted access to the entire system. A typo in a <code>sudo</code> command can delete files, break your OS, or cause data loss. Always double-check before pressing Enter.</p></blockquote>
+<p>(You may be prompted for your password. Type it — characters won't appear on screen.)</p>
+<p><strong>5.</strong> Check your username — we'll reference this throughout the course.</p>
+<pre><code class="language-bash">whoami</code></pre>
+<p>Expected output:</p>
+<pre class="output"><code class="output">your-username</code></pre>
+<p>(This should NOT say &quot;root&quot;. If it does, you're logged in as root — create a normal user first.)</p>
+<p><strong>6.</strong> Run one more pwd to see where you start.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<p>Expected output:</p>
+<pre class="output"><code class="output">/home/your-username</code></pre>
+<hr />
+<h2>Checkpoint</h2>
+<p>Run each command and confirm the expected result:</p>
+<pre><code class="language-bash">lsb_release -r</code></pre>
+<p>You should see <code>Release: 22.04</code> or <code>Release: 24.04</code>.</p>
+<pre><code class="language-bash">ping -c 1 8.8.8.8</code></pre>
+<p>You should see <code>1 packets transmitted, 1 received, 0% packet loss</code>.</p>
+<pre><code class="language-bash">sudo whoami</code></pre>
+<p>You should see <code>root</code>.</p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Confirm your Ubuntu environment is ready for this module — supported release, working network, and sudo access.</p>
+<p><strong>Task:</strong> Work through the six drills in this lesson, then run the three Checkpoint commands (<code>lsb_release -r</code>, <code>ping -c 1 8.8.8.8</code>, <code>sudo whoami</code>) in one terminal.</p>
+<p><strong>Submit:</strong> One screenshot (or pasted transcript) of the three Checkpoint commands and their output: <code>lsb_release -r</code>, <code>ping -c 1 8.8.8.8</code>, and <code>sudo whoami</code>.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] <code>lsb_release -r</code> shows <code>Release: 22.04</code> or <code>Release: 24.04</code>. (Fresh cloud VM said &quot;command not found&quot;? Installing it first with <code>sudo apt install -y lsb-release</code> is fine.)</li><li>[ ] <code>ping -c 1 8.8.8.8</code> shows <code>0% packet loss</code>.</li><li>[ ] <code>sudo whoami</code> prints <code>root</code>.</li><li>[ ] If <code>ping google.com</code> failed on WSL, you applied the documented DNS fix (<code>nameserver 8.8.8.8</code> in <code>/etc/resolv.conf</code>) and names now resolve.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m01-01-where-am-i.html">01-where-am-i.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m01-01-where-am-i.html">01-where-am-i.md</a> — Navigate the filesystem</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

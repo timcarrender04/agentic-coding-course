@@ -25,7 +25,7 @@ Three modes Continue supports (toggled at the bottom of the chat panel):
 | **Edit** | Edit highlighted code via the `Ctrl+I` flow. Single-file scope. (Lesson 07.) |
 | **Agent** | Read files itself, write files itself, run shell commands itself — gated by your approval. Multi-file. |
 
-Agent mode is the closest thing local LLMs have to "the AI is doing the work." It's also where bad models go to wreck your repo, so you read every step.
+Agent mode is the closest thing these open models have to "the AI is doing the work." It's also where a weaker model can wreck your repo, so you read every step.
 
 ---
 
@@ -174,7 +174,7 @@ git branch -d agent-add-tags
 
 ## When agent mode goes wrong
 
-**20.** Common failure modes with a 7B model:
+**20.** Common failure modes with an open model like the 70B:
 
 | Symptom | Cause | What to do |
 |---|---|---|
@@ -183,7 +183,7 @@ git branch -d agent-add-tags
 | Agent wants to `rm` your files | aggressive cleanup | **Reject** every destructive command unless you explicitly asked |
 | Agent never finishes the task | context filled up | New chat, narrower scope |
 
-**21.** **Default to skepticism.** A local 7B model is good for surgical edits and small features. It is not GPT-4. For bigger tasks, decompose them yourself and use agent mode on each piece.
+**21.** **Default to skepticism.** The 70B is good for surgical edits and small features. It is not a frontier cloud model. For bigger tasks, decompose them yourself and use agent mode on each piece.
 
 ---
 
@@ -201,7 +201,7 @@ echo "Agent mode drilled: /status route + tags field on items" >> ~/docker-cours
 - **Approve every tool call deliberately.** "Yes to all" is a footgun. The whole point of the approve gate is human-in-the-loop.
 - **Branch first.** Always `git switch -c agent-<thing>` before letting the agent make changes. Easy to revert if the result is junk.
 - **Schema migrations.** SQLAlchemy's `create_all` only creates tables that don't exist — it won't add columns. If the agent changes a model, the DB needs to be recreated (lose data) or migrated (Alembic, future module).
-- **Small scope wins.** Three-step agent tasks succeed often. Ten-step ones rarely do on a 7B model. Decompose.
+- **Small scope wins.** Three-step agent tasks succeed often. Ten-step ones rarely do on these open models. Decompose.
 
 ---
 

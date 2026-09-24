@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agentic Coding — Week 3 Escape Night · Temple College × ChiefOS</title>
+<link rel="stylesheet" href="../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --paper: #FFFFFF;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+    --wash-warm: #FDF3E3;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    font-family: 'Barlow', 'DejaVu Sans', Arial, sans-serif;
+    color: var(--ink);
+    font-size: 10.2pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: letter; margin: 0; }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.38in 0.6in 0.40in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: avoid; }
+  .page > * { flex-shrink: 0; }
+
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 6px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 8px;
+  }
+  .brandbar img.tc { height: 36px; }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brandbar .collab .x {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 8.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar img.chief { height: 25px; }
+
+  .pagefoot {
+    position: absolute;
+    left: 0.6in; right: 0.6in; bottom: 0.32in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 7px;
+    font-size: 8pt;
+    color: var(--ink-soft);
+  }
+  .pagefoot b { color: var(--navy); font-weight: 600; }
+
+  h1, h2, h3 {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    color: var(--navy);
+  }
+  h2 {
+    font-size: 13.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 5px;
+  }
+  h2::after { content: ""; flex: 1; height: 3px; background: var(--orange); border-radius: 2px; }
+  code {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 8pt;
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+
+  .hero { margin: 0 0 7px; }
+  .hero .kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10.5pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 2px;
+  }
+  .hero h1 {
+    font-size: 24pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.0;
+  }
+  .hero .phase-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-top: 3px;
+    letter-spacing: 0.02em;
+  }
+  .hero .sub {
+    font-size: 9.8pt;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-top: 3px;
+  }
+  .hero .meta {
+    display: inline-block;
+    margin-top: 6px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 9.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 3px;
+  }
+  .hero .meta span { color: var(--orange); }
+
+  .intro {
+    font-size: 8.9pt;
+    line-height: 1.42;
+    margin-bottom: 8px;
+  }
+  .intro b { color: var(--navy); }
+
+  .pillars { display: flex; gap: 8px; margin-bottom: 8px; }
+  .pillar {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--orange);
+    border-radius: 6px;
+    padding: 6px 9px 7px;
+    background: var(--wash);
+  }
+  .pillar .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 12pt;
+    color: var(--orange-deep);
+    line-height: 1;
+  }
+  .pillar h3 { font-size: 10.2pt; text-transform: uppercase; letter-spacing: 0.03em; margin: 3px 0 2px; }
+  .pillar p { font-size: 7.9pt; color: var(--ink-soft); line-height: 1.35; margin-top: 0; }
+
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 8px; }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 7px 10px;
+    background: var(--wash);
+  }
+  .card.navy {
+    background: var(--navy);
+    color: #e8edf2;
+    border-color: var(--navy);
+  }
+  .card .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9.5pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 4px;
+  }
+  .card.navy .label { color: var(--orange); }
+  .card.navy code {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.3);
+    color: #fff;
+  }
+  .card ul { margin: 0 0 0 14px; font-size: 8pt; line-height: 1.42; }
+  .card.navy ul { color: #d5dde5; }
+  .card li { margin-bottom: 2px; }
+  .card b { color: var(--navy); }
+  .card.navy b { color: #fff; }
+
+  table.agenda { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+  table.agenda th, table.agenda td {
+    border: 1px solid var(--line);
+    padding: 3px 7px;
+    font-size: 8pt;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 1.35;
+  }
+  table.agenda th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9.2pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.agenda td.t {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: var(--navy);
+    width: 60px;
+    white-space: nowrap;
+    background: var(--wash);
+  }
+  table.agenda td.lab {
+    width: 108px;
+    font-weight: 600;
+    color: var(--navy-soft);
+  }
+  table.agenda tr.stretch td { background: var(--wash-warm); }
+
+  .callout {
+    border-left: 4px solid var(--orange-deep);
+    background: var(--wash-warm);
+    border-radius: 0 6px 6px 0;
+    padding: 6px 11px;
+    font-size: 8.2pt;
+    line-height: 1.38;
+    margin-bottom: 8px;
+  }
+  .callout b { color: var(--navy); }
+  .callout.red {
+    border-left-color: #B3402A;
+    background: #FBEAE6;
+  }
+
+  .stats {
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--navy);
+    color: #fff;
+    margin-top: auto;
+    margin-bottom: 32px;
+  }
+  .stats .stat {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px 7px;
+    border-right: 1px solid rgba(255,255,255,0.12);
+  }
+  .stats .stat:last-child { border-right: none; }
+  .stats .n {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14pt;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stats .l {
+    font-size: 6.8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #cfd8e0;
+    margin-top: 4px;
+  }
+
+  table.labs { width: 100%; border-collapse: collapse; margin-bottom: 8px; }
+  table.labs th, table.labs td {
+    border: 1px solid var(--line);
+    padding: 3px 6px;
+    font-size: 7.7pt;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.35;
+  }
+  table.labs th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 8.8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.labs td.num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 8.8pt;
+    color: var(--navy);
+    text-align: center;
+    width: 60px;
+    background: var(--wash);
+    white-space: nowrap;
+  }
+  table.labs td.word {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-weight: 700;
+    font-size: 8pt;
+    color: var(--orange-deep);
+    width: 92px;
+    white-space: nowrap;
+  }
+
+  .outcome {
+    background: var(--navy);
+    border-radius: 8px;
+    color: #fff;
+    padding: 8px 13px;
+    margin-top: auto;
+    margin-bottom: 32px;
+  }
+  .outcome .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 3px;
+  }
+  .outcome p { font-size: 8.4pt; color: #e8edf2; line-height: 1.42; }
+  .outcome p b { color: #fff; }
+  .outcome code {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.3);
+    color: #fff;
+  }
+
+  .team-tag {
+    display: inline-block;
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-weight: 700;
+    font-size: 8pt;
+    background: var(--navy);
+    color: var(--orange);
+    padding: 1px 7px;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 — TONIGHT'S PLAN ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Week 3 · Wednesday Live Block</div>
+    <h1>Terminal Escape Night</h1>
+    <div class="phase-line">"Lockdown at ChiefOS" · Module 01 culminating event</div>
+    <div class="sub">Four locked rooms. One dead GUI. Everything you learned this week is the key.</div>
+    <div class="meta">Wed Aug 5 &nbsp;<span>·</span>&nbsp; 6:00–8:00 PM &nbsp;<span>·</span>&nbsp; Zoom &nbsp;<span>·</span>&nbsp; 3 Teams &nbsp;<span>·</span>&nbsp; 4 Rooms</div>
+  </div>
+
+  <p class="intro"><b>Tonight replaces the lab clinic with a race.</b> A bad update has locked every door in the ChiefOS server building — mouse dead, GUI dead, terminal only. Three teams, each in its own Zoom breakout room, fight through four escape rooms. Every room is secretly a Week 3 lab in disguise: navigation, <code>cp</code>/<code>mv</code>/<code>rm&nbsp;-r</code>, <code>less</code>/<code>tail&nbsp;-f</code>/nano, and the boss fight — <b>permissions</b>. Escape the building and you've re-run labs 01:02–06 without noticing.</p>
+
+  <h2>The three teams</h2>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="num">BREAKOUT 1</div>
+      <h3>Team SUDO</h3>
+      <p>"We have the power." Debrief assignment: teach the class the vault — <code>chmod</code> + <code>chown</code>.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">BREAKOUT 2</div>
+      <h3>Team NANO</h3>
+      <p>"We know the exit keys." Debrief assignment: teach the comms room — <code>less</code>, <code>tail -f</code>, nano.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">BREAKOUT 3</div>
+      <h3>Team CHMOD</h3>
+      <p>"We decide who reads." Debrief assignment: teach maintenance — <code>cp</code> / <code>mv</code> / <code>rm -r</code>.</p>
+    </div>
+  </div>
+
+  <div class="twocol">
+    <div class="card">
+      <div class="label">How the race works</div>
+      <ul>
+        <li>Everyone types on their <b>own machine</b> — no passengers</li>
+        <li>A room counts as cleared only when <b>every member</b> has its code word</li>
+        <li>Roles rotate each room: <b>Driver</b> (shares screen, types), <b>Reader</b> (reads files aloud), <b>Scribe</b> (tracks code words, posts clears)</li>
+        <li>Scribe posts clears in main chat: <code>SUDO cleared Room 2 — NOUNDO</code></li>
+        <li>Teammates who escape early coach the rest — <b>words only</b>, no typing on anyone else's machine</li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <div class="label">Winning &amp; hints</div>
+      <ul>
+        <li><b>Winner:</b> first team with every member through the final door — banner screenshots in chat prove it</li>
+        <li>Each team gets <b>3 hint tokens</b> — spend one to summon the instructor for a nudge</li>
+        <li>Tiebreaker: fewest hint tokens spent</li>
+        <li>First hint is always free advice: <b>read the room's files again</b> — the answer is written down. It always is.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Tonight · run of show</h2>
+  <table class="agenda">
+    <thead>
+      <tr><th>Clock</th><th>Block</th><th>What we do live</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="t">6:00</td>
+        <td class="lab">Open + triage</td>
+        <td>Sign-in · quick D2L check on labs 01:02–05 · unstick anyone blocked — the game finishes the review job</td>
+      </tr>
+      <tr>
+        <td class="t">6:20</td>
+        <td class="lab">Story launch</td>
+        <td>The premise · team assignments · rules · everyone runs <code>bash setup.sh</code> · teams split to breakout rooms</td>
+      </tr>
+      <tr>
+        <td class="t">6:30</td>
+        <td class="lab">The escape</td>
+        <td>50:00 on the clock · three rooms racing · leaderboard live in main room · instructor floats + broadcasts milestones</td>
+      </tr>
+      <tr>
+        <td class="t">7:20</td>
+        <td class="lab">Debrief</td>
+        <td>Each team teaches its assigned room · exit ticket: read <code>ls -l ~/escape-night/escape</code> out loud — the phase-gate question</td>
+      </tr>
+      <tr>
+        <td class="t">7:40</td>
+        <td class="lab">Close</td>
+        <td>Confirm 01:02–06 submitted in D2L · homework through Sunday · Week 4 phase-gate warning (timed, no-help)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <b>Participation artifact:</b> your escape banner screenshot, posted in Zoom chat. <b>Still owe labs?</b> Everything you do tonight IS the lab material — finish 01:02–06 in D2L by Sunday. The vault room is <code>chmod</code>/<code>chown</code> practice on purpose: it's what next week's <b>Module 01 phase-gate</b> leans on hardest.
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="n">3</div><div class="l">Teams racing</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Locked rooms</div></div>
+    <div class="stat"><div class="n">50:00</div><div class="l">On the clock</div></div>
+    <div class="stat"><div class="n">rwx</div><div class="l">Final door</div></div>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Week 3 Escape Night · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 1 of 2</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 2 — INSTRUCTOR ONLY ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="callout red">
+    <b>INSTRUCTOR PAGE — do not screen-share.</b> Page 1 is safe to show or send to students. This page has the full answer key.
+  </div>
+
+  <h2>Answer key — rooms, skills, code words</h2>
+  <table class="labs">
+    <thead>
+      <tr><th>Room</th><th>Skill (lab)</th><th>Solution</th><th>Code word</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="num">1 · Lobby</td>
+        <td><code>cd</code> / <code>ls</code> / <code>cat</code> (01:02)</td>
+        <td>Navigate decoys; passcode is in <code>server-closet/rack-3/passcode.txt</code></td>
+        <td class="word">NOMOUSE</td>
+      </tr>
+      <tr>
+        <td class="num">2 · Maintenance</td>
+        <td><code>mkdir</code>/<code>cp</code>/<code>mv</code>/<code>rm -r</code> (01:02)</td>
+        <td><code>mkdir slot</code> · <code>cp supplies/keycard-blue.txt slot/</code> · <code>mv</code> to <code>keycard.txt</code> · <code>rm -r decoy-wires</code> · <code>bash unlock.sh</code></td>
+        <td class="word">NOUNDO</td>
+      </tr>
+      <tr>
+        <td class="num">3 · Comms</td>
+        <td><code>less</code>/<code>tail -f</code>/nano (01:03)</td>
+        <td>First half <b>PRESS</b> at bottom of <code>manual.txt</code> via <code>less</code> · <code>bash antenna.sh</code> then <code>tail -f signal.log</code> in a 2nd terminal → <b>Q</b> · nano <code>reply.txt</code> · <code>bash transmit.sh</code></td>
+        <td class="word">PRESSQ</td>
+      </tr>
+      <tr>
+        <td class="num">4 · Vault</td>
+        <td><code>ls -l</code>/<code>chmod</code>/<code>chown</code>/sudo (01:04, 01:06)</td>
+        <td><code>chmod 600 vault-a.txt</code> → ROOT · <code>sudo chown $USER vault-b.txt</code> + <code>chmod 600</code> → ACCESS (no-sudo fallback: plain chmod)</td>
+        <td class="word">ROOTACCESS</td>
+      </tr>
+      <tr>
+        <td class="num">Final door</td>
+        <td>nano + <code>chmod +x</code> (01:03, 01:06)</td>
+        <td>nano <code>escape-plan.txt</code>: 4 words, one per line, ALL CAPS · <code>chmod +x escape</code> · <code>./escape</code></td>
+        <td class="word">banner</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Predicted stuck spots</h2>
+  <table class="agenda">
+    <thead>
+      <tr><th>Symptom</th><th>What's happening</th><th>Fix line</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="t">Room 2</td>
+        <td>Slot "spits the card out" / blue card gone</td>
+        <td>Wrong card (log says which survived) — or they <code>mv</code>'d instead of <code>cp</code>; unlock.sh tells them how to fix it</td>
+      </tr>
+      <tr>
+        <td class="t">less</td>
+        <td>"The manual froze my terminal"</td>
+        <td>It's a pager — press <b>q</b>. This is the lesson.</td>
+      </tr>
+      <tr>
+        <td class="t">tail -f</td>
+        <td>"The radio shows nothing"</td>
+        <td>Radio dies after ~45s — rerun <code>bash antenna.sh</code>, keep the <code>tail -f</code> terminal open</td>
+      </tr>
+      <tr>
+        <td class="t">nano</td>
+        <td>Stuck inside, can't save or leave</td>
+        <td><b>Ctrl+O</b>, Enter, <b>Ctrl+X</b> — arrows won't escape</td>
+      </tr>
+      <tr>
+        <td class="t">chown</td>
+        <td>"Operation not permitted" on vault-b</td>
+        <td>Forgot <code>sudo</code>. Let them see the error first — the room's door.txt explains it</td>
+      </tr>
+      <tr>
+        <td class="t">./escape</td>
+        <td>"Permission denied"</td>
+        <td>Mode 644 on purpose — <code>ls -l escape</code>, find the missing <b>x</b>, <code>chmod +x escape</code></td>
+      </tr>
+      <tr>
+        <td class="t">Anything</td>
+        <td>Unrecoverable mess mid-game</td>
+        <td><code>bash setup.sh --reset</code> rebuilds a fresh room in seconds</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Before class checklist</h2>
+  <div class="twocol" style="margin-bottom:0">
+    <div class="card">
+      <div class="label">Setup</div>
+      <ul>
+        <li>Post <code>setup.sh</code> where students can grab it: D2L file, Zoom file transfer, or course site (<code>curl -O</code> = lab 01:07 stretch tie-in)</li>
+        <li>Students run it <b>as themselves</b> — never with sudo; it prompts for sudo once at the end to seal the vault</li>
+        <li>sudo fails for someone? Game still works (chmod-000 fallback) — don't burn time on it</li>
+        <li>Dry-run it yourself: <code>bash setup.sh --reset</code></li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <div class="label">Zoom</div>
+      <ul>
+        <li>Pre-create 3 breakout rooms named <b>SUDO</b> / <b>NANO</b> / <b>CHMOD</b></li>
+        <li>Balance teams: each gets at least one lab-01:02–05 cruiser and one struggler</li>
+        <li>Use <b>broadcast to all rooms</b> for milestones — "NANO has entered the vault…" keeps the race live</li>
+        <li>Leaderboard doc or whiteboard shared in the main room</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="outcome">
+    <div class="label">Files · this event</div>
+    <p>
+      Game builder: <code>class-materials/terminal-escape-room/setup.sh</code> &nbsp;·&nbsp;
+      Full instructor notes: <code>class-materials/terminal-escape-room/RUN-OF-SHOW.md</code><br>
+      Only <code>rm -r</code> in the game targets <code>~/escape-night/…/decoy-wires</code> — same "read the path twice" ritual as lab 01:02. Nothing writes outside <code>~/escape-night/</code>.
+    </p>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Week 3 Escape Night · Temple College Workforce Development × ChiefOS</div>
+    <div>Page 2 of 2</div>
+  </div>
+</div>
+
+</body>
+</html>

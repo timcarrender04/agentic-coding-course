@@ -130,6 +130,22 @@ pwd
 ```
 You should be in `/home/your-username`.
 
+## Lab
+
+**Objective:** Run a full system update with `sudo apt update` and `sudo apt upgrade`, leaving the system with nothing left to upgrade.
+
+**Task:** Work through the update drills — refresh the package list, upgrade everything, autoremove — then run the Checkpoint commands.
+
+**Submit:** One screenshot (or pasted transcript) showing the tail end of a final `sudo apt update` run plus the output of `sudo whoami`.
+
+**Pass criteria:** (verify the final state, not exact text — package counts and mirror lines differ on every machine)
+
+- [ ] `sudo apt update` ends with `All packages are up to date.` (or reports `0 packages can be upgraded`).
+- [ ] `sudo whoami` prints `root`.
+- [ ] No error lines in the output. (A `dpkg lock` error means another apt process was running — wait for it and re-run.)
+
+**Unlocks:** [05-installing-software.md](05-installing-software.md)
+
 ---
 
 **Next up:** [05-installing-software.md](05-installing-software.md) — Install the packages we need

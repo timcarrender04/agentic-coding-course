@@ -92,11 +92,11 @@ You should see:
  ✓ Ready in 1.2s
 ```
 
-**10.** **Leave that terminal running.** Open a **second** integrated terminal in Cursor.
+**10.** **Leave that terminal running.** Open a **second** integrated terminal in VS Code.
 
 **11.** Open `http://localhost:3000` in your browser.
    - **WSL students:** Windows browser, `http://localhost:3000`.
-   - **SSH students:** Cursor's "Ports" tab should auto-forward 3000. Click the globe icon.
+   - **SSH students:** VS Code's "Ports" tab should auto-forward 3000. Click the globe icon.
 
 **12.** You should see a HeroUI starter page — usually something like a "Welcome to HeroUI" landing page with example components.
 

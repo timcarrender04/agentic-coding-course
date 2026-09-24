@@ -42,14 +42,12 @@ export function LessonControls({
         } else {
           dispatchAction({ type: "step", delta: -1 });
         }
-      } else if (e.key === "b") {
-        dispatchAction({ type: "broadcast", on: !state.broadcastOn });
       }
     }
     window.addEventListener("keydown", onKey);
 
     return () => window.removeEventListener("keydown", onKey);
-  }, [state.stepIndex, state.broadcastOn, totalSteps, prev, next]);
+  }, [state.stepIndex, totalSteps, prev, next]);
 
   return (
     <div className="grid grid-cols-2 gap-4">

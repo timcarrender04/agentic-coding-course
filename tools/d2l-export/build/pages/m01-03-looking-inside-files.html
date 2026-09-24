@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ubuntu Terminal Foundations — Looking Inside Files</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.55;
+         color: #1e2430; max-width: 860px; margin: 0 auto; padding: 20px 24px 48px; }
+  h1 { font-size: 1.65rem; border-bottom: 2px solid #d7dce4; padding-bottom: .4rem; }
+  h2 { font-size: 1.25rem; margin-top: 2rem; }
+  h3 { font-size: 1.05rem; margin-top: 1.5rem; }
+  code { background: #eef1f5; border: 1px solid #dfe3ea; border-radius: 4px;
+         padding: .08em .35em; font-size: .92em; font-family: ui-monospace, Consolas, Menlo, monospace; }
+  pre { background: #14181f; color: #e6edf3; padding: 12px 14px; border-radius: 8px;
+        overflow-x: auto; font-size: .9rem; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+  pre.output { background: #f4f6f9; color: #3b4351; border: 1px dashed #c3cad6; }
+  pre.output code { color: inherit; }
+  table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+  th, td { border: 1px solid #d7dce4; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eef1f5; }
+  blockquote { border-left: 4px solid #b9c3d2; margin: 1rem 0; padding: .2rem 1rem; color: #4a5568; background: #f7f9fb; }
+  hr { border: none; border-top: 1px solid #d7dce4; margin: 1.8rem 0; }
+  .callout { border-radius: 8px; padding: 12px 16px; margin: 1rem 0; }
+  .objective { background: #eaf3ff; border: 1px solid #b9d7ff; }
+  .objective .label { font-weight: 700; color: #1a5dab; }
+  .lab { background: #f0fbf1; border: 1px solid #bde5c2; }
+  .lab .label { font-weight: 700; color: #1f7a33; }
+  .meta { color: #5b6575; font-size: .9rem; }
+</style>
+</head>
+<body>
+<div class="callout objective"><span class="label">🎯 Learning objective:</span> Create, read, and edit files from the terminal using <code>echo</code> with <code>&gt;</code> and <code>&gt;&gt;</code> redirection, <code>cat</code>, <code>head</code>, <code>tail</code>, <code>less</code>, <code>wc -l</code>, and <code>nano</code>.</div>
+<h1>Lesson 03: Looking Inside Files</h1>
+<p><strong>By the end, you will have created, read, and edited files using the terminal.</strong></p>
+<p>⏱ ~15 minutes of typing</p>
+<hr />
+<p><strong>1.</strong> Go to your course directory.</p>
+<pre><code class="language-bash">cd ~/docker-course</code></pre>
+<p><strong>2.</strong> Confirm.</p>
+<pre><code class="language-bash">pwd</code></pre>
+<pre class="output"><code class="output">/home/your-username/docker-course</code></pre>
+<p><strong>3.</strong> Create a notes file by writing text into it with echo.</p>
+<pre><code class="language-bash">echo &quot;This is my first note&quot; &gt; notes/notes.txt</code></pre>
+<p>(The <code>&gt;</code> redirects the output of echo into a file, creating it if it doesn't exist.)</p>
+<p><strong>4.</strong> Read the file with cat.</p>
+<pre><code class="language-bash">cat notes/notes.txt</code></pre>
+<pre class="output"><code class="output">This is my first note</code></pre>
+<p><strong>5.</strong> Add a second line using &gt;&gt; (append, don't overwrite).</p>
+<pre><code class="language-bash">echo &quot;This is my second note&quot; &gt;&gt; notes/notes.txt</code></pre>
+<p><strong>6.</strong> Read it again to see both lines.</p>
+<pre><code class="language-bash">cat notes/notes.txt</code></pre>
+<pre class="output"><code class="output">This is my first note
+This is my second note</code></pre>
+<p><strong>7.</strong> Add a few more lines so we have enough to practice with.</p>
+<pre><code class="language-bash">echo &quot;Line 3: learning cat&quot; &gt;&gt; notes/notes.txt</code></pre>
+<pre><code class="language-bash">echo &quot;Line 4: learning head&quot; &gt;&gt; notes/notes.txt</code></pre>
+<pre><code class="language-bash">echo &quot;Line 5: learning tail&quot; &gt;&gt; notes/notes.txt</code></pre>
+<pre><code class="language-bash">echo &quot;Line 6: learning less&quot; &gt;&gt; notes/notes.txt</code></pre>
+<pre><code class="language-bash">echo &quot;Line 7: almost done&quot; &gt;&gt; notes/notes.txt</code></pre>
+<pre><code class="language-bash">echo &quot;Line 8: last line&quot; &gt;&gt; notes/notes.txt</code></pre>
+<p><strong>8.</strong> Read the full file again.</p>
+<pre><code class="language-bash">cat notes/notes.txt</code></pre>
+<pre class="output"><code class="output">This is my first note
+This is my second note
+Line 3: learning cat
+Line 4: learning head
+Line 5: learning tail
+Line 6: learning less
+Line 7: almost done
+Line 8: last line</code></pre>
+<p><strong>9.</strong> Show only the first 3 lines with head.</p>
+<pre><code class="language-bash">head -n 3 notes/notes.txt</code></pre>
+<pre class="output"><code class="output">This is my first note
+This is my second note
+Line 3: learning cat</code></pre>
+<p><strong>10.</strong> Show only the last 3 lines with tail.</p>
+<pre><code class="language-bash">tail -n 3 notes/notes.txt</code></pre>
+<pre class="output"><code class="output">Line 6: learning less
+Line 7: almost done
+Line 8: last line</code></pre>
+<p><strong>11.</strong> Now look at a longer system file with less -- this opens a scrollable viewer.</p>
+<pre><code class="language-bash">less /etc/passwd</code></pre>
+<p>(Use arrow keys to scroll. <strong>Press q to quit.</strong> This is critical -- you must press q to exit less.)</p>
+<p><strong>12.</strong> Use head on a system file to peek at the first 5 lines.</p>
+<pre><code class="language-bash">head -n 5 /etc/passwd</code></pre>
+<pre class="output"><code class="output">root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync</code></pre>
+<p><strong>13.</strong> Use tail on a system file to see the last 5 lines.</p>
+<pre><code class="language-bash">tail -n 5 /etc/passwd</code></pre>
+<p>(Output will vary -- you'll see the last 5 user accounts on the system.)</p>
+<p><strong>14.</strong> Now try tail -f -- this watches a file for new content in real time.</p>
+<pre><code class="language-bash">tail -f notes/notes.txt</code></pre>
+<p>(This will show the last 10 lines and then WAIT. It looks frozen -- it's not. It's waiting for new data.)</p>
+<p><strong>Press Ctrl+C to stop tail -f.</strong> This is how you exit it.</p>
+<p><strong>15.</strong> Now edit a file with nano -- a simple terminal text editor.</p>
+<pre><code class="language-bash">nano notes/notes.txt</code></pre>
+<p>(nano opens the file for editing.)</p>
+<p>Inside nano:</p>
+<ul><li>Type a new line at the bottom: <code>Line 9: edited with nano</code></li><li>Press <strong>Ctrl+O</strong> to save (then press Enter to confirm the filename)</li><li>Press <strong>Ctrl+X</strong> to exit nano</li></ul>
+<p><strong>16.</strong> Confirm your edit was saved.</p>
+<pre><code class="language-bash">cat notes/notes.txt</code></pre>
+<pre class="output"><code class="output">This is my first note
+This is my second note
+Line 3: learning cat
+Line 4: learning head
+Line 5: learning tail
+Line 6: learning less
+Line 7: almost done
+Line 8: last line
+Line 9: edited with nano</code></pre>
+<p><strong>17.</strong> Use cat to look at a system file -- /etc/hostname.</p>
+<pre><code class="language-bash">cat /etc/hostname</code></pre>
+<p>(Output will show your machine's hostname.)</p>
+<p><strong>18.</strong> Count how many lines are in your notes file using wc.</p>
+<pre><code class="language-bash">wc -l notes/notes.txt</code></pre>
+<pre class="output"><code class="output">9 notes/notes.txt</code></pre>
+<blockquote><p><strong>Don't do this:</strong> <code>echo &quot;text&quot; &gt; important-file.txt</code> when you mean <code>&gt;&gt;</code>. A single <code>&gt;</code> OVERWRITES the file. Double <code>&gt;&gt;</code> APPENDS. This mistake has destroyed many files.</p></blockquote>
+<hr />
+<h2>Checkpoint</h2>
+<pre><code class="language-bash">cat ~/docker-course/notes/notes.txt</code></pre>
+<p>You should see 9 lines, ending with &quot;Line 9: edited with nano&quot;.</p>
+<pre><code class="language-bash">wc -l ~/docker-course/notes/notes.txt</code></pre>
+<p>You should see <code>9</code>.</p>
+<pre><code class="language-bash">head -n 1 ~/docker-course/notes/notes.txt</code></pre>
+<p>You should see: <code>This is my first note</code></p>
+<pre><code class="language-bash">tail -n 1 ~/docker-course/notes/notes.txt</code></pre>
+<p>You should see: <code>Line 9: edited with nano</code></p>
+<h2>Lab</h2>
+<p><strong>Objective:</strong> Create, read, and edit files from the terminal with <code>echo</code>, <code>cat</code>, <code>head</code>, <code>tail</code>, <code>less</code>, and <code>nano</code>.</p>
+<p><strong>Task:</strong> Work through the drills to build the nine-line <code>notes.txt</code>, including the final line added and saved inside nano. Then run the four Checkpoint commands in one terminal.</p>
+<p><strong>Submit:</strong> One screenshot (or pasted transcript) of the four Checkpoint commands and their output: <code>cat ~/docker-course/notes/notes.txt</code>, <code>wc -l ~/docker-course/notes/notes.txt</code>, <code>head -n 1 ~/docker-course/notes/notes.txt</code>, <code>tail -n 1 ~/docker-course/notes/notes.txt</code>.</p>
+<p><strong>Pass criteria:</strong></p>
+<ul><li>[ ] <code>cat</code> shows all 9 lines of the file.</li><li>[ ] <code>wc -l</code> reports <code>9</code>.</li><li>[ ] <code>head -n 1</code> prints <code>This is my first note</code>.</li><li>[ ] <code>tail -n 1</code> prints <code>Line 9: edited with nano</code> — proof you saved from nano.</li></ul>
+<p><strong>Unlocks:</strong> <a href="m01-04-sudo-and-updates.html">04-sudo-and-updates.md</a></p>
+<hr />
+<p><strong>Next up:</strong> <a href="m01-04-sudo-and-updates.html">04-sudo-and-updates.md</a> -- System updates with sudo</p>
+<div class="callout lab"><span class="label">🧪 Lab — do it for real.</span>
+Complete every step above on your own machine — type the commands, don't copy-paste.
+<strong>Submit:</strong> a screenshot or pasted output of the <em>Checkpoint</em> section (or this lesson's final verification steps)
+to the matching assignment folder. Completing the lab unlocks the next lesson.</div>
+</body>
+</html>

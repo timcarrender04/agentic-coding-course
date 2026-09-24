@@ -22,7 +22,7 @@ You use a venv whenever you want a **project-scoped Python** on your machine: pr
 **Testing and iterating without Docker** is one of the main reasons to set this up first:
 
 - **Speed:** Activating a venv and running `pytest`, `uvicorn`, or a one-off script is seconds. Building an image, starting a container, and mounting volumes is slower—fine for integration work, heavy for a tight edit–test loop.
-- **IDE and debugger:** Your editor’s Python interpreter can point at `.venv`. Breakpoints, “run test under cursor,” and type-checking against installed packages work cleanly without wiring Docker into the IDE (possible, but more moving parts).
+- **IDE and debugger:** Your editor’s Python interpreter can point at `.venv`. Breakpoints, “run the test under the caret,” and type-checking against installed packages work cleanly without wiring Docker into the IDE (possible, but more moving parts).
 - **Failures are easier to read:** Tracebacks and log lines reference paths on your host. When something breaks in a container, you often need to map container paths and env vars back to your repo—again, great for realism, not ideal for the first pass at a failing test.
 - **Network and filesystem:** Hitting `localhost:8000` from a browser on your host, reading a local SQLite file, or using a test double does not require publishing ports or bind-mount conventions from day one.
 

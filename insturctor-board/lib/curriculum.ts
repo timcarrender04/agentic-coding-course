@@ -1,37 +1,102 @@
 import fs from "node:fs";
 import path from "node:path";
 
-import type { Lesson, Module, Step } from "@/types/curriculum";
+import type { Lesson, Module, Phase, Step } from "@/types/curriculum";
 
 const COURSE_ROOT = path.resolve(process.cwd(), "..");
 
 const MODULE_DIR_RE = /^\d{2}-[a-z0-9-]+$/;
+const PHASE_DIR_RE = /^phase-(\d)-[a-z0-9-]+$/;
 const LESSON_FILE_RE = /^\d{2}-[a-z0-9-]+\.md$/;
 
-const MODULE_EMOJI: Record<string, string> = {
-  "00": "🖥️",
-  "01": "⌨️",
-  "02": "🐳",
-  "03": "⚡",
-  "04": "🔀",
-  "05": "🤖",
-  "06": "🎨",
-  "07": "🧠",
-  "08": "🔌",
+/** Nicely-cased phase titles + suggested-pace weeks, keyed by phase number. */
+const PHASE_TITLE: Record<number, string> = {
+  1: "Foundations",
+  2: "Building Real Apps",
+  3: "AI-Assisted Development",
+};
+const PHASE_WEEKS: Record<number, string> = {
+  1: "Weeks 1–6",
+  2: "Weeks 7–12",
+  3: "Weeks 13–18",
+};
+
+const MODULE_ICON: Record<string, string> = {
+  "00": "desktop_mac",
+  "01": "terminal",
+  "02": "deployed_code",
+  "03": "bolt",
+  "04": "fork_right",
+  "05": "smart_toy",
+  "06": "palette",
+  "07": "psychology",
+  "08": "power",
 };
 
 let cache: Module[] | null = null;
 
+/** A module's location relative to COURSE_ROOT, plus the phase it belongs to (if any). */
+type ModuleRef = { relPath: string; phase?: Phase };
+
+function phaseMetaFromDir(dirName: string): Phase | undefined {
+  const m = PHASE_DIR_RE.exec(dirName);
+
+  if (!m) return undefined;
+  const number = parseInt(m[1], 10);
+
+  return {
+    number,
+    title: PHASE_TITLE[number] ?? humanizeName(dirName.replace(/^phase-\d-/, "")),
+    weeks: PHASE_WEEKS[number],
+  };
+}
+
+/** Discover modules nested under `phase-N-...` folders, falling back to any left at the root. */
+function discoverModuleRefs(): ModuleRef[] {
+  const top = fs.readdirSync(COURSE_ROOT, { withFileTypes: true });
+  const refs: ModuleRef[] = [];
+
+  for (const phaseDir of top
+    .filter((e) => e.isDirectory() && PHASE_DIR_RE.test(e.name))
+    .map((e) => e.name)
+    .sort()) {
+    const phase = phaseMetaFromDir(phaseDir);
+
+    for (const mod of fs
+      .readdirSync(path.join(COURSE_ROOT, phaseDir), { withFileTypes: true })
+      .filter((e) => e.isDirectory() && MODULE_DIR_RE.test(e.name))
+      .map((e) => e.name)
+      .sort()) {
+      refs.push({ relPath: path.join(phaseDir, mod), phase });
+    }
+  }
+
+  // Backward-compatible fallback: modules still sitting directly at the root.
+  for (const mod of top
+    .filter((e) => e.isDirectory() && MODULE_DIR_RE.test(e.name))
+    .map((e) => e.name)
+    .sort()) {
+    refs.push({ relPath: mod });
+  }
+
+  // Dedupe by module id (a phased copy wins over a stray root copy) and order by id.
+  const byId = new Map<string, ModuleRef>();
+
+  for (const ref of refs) {
+    const id = path.basename(ref.relPath).slice(0, 2);
+
+    if (!byId.has(id)) byId.set(id, ref);
+  }
+
+  return Array.from(byId.values()).sort((a, b) =>
+    path.basename(a.relPath).localeCompare(path.basename(b.relPath)),
+  );
+}
+
 export function loadCurriculum(): Module[] {
   if (cache) return cache;
 
-  const entries = fs
-    .readdirSync(COURSE_ROOT, { withFileTypes: true })
-    .filter((e) => e.isDirectory() && MODULE_DIR_RE.test(e.name))
-    .map((e) => e.name)
-    .sort();
-
-  cache = entries.map((dirName) => loadModule(dirName));
+  cache = discoverModuleRefs().map((ref) => loadModule(ref));
 
   return cache;
 }
@@ -69,8 +134,9 @@ export function getNeighbors(moduleId: string, lessonId: string) {
   };
 }
 
-function loadModule(dirName: string): Module {
-  const dirPath = path.join(COURSE_ROOT, dirName);
+function loadModule(ref: ModuleRef): Module {
+  const dirPath = path.join(COURSE_ROOT, ref.relPath);
+  const dirName = path.basename(ref.relPath);
   const id = dirName.slice(0, 2);
   const title = humanizeName(dirName.slice(3));
 
@@ -79,7 +145,7 @@ function loadModule(dirName: string): Module {
     .filter((f) => LESSON_FILE_RE.test(f))
     .sort();
 
-  const lessons = lessonFiles.map((f) => loadLesson(dirName, f));
+  const lessons = lessonFiles.map((f) => loadLesson(ref.relPath, f));
 
   let instructorNotes: string | undefined;
   const notesPath = path.join(dirPath, "INSTRUCTOR-NOTES.md");
@@ -91,16 +157,17 @@ function loadModule(dirName: string): Module {
   return {
     id,
     title,
-    emoji: MODULE_EMOJI[id],
+    icon: MODULE_ICON[id],
+    phase: ref.phase,
     lessons,
     instructorNotes,
   };
 }
 
-function loadLesson(moduleDir: string, file: string): Lesson {
-  const filePath = path.join(COURSE_ROOT, moduleDir, file);
+function loadLesson(moduleRelPath: string, file: string): Lesson {
+  const filePath = path.join(COURSE_ROOT, moduleRelPath, file);
   const raw = fs.readFileSync(filePath, "utf8");
-  const moduleId = moduleDir.slice(0, 2);
+  const moduleId = path.basename(moduleRelPath).slice(0, 2);
   const lessonId = file.replace(/\.md$/, "").slice(0, 2);
 
   return {

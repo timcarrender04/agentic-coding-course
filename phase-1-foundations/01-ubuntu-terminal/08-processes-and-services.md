@@ -197,6 +197,22 @@ df -h /
 ```
 You should see at least 10GB available.
 
+## Lab
+
+**Objective:** Inspect running processes with `ps`, `top`, and `htop`, and check service health with `systemctl`.
+
+**Task:** Work through the drills, then run the Checkpoint commands in one terminal. Note the branch: on WSL and some VMs `ssh.service` doesn't exist — that's fine. Cron is the sanctioned substitute (see the instructor notes), so run both `is-active` checks and either one passing is a pass.
+
+**Submit:** One screenshot (or pasted transcript) showing: `systemctl is-active ssh`, `systemctl is-active cron`, `free -h | head -n 2`, and `df -h /`.
+
+**Pass criteria:**
+
+- [ ] `systemctl is-active ssh` OR `systemctl is-active cron` prints `active` (either one passes — ssh may be inactive or missing on WSL/VMs).
+- [ ] `free -h | head -n 2` shows the memory table.
+- [ ] `df -h /` shows at least 10GB available.
+
+**Unlocks:** [09-pipes-and-grep.md](09-pipes-and-grep.md)
+
 ---
 
 **Next up:** [09-pipes-and-grep.md](09-pipes-and-grep.md) — Chain commands together

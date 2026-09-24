@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Agentic Coding — Week 4 Operation Uplink · Student Read-Ahead · Temple College × ChiefOS</title>
+<link rel="stylesheet" href="../public/branding/fonts/fonts.css">
+<style>
+  :root {
+    --navy: #131C26;
+    --navy-soft: #223140;
+    --orange: #F5A83E;
+    --orange-deep: #E87722;
+    --paper: #FFFFFF;
+    --ink: #1c2733;
+    --ink-soft: #4a5866;
+    --line: #E3E8ED;
+    --wash: #F6F8FA;
+    --wash-warm: #FDF3E3;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #fff; }
+  body {
+    font-family: 'Barlow', 'DejaVu Sans', Arial, sans-serif;
+    color: var(--ink);
+    font-size: 10.2pt;
+    line-height: 1.5;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  @page { size: letter; margin: 0; }
+  .page {
+    width: 8.5in;
+    height: 11in;
+    padding: 0.35in 0.6in 0.40in;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: avoid; }
+  .page > * { flex-shrink: 0; }
+
+  .brandbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    border-bottom: 3px solid var(--orange);
+    margin-bottom: 6px;
+  }
+  .brandbar img.tc { height: 36px; }
+  .brandbar .collab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brandbar .collab .x {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 8.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.25;
+  }
+  .brandbar img.chief { height: 25px; }
+
+  .pagefoot {
+    position: absolute;
+    left: 0.6in; right: 0.6in; bottom: 0.32in;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--line);
+    padding-top: 7px;
+    font-size: 8pt;
+    color: var(--ink-soft);
+  }
+  .pagefoot b { color: var(--navy); font-weight: 600; }
+
+  h1, h2, h3 {
+    font-family: 'Barlow Condensed', 'DejaVu Sans Condensed', sans-serif;
+    color: var(--navy);
+  }
+  h2 {
+    font-size: 13.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 5px;
+  }
+  h2::after { content: ""; flex: 1; height: 3px; background: var(--orange); border-radius: 2px; }
+  code {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 8pt;
+    background: var(--wash);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 0 3px;
+  }
+
+  .hero { margin: 0 0 5px; }
+  .hero .kicker {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 10.5pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 2px;
+  }
+  .hero h1 {
+    font-size: 22pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 1.0;
+  }
+  .hero .phase-line {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-top: 3px;
+    letter-spacing: 0.02em;
+  }
+  .hero .sub {
+    font-size: 9.8pt;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-top: 3px;
+  }
+  .hero .meta {
+    display: inline-block;
+    margin-top: 4px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 9.5pt;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 3px;
+  }
+  .hero .meta span { color: var(--orange); }
+
+  .intro {
+    font-size: 8.9pt;
+    line-height: 1.38;
+    margin-bottom: 6px;
+  }
+  .intro b { color: var(--navy); }
+
+  .pillars { display: flex; gap: 8px; margin-bottom: 6px; }
+  .pillar {
+    flex: 1;
+    border: 1px solid var(--line);
+    border-top: 3px solid var(--orange);
+    border-radius: 6px;
+    padding: 5px 9px 6px;
+    background: var(--wash);
+  }
+  .pillar .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    font-size: 12pt;
+    color: var(--orange-deep);
+    line-height: 1;
+  }
+  .pillar h3 { font-size: 10.2pt; text-transform: uppercase; letter-spacing: 0.03em; margin: 3px 0 2px; }
+  .pillar p { font-size: 7.9pt; color: var(--ink-soft); line-height: 1.35; margin-top: 0; }
+
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 6px; }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 6px 10px;
+    background: var(--wash);
+  }
+  .card.navy {
+    background: var(--navy);
+    color: #e8edf2;
+    border-color: var(--navy);
+  }
+  .card .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9.5pt;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 4px;
+  }
+  .card.navy .label { color: var(--orange); }
+  .card.navy code {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.3);
+    color: #fff;
+  }
+  .card ul, .card ol { margin: 0 0 0 14px; font-size: 8pt; line-height: 1.42; }
+  .card.navy ul, .card.navy ol { color: #d5dde5; }
+  .card li { margin-bottom: 1px; }
+  .card b { color: var(--navy); }
+  .card.navy b { color: #fff; }
+
+  table.agenda { width: 100%; border-collapse: collapse; margin-bottom: 6px; }
+  table.agenda th, table.agenda td {
+    border: 1px solid var(--line);
+    padding: 2px 7px;
+    font-size: 8pt;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 1.35;
+  }
+  table.agenda th {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9.2pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  table.agenda td.t {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: var(--navy);
+    width: 60px;
+    white-space: nowrap;
+    background: var(--wash);
+  }
+  table.agenda td.lab {
+    width: 108px;
+    font-weight: 600;
+    color: var(--navy-soft);
+  }
+  table.agenda td.cmd {
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 7.8pt;
+    color: var(--navy);
+    width: 190px;
+    background: var(--wash);
+    white-space: nowrap;
+  }
+
+  .callout {
+    border-left: 4px solid var(--orange-deep);
+    background: var(--wash-warm);
+    border-radius: 0 6px 6px 0;
+    padding: 6px 11px;
+    font-size: 8.2pt;
+    line-height: 1.38;
+    margin-bottom: 8px;
+  }
+  .callout b { color: var(--navy); }
+
+  .stats {
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--navy);
+    color: #fff;
+    margin-top: auto;
+    margin-bottom: 32px;
+  }
+  .stats .stat {
+    flex: 1;
+    text-align: center;
+    padding: 7px 4px 6px;
+    border-right: 1px solid rgba(255,255,255,0.12);
+  }
+  .stats .stat:last-child { border-right: none; }
+  .stats .n {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14pt;
+    font-weight: 800;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stats .l {
+    font-size: 6.8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #cfd8e0;
+    margin-top: 4px;
+  }
+
+  .outcome {
+    background: var(--navy);
+    border-radius: 8px;
+    color: #fff;
+    padding: 8px 13px;
+    margin-top: auto;
+    margin-bottom: 32px;
+  }
+  .outcome .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 3px;
+  }
+  .outcome p { font-size: 8.4pt; color: #e8edf2; line-height: 1.42; }
+  .outcome p b { color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 — WHAT TONIGHT IS ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker">Student Read-Ahead · Week 4 Live Lab</div>
+    <h1>Signal Lost</h1>
+    <div class="phase-line">"Operation Uplink" · Read this before class</div>
+    <div class="sub">Saboteurs cut the station's uplink overnight. Four subsystems, four fragments, one beacon — and Docker ships next week on this wire.</div>
+    <div class="meta">Wed Aug 12 &nbsp;<span>·</span>&nbsp; 6:00–8:00 PM &nbsp;<span>·</span>&nbsp; Zoom &nbsp;<span>·</span>&nbsp; Setup required BEFORE class</div>
+  </div>
+
+  <p class="intro"><b>The mission:</b> saboteurs hit Relay Station 4 overnight and cut its uplink. Four subsystems — the Antenna Array, the Relay Rack, the Log Archive, the Crew Deck — each hold <b>one fragment</b> of the console's restart sequence. Recover all four, arm the console, and fire three test packets at the beacon: three echoes home and the uplink lives. <b>Every station is solvable with commands from Monday's labs 01:07–10.</b> Some clues sit in files; some are <i>running</i>, hiding in the machine itself. Read the station — it always tells you.</p>
+
+  <div class="twocol">
+    <div class="card navy">
+      <div class="label">Do this BEFORE 6:00 PM — required</div>
+      <ol>
+        <li>Download <code>setup.sh</code> from D2L (Week 4 → Operation Uplink)</li>
+        <li>Run it: <code>bash setup.sh</code> — as yourself, <b>never</b> with sudo (this game never asks for a password)</li>
+        <li>Verify: <code>ls ~/uplink-hunt</code> shows <b>four station folders</b></li>
+        <li>Pre-flight: <code>sudo apt install -y dnsutils</code> (lab 01:07's dig)</li>
+        <li><b>Don't go in yet</b> — exploring early cheats you out of the race</li>
+      </ol>
+    </div>
+    <div class="card">
+      <div class="label">Bring to class</div>
+      <ul>
+        <li>Laptop + charger + <b>working internet</b> — the finale IS an internet check</li>
+        <li>Monday's notes — tonight is <b>open-notes</b>; page 2 is a legal cheat sheet</li>
+        <li>Labs 01:07–10 finished if possible — the game assumes those muscles</li>
+        <li>Setup didn't work? Arrive at <b>6:00 sharp</b> — that's the fix-it window</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>How the hunt works</h2>
+  <div class="pillars">
+    <div class="pillar">
+      <div class="num">CREWS</div>
+      <h3>2 per crew</h3>
+      <p>Each pair gets its own Zoom breakout room and races every other crew. Your crew clears a station only when <b>both of you</b> hold its fragment.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">ROLES</div>
+      <h3>Swap every station</h3>
+      <p><b>Driver</b> shares screen and types while narrating · <b>Navigator</b> reads the briefings aloud and calls the next command. Swap at every station door — you each drive twice.</p>
+    </div>
+    <div class="pillar">
+      <div class="num">RULE #1</div>
+      <h3>Both must fire</h3>
+      <p>Everything runs on your <b>own machine</b>. Coach with words only — never type on your partner's keyboard. The final banner must come from <b>both terminals</b>.</p>
+    </div>
+  </div>
+
+  <div class="twocol">
+    <div class="card">
+      <div class="label">Scoring</div>
+      <ul>
+        <li>Post clears to main Zoom chat: <code>CREW 3 — Station 2 clear (2/2)</code></li>
+        <li>Winner: first crew with <b>both</b> victory banners in main chat</li>
+        <li>Tiebreaker: fewest hint tokens · winners pick the debrief topic</li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <div class="label">Hints</div>
+      <ul>
+        <li>Your crew has <b>3 hint tokens</b> for the night (Zoom "Ask for Help" summons the instructor)</li>
+        <li>Unlimited free hint, always the same: <b>read the briefing again — or read what your last command printed</b></li>
+        <li>The station talks back: when something doesn't work, it prints <i>why</i>. Read the message before asking</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Tonight · schedule</h2>
+  <table class="agenda">
+    <thead>
+      <tr><th>Clock</th><th>Block</th><th>What happens</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="t">6:00</td><td class="lab">Check-in</td><td>✓ in chat when <code>ls ~/uplink-hunt</code> shows four stations · setup rescue · crews assigned</td></tr>
+      <tr><td class="t">6:05</td><td class="lab">The hunt</td><td>60:00 on the clock · breakouts open · leaderboard + milestone broadcasts in main</td></tr>
+      <tr><td class="t">7:05</td><td class="lab">Debrief</td><td>Banners tallied · crews teach the stations back · one number was hiding in plain sight</td></tr>
+      <tr><td class="t">7:15</td><td class="lab">Phase-gate</td><td><b>Module 01 phase-gate (01:11)</b> — timed, no-help, from memory</td></tr>
+      <tr><td class="t">7:55</td><td class="lab">Close</td><td>Labs 01:07–11 due Sunday · Week 5: Docker arrives over the link you restored</td></tr>
+    </tbody>
+  </table>
+
+  <div class="stats">
+    <div class="stat"><div class="n">4</div><div class="l">Stations</div></div>
+    <div class="stat"><div class="n">60:00</div><div class="l">On the clock</div></div>
+    <div class="stat"><div class="n">2</div><div class="l">Per crew</div></div>
+    <div class="stat"><div class="n">01:11</div><div class="l">Phase-gate after</div></div>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Week 4 Operation Uplink · Student Read-Ahead · Temple College × ChiefOS</div>
+    <div>Page 1 of 2</div>
+  </div>
+</div>
+
+<!-- ================= PAGE 2 — TRAIN + RULES ================= -->
+<div class="page">
+  <div class="brandbar">
+    <img class="tc" src="../public/branding/tc-workforce-development-logo-md.png" alt="Temple College Workforce Development">
+    <div class="collab">
+      <div class="x">In collaboration<br>with</div>
+      <img class="chief" src="../public/branding/chiefos-logo.svg" alt="ChiefOS">
+    </div>
+  </div>
+
+  <h2>Train before tonight — the six uplink skills</h2>
+  <p class="intro">If you can do these six things, you can restore the uplink. Each one comes straight from a Monday lab. Rusty on any? Re-run that lab this afternoon — that's the whole read-ahead assignment.</p>
+
+  <table class="agenda">
+    <thead>
+      <tr><th>#</th><th>Can you…</th><th>Practice commands</th><th>From lab</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="t">1</td><td>Find your machine's own network addresses</td><td class="cmd">ip a</td><td>01:07</td></tr>
+      <tr><td class="t">2</td><td>List every port your machine is listening on</td><td class="cmd">ss -tuln</td><td>01:07</td></tr>
+      <tr><td class="t">3</td><td>Turn a name into an address — and fetch a URL</td><td class="cmd">dig +short example.com · curl</td><td>01:07</td></tr>
+      <tr><td class="t">4</td><td>Find one process in a crowded process table</td><td class="cmd">ps aux | grep name</td><td>01:08</td></tr>
+      <tr><td class="t">5</td><td>Chain a counting pipeline, stage by stage</td><td class="cmd">grep | cut -d: -f1 | sort | uniq -c</td><td>01:09</td></tr>
+      <tr><td class="t">6</td><td>Read your own line of the user manifest</td><td class="cmd">grep $USER /etc/passwd · cut -d: -f7</td><td>01:09–10</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <b>Skill 5 is the boss fight.</b> Practice saying the pipeline out loud, left to right: <i>"grep keeps the matching lines · cut slices out one field · sort lines them up · uniq -c counts the repeats."</i> If you can narrate that sentence, the Log Archive will not stop you — and the same pipeline is waiting on the <b>phase-gate at 7:15</b>.
+  </div>
+
+  <h2>Rules of the station</h2>
+  <div class="twocol">
+    <div class="card">
+      <div class="label">Fair play</div>
+      <ul>
+        <li>Don't enter <code>~/uplink-hunt</code> before the hunt starts</li>
+        <li>The <code>.machinery</code> bay is <b>sealed</b> — snooping in it voids your completion code</li>
+        <li>Coach your partner with <b>words only</b> — never type on their machine, never paste an answer</li>
+        <li>No web searches needed or allowed — <b>everything is in the stations</b> and on this page</li>
+        <li>Notes, this handout, and your lab files: all legal</li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <div class="label">Safety</div>
+      <ul>
+        <li>Everything happens inside <code>~/uplink-hunt/</code> — the game never asks you to touch anything outside it</li>
+        <li><b>Zero</b> <code>rm -r</code> and <b>zero sudo</b> in this game — nothing gets deleted, nothing needs root</li>
+        <li>Wrecked something? <code>bash setup.sh --reset</code> rebuilds the station fresh in seconds</li>
+        <li>Something that should be running has gone quiet? <code>bash power.sh</code> restarts the machinery</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>What "uplink restored" looks like</h2>
+  <p class="intro">The console prints a victory banner with a <b>completion code</b> in your terminal. <b>Screenshot it and post it in Zoom chat</b> — that's tonight's participation artifact, and both crew members must post one. Then catch your breath: the phase-gate starts at 7:15, and everything you just typed is on it.</p>
+
+  <div class="callout">
+    <b>Still owe labs?</b> Tonight IS the review. Everything you type in the hunt is labs 01:07–10 material — finish and submit those plus the phase-gate lesson 01:11 in D2L by <b>Sunday</b>. Labs, not attendance, gate your progress to Week 5's Docker install.
+  </div>
+
+  <div class="outcome">
+    <div class="label">Links · questions</div>
+    <p>
+      <b>Class sign-in:</b> tktechventure.com/agentic-coding/sign-in &nbsp;·&nbsp;
+      <b>D2L:</b> templejc.desire2learn.com &nbsp;·&nbsp;
+      <b>Course site:</b> tktechventure.com/agentic-coding<br>
+      Setup trouble before class? Post in the course channel or email <b>contact@tktechventure.com</b> — don't wait until 6:00 to say so.
+    </p>
+  </div>
+
+  <div class="pagefoot">
+    <div><b>Agentic Coding</b> · Week 4 Operation Uplink · Student Read-Ahead · Temple College × ChiefOS</div>
+    <div>Page 2 of 2</div>
+  </div>
+</div>
+
+</body>
+</html>
